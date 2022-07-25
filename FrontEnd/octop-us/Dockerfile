@@ -1,4 +1,4 @@
-FROM node:16.16.0 as builder
+FROM node:16.16. as builder
 
 # 작업 폴더를 만들고 npm 설치
 RUN mkdir /usr/src/app
@@ -9,5 +9,5 @@ RUN npm install --silent
 RUN npm install react-scripts@2.1.3 -g --silent
 
 # 소스를 작업폴더로 복사하고 앱 실행
-COPY . /usr/src/app
+COPY . /usr/src/app  
 CMD ["npm", "start"]
