@@ -1,6 +1,6 @@
 package com.ssafy.octopus.user.controller;
 
-import com.ssafy.octopus.main.common.baseDto.BaseDto;
+import com.ssafy.octopus.common.baseDto.BaseDto;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

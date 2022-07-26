@@ -1,4 +1,4 @@
-package com.ssafy.octopus.main.common.baseDto;
+package com.ssafy.octopus.common.baseDto;
 
 import lombok.*;
 
