@@ -1,9 +1,7 @@
-package com.ssafy.octopus.main.common.config;
+package com.ssafy.octopus.common.config;
 
 
-import com.ssafy.octopus.main.common.interceptor.AuthInterceptor;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.ssafy.octopus.common.interceptor.AuthInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

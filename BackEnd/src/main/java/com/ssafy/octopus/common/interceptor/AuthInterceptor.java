@@ -1,4 +1,4 @@
-package com.ssafy.octopus.main.common.interceptor;
+package com.ssafy.octopus.common.interceptor;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

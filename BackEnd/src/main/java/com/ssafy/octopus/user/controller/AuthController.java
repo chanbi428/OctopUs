@@ -1,6 +1,5 @@
 package com.ssafy.octopus.user.controller;
 
-import com.ssafy.octopus.main.common.baseDto.BaseDto;
 import com.ssafy.octopus.user.entity.User;
 import com.ssafy.octopus.user.entity.UserDto;
 import com.ssafy.octopus.user.service.AuthService;
