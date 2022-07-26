@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 // import { Provider } from "react-redux";
-// import { applyMiddleware, createStore } from "redux";
+// import { createStore } from "redux";
 // import promiseMiddleware from "redux-promise";
 // import reduxThunk from "redux-thunk";
 import { BrowserRouter } from "react-router-dom";
@@ -22,10 +22,11 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       {/* <Provider
-        store={createStoreWithMiddleware(
-          window.__REDUX_DEVTOOLS_EXTENSION__ &&
-            window.__REDUX_DEVTOOLS_EXTENSION__()
-        )}
+      store={createStore(
+        reducer,
+        window.__REDUX_DEVTOOLS_EXTENSION__ &&
+          window.__REDUX_DEVTOOLS_EXTENSION__()
+      )}
       > */}
       <App />
       {/* </Provider> */}
