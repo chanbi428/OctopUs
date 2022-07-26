@@ -1,29 +1,39 @@
 import { React, useState } from "react";
 import "./LandingForm.css";
 import LoginModal from "./LoginModal";
+import RegisterModal from "./RegisterModal";
 
 function LandingForm(props) {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [loginmodalopen, setLoginModalOpen] = useState(false);
+  const [registermodalopen, setRegisterModalOpen] = useState(false);
 
-  const openModal = () => {
-    setModalOpen(true);
+  const openLoginModal = () => {
+    setLoginModalOpen(true);
   };
-  const closeModal = () => {
-    setModalOpen(false);
+  const closeLoginModal = () => {
+    setLoginModalOpen(false);
   };
-
-  const RegisterHandler = () => {};
+  const openRegisterModal = () => {
+    setRegisterModalOpen(true);
+  };
+  const closeRegisterModal = () => {
+    setRegisterModalOpen(false);
+  };
 
   return (
     <div>
       <div className="landing-page__btndiv">
-        <button className="landing-page__btn" onClick={openModal}>
+        <button className="landing-page__btn" onClick={openLoginModal}>
           로그인
         </button>
-        <LoginModal open={modalOpen} close={closeModal}></LoginModal>
-        <button className="landing-page__btn" onClick={RegisterHandler}>
+        <LoginModal open={loginmodalopen} close={closeLoginModal}></LoginModal>
+        <button className="landing-page__btn" onClick={openRegisterModal}>
           회원가입
         </button>
+        <RegisterModal
+          open={registermodalopen}
+          close={closeRegisterModal}
+        ></RegisterModal>
       </div>
     </div>
   );

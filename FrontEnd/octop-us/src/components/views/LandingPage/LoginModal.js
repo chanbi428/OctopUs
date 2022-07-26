@@ -11,7 +11,7 @@ const LoginModal = (props) => {
     // 모달이 열릴때 openModal 클래스가 생성된다.
     <div className={open ? "openModal modal" : "modal"}>
       {open ? (
-        <section className="login-modal__section">
+        <section>
           <p>로그인</p>
           <div>
             <input
