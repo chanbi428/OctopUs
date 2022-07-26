@@ -33,6 +33,8 @@ const RegisterModal = (props) => {
       alert("닉네임을 입력해주세요");
     } else if (password === "") {
       alert("비밀번호를 입력해주세요");
+    } else if (confirmpassword === "") {
+      alert("비밀번호 확인란을 입력해주세요.");
     } else if (password !== confirmpassword) {
       alert("비밀번호가 일치하지 않습니다");
     } else {
@@ -73,7 +75,7 @@ const RegisterModal = (props) => {
                 type="password"
                 value={confirmpassword}
                 onChange={onChangeConfirmPasswordtHandler}
-                placeholder="비밀번호 재입력"
+                placeholder="비밀번호 확인"
               />
             </div>
             <div>
