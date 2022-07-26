@@ -1,0 +1,86 @@
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal > section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  width: 90%;
+  height: 50vh;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 0.3rem;
+  background-color: #fdfcdc;
+  opacity: 0.9;
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: modal-show 0.3s;
+  overflow: hidden;
+  border: 3px solid black;
+}
+
+.modal > section > p {
+  font-weight: bold;
+  margin-top: 5vh;
+  margin-bottom: 0;
+  font-size: 25px;
+}
+
+.modal.openModal {
+  display: flex;
+  align-items: center;
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: modal-bg-show 0.3s;
+}
+@keyframes modal-show {
+  from {
+    opacity: 0;
+    margin-top: -50px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+@keyframes modal-bg-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.login-form__input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  width: 25vw;
+  height: 4vh;
+  margin-top: 4vh;
+  margin-bottom: 4vh;
+  border-radius: 5px;
+}
+
+.login-form__btn {
+  text-align: center;
+  width: 10vw;
+  height: 5vh;
+  margin: 10px;
+  border-radius: 5px;
+  margin-bottom: 3vh;
+  margin-left: 2vh;
+  margin-right: 2vh;
+  background-color: #f4d35e;
+}
