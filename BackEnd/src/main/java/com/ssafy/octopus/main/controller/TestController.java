@@ -10,6 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/*
+*@brief : Swagger Test Code
+*@details : Swagger를 쉽게 사용하기 위한 Sample Code
+*@date 2022-07-24
+*@author : LDY, 98dlstod@naver.com
+*/
+
 @RestController
 @RequestMapping("/test/api")
 
