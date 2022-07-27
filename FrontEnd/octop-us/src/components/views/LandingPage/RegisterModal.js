@@ -22,9 +22,16 @@ const RegisterModal = (props) => {
   const onRegisterSubmitHandler = (e) => {
     e.preventDefault();
 
+    /*
+        private int idx;
+    private String userName;
+    private String userId;
+    private String userPW;
+    */
     const data = {
-      username: "user_name",
-      password: "password",
+      userName: "user_name",
+      userPW: "password",
+      userId: "null",
     };
 
     console.log(e);
@@ -38,8 +45,10 @@ const RegisterModal = (props) => {
     } else if (password !== confirmpassword) {
       alert("비밀번호가 일치하지 않습니다");
     } else {
+      data.userName = username;
+      data.userPW = password;
       axios
-        .post("http://localhost:8080/test", JSON.stringify(data), {
+        .post("http://localhost:8080/user/SignIn", JSON.stringify(data), {
           headers: {
             "Content-Type": `application/json`,
           },

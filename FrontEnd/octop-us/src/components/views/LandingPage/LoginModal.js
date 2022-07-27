@@ -18,8 +18,9 @@ const LoginModal = (props) => {
     e.preventDefault();
 
     const data = {
-      username: "user_name",
-      password: "password",
+      userName: "user_name",
+      userPW: "user_pw",
+      userId: "null",
     };
 
     console.log(e);
@@ -29,8 +30,10 @@ const LoginModal = (props) => {
     } else if (password === "") {
       alert("비밀번호를 입력해주세요");
     } else {
+      data.userName = username;
+      data.userPW = password;
       axios
-        .post("http://localhost:8080/test", JSON.stringify(data), {
+        .post("http://localhost:8080/user/LogIn", JSON.stringify(data), {
           headers: {
             "Content-Type": `application/json`,
           },
