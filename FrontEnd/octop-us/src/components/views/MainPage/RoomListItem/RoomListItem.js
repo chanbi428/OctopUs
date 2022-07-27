@@ -1,20 +1,41 @@
 import './RoomListItem.css'
 
-function RoomListItem ({idx, gameStatus, personLimit, personNum, isPrivate, roomName}) {
+function RoomListItem ({item}) {
+
+  const onClickEnterRoom = (e) => {
+    e.preventDefault();
+
+    let userList = item.userList.split(',')
+    userList[userList.indexOf("")] = 'currentUser'
+
+    const data = {
+      roomChief : 'host1',
+      isPrivate : item.isPrivate,
+      roomName : item.roomName,
+      personLimit : item.personLimit,
+      roomPw : item.roomPw,
+      gameTime : item.gameTime,
+      userList : userList.join(),
+      roomId : item.roomId
+    }
+
+    
+  }
+
   return (
   <div className="col">
     <div className="card">
       <div className="card-body">
         <div className="RoomHeader">
-          <p>{idx}</p>
-          <p>{personNum} / {personLimit}</p>
+          <p>{item.idx}</p>
+          <p>{item.personNum} / {item.personLimit}</p>
         </div>
-        <h5 className="card-title">{roomName} {isPrivate}</h5>
+        <h5 className="card-title">{item.roomName} {item.isPrivate}</h5>
         <div className="RoomFooter">
-          <div>{isPrivate &&
+          <div>{item.isPrivate &&
             <p className="RoomPrivate">자물쇠</p>
             }
-          </div>{gameStatus ? <button disabled>게임중</button> : <button>게임시작</button>}
+          </div>{item.gameStatus ? <button disabled>게임중</button> : <button onClick={onClickEnterRoom}>게임시작</button>}
         </div>
       </div>
     </div>

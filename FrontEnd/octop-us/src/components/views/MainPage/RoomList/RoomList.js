@@ -19,9 +19,7 @@ function RoomList () {
         {
           roomInfo.map(item => {
             return <RoomListItem 
-                    idx={item.idx} gameStatus={item.gameStatus}
-                    personLimit={item.personLimit} personNum={item.personNum}
-                    isPrivate={item.private} roomName={item.roomName} key={item.idx}/>
+                    item={item} key={item.idx}/>
           })
         }
       </div>

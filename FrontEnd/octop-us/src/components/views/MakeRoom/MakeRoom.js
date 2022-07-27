@@ -10,6 +10,7 @@ function MakeRoom () {
   const [gameTime, setGameTime] = useState("60")
   const [isPrivate, setIsPrivate] = useState("false")
   const [roomPw, setRoomPw] = useState("")
+  let userList = []
   
   const handleRoomName = (e) => {
     setRoomName(e.target.value)
@@ -28,6 +29,12 @@ function MakeRoom () {
   }
   const createRoom = () => {
     
+    if (personLimit === "6") {
+      userList = ['currentUser', "", "", "", "", ""]
+    } else {
+      userList = ['currentUser', "", "", "", "", "", "", ""]
+    }
+
     const data = {
       // type : 'system',
       // sender : 'FE',
@@ -42,16 +49,13 @@ function MakeRoom () {
       //   'roomPw': roomPw,
       //   'roomChief': 'aa'
       // }
-      roomId : 'roomId',
-      roomChief : 'host',
-      isPrivate : 'true',
-      roomName : 'roomName',
-      personLimit : '4',
-      roomPw : 'password',
-      gameStatus : 'true',
-      personNum : '1',
-      gameTime : '1',
-      userList : "['a', 'b', 'c', 'd', 'e', 'f']"
+      roomChief : 'host1',
+      isPrivate : isPrivate,
+      roomName : roomName,
+      personLimit : personLimit,
+      roomPw : roomPw,
+      gameTime : gameTime,
+      userList : userList.join()
     }
 
     if (roomName === "") {
