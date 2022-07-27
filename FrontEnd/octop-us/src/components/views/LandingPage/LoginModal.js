@@ -33,7 +33,7 @@ const LoginModal = (props) => {
       data.userName = username;
       data.userPW = password;
       axios
-        .post("http://localhost:8080/user/LogIn", JSON.stringify(data), {
+        .post("http://localhost:8080/Auth/login", JSON.stringify(data), {
           headers: {
             "Content-Type": `application/json`,
           },
