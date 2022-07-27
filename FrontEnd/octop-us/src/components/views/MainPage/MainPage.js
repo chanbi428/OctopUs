@@ -1,6 +1,7 @@
 import MakeRoom from "../MakeRoom/MakeRoom";
 import RoomList from "./RoomList/RoomList";
 import SearchRoom from "./SearchRoom/SearchRoom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './MainPage.css'
 
 function MainPage () {
