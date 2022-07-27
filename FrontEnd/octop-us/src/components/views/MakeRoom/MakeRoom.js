@@ -50,17 +50,19 @@ function MakeRoom () {
       roomPw : 'password',
       gameStatus : 'true',
       personNum : '1',
-      gameTime : '1'
+      gameTime : '1',
+      userList : "['a', 'b', 'c', 'd', 'e', 'f']"
     }
 
     if (roomName === "") {
       alert("방 이름을 입력해주세요!")
     } else if (personLimit === "") {
       alert("방 인원을 입력해주세요!")
-    } else if (isPrivate && roomPw === "") {
+    } else if (isPrivate === "true" && roomPw === "") {
       alert("방 비밀번호를 설정해주세요!")
     } else {
-      axios.post('http://localhost:8080/test',JSON.stringify(data), {
+      console.log(data)
+      axios.post('http://localhost:8080/rooms',JSON.stringify(data), {
         headers: {
           "Content-Type": `application/json`,
         }
