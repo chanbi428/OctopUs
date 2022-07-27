@@ -1,6 +1,5 @@
 import React from "react";
 import LandingForm from "./LandingForm";
-// import Modal from "react-bootstrap/Modal";
 import "./LandingPage.css";
 
 const LandingPage = (props) => {
