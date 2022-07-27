@@ -1,0 +1,16 @@
+.RoomHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.RoomFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.RoomPrivate {
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
