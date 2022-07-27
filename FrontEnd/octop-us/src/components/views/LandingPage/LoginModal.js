@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import "./LoginModal.css";
 
 const LoginModal = (props) => {
@@ -15,32 +15,32 @@ const LoginModal = (props) => {
   };
 
   const onLoginSubmitHandler = (e) => {
+    document.location.href = "/main"
     e.preventDefault();
+    // const data = {
+    //   userName: "user_name",
+    //   userPW: "user_pw",
+    //   userId: "null",
+    // };
 
-    const data = {
-      userName: "user_name",
-      userPW: "user_pw",
-      userId: "null",
-    };
+    // console.log(e);
 
-    console.log(e);
-
-    if (username === "") {
-      alert("닉네임을 입력해주세요");
-    } else if (password === "") {
-      alert("비밀번호를 입력해주세요");
-    } else {
-      data.userName = username;
-      data.userPW = password;
-      axios
-        .post("http://localhost:8080/Auth/login", JSON.stringify(data), {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-    }
+    // if (username === "") {
+    //   alert("닉네임을 입력해주세요");
+    // } else if (password === "") {
+    //   alert("비밀번호를 입력해주세요");
+    // } else {
+    //   data.userName = username;
+    //   data.userPW = password;
+    //   axios
+    //     .post("http://localhost:8080/Auth/login", JSON.stringify(data), {
+    //       headers: {
+    //         "Content-Type": `application/json`,
+    //       },
+    //     })
+    //     .then((res) => console.log(res))
+    //     .catch((err) => console.log(err));
+    // }
   };
 
   return (
