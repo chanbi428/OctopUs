@@ -11,7 +11,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByIdx(int idx); // find user by idx(pk)
     User findByUserId(String id); // find user by id(user_id)
     User findByUserIdAndUserPw(String userId, String userPw); // find user by id, pw (for login)
-    User save(UserDto userDto); // insert user (for sign up)
+    User save(User user); // insert user (for sign up)
     boolean deleteByIdx(int idx); // delete user (for secession)
 
     int existsByUserId(String userId);//check id exists

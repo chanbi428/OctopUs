@@ -39,6 +39,7 @@ public class UserController {
 
     @PostMapping("/SignIn") // 회원가입
     public ResponseEntity<User> signIn(@RequestBody UserDto dto){
+        System.out.println("signin : " + dto);
         User user = service.save(dto);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

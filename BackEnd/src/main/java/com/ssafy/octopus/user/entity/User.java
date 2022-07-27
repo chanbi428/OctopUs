@@ -12,7 +12,6 @@ import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @ToString
 @Table(
@@ -25,10 +24,11 @@ public class User extends UserEntity{ // never use Setter
     private String userName;
     @Column(name = "user_pw")
     private String userPw;
-//    @Column(name = "userId")
-//    private String userId;
-//    @Column(name = "useName")
-//    private String userName;
-//    @Column(name = "userPw")
-//    private String userPw;
+
+    @Builder
+    public User(String userId, String userName, String userPw){
+        this.userId = userId;
+        this.userName = userName;
+        this.userPw = userPw;
+    }
 }
