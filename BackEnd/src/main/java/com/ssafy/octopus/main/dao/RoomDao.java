@@ -51,4 +51,8 @@ public interface RoomDao extends JpaRepository<Room, Integer> {
     // 방 삭제 (roomId)
     @Transactional
     Long deleteByRoomId(String roomId);
+
+    //findRoomIdForFastStart
+    @Query(value = "SELECT room_id FROM room WHERE person_num = (SELECT max(person_num) FROM room WHERE person_limit > person_num AND game_status = 0)", nativeQuery = true)
+    String findRoomIdForFastStart();
 }
