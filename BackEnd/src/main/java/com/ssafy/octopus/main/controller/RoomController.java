@@ -108,7 +108,8 @@ public class RoomController {
      *  @author : LDY, 98dlstod@naver.com
      */
     @PostMapping(value ="/rooms")
-    public ResponseEntity<Room> insert(@Parameter(description = "방 생성", required = true, example = "Room dto")  Room dto) {
+    public ResponseEntity<Room> insert(@Parameter(description = "방 생성", required = true, example = "Room dto")@RequestBody  Room dto) {
+        System.out.println(dto);
         return new ResponseEntity<Room>(service.insert(dto), HttpStatus.OK);
     }
 
@@ -119,7 +120,7 @@ public class RoomController {
      *  @author : LDY, 98dlstod@naver.com
      */
     @PutMapping(value="/rooms")
-    public ResponseEntity<Integer> updateByRoomId(@Parameter(description = "방 설정 수정", required = true, example = "Room dto") Room dto) {
+    public ResponseEntity<Integer> updateByRoomId(@Parameter(description = "방 설정 수정", required = true, example = "Room dto")@RequestBody Room dto) {
         return new ResponseEntity<Integer>(service.update(dto), HttpStatus.OK);
     }
 
@@ -156,5 +157,17 @@ public class RoomController {
         return new ResponseEntity<Long>(service.deleteByRoomId(roomId), HttpStatus.OK);
     }
 
+    /** @brief : findRoomIdForFastStart , 빠른 시작 클릭 => roomId 리턴
+     *  @date : 2022-07-27
+     *  @param
+     *  @return : ResponseEntity<String>
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @GetMapping(value = "/rooms/find/faststart")
+    public ResponseEntity<String> findRoomIdForFastStart() {
+        String result = service.findRoomIdForFastStart();
+        System.out.println(result);
+        return new ResponseEntity<String>(service.findRoomIdForFastStart(), HttpStatus.OK);
+    }
 
 }

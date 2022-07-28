@@ -97,7 +97,7 @@ public class RoomServiceImpl implements RoomService{
      */
     @Override
     public int update(Room room) {
-        return dao.update(room.getRoomChief(), room.isPrivate(), room.getRoomName(), room.getPersonLimit(), room.getRoomPw(), room.getGameTime(), room.getRoomId());
+        return dao.update(room.getRoomChief(), room.isPrivate(), room.getRoomName(), room.getPersonLimit(), room.getRoomPw(), room.getGameTime(), room.getPersonNum(), room.getUserList(), room.getRoomId());
     }
 
 
@@ -132,5 +132,17 @@ public class RoomServiceImpl implements RoomService{
     @Override
     public Long deleteByRoomId(String roomId) {
         return dao.deleteByRoomId(roomId);
+    }
+
+
+    /** @brief : findRoomIdForFastStart , 빠른 시작 클릭 => roomId 리턴
+     *  @date : 2022-07-27
+     *  @param
+     *  @return : ResponseEntity<String>
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @Override
+    public String findRoomIdForFastStart(){
+        return dao.findRoomIdForFastStart();
     }
 }

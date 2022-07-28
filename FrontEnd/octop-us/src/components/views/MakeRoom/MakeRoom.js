@@ -10,6 +10,7 @@ function MakeRoom () {
   const [gameTime, setGameTime] = useState("60")
   const [isPrivate, setIsPrivate] = useState("false")
   const [roomPw, setRoomPw] = useState("")
+  let userList = []
   
   const handleRoomName = (e) => {
     setRoomName(e.target.value)
@@ -28,6 +29,12 @@ function MakeRoom () {
   }
   const createRoom = () => {
     
+    if (personLimit === "6") {
+      userList = ['currentUser', "", "", "", "", ""]
+    } else {
+      userList = ['currentUser', "", "", "", "", "", "", ""]
+    }
+
     const data = {
       // type : 'system',
       // sender : 'FE',
@@ -42,25 +49,24 @@ function MakeRoom () {
       //   'roomPw': roomPw,
       //   'roomChief': 'aa'
       // }
-      roomId : 'roomId',
-      roomChief : 'host',
-      isPrivate : 'true',
-      roomName : 'roomName',
-      personLimit : '4',
-      roomPw : 'password',
-      gameStatus : 'true',
-      personNum : '1',
-      gameTime : '1'
+      roomChief : 'host1',
+      isPrivate : isPrivate,
+      roomName : roomName,
+      personLimit : personLimit,
+      roomPw : roomPw,
+      gameTime : gameTime,
+      userList : userList.join()
     }
 
     if (roomName === "") {
       alert("방 이름을 입력해주세요!")
     } else if (personLimit === "") {
       alert("방 인원을 입력해주세요!")
-    } else if (isPrivate && roomPw === "") {
+    } else if (isPrivate === "true" && roomPw === "") {
       alert("방 비밀번호를 설정해주세요!")
     } else {
-      axios.post('http://localhost:8080/test',JSON.stringify(data), {
+      console.log(data)
+      axios.post('http://localhost:8080/rooms',JSON.stringify(data), {
         headers: {
           "Content-Type": `application/json`,
         }
