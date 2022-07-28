@@ -97,7 +97,7 @@ public class RoomServiceImpl implements RoomService{
      */
     @Override
     public int update(Room room) {
-        return dao.update(room.getRoomChief(), room.isPrivate(), room.getRoomName(), room.getPersonLimit(), room.getRoomPw(), room.getGameTime(), room.getRoomId());
+        return dao.update(room.getRoomChief(), room.isPrivate(), room.getRoomName(), room.getPersonLimit(), room.getRoomPw(), room.getGameTime(), room.getPersonNum(), room.getUserList(), room.getRoomId());
     }
 
 
