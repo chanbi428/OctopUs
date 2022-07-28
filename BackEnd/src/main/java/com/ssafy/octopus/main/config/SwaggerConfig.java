@@ -8,7 +8,12 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-
+/*
+ *@brief : Swagger Config Code
+ *@details : Swagger 설정을 위한 config code
+ *@date 2022-07-24
+ *@author : LDY, 98dlstod@naver.com
+ */
 @Configuration
 public class SwaggerConfig {
     @Bean
@@ -40,3 +45,4 @@ apis: api 스펙이 작성되어 있는 패키지 (Controller) 를 지정
 paths: apis 에 있는 API 중 특정 path 를 선택
 apiInfo:Swagger UI 로 노출할 정보
  */
+
