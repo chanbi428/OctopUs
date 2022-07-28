@@ -1,17 +1,7 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
 import RoomListItem from '../RoomListItem/RoomListItem';
 import './RoomList.css'
 
-function RoomList () {
-
-  const [roomInfo, setRoomInfo] = useState([]);
-
-  useEffect(() => {
-    axios.get('http://localhost:8080/rooms')
-    .then(res => setRoomInfo(res.data))
-    .catch(err => console.log(err))
-  }, []);
+function RoomList ({roomInfo}) {
   
   return (
     <div className="RoomList">
