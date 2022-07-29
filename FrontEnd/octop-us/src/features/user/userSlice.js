@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userLogin } from "./userActions";
 
-// 로컬 스토리지 유저토큰 초기값
+// 로컬 스토리지 유저토큰
 const userToken = localStorage.getItem("usreToken")
   ? localStorage.getItem("userToken")
   : null;
