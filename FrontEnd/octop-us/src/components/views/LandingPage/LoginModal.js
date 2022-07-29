@@ -2,28 +2,47 @@ import { React, useState } from "react";
 // import axios from "axios";
 import "./LoginModal.css";
 
+import { useDispatch } from "react-redux";
+import { userLogin } from "../../../features/user/userActions";
+
 const LoginModal = (props) => {
   const { open, close } = props;
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userPW, setUserPW] = useState("");
+  // const { loading, userInfo, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  // const submitForm = (data) => {
+  //   dispatch(userLogin(data))
+  // }
 
   const onChangeNameHandler = (e) => {
     setUserName(e.currentTarget.value);
   };
   const onChangePasswordtHandler = (e) => {
-    setPassword(e.currentTarget.value);
+    setUserPW(e.currentTarget.value);
   };
 
+  // const onLoginSubmitHandler = (e) => {
+  //   document.location.href = "/main";
+  //   e.preventDefault();
+
   const onLoginSubmitHandler = (e) => {
-    document.location.href = "/main"
     e.preventDefault();
+    dispatch(
+      userLogin({
+        userName,
+        userPW,
+      })
+    );
+
     // const data = {
     //   userName: "user_name",
     //   userPW: "user_pw",
     //   userId: "null",
     // };
 
-    // console.log(e);
+    console.log(e);
 
     // if (username === "") {
     //   alert("닉네임을 입력해주세요");
@@ -53,16 +72,18 @@ const LoginModal = (props) => {
               <input
                 className="login-form__input"
                 type="text"
-                value={username}
+                value={userName}
                 onChange={onChangeNameHandler}
                 placeholder="닉네임"
+                required
               />
               <input
                 className="login-form__input"
                 type="password"
-                value={password}
+                value={userPW}
                 onChange={onChangePasswordtHandler}
                 placeholder="비밀번호"
+                required
               />
             </div>
             <div>
