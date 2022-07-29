@@ -15,7 +15,7 @@ function App() {
         <Route path="/" exact element={<LandingPage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/tmp" element={<Tmp />} />
-        <Route path="/wait" element={<WaitingRoom />}></Route>
+        <Route path="/:roomId" element={<WaitingRoom />}></Route>
       </Routes>
     </div>
   );

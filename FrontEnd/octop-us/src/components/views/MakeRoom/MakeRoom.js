@@ -71,7 +71,13 @@ function MakeRoom () {
           "Content-Type": `application/json`,
         }
       })
-      .then(res => console.log(res))
+      .then(res => {
+        axios.get(`http://localhost:8080/rooms/detail/roomname/${roomName}`)
+        .then((res) => {
+          console.log(res.data[0].roomId)
+          document.location.href = `http://localhost:3000/${res.data[0].roomId}`
+        })
+      })
       .catch(err => console.log(err))
     }
   }
