@@ -2,10 +2,14 @@ import { React, useState } from "react";
 // import axios from "axios";
 import "./LoginModal.css";
 
+import { userDispatch, userSelector } from "react-redux";
+import { userLogin } from "../../features/user/userSlice";
+
 const LoginModal = (props) => {
   const { open, close } = props;
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const { loading, userInfo, error } = userSelector((state) => state.user);
 
   const onChangeNameHandler = (e) => {
     setUserName(e.currentTarget.value);
@@ -15,7 +19,7 @@ const LoginModal = (props) => {
   };
 
   const onLoginSubmitHandler = (e) => {
-    document.location.href = "/main"
+    document.location.href = "/main";
     e.preventDefault();
     // const data = {
     //   userName: "user_name",
