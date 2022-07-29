@@ -33,6 +33,46 @@ function MainPage () {
     .then(res => setRoomInfo(res.data))
     .catch(err => console.log(err))
   }
+
+  const onClickFastStart = (e) => {
+    e.preventDefault();
+    axios.get(`http://localhost:8080/rooms/find/faststart`)
+    .then(res => {
+      axios.get(`http://localhost:8080/rooms/detail/roomid/${res.data}`)
+      .then(item => {
+        console.log(item.data)
+        let userList = item.data.userList.split(',')
+        console.log(userList)
+        userList[userList.indexOf("")] = 'currentUser'
+        console.log(userList)
+        const personNum = item.data.personNum + 1
+        const data = {
+          roomChief : 'host1',
+          isPrivate : item.data.isPrivate,
+          roomName : item.data.roomName,
+          personLimit : item.data.personLimit,
+          personNum : personNum,
+          roomPw : item.data.roomPw,
+          gameTime : item.data.gameTime,
+          userList : userList.join(),
+          roomId : item.data.roomId,
+          }
+        axios.put('http://localhost:8080/rooms',JSON.stringify(data), {
+          headers: {
+            "Content-Type": `application/json`,
+          }
+        })
+        .then(res => {
+          console.log(res)
+          document.location.href = `http://localhost:3000/${item.data.roomId}`
+          // console.log(document.location.pathname)
+        })
+        .catch(err => console.log(err))
+      })
+      .catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
+  }
   
   return (
     <div className="MainPage container">
@@ -58,7 +98,7 @@ function MainPage () {
       </div>     
       <div className="MainFooter">
         <div>
-          <button className="QuickStart">빠른시작</button>
+          <button className="QuickStart" onClick={onClickFastStart}>빠른시작</button>
         </div>
       </div>
     </div>
