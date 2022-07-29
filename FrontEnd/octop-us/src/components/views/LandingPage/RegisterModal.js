@@ -31,7 +31,7 @@ const RegisterModal = (props) => {
     const data = {
       userName: "user_name",
       userPW: "password",
-      userId: "null",
+      userId: "dsafkldfy",
     };
 
     console.log(e);
