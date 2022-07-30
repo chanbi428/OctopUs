@@ -2,14 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import { userLogin } from "./userActions";
 
 // 로컬 스토리지 유저토큰
-const userToken = localStorage.getItem("usreToken")
-  ? localStorage.getItem("userToken")
-  : null;
+// const userToken = localStorage.getItem("usreToken")
+//   ? localStorage.getItem("userToken")
+//   : null;
 
 const initialState = {
   loading: false,
   userInfo: null,
-  userToken,
+  // userToken,
   error: null,
   success: false,
 };
@@ -19,25 +19,29 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      localStorage.removeItem("userToken");
+      // localStorage.removeItem("userToken");
       state.loading = false;
       state.userInfo = null;
-      state.userToken = null;
+      // state.userToken = null;
       state.error = null;
     },
   },
   extraReducers: {
     // login user
     [userLogin.pending]: (state) => {
+      console.log("login pending!");
       state.loading = true;
       state.error = null;
     },
     [userLogin.fulfilled]: (state, { payload }) => {
+      console.log("login fulfilled!");
       state.loading = false;
       state.userInfo = payload;
-      state.userToken = payload.userToken;
+
+      // state.userToken = payload.userToken;
     },
     [userLogin.rejected]: (state, { payload }) => {
+      console.log("login rejected!");
       state.loading = false;
       state.error = payload;
     },
