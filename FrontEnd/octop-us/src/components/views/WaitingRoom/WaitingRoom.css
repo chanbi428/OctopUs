@@ -1,0 +1,49 @@
+.waiting_box {
+    display : flex;
+    flex-direction: column;
+}
+
+.waiting_upper {
+    display : block;
+    height : 60%;
+    width : 100%;
+    border : 1px;
+}
+
+.waiting_lower {
+    display : flex;
+    flex-direction: row;
+    height : 40%;
+    width : 100%;
+    border : 1px;
+    position : fixed;
+    bottom : 0px;
+}
+
+.testing_block {
+    height : 800px;
+    border : 5px;
+    padding : 30px;
+    background-color: blue;
+    text-align: center;
+}
+
+.room_box {
+    margin : 2rem;
+
+}
+
+.start_btn {
+    display : inline-block;
+    margin : 2rem;
+    border : solid black 5px;
+
+}
+
+.cam {
+    margin : 2rem;
+}
+
+.chat_box {
+    margin : 1rem;
+}
