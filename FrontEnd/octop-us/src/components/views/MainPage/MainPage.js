@@ -84,34 +84,34 @@ function MainPage() {
 
   return (
     <div className="MainPage container">
-      <div className="MyInfo">
+      <div className="main-page__user-info">
         {userInfo ? <p>{userInfo.userName}</p> : <p>대충 유저 정보</p>}
       </div>
       <div className="MainBody">
-        <div className="Left">
-          <h1 style={{ height: "100px" }}>로고</h1>
-          <MakeRoom />
-        </div>
-        <div className="Right">
-          <div className="SearchBar">
+        <header className="main-page__header">
+          <h1>로고</h1>
+          <div className="main-page__searchbar">
             <input
               type="text"
               value={search}
               onChange={onChangeSearch}
-              className="Input"
+              className="main-page__searchbar-input"
             />
             <button onClick={onClickSearch}>검색</button>
             <button onClick={onClickSearchReset}>초기화</button>
           </div>
+        </header>
+        <main className="main-page__main">
+          <MakeRoom />
           <RoomList roomInfo={roomInfo} />
-        </div>
+        </main>
       </div>
       <div className="MainWebcam">
         <p>대충 웹캠 조절</p>
       </div>
       <div className="MainFooter">
         <div>
-          <button className="QuickStart" onClick={onClickFastStart}>
+          <button className="main-page__quickstart" onClick={onClickFastStart}>
             빠른시작
           </button>
         </div>

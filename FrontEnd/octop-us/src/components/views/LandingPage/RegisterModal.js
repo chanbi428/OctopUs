@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./RegisterModal.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const RegisterModal = (props) => {
   const { open, close } = props;
@@ -58,12 +59,12 @@ const RegisterModal = (props) => {
   return (
     <div className={open ? "openModal modal" : "modal"}>
       {open ? (
-        <section>
+        <section className="container">
           <form onSubmit={onRegisterSubmitHandler}>
             <p>회원가입</p>
             <div>
               <input
-                className="register-form__input"
+                className="register-modal__input"
                 type="text"
                 value={userid}
                 onChange={onChangeIdHandler}
@@ -72,7 +73,7 @@ const RegisterModal = (props) => {
                 autoFocus
               />
               <input
-                className="register-form__input"
+                className="register-modal__input"
                 type="text"
                 value={username}
                 onChange={onChangeNameHandler}
@@ -80,7 +81,7 @@ const RegisterModal = (props) => {
                 required
               />
               <input
-                className="register-form__input"
+                className="register-modal__input"
                 type="password"
                 value={password}
                 onChange={onChangePasswordtHandler}
@@ -88,7 +89,7 @@ const RegisterModal = (props) => {
                 required
               />
               <input
-                className="register-form__input"
+                className="register-modal__input"
                 type="password"
                 value={confirmpassword}
                 onChange={onChangeConfirmPasswordtHandler}
@@ -96,18 +97,18 @@ const RegisterModal = (props) => {
                 required
               />
             </div>
-            <div>
+            <footer>
               <button
                 type="submit"
-                className="register-form__btn"
+                className="register-modal__btn"
                 onClick={onRegisterSubmitHandler}
               >
                 회원가입
               </button>
-              <button className="register-form__btn" onClick={close}>
+              <button className="register-modal__btn" onClick={close}>
                 뒤로가기
               </button>
-            </div>
+            </footer>
           </form>
         </section>
       ) : null}

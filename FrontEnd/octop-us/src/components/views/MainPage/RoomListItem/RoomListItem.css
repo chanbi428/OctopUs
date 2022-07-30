@@ -14,3 +14,28 @@
   margin-top: 5px;
   margin-bottom: 0px;
 }
+
+.main-page__room-list {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  margin: 0 auto;
+  border-radius: 0.3rem;
+  background-color: #fdfcdc;
+  overflow: hidden;
+  border: 2px solid black;
+}
+
+.main-page__room-list-btn {
+  text-align: center;
+  width: 8vw;
+  height: 4vh;
+  margin: 10px;
+  border-radius: 5px;
+  margin-bottom: 0;
+  margin-left: 2vh;
+  margin-right: 2vh;
+  background-color: #f4d35e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
