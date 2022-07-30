@@ -1,65 +1,42 @@
-import { React, useState } from "react";
-// import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { userLogin } from "../../../features/user/userActions";
 import "./LoginModal.css";
 
-import { useDispatch } from "react-redux";
-import { userLogin } from "../../../features/user/userActions";
-
 const LoginModal = (props) => {
-  const { open, close } = props;
-  const [userName, setUserName] = useState("");
-  const [userPW, setUserPW] = useState("");
-  // const { loading, userInfo, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // const submitForm = (data) => {
-  //   dispatch(userLogin(data))
-  // }
+  const { open, close } = props;
 
-  const onChangeNameHandler = (e) => {
-    setUserName(e.currentTarget.value);
+  // 유저 정보 가져오기
+  const { userInfo } = useSelector((state) => state.user);
+  const [userId, setUserId] = useState("");
+  const [userPW, setUserPW] = useState("");
+
+  // 유저 정보가 있으면 메인페이지로 이동
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/main");
+    }
+  }, [navigate, userInfo]);
+
+  const onChangeIdHandler = (e) => {
+    setUserId(e.currentTarget.value);
   };
   const onChangePasswordtHandler = (e) => {
     setUserPW(e.currentTarget.value);
   };
 
-  // const onLoginSubmitHandler = (e) => {
-  //   document.location.href = "/main";
-  //   e.preventDefault();
-
   const onLoginSubmitHandler = (e) => {
     e.preventDefault();
     dispatch(
       userLogin({
-        userName,
+        userId,
         userPW,
       })
     );
-
-    // const data = {
-    //   userName: "user_name",
-    //   userPW: "user_pw",
-    //   userId: "null",
-    // };
-
-    console.log(e);
-
-    // if (username === "") {
-    //   alert("닉네임을 입력해주세요");
-    // } else if (password === "") {
-    //   alert("비밀번호를 입력해주세요");
-    // } else {
-    //   data.userName = username;
-    //   data.userPW = password;
-    //   axios
-    //     .post("http://localhost:8080/Auth/login", JSON.stringify(data), {
-    //       headers: {
-    //         "Content-Type": `application/json`,
-    //       },
-    //     })
-    //     .then((res) => console.log(res))
-    //     .catch((err) => console.log(err));
-    // }
   };
 
   return (
@@ -72,9 +49,9 @@ const LoginModal = (props) => {
               <input
                 className="login-form__input"
                 type="text"
-                value={userName}
-                onChange={onChangeNameHandler}
-                placeholder="닉네임"
+                value={userId}
+                onChange={onChangeIdHandler}
+                placeholder="아이디"
                 required
               />
               <input
