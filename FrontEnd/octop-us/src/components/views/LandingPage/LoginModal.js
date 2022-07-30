@@ -47,15 +47,16 @@ const LoginModal = (props) => {
             <p>로그인</p>
             <div>
               <input
-                className="login-form__input"
+                className="login-modal__input"
                 type="text"
                 value={userId}
                 onChange={onChangeIdHandler}
                 placeholder="아이디"
                 required
+                autoFocus
               />
               <input
-                className="login-form__input"
+                className="login-modal__input"
                 type="password"
                 value={userPW}
                 onChange={onChangePasswordtHandler}
@@ -66,12 +67,12 @@ const LoginModal = (props) => {
             <div>
               <button
                 type="submit"
-                className="login-form__btn"
+                className="login-modal__btn"
                 onClick={onLoginSubmitHandler}
               >
                 로그인
               </button>
-              <button className="login-form__btn" onClick={close}>
+              <button className="login-modal__btn" onClick={close}>
                 뒤로가기
               </button>
             </div>
