@@ -2,6 +2,10 @@ import React, {useState, useEffect } from 'react';
 import axios from "axios";
 import SeatsRoom from './SeatsRoom';
 import MakeRoom from '../MakeRoom/MakeRoom'
+import Card from '../../Card/Card'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './WaitingRoom.css'
+import ShowRoom from './ShowRoom';
 
 export default function WaitingRoom() {
     // const [roomInfo, setRoomInfo] = useState([])
@@ -21,7 +25,8 @@ export default function WaitingRoom() {
     let [seats, setSeats] = useState([])
     let [throne, setThrone] = useState([])
 
-    // 방 입장 시 데이터 받아옴
+    const userName = "host1"
+    // 방 입장 시 데이터 받아옴 (방 만들기가 아니라 호스트 이외 사람이 들어올 때)
     useEffect(() => {
         let pathName = document.location.pathname.replace("/", "")
         axios.get(`http://localhost:8080/rooms/detail/roomid/${pathName}`)
@@ -233,24 +238,41 @@ export default function WaitingRoom() {
 
 	return (
 		<div>
-			<div>
-				렌더링 테스트
-				<button onClick={exitRoom}>방 나가기</button>
-			</div>
-            <div>
-                {/* <SeatsRoom seats={seats} throne={throne}/> */}
+			<nav className="d-flex flex-row flex-between">
+				<p className="col">렌더링 테스트</p>
+				<button onClick={exitRoom} className="col">방 나가기</button>
+			</nav>
+            <div className="waiting_box">
+                <div className="waiting_upper">
+                    <div className="testing_block">testing</div>
+                    {/* <SeatsRoom seats={seats} throne={throne}/> */}
+                </div>
+                <div className="waiting_lower ">
+                    <div className="room_box col">
+                        { {userName} === {roomChief} ? <MakeRoom /> : <ShowRoom />}
+                    </div>
+                    <div className="col">
+                        {/* 채팅 */}
+                        <Card>
+                            <div className="CardBody chat_box" style={{ height:300}}>
+                                채팅 들어올 자리
+                            </div>
+                        </Card>
+                    </div>
+                    <div className="col">
+                        <Card>
+                            <div className="CardBody cam" style={{height:200}}>
+                                {/*웹캠*/}
+                                웹캠 배치용
+                            </div>
+                        </Card>
+                        <button className="start_btn " onClick = {onClickStart}>START</button>
+                        {/* <a href="#" className="" onClick = {onClickStart}>START</a> */}
+                        {/* { {userName} === {roomChief} && <button className="start_btn" onClick = {onClickStart}>START</button> } */}
+                    </div>
+                </div>
             </div>
-			<div>
-				<div>
-					{/* 채팅 */}
-                    <MakeRoom />
-				</div>
-				<div>
-					{/*웹캠*/}
-					{/* <Link to="/"><button>START</button></Link> */}
-                    { 'userName' === roomChief && <button onClick = {onClickStart}>START</button> }
-				</div>
-			</div>
+            
 		</div>
 	)
 }

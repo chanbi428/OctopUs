@@ -65,20 +65,37 @@ function MakeRoom () {
     } else if (isPrivate === "true" && roomPw === "") {
       alert("방 비밀번호를 설정해주세요!")
     } else {
-      console.log(data)
-      axios.post('http://localhost:8080/rooms',JSON.stringify(data), {
-        headers: {
-          "Content-Type": `application/json`,
-        }
-      })
-      .then(res => {
-        axios.get(`http://localhost:8080/rooms/detail/roomname/${roomName}`)
-        .then((res) => {
-          console.log(res.data[0].roomId)
-          document.location.href = `http://localhost:3000/${res.data[0].roomId}`
+      if (data.roomChief === "") {
+        console.log(data)
+        axios.post('http://localhost:8080/rooms',JSON.stringify(data), {
+          headers: {
+            "Content-Type": `application/json`,
+          }
         })
-      })
-      .catch(err => console.log(err))
+        .then(res => {
+          axios.get(`http://localhost:8080/rooms/detail/roomname/${roomName}`)
+          .then((res) => {
+            console.log(res.data[0].roomId)
+            document.location.href = `http://localhost:3000/${res.data[0].roomId}`
+          })
+        })
+        .catch(err => console.log(err))
+      } else {
+        console.log(data)
+        axios.put('http://localhost:8080/rooms',JSON.stringify(data), {
+          headers: {
+            "Content-Type": `application/json`,
+          }
+        }) // 이후 이 부분이 필요한가 생각 중...
+        .then(res => {
+          axios.get(`http://localhost:8080/rooms/detail/roomname/${roomName}`)
+          .then((res) => {
+            console.log(res.data[0].roomId)
+          })
+        })
+        .catch(err => console.log(err))
+      }
+      
     }
   }
 
