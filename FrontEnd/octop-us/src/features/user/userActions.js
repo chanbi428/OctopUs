@@ -1,10 +1,9 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const BASE_URL = "http://localhost:8080";
 export const userLogin = createAsyncThunk(
   "user/login",
-  async ({ userName, userPW }, { rejectWithValue }) => {
+  async ({ userName, userPW, userId }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
@@ -14,13 +13,13 @@ export const userLogin = createAsyncThunk(
 
       const { data } = await axios.post(
         "/Auth/login",
-        { userName, userPW, userId: "dsafkldfy" },
+        { userName, userPW, userId },
         config
       );
+      console.log(data);
 
       // 로컬 스토리지에 토큰 저장
-      localStorage.setItem("userToken", data.userToken);
-      console.log(data);
+      // localStorage.setItem("userToken", data.userToken);
 
       return data;
     } catch (error) {
