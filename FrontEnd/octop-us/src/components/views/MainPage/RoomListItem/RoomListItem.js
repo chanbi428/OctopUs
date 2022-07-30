@@ -32,7 +32,11 @@ function RoomListItem ({item}) {
           "Content-Type": `application/json`,
         }
       })
-      .then(res => console.log(res))
+      .then(res => {
+        console.log(res)
+        document.location.href = `http://localhost:3000/${item.roomId}`
+        // console.log(document.location.pathname)
+      })
       .catch(err => console.log(err))
     }
 
