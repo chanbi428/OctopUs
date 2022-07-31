@@ -1,22 +1,23 @@
 import Card from "../../Card/Card";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import "./MakeRoom.css";
 
 function MakeRoom() {
   const [roomName, setRoomName] = useState("");
-  const [personLimit, setPersonLimit] = useState("6");
   const [gameTime, setGameTime] = useState("60");
   const [isPrivate, setIsPrivate] = useState("false");
   const [roomPw, setRoomPw] = useState("");
   let userList = [];
+  const { userInfo } = useSelector((state) => state.user);
 
   const handleRoomName = (e) => {
     setRoomName(e.target.value);
   };
-  const handlePersonLimit = (e) => {
-    setPersonLimit(e.target.value);
-  };
+  // const handlePersonLimit = (e) => {
+  //   setPersonLimit(e.target.value);
+  // };
   const handleGameTime = (e) => {
     setGameTime(e.target.value);
   };
@@ -27,12 +28,7 @@ function MakeRoom() {
     setRoomPw(e.target.value);
   };
   const createRoom = () => {
-    if (personLimit === "6") {
-      userList = ["currentUser", "", "", "", "", ""];
-    } else {
-      userList = ["currentUser", "", "", "", "", "", "", ""];
-    }
-
+    userList = [userInfo.userName, "", "", "", "", "", "", ""];
     const data = {
       // type : 'system',
       // sender : 'FE',
@@ -47,10 +43,10 @@ function MakeRoom() {
       //   'roomPw': roomPw,
       //   'roomChief': 'aa'
       // }
-      roomChief: "host1",
+      roomChief: userInfo.userName,
       isPrivate: isPrivate,
       roomName: roomName,
-      personLimit: personLimit,
+      personLimit: "8",
       roomPw: roomPw,
       gameTime: gameTime,
       userList: userList.join(),
@@ -58,12 +54,10 @@ function MakeRoom() {
 
     if (roomName === "") {
       alert("방 이름을 입력해주세요!");
-    } else if (personLimit === "") {
-      alert("방 인원을 입력해주세요!");
     } else if (isPrivate === "true" && roomPw === "") {
       alert("방 비밀번호를 설정해주세요!");
     } else {
-      if (data.roomChief === "") {
+      if (data.roomChief === userInfo.userName) {
         console.log(data);
         axios
           .post("http://localhost:8080/rooms", JSON.stringify(data), {
@@ -72,12 +66,7 @@ function MakeRoom() {
             },
           })
           .then((res) => {
-            axios
-              .get(`http://localhost:8080/rooms/detail/roomname/${roomName}`)
-              .then((res) => {
-                console.log(res.data[0].roomId);
-                document.location.href = `http://localhost:3000/${res.data[0].roomId}`;
-              });
+            document.location.href = `http://localhost:3000/${res.data.roomId}`;
           })
           .catch((err) => console.log(err));
       } else {
@@ -107,7 +96,7 @@ function MakeRoom() {
           <h2>방 설정</h2>
         </header>
         <main>
-          <div className="CardBody">
+          <div className="make-room__card-body">
             <label htmlFor="room_name">방 이름</label>
             <br />
             <input
@@ -118,7 +107,7 @@ function MakeRoom() {
               className="Input"
             />
           </div>
-          <div className="CardBody">
+          {/* <div className="CardBody">
             <label htmlFor="person_limit">인원</label>
             <br />
             <input
@@ -128,8 +117,8 @@ function MakeRoom() {
               onChange={handlePersonLimit}
               className="Input"
             />
-          </div>
-          <div className="CardBody">
+          </div> */}
+          <div className="make-room__card-body">
             회의 시간 <br />
             <label htmlFor="game_time_60">60</label>
             <input
@@ -159,7 +148,7 @@ function MakeRoom() {
               className="Radio"
             />
           </div>
-          <div className="CardBody">
+          <div className="make-room__card-body">
             공개 방 여부 <br />
             <label htmlFor="is_private_false">공개</label>
             <input
@@ -180,18 +169,16 @@ function MakeRoom() {
               className="Radio"
             />
           </div>
-          {isPrivate === "true" && (
-            <div className="CardBody">
-              <label htmlFor="room_pw">방 비밀번호 </label> <br />
-              <input
-                type="password"
-                name="room_pw"
-                value={roomPw}
-                onChange={handleRoomPw}
-                className="Input"
-              />
-            </div>
-          )}
+          <div className="make-room__card-body" style={{visibility: isPrivate === "true" ? 'visible' : 'hidden' }}>
+            <label htmlFor="room_pw">방 비밀번호 </label> <br />
+            <input
+              type="password"
+              name="room_pw"
+              value={roomPw}
+              onChange={handleRoomPw}
+              className="Input"
+            />
+          </div>
         </main>
         <button className="make-room__btn" onClick={createRoom}>
           방 생성하기

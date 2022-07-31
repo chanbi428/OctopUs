@@ -9,13 +9,14 @@
 }
 
 .MakeRoom > main {
-  margin-top: 5vh;
-  margin-bottom: 5vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
 }
 
-.CardBody {
-  margin-top: 5px;
-  margin-bottom: 5px;
+.make-room__card-body {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
   text-align: center;
 }
 
