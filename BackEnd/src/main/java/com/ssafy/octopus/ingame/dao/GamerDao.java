@@ -24,6 +24,14 @@ public interface GamerDao extends JpaRepository<Gamer, Integer> {
      */
     List<Gamer> findByRoomId(String roomId);
 
+    /** @brief : findByIsVictory, 승리한 Gamer 들을 찾아줌
+     *  @date : 2022-07-31
+     *  @param : boolean
+     *  @return : List<Gamer>
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    List<Gamer> findByIsVictory(boolean is_victory);
+
 
     /** @brief : updateByUserName, userName에 해당하는 게이머 승리로 변경
      *  @date : 2022-07-31

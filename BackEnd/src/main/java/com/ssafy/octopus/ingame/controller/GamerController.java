@@ -64,6 +64,17 @@ public class GamerController {
         return new ResponseEntity<Boolean>(service.isDead(userName), HttpStatus.OK);
     }
 
+    /** @brief : getWinners, 승리한 게이머들 조회
+     *  @date : 2022-07-31
+     *  @param
+     *  @return : ResponseEntity<List<Gamer>>
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @GetMapping(value = "/gamers/winners")
+    public ResponseEntity<List<Gamer>> getWinners() {
+        return new ResponseEntity<List<Gamer>>(service.findByIsVictory(), HttpStatus.OK);
+    }
+
     /** @brief : updateByUserName, userName에 해당하는 게이머 승리로 변경
      *  @date : 2022-07-31
      *  @param : userName

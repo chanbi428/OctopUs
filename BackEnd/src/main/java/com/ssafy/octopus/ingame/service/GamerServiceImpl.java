@@ -50,6 +50,17 @@ public class GamerServiceImpl implements GamerService {
         return dao.findByRoomId(roomId);
     }
 
+    /** @brief : findByIsVictory, 승리한 Gamer 들을 찾아줌
+     *  @date : 2022-07-31
+     *  @param
+     *  @return : List<Gamer>
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @Override
+    public List<Gamer> findByIsVictory(){
+        return dao.findByIsVictory(true);
+    }
+
 
     /** @brief : isDead, userName에 해당하는 게이머의 생사 확인
      *  @date : 2022-07-31

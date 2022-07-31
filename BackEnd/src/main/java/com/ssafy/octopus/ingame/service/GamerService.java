@@ -14,6 +14,8 @@ public interface GamerService {
 
     List<Gamer> findByRoomId(String roomId);  // 방 ID에 따른 gamer들 조회
 
+    List<Gamer> findByIsVictory(); // 승리한 gamer들 조회
+
     Boolean isDead(String userName); // userName에 해당하는 게이머의 생사 확인
 
 //    Cave insert(Cave dto); // 공용 굴 생성
