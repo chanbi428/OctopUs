@@ -85,7 +85,7 @@ function MainPage() {
   return (
     <div className="MainPage container">
       <div className="main-page__user-info">
-        {userInfo ? <p>{userInfo.userName}</p> : <p>대충 유저 정보</p>}
+        {userInfo ? <p>{userInfo.userName} 님 안녕하세요!</p> : <p>대충 유저 정보</p>}
       </div>
       <div className="MainBody">
         <header className="main-page__header">
@@ -97,17 +97,14 @@ function MainPage() {
               onChange={onChangeSearch}
               className="main-page__searchbar-input"
             />
-            <button onClick={onClickSearch}>검색</button>
-            <button onClick={onClickSearchReset}>초기화</button>
+            <button onClick={onClickSearch} className="search__btn">검색</button>
+            <button onClick={onClickSearchReset} className="search__btn">초기화</button>
           </div>
         </header>
         <main className="main-page__main">
           <MakeRoom />
           <RoomList roomInfo={roomInfo} />
         </main>
-      </div>
-      <div className="MainWebcam">
-        <p>대충 웹캠 조절</p>
       </div>
       <div className="MainFooter">
         <div>
