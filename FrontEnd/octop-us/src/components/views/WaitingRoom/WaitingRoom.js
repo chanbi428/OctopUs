@@ -341,7 +341,6 @@ export default function WaitingRoom() {
       </section>
       <div className="waiting-page__lower container">
         <div className="waiting-page__room-setting">방설정 들어올 자리</div>
-        {/* <ChatComponent /> */}
         <Tmp2 />
       </div>
     </div>
