@@ -2,6 +2,7 @@ import React, {useState, useEffect } from 'react';
 import axios from "axios";
 import SeatsRoom from './SeatsRoom';
 import MakeRoom from '../MakeRoom/MakeRoom'
+import Tmp2 from '../tmp2/components/VideoRoomComponent'
 import Card from '../../Card/Card'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './WaitingRoom.css'
@@ -247,29 +248,8 @@ export default function WaitingRoom() {
                     <div className="testing_block">testing</div>
                     {/* <SeatsRoom seats={seats} throne={throne}/> */}
                 </div>
-                <div className="waiting_lower ">
-                    <div className="room_box col">
-                        { {userName} === {roomChief} ? <MakeRoom /> : <ShowRoom />}
-                    </div>
-                    <div className="col">
-                        {/* 채팅 */}
-                        <Card>
-                            <div className="CardBody chat_box" style={{ height:300}}>
-                                채팅 들어올 자리
-                            </div>
-                        </Card>
-                    </div>
-                    <div className="col">
-                        <Card>
-                            <div className="CardBody cam" style={{height:200}}>
-                                {/*웹캠*/}
-                                웹캠 배치용
-                            </div>
-                        </Card>
-                        <button className="start_btn " onClick = {onClickStart}>START</button>
-                        {/* <a href="#" className="" onClick = {onClickStart}>START</a> */}
-                        {/* { {userName} === {roomChief} && <button className="start_btn" onClick = {onClickStart}>START</button> } */}
-                    </div>
+                <div className="waiting_lower">
+                    <Tmp2 />
                 </div>
             </div>
             

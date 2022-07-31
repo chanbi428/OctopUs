@@ -1,30 +1,33 @@
 .waiting_box {
     display : flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .waiting_upper {
     display : block;
-    height : 60%;
-    width : 100%;
+    height : 50vh;
+    width : 50%;
     border : 1px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: #f4d35e;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .waiting_lower {
     display : flex;
     flex-direction: row;
-    height : 40%;
+    height : 40vh;
     width : 100%;
     border : 1px;
-    position : fixed;
     bottom : 0px;
 }
 
 .testing_block {
-    height : 800px;
+    height : 60vh;
     border : 5px;
     padding : 30px;
-    background-color: blue;
     text-align: center;
 }
 
@@ -47,3 +50,5 @@
 .chat_box {
     margin : 1rem;
 }
+
+
