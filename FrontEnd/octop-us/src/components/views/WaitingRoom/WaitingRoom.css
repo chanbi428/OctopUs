@@ -25,15 +25,15 @@
 }
 
 .testing_block {
-    height : 60vh;
+    height : 50vh;
     border : 5px;
     padding : 30px;
+    background-color: #f4d35e;
     text-align: center;
 }
 
 .room_box {
-    margin : 2rem;
-
+    margin : 0.5rem;
 }
 
 .start_btn {
