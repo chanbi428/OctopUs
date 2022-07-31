@@ -40,16 +40,22 @@ public class AuthController {
     }
 
     @PostMapping("/login") // 로그인
-    public ResponseEntity<String> login(@RequestBody UserDto dto){
+    public ResponseEntity<UserDto> login(@RequestBody UserDto dto){
         System.out.println("login : " + dto);
         User user = service.findByUserIdAndUserPw(dto.getUserId(), dto.getUserPW());
         String token = null;
+        UserDto result = new UserDto();
+
         if(user == null){ // 데이터가 없을 경우
-            return new ResponseEntity<>(token, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         else{ // 정상 처리 되었을 경우
+            result.setIdx(user.getIdx());
+            result.setUserName(user.getUserName());
+            result.setUserId(user.getUserId());
             token = jwtTokenProvider.createToken(user.getUserId());
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            result.setToken(token);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
 
     }

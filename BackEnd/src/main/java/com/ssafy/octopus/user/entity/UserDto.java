@@ -12,4 +12,5 @@ public class UserDto { // can use @Setter
     private String userName;
     private String userId;
     private String userPW;
+    private String token;
 }
