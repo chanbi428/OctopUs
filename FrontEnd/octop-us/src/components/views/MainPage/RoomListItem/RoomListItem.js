@@ -1,7 +1,10 @@
 import axios from "axios";
 import "./RoomListItem.css";
+import { useSelector } from "react-redux";
 
 function RoomListItem({ item }) {
+  
+  const { userInfo } = useSelector((state) => state.user);  
   const onClickEnterRoom = (e) => {
     e.preventDefault();
 
@@ -12,11 +15,11 @@ function RoomListItem({ item }) {
     } else {
       let userList = item.userList.split(",");
       console.log(userList);
-      userList[userList.indexOf("")] = "currentUser";
+      userList[userList.indexOf("")] = userInfo.userName;
       console.log(userList);
       const personNum = item.personNum + 1;
       const data = {
-        roomChief: "host1",
+        roomChief: item.roomChief,
         isPrivate: item.isPrivate,
         roomName: item.roomName,
         personLimit: item.personLimit,
@@ -43,7 +46,7 @@ function RoomListItem({ item }) {
 
   return (
     <div className="col">
-      <div className="main-page__room-list">
+      <div className="main-page__room-list" style={{backgroundColor: item.gameStatus ? '#e0e0d8' : '#fdfcdc' }}>
         <div className="card-body">
           <div className="RoomHeader">
             <p>{item.idx}</p>
