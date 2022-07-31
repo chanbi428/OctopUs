@@ -98,7 +98,7 @@ public class CaveController {
      *  @author : LDY, 98dlstod@naver.com
      */
     @PutMapping(value="/caves")
-    public ResponseEntity<Integer> updateByRoomId(@Parameter(description = "공용 굴 수정", required = true, example = "Cave dto")@RequestBody Cave dto) {
+    public ResponseEntity<Integer> updateByCaveIdAndRoomId(@Parameter(description = "공용 굴 수정", required = true, example = "Cave dto")@RequestBody Cave dto) {
         return new ResponseEntity<Integer>(service.update(dto), HttpStatus.OK);
     }
 
