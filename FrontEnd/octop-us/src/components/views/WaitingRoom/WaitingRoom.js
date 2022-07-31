@@ -5,12 +5,10 @@ import MakeRoom from '../MakeRoom/MakeRoom'
 import Card from '../../Card/Card'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './WaitingRoom.css'
-import ShowRoom from './ShowRoom';
+import ShowRoom from './ShowRoom'
+import { useSelector } from 'react-redux';
 
 export default function WaitingRoom() {
-    // const [roomInfo, setRoomInfo] = useState([])
-    // const [user, setUser] = useState([])
-
     const [gameStatus, setGameStatus] = useState(false)
 	const [gameTime, setGameTime] = useState("")
 	const [idx, setIdx] = useState("")
@@ -22,30 +20,38 @@ export default function WaitingRoom() {
 	const [roomName, setRoomName] = useState("")
 	const [roomPw, setRoomPw] = useState("")
 	const [userList, setUserList] = useState([])
-    let [seats, setSeats] = useState([])
-    let [throne, setThrone] = useState([])
+    let [seats, setSeats] = useState([{nickname:"", opacity:0}, {nickname:"", opacity:0}, {nickname:"", opacity:0}, {nickname:"", opacity:0}, {nickname:"", opacity:0}, {nickname:"", opacity:0}, {nickname:"", opacity:0}, {nickname:"", opacity:0}])
+    let [throne, setThrone] = useState([{crown:0}, {crown:0}, {crown:0}, {crown:0}, {crown:0}, {crown:0}, {crown:0}, {crown:0}])
+    
+    const { userInfo } = useSelector((state) => state.user)
 
-    const userName = "host1"
     // 방 입장 시 데이터 받아옴 (방 만들기가 아니라 호스트 이외 사람이 들어올 때)
     useEffect(() => {
         let pathName = document.location.pathname.replace("/", "")
+        console.log(pathName)
         axios.get(`http://localhost:8080/rooms/detail/roomid/${pathName}`)
         .then(res => {
             console.log(res.data)
+            // console.log(userInfo.userName)
             const tmp = res.data.userList.split(',')
+            console.log(tmp)
             // updateRoomInfo(...res.data, userList=tmp)
             updateRoomInfo(res.data.gameStatus, res.data.gameTime, res.data.idx, res.data.personLimit, res.data.personLimit, res.data.personNum, res.data.isPrivate, res.data.roomChief, res.data.roomId, res.data.roomName, res.data.roomPw, tmp)
+            console.log(seats, throne)
+            sitRoom()
+            getCrown()
+            setTimeout(console.log(seats, userList), 1000)
         })
         .catch((error)=> console.log(error))
     }, [])
 
     // 유저 목록이 변경되면 문어 자리 다시 앉히고 다시 왕관 배정
     useEffect(() => {
-        SitRoom();
+        sitRoom();
         getCrown();
     }, [userList])
 
-    const SitRoom = () => {
+    const sitRoom = () => {
         let sit = []
         for (let i=0; i < personLimit; i++) {
             if ( userList[i] !== "") {
@@ -56,7 +62,7 @@ export default function WaitingRoom() {
                 })
             } else {
                 sit = sit.concat({
-                    nickname : "none",
+                    nickname : "",
                     opacity : 0
                 })
             }
@@ -100,16 +106,16 @@ export default function WaitingRoom() {
             axios.delete(`http://localhost:8080/rooms/${roomId}`)
             // 소켓으로 방 탈출 요청
         } else if (personNum >= 2) {
-            if ('userName' === roomChief) {
+            if ('userInfo.userName' === roomChief) {
                 // 유저 닉네임 정보 필요함
                 for (let user of userListInfo) {
-                    if (user !== 'userName' && user !== "") {
+                    if (user !== 'userInfo.userName' && user !== "") {
                         roomChiefInfo = user
                         break;
                     }
                 } 
             }
-            userListInfo.splice(userListInfo.indexOf('userName'), 1, "")
+            userListInfo.splice(userListInfo.indexOf('userInfo.userName'), 1, "")
             // let personNumInfo = personNum - 1
             updateRoomInfo(gameStatus, gameTime, idx, personLimit, personNum - 1, isPrivate, roomChiefInfo, roomId, roomName, roomPw, userListInfo)
             const data = {
@@ -148,6 +154,7 @@ export default function WaitingRoom() {
 		setRoomName(roomName)
 		setRoomPw(roomPw)
 		setUserList(userList)
+        console.log(gameStatus, gameTime, idx, personLimit, personNum, isPrivate, roomChief, roomId, roomName, roomPw, userList)
 	}
 
 
@@ -175,7 +182,7 @@ export default function WaitingRoom() {
         // 소켓 게임 시작 알림
         await sendMessage()
         // 직업을 가져온다
-        await axios.get(`http://localhost:8080/gamer/${'userName'}`)
+        await axios.get(`http://localhost:8080/gamer/${'userInfo.userName'}`)
         .then(res => {
             const inGameJob = res.data.gameJob
             console.log(inGameJob)
@@ -249,7 +256,7 @@ export default function WaitingRoom() {
                 </div>
                 <div className="waiting_lower ">
                     <div className="room_box col">
-                        { {userName} === {roomChief} ? <MakeRoom /> : <ShowRoom />}
+                        { 'userInfo.userName' === roomChief ? <MakeRoom /> : <ShowRoom />}
                     </div>
                     <div className="col">
                         {/* 채팅 */}
@@ -268,7 +275,7 @@ export default function WaitingRoom() {
                         </Card>
                         <button className="start_btn " onClick = {onClickStart}>START</button>
                         {/* <a href="#" className="" onClick = {onClickStart}>START</a> */}
-                        {/* { {userName} === {roomChief} && <button className="start_btn" onClick = {onClickStart}>START</button> } */}
+                        {/* { userInfo.userName === roomChief && <button className="start_btn" onClick = {onClickStart}>START</button> } */}
                     </div>
                 </div>
             </div>
