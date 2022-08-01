@@ -26,4 +26,5 @@ public interface GamerService {
 
 //    Long deleteByRoomId(String roomId); // 공용 굴 들 삭제
 
+    public Gamer isVictory(String roomId); // 마피아 승리 조건 확인
 }

@@ -14,14 +14,17 @@ public class GamerServiceImpl implements GamerService {
     @Autowired
     GamerDao dao;
 
+    /** @brief : Gamer, userName이 같은 Gamer 반환
+     *  @date : 2022-07-31
+     *  @param : userName
+     *  @return : Gamer
+     *  @author : BCB
+     */
     @Override
     public Gamer findByUserName(String userName){
         Gamer gamer = new Gamer();
         try{
             gamer = dao.findByUserName(userName);
-            //System.out.println(userName);
-            String a = gamer == null? "없다" : userName;
-            System.out.println(a);
             return gamer;
         } catch (Exception e){
             e.printStackTrace();
@@ -106,4 +109,25 @@ public class GamerServiceImpl implements GamerService {
 //    @Override
 //    public Long deleteByRoomId(String roomId) {return dao.deleteByRoomId(roomId);}
 
+    /** @brief : isVictory, 마피아 승리 조건 확인
+     *  @date : 2022-08-01
+     *  @param : roomId
+     *  @return : Gamer
+     *  @author : BCB
+     */
+    @Override
+    public Gamer isVictory(String roomId){
+        Gamer gamer = new Gamer();
+
+        int mafia = dao.isVictory(roomId, "마피아");  // 마피아 살아있는 사람 수
+        int middle = dao.isVictory(roomId, "중립");  // 중립 살아있는 사람 수
+        int citizen = dao.isVictory(roomId, "시민"); // 시민 살아있는 사람 수
+
+        if(mafia >= (middle + citizen)){  // 마피아가 같거나 많으면 승리
+            gamer.setVictory(true);
+        } else{
+            gamer.setVictory(false);
+        }
+        return gamer;
+    }
 }
