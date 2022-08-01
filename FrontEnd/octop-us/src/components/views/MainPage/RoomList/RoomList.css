@@ -1,0 +1,8 @@
+.RoomList {
+  height: 500px;
+  border-radius: 12px;
+  /* margin-top: 40px; */
+  padding: 40px;
+  overflow: auto;
+  background-color: #fff;
+}

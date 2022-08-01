@@ -9,7 +9,6 @@ import "./WaitingRoom.css";
 import ShowRoom from "./ShowRoom";
 import { useSelector } from "react-redux";
 import ChatComponent from "../tmp2/components/chat/ChatComponent";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function WaitingRoom() {
   const [gameStatus, setGameStatus] = useState(false);
@@ -22,7 +21,7 @@ export default function WaitingRoom() {
   const [roomId, setRoomId] = useState("");
   const [roomName, setRoomName] = useState("");
   const [roomPw, setRoomPw] = useState("");
-  const [userList, setUserList] = useState(["", "", "", "", "", "", "", ""]);
+  const [userList, setUserList] = useState([]);
   let [seats, setSeats] = useState([
     { nickname: "", opacity: 0 },
     { nickname: "", opacity: 0 },
@@ -57,8 +56,6 @@ export default function WaitingRoom() {
         // console.log(userInfo.userName)
         const tmp = res.data.userList.split(",");
         console.log(tmp);
-		setUserList(tmp)
-		setTimeout(console.log(userList), 1000)
         // updateRoomInfo(...res.data, userList=tmp)
         updateRoomInfo(
           res.data.gameStatus,
@@ -226,20 +223,19 @@ export default function WaitingRoom() {
     setRoomName(roomName);
     setRoomPw(roomPw);
     setUserList(userList);
-	console.log(roomPw, userList)
-    // console.log(
-    //   gameStatus,
-    //   gameTime,
-    //   idx,
-    //   personLimit,
-    //   personNum,
-    //   isPrivate,
-    //   roomChief,
-    //   roomId,
-    //   roomName,
-    //   roomPw,
-    //   userList
-    // );
+    console.log(
+      gameStatus,
+      gameTime,
+      idx,
+      personLimit,
+      personNum,
+      isPrivate,
+      roomChief,
+      roomId,
+      roomName,
+      roomPw,
+      userList
+    );
   };
 
   const onClickStart = async () => {
@@ -342,57 +338,6 @@ export default function WaitingRoom() {
           alt="이미지가 없다"
           className="waiting-page__img"
         />
-        <div className="row">
-            <div id="leftside" className="offset-2 col-4">
-                <div className="container col" style={{ opacity: seats[0].opacity }}>
-                <p>{seats[0].nickname}</p>
-                <p>
-                    <FontAwesomeIcon
-                    icon="fa-solid fa-crown"
-                    style={{ opacity: throne[0].crown }}
-                    />
-                </p>
-                {/* 폰트어썸으로 왕관 넣을 예정 */}
-                <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
-                </div>
-                <div className="container col" style={{ opacity: seats[2].opacity }}>
-                <p>{seats[2].nickname}</p>
-                <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
-                </div>
-                <div className="container col" style={{ opacity: seats[4].opacity }}>
-                <p>{seats[4].nickname}</p>
-                <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
-                </div>
-                <div className="container col" style={{ opacity: seats[6].opacity }}>
-                <p>{seats[6].nickname}</p>
-                <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
-                </div>
-            </div>
-            <div id="rigntside" className="col-4 offset-2">
-                <div className="container col" style={{ opacity: seats[1].opacity }}>
-                <p>{seats[1].nickname}</p>
-                <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
-                </div>
-                <div className="container col" style={{ opacity: seats[3].opacity }}>
-                <p>{seats[3].nickname}</p>
-                <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
-                </div>
-                <div className="container col" style={{ opacity: seats[5].opacity }}>
-                <p>{seats[5].nickname}</p>
-                <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
-                </div>
-                <div className="container col" style={{ opacity: seats[7].opacity }}>
-                <p>{seats[7].nickname}</p>
-                <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
-                </div>
-            </div>
-            <a target="_blank" href="https://icons8.com/icon/59DW1U5zYwbI/octopus">
-                Octopus icon by Icons8
-            </a>
-            <a target="_blank" href="https://icons8.com/icon/fcj8w2EL5ShF/octopus">
-                Octopus icon by Icons8
-            </a>
-        </div>
       </section>
       <div className="waiting-page__lower container">
         <div className="waiting-page__room-setting">방설정 들어올 자리</div>
