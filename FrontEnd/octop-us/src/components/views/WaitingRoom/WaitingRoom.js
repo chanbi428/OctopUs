@@ -10,7 +10,7 @@ import ShowRoom from "./ShowRoom";
 import { useSelector } from "react-redux";
 import ChatComponent from "../tmp2/components/chat/ChatComponent";
 
-export default function WaitingRoom() {
+export default function WaitingRoom({history}) {
   const [gameStatus, setGameStatus] = useState(false);
   const [gameTime, setGameTime] = useState("");
   const [idx, setIdx] = useState("");
@@ -23,14 +23,14 @@ export default function WaitingRoom() {
   const [roomPw, setRoomPw] = useState("");
   const [userList, setUserList] = useState([]);
   let [seats, setSeats] = useState([
-    { nickname: "", opacity: 0 },
-    { nickname: "", opacity: 0 },
-    { nickname: "", opacity: 0 },
-    { nickname: "", opacity: 0 },
-    { nickname: "", opacity: 0 },
-    { nickname: "", opacity: 0 },
-    { nickname: "", opacity: 0 },
-    { nickname: "", opacity: 0 },
+    { nickname: "", opa: 0 },
+    { nickname: "", opa: 0 },
+    { nickname: "", opa: 0 },
+    { nickname: "", opa: 0 },
+    { nickname: "", opa: 0 },
+    { nickname: "", opa: 0 },
+    { nickname: "", opa: 0 },
+    { nickname: "", opa: 0 },
   ]);
   let [throne, setThrone] = useState([
     { crown: 0 },
@@ -42,6 +42,7 @@ export default function WaitingRoom() {
     { crown: 0 },
     { crown: 0 },
   ]);
+  // const history = useHistory()
 
   const { userInfo } = useSelector((state) => state.user);
 
@@ -55,25 +56,23 @@ export default function WaitingRoom() {
         console.log(res.data);
         // console.log(userInfo.userName)
         const tmp = res.data.userList.split(",");
-        console.log(tmp);
-        // updateRoomInfo(...res.data, userList=tmp)
+        // console.log(tmp);
         updateRoomInfo(
           res.data.gameStatus,
           res.data.gameTime,
           res.data.idx,
           res.data.personLimit,
-          res.data.personLimit,
           res.data.personNum,
-          res.data.isPrivate,
+          res.data.private,
           res.data.roomChief,
           res.data.roomId,
           res.data.roomName,
           res.data.roomPw,
           tmp
         );
-        console.log(seats, throne);
         sitRoom();
         getCrown();
+        console.log(seats, throne);
         setTimeout(console.log(seats, userList), 1000);
       })
       .catch((error) => console.log(error));
@@ -83,23 +82,28 @@ export default function WaitingRoom() {
   useEffect(() => {
     sitRoom();
     getCrown();
-  }, [userList]);
+    console.log(seats, throne)
+  },[userList]);
 
   const sitRoom = () => {
     let sit = [];
     for (let i = 0; i < personLimit; i++) {
+      console.log("목록",userList)
+      console.log("한개씩", userList[i])
       if (userList[i] !== "") {
-        console.log(userList[i]);
         sit = sit.concat({
           nickname: userList[i],
-          opacity: 1,
+          opa: 1,
         });
+        console.log("sit", sit)
       } else {
         sit = sit.concat({
           nickname: "",
-          opacity: 0,
+          opa: 0,
         });
+        console.log("sit", sit)
       }
+      
     }
     setSeats(sit);
   };
@@ -120,11 +124,13 @@ export default function WaitingRoom() {
     setThrone(crown);
   };
 
-  // 방 나가기 구현... 소켓 신호 보내는 부분 못함
   const exitRoom = async () => {
+    
     let getRoomInfo = await axios
       .get(`http://localhost:8080/rooms/detail/roomid/${roomId}`)
       .then((res) => {
+        console.log("데이터",res.data)
+    
         //     // const temp = JSON.parse(res.data)
         //     // getRoomInfo = temp
         // console.log(res)
@@ -134,6 +140,7 @@ export default function WaitingRoom() {
     // console.log(getRoomInfo)
     // console.log(temp)
     const usersInfo = await getRoomInfo.userList.split(",");
+    console.log(usersInfo)
     updateRoomInfo(
       getRoomInfo.gameStatus,
       getRoomInfo.gameTime,
@@ -151,7 +158,8 @@ export default function WaitingRoom() {
     let roomChiefInfo = roomChief;
     if (personNum === 1) {
       axios.delete(`http://localhost:8080/rooms/${roomId}`);
-      // 소켓으로 방 탈출 요청
+      document.location.href = "http://localhost:3000/main";
+      // 유저 정보가 유지가 안 됨
     } else if (personNum >= 2) {
       if ("userInfo.userName" === roomChief) {
         // 유저 닉네임 정보 필요함
@@ -182,7 +190,7 @@ export default function WaitingRoom() {
         gameTime: gameTime,
         idx: idx,
         personLimit: personLimit,
-        isPrivate: isPrivate,
+        private: isPrivate,
         roomChief: roomChief,
         roomId: roomId,
         roomName: roomName,
@@ -193,10 +201,16 @@ export default function WaitingRoom() {
         headers: {
           "Content-Type": `application/json`,
         },
-      });
-      console.log(data);
+      })
+      .then(()=> {
+        console.log(data);
+        history.push("/main")
+        // document.location.href = "http://localhost:3000/main";
+      })
+      
     }
     // 메인페이지로 이동
+
   };
 
   const updateRoomInfo = (
@@ -242,7 +256,11 @@ export default function WaitingRoom() {
     //6인 이상 시작 조건문 넣기
     const getRoomInfo = await axios.get(
       `http://localhost:8080/rooms/detail/roomid/${roomId}`
-    );
+    )
+    // .then((res)=> {
+    //   console.log(res.data)
+    //   const users = res.data.userList.split(",");
+    // })
     console.log(getRoomInfo);
     const users = getRoomInfo.userList.split(",");
     for (let user of users) {
@@ -333,14 +351,15 @@ export default function WaitingRoom() {
         </button>
       </nav>
       <section>
-        <img
+        {/* <img
           src="images/waitingpage.png"
           alt="이미지가 없다"
           className="waiting-page__img"
-        />
+        /> */}
+        <SeatsRoom seats={seats} throne={throne}/>
       </section>
       <div className="waiting-page__lower container">
-        <div className="waiting-page__room-setting">방설정 들어올 자리</div>
+        <div className="waiting-page__room-setting"><ShowRoom /></div>
         <Tmp2 />
       </div>
     </div>
