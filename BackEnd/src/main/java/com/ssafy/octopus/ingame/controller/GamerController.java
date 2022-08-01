@@ -120,4 +120,27 @@ public class GamerController {
             return new ResponseEntity<>(team, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /** @brief : isMafia, userName에 해당하는 게이머, 마피아 유무 확인
+     *  @date : 2022-08-01
+     *  @param : userName
+     *  @return : Boolean
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @GetMapping(value = "/gamers/ismafia/{userName}")
+    public ResponseEntity<Boolean> isMafia(@Parameter(description = "userName", required = true, example = "가가") @PathVariable String userName) {
+        return new ResponseEntity<Boolean>(service.isMafia(userName), HttpStatus.OK);
+    }
+
+    /** @brief : isMafia, userName에 해당하는 게이머, 마피아 유무 확인
+     *  @date : 2022-08-01
+     *  @param : userName
+     *  @return : Boolean
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @GetMapping(value = "/gamers/getjob/{userName}")
+    public ResponseEntity<String> getJob(@Parameter(description = "userName", required = true, example = "가가") @PathVariable String userName) {
+        return new ResponseEntity<String>(service.getJob(userName), HttpStatus.OK);
+    }
+
 }

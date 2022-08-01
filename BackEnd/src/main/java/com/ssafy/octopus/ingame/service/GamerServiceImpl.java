@@ -130,4 +130,30 @@ public class GamerServiceImpl implements GamerService {
         }
         return gamer;
     }
+
+    /** @brief : isMafia, userName에 해당하는 게이머, 마피아 유무 확인
+     *  @date : 2022-08-01
+     *  @param : userName
+     *  @return : Boolean
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @Override
+    public boolean isMafia(String userName) {
+        Gamer gamer = findByUserName(userName);
+        if(gamer == null) return false;
+        return gamer.getGameJob().equals("마피아") ? true : false;
+    }
+
+    /** @brief : isMafia, userName에 해당하는 게이머, 마피아 유무 확인
+     *  @date : 2022-08-01
+     *  @param : userName
+     *  @return : Boolean
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @Override
+    public String getJob(String userName) {
+        Gamer gamer = findByUserName(userName);
+        if(gamer == null) return "";
+        return gamer.getGameJob();
+    }
 }
