@@ -26,9 +26,11 @@ public interface GamerService {
 
 //    Long deleteByRoomId(String roomId); // 공용 굴 들 삭제
 
-    public Gamer isVictory(String roomId); // 마피아 승리 조건 확인
+    public Gamer isVictory(String roomId); // 마피아 vs 시민 승리 조건 확인
 
     boolean isMafia(String userName); // 마피아 유무 확인
 
     String getJob(String userName); // 해당 게이머 직업 확인
+
+    public int setDead(String userName); // 죽었을 때 처리
 }

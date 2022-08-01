@@ -109,7 +109,7 @@ public class GamerServiceImpl implements GamerService {
 //    @Override
 //    public Long deleteByRoomId(String roomId) {return dao.deleteByRoomId(roomId);}
 
-    /** @brief : isVictory, 마피아 승리 조건 확인
+    /** @brief : isVictory, 마피아 vs 시민 승리 조건 확인
      *  @date : 2022-08-01
      *  @param : roomId
      *  @return : Gamer
@@ -119,13 +119,17 @@ public class GamerServiceImpl implements GamerService {
     public Gamer isVictory(String roomId){
         Gamer gamer = new Gamer();
 
-        int mafia = dao.isVictory(roomId, "마피아");  // 마피아 살아있는 사람 수
-        int middle = dao.isVictory(roomId, "중립");  // 중립 살아있는 사람 수
-        int citizen = dao.isVictory(roomId, "시민"); // 시민 살아있는 사람 수
+        int mafia = dao.countAlive(roomId, "마피아");  // 마피아 살아있는 사람 수
+        int middle = dao.countAlive(roomId, "중립");  // 중립 살아있는 사람 수
+        int citizen = dao.countAlive(roomId, "시민"); // 시민 살아있는 사람 수
 
-        if(mafia >= (middle + citizen)){  // 마피아가 같거나 많으면 승리
+        if(mafia == 0){  // 마피아가 다 죽었으면 시민 승리
+            gamer.setGameTeam("시민");
             gamer.setVictory(true);
-        } else{
+        } else if(mafia >= (middle + citizen)){  // 마피아가 같거나 많으면 승리
+            gamer.setGameTeam("마피아");
+            gamer.setVictory(true);
+        } else{  // 아무도 승리한 사람이 없음
             gamer.setVictory(false);
         }
         return gamer;
@@ -155,5 +159,16 @@ public class GamerServiceImpl implements GamerService {
         Gamer gamer = findByUserName(userName);
         if(gamer == null) return "";
         return gamer.getGameJob();
+    }
+
+    /** @brief : setDead, 죽었을 때 처리
+     *  @date : 2022-08-01
+     *  @param : userName
+     *  @return : int
+     *  @author : BCB
+     */
+    @Override
+    public int setDead(String userName) {
+        return dao.setDead(userName);
     }
 }
