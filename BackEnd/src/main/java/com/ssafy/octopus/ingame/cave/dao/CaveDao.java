@@ -32,4 +32,6 @@ public interface CaveDao extends JpaRepository<Cave, Integer> {
     // 굴 삭제 (roomId)
     @Transactional
     Long deleteByRoomId(String roomId);
+
+
 }

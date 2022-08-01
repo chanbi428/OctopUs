@@ -9,6 +9,8 @@ package com.ssafy.octopus.ingame.cave.service;
 
 import com.ssafy.octopus.ingame.cave.dao.CaveDao;
 import com.ssafy.octopus.ingame.cave.entity.Cave;
+import com.ssafy.octopus.ingame.dao.GamerDao;
+import com.ssafy.octopus.ingame.entity.Gamer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,9 @@ public class CaveServiceImpl implements CaveService {
 
     @Autowired
     CaveDao dao;
+
+    @Autowired
+    GamerDao gamerDao;
 
     /** @brief : Cave List, 모든 Cave List 반환
      *  @date : 2022-07-25
@@ -85,4 +90,26 @@ public class CaveServiceImpl implements CaveService {
      */
     @Override
     public Long deleteByRoomId(String roomId) {return dao.deleteByRoomId(roomId);}
+
+    /** @brief : isOurTeam, 탐사가 - 탐사가가 들어간 굴에 다른 팀 있는지 없는지 여부 확인 API
+     *  @date : 2022-08-01
+     *  @param : caveId, roomId
+     *  @return : ResponseEntity<Boolean>
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @Override
+    public Boolean isOurTeam(int caveId, String roomId){
+        Optional<Cave> tmp = findByCaveIdAndRoomId(caveId, roomId);
+        Cave cave = tmp.get();
+        String[] personList = cave.getPersonList().split(", ");
+
+        for ( String person: personList) {
+            Gamer gamer = gamerDao.findByUserName(person);
+            if(!gamer.getGameTeam().equals("시민")) return false;
+        }
+        return true;
+    }
+
+
+
 }

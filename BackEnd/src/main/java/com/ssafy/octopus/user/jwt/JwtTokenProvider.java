@@ -17,6 +17,9 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
+/*
+ * Write by SJH
+ * */
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
@@ -68,6 +71,7 @@ public class JwtTokenProvider {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
+            System.out.println("vaildateToken Exception : " + e);
             return false;
         }
     }

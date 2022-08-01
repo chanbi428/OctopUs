@@ -23,4 +23,6 @@ public interface CaveService {
     int update(Cave room); // 공용 굴 수정
 
     Long deleteByRoomId(String roomId); // 공용 굴 들 삭제
+
+    Boolean isOurTeam(int caveId, String roomId); // 탐사가 - 같은 팀인지 아닌지 조회
 }
