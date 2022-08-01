@@ -9,8 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 @RestController
+@CrossOrigin(
+        // localhost:3000 과 127.0.0.1 구분
+        origins = "http://localhost:3000", //allowCredentials = "true" 인 경우, origins="*" 는 X
+        allowCredentials = "true",
+        allowedHeaders = "*",
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT, RequestMethod.HEAD, RequestMethod.OPTIONS}
+)
 public class NightController {
 
     @Autowired
