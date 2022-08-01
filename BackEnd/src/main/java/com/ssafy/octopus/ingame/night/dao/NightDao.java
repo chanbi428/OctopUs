@@ -19,5 +19,12 @@ public interface NightDao extends JpaRepository<Night, Integer> {
     @Transactional
     @Query(value = "UPDATE night SET nominee_name = ? WHERE user_name = ?", nativeQuery = true)
     int updateByNomineeNameAndUserName(String nomineeName, String userName);
-    
+
+    /** @brief : findByUserName, userName으로 Night 조회 (지목상대 알아낼 때 사용)
+     *  @date : 2022-08-01
+     *  @param : userName
+     *  @return : Night
+     *  @author : BCB
+     */
+    public Night findByUserName(String userName);
 }
