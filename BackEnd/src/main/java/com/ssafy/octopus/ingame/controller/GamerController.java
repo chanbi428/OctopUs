@@ -19,6 +19,12 @@ public class GamerController {
     @Autowired
     GamerService service;
 
+    /** @brief : userName, userName이 같은 Gamer 반환
+     *  @date : 2022-07-31
+     *  @param : userName
+     *  @return : Gamer
+     *  @author : BCB
+     */
     @GetMapping("/gamers/{userName}")
     public ResponseEntity<Gamer> findByUserName(@PathVariable String userName){
         Gamer gamer = new Gamer();
@@ -95,5 +101,23 @@ public class GamerController {
     @PutMapping(value="/gamers/isvictory/gameTeam/{gameTeam}")
     public ResponseEntity<Integer> updateByGameTeam(@Parameter(description = "gameTeam", required = true, example = "마피아")@PathVariable String gameTeam) {
         return new ResponseEntity<Integer>(service.updateByGameTeam(gameTeam), HttpStatus.OK);
+    }
+
+    /** @brief : isVictory, 마피아 승리 조건 확인
+     *  @date : 2022-08-01
+     *  @param : roomId
+     *  @return : Gamer
+     *  @author : BCB
+     */
+    @GetMapping("gamers/victory/mafia")
+    public  ResponseEntity<Gamer> isVictory(@RequestBody Gamer gamer){
+        Gamer team = new Gamer();
+        try{
+            team = service.isVictory(gamer.getRoomId());
+            return new ResponseEntity<>(team, HttpStatus.OK);
+        } catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(team, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

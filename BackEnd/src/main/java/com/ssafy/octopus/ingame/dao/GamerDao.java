@@ -13,6 +13,12 @@ import java.util.Optional;
 @Repository
 public interface GamerDao extends JpaRepository<Gamer, Integer> {
 
+    /** @brief : findByUserName, (userName)가 일치하는 Gamer 들을 찾아줌
+     *  @date : 2022-07-31
+     *  @param : userName
+     *  @return : Gamer
+     *  @author : BCB
+     */
     public Gamer findByUserName(String userName);
 
 
@@ -65,6 +71,13 @@ public interface GamerDao extends JpaRepository<Gamer, Integer> {
 //    @Transactional
 //    Long deleteByRoomId(String roomId);
 
-
+    /** @brief : isVictory, 마피아 승리 조건 확인
+     *  @date : 2022-08-01
+     *  @param : roomId, gameTeam
+     *  @return : int
+     *  @author : BCB
+     */
+    @Query(value = "SELECT count(*) FROM gamer WHERE is_dead = 0 AND room_id = ? AND game_team = ?", nativeQuery = true)
+    public int isVictory(String roomId, String gameTeam);
 
 }
