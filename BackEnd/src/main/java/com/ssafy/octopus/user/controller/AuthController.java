@@ -33,24 +33,48 @@ public class AuthController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
     })
-    @GetMapping("/api")
-    public String test(){
-        System.out.println("AuthController : test fun");
-        return "test fun";
-    }
 
     @PostMapping("/login") // 로그인
-    public ResponseEntity<String> login(@RequestBody UserDto dto){
+    public ResponseEntity<UserDto> login(@RequestBody UserDto dto){
         System.out.println("login : " + dto);
         User user = service.findByUserIdAndUserPw(dto.getUserId(), dto.getUserPW());
-        String token = null;
+        UserDto result = new UserDto();
+
         if(user == null){ // 데이터가 없을 경우
-            return new ResponseEntity<>(token, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
         else{ // 정상 처리 되었을 경우
-            token = jwtTokenProvider.createToken(user.getUserId());
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            result.setIdx(user.getIdx());
+            result.setUserName(user.getUserName());
+            result.setUserId(user.getUserId());
+            String token = jwtTokenProvider.createToken(user.getUserId());
+            result.setToken(token);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
+    }
 
+    @PostMapping("/loginWithToken")
+    public ResponseEntity<UserDto> loginWithToken(@RequestBody UserDto token){
+        System.out.println("loginWithToken token : " + token.getToken());
+        UserDto user = new UserDto();
+        System.out.println("loginWithToken vaildate : " + jwtTokenProvider.validateToken(token.getToken()));
+        if(jwtTokenProvider.validateToken(token.getToken())){
+            String userPk = jwtTokenProvider.getUserPk(token.getToken());
+            System.out.println("loginWithToken userPK : " + userPk);
+            User userTmp = service.findById(userPk);
+            if(userTmp != null){
+                user.setIdx(userTmp.getIdx());
+                user.setUserName(userTmp.getUserName());
+                user.setUserId(userTmp.getUserId());
+                user.setToken(token.getToken());
+                return new ResponseEntity<>(user, HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>(user, HttpStatus.NOT_FOUND);
+            }
+        }
+        else {
+            return new ResponseEntity<>(user, HttpStatus.NOT_FOUND);
+        }
     }
 }
