@@ -10,7 +10,7 @@ import ShowRoom from "./ShowRoom";
 import { useSelector } from "react-redux";
 import ChatComponent from "../tmp2/components/chat/ChatComponent";
 
-export default function WaitingRoom({history}) {
+export default function WaitingRoom() {
   const [gameStatus, setGameStatus] = useState(false);
   const [gameTime, setGameTime] = useState("");
   const [idx, setIdx] = useState("");
@@ -83,42 +83,41 @@ export default function WaitingRoom({history}) {
     sitRoom();
     getCrown();
     console.log(seats, throne)
-  },[userList]);
+  }, [userList]);
 
   const sitRoom = () => {
-    let sit = [];
+    let sit = [...seats];
     for (let i = 0; i < personLimit; i++) {
       console.log("목록",userList)
-      console.log("한개씩", userList[i])
-      if (userList[i] !== "") {
-        sit = sit.concat({
+      console.log("seats", seats)
+      if (userList[i] !== sit[i].nickname) {
+        sit[i] = {
           nickname: userList[i],
           opa: 1,
-        });
-        console.log("sit", sit)
-      } else {
-        sit = sit.concat({
-          nickname: "",
-          opa: 0,
-        });
-        console.log("sit", sit)
-      }
-      
+        };
+      } 
+      // else {
+      //   sit = sit.concat({
+      //     nickname: "",
+      //     opa: 0,
+      //   });
+      // }
     }
     setSeats(sit);
   };
 
   const getCrown = () => {
-    let crown = [];
+    console.log("throne",throne)
+    let crown = [...throne];
     for (let j = 0; j < personLimit; j++) {
       if (userList[j] === roomChief) {
-        crown = crown.concat({
+        crown[j] = {
           crown: 1,
-        });
+        };
       } else {
-        crown = crown.concat({
+        crown[j] = {
           crown: 0,
-        });
+        };
       }
     }
     setThrone(crown);
@@ -204,8 +203,8 @@ export default function WaitingRoom({history}) {
       })
       .then(()=> {
         console.log(data);
-        history.push("/main")
-        // document.location.href = "http://localhost:3000/main";
+        // history.push("/main")
+        document.location.href = "http://localhost:3000/main";
       })
       
     }
@@ -356,7 +355,7 @@ export default function WaitingRoom({history}) {
           alt="이미지가 없다"
           className="waiting-page__img"
         /> */}
-        <SeatsRoom seats={seats} throne={throne}/>
+        <SeatsRoom seatInfo={seats} throneInfo={throne}/>
       </section>
       <div className="waiting-page__lower container">
         <div className="waiting-page__room-setting"><ShowRoom /></div>
