@@ -114,14 +114,22 @@ public class CaveController {
     }
 
     /** @brief : isOurTeam, 탐사가 - 탐사가가 들어간 굴에 다른 팀 있는지 없는지 여부 확인 API
-     *  @date : 2022-08-01
+     *  @date : 2022-08-02
      *  @param : caveId, roomId
-     *  @return : ResponseEntity<Boolean>
+     *  @return : ResponseEntity<Cave>
      *  @author : LDY, 98dlstod@naver.com
      */
     @GetMapping(value = "/caves/detail/isourteam/{caveId}/{roomId}")
-    public ResponseEntity<Boolean> isOurTeam(@Parameter(description = "공용 굴 id", required = true, example = "1") @PathVariable int caveId,
+    public ResponseEntity<Cave> isOurTeam(@Parameter(description = "공용 굴 id", required = true, example = "1") @PathVariable int caveId,
                                                                 @Parameter(description = "방 id", required = true, example = "ABCDE12345ABCDE12345") @PathVariable String roomId) {
-        return new ResponseEntity<Boolean> (service.isOurTeam(caveId, roomId), HttpStatus.OK);
+        Cave cave = new Cave();
+
+        if(service.isOurTeam(caveId, roomId)){
+            cave.setPersonList("true");
+        }else{
+            cave.setPersonList("false");
+        }
+
+        return new ResponseEntity<Cave> (cave, HttpStatus.OK);
     }
 }

@@ -147,7 +147,7 @@ public class GamerController {
         if(result) {
             gamer.setGameJob("마피아");
         }else{
-            gamer.setGameJob("마피아 아님");
+            gamer.setGameJob("아님");
        }
 
         return new ResponseEntity<Gamer>(gamer, HttpStatus.OK);
