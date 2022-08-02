@@ -1,6 +1,9 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { logout } from "../../../features/user/userSlice";
 import MakeRoom from "../MakeRoom/MakeRoom";
 import RoomList from "./RoomList/RoomList";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,8 +11,15 @@ import "./MainPage.css";
 
 function MainPage() {
   const [roomInfo, setRoomInfo] = useState([]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { userInfo } = useSelector((state) => state.user);
+
+  const onClickLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
 
   useEffect(() => {
     axios
@@ -85,7 +95,12 @@ function MainPage() {
   return (
     <div className="MainPage container">
       <div className="main-page__user-info">
-        {userInfo ? <p>{userInfo.userName} 님 안녕하세요!</p> : <p>대충 유저 정보</p>}
+        {userInfo ? (
+          <p>{userInfo.userName} 님 안녕하세요!</p>
+        ) : (
+          <p>대충 유저 정보</p>
+        )}
+        <button onClick={onClickLogout}>로그아웃</button>
       </div>
       <div className="MainBody">
         <header className="main-page__header">
@@ -97,8 +112,12 @@ function MainPage() {
               onChange={onChangeSearch}
               className="main-page__searchbar-input"
             />
-            <button onClick={onClickSearch} className="search__btn">검색</button>
-            <button onClick={onClickSearchReset} className="search__btn">초기화</button>
+            <button onClick={onClickSearch} className="search__btn">
+              검색
+            </button>
+            <button onClick={onClickSearchReset} className="search__btn">
+              초기화
+            </button>
           </div>
         </header>
         <main className="main-page__main">

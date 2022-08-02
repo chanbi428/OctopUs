@@ -18,8 +18,17 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    // 로그인 리듀서
+    login: (state, { payload }) => {
+      state.userInfo = {
+        userName: payload.getUserName,
+        token: payload.getUserToken,
+      };
+    },
+    // 로그아웃 리듀서
     logout: (state) => {
       localStorage.removeItem("userToken");
+      localStorage.removeItem("userName");
       state.loading = false;
       state.userInfo = null;
       state.userToken = null;
@@ -43,13 +52,14 @@ const userSlice = createSlice({
     },
     // 유저 로그인이 실패했을 때
     [userLogin.rejected]: (state, { payload }) => {
-      console.log("login rejected!");
       state.loading = false;
       state.error = payload;
+      console.log("login rejected!");
+      console.log(state.payload);
     },
   },
 });
 
-export const { logout } = userSlice.actions;
+export const { login, logout } = userSlice.actions;
 
 export default userSlice.reducer;
