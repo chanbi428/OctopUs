@@ -25,6 +25,7 @@ const LoginModal = (props) => {
   const onChangeIdHandler = (e) => {
     setUserId(e.currentTarget.value);
   };
+
   const onChangePasswordtHandler = (e) => {
     setUserPW(e.currentTarget.value);
   };
