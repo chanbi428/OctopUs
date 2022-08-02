@@ -3,7 +3,10 @@ package com.ssafy.octopus.ingame.controller;
 import com.ssafy.octopus.ingame.entity.Gamer;
 import com.ssafy.octopus.ingame.service.GamerService;
 import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +16,18 @@ import java.util.List;
 
 @Api(tags = "Gamer Controller")
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = {"GET"})
+@CrossOrigin(origins = "*")
 public class GamerController {
 
     @Autowired
     GamerService service;
+
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK !!"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST !!"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND !!"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
+    })
 
     /** @brief : userName, userName이 같은 Gamer 반환
      *  @date : 2022-07-31
@@ -103,21 +113,64 @@ public class GamerController {
         return new ResponseEntity<Integer>(service.updateByGameTeam(gameTeam), HttpStatus.OK);
     }
 
-    /** @brief : isVictory, 마피아 승리 조건 확인
+    /** @brief : isVictory, 마피아 vs 시민 승리 조건 확인
      *  @date : 2022-08-01
      *  @param : roomId
      *  @return : Gamer
      *  @author : BCB
      */
-    @GetMapping("gamers/victory/mafia")
-    public  ResponseEntity<Gamer> isVictory(@RequestBody Gamer gamer){
+    @Operation(summary = "일반 승리 조건 확인", description = "마피아와 시민, 중립의 수를 세서 승리 조건 확인")
+    @GetMapping("gamers/victory/team/{roomId}")
+    public  ResponseEntity<Gamer> isVictory(@PathVariable String roomId){
         Gamer team = new Gamer();
         try{
-            team = service.isVictory(gamer.getRoomId());
+            team = service.isVictory(roomId);
             return new ResponseEntity<>(team, HttpStatus.OK);
         } catch(Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(team, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /** @brief : isMafia, userName에 해당하는 게이머, 마피아 유무 확인
+     *  @date : 2022-08-01
+     *  @param : userName
+     *  @return : Boolean
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @GetMapping(value = "/gamers/ismafia/{userName}")
+    public ResponseEntity<Boolean> isMafia(@Parameter(description = "userName", required = true, example = "가가") @PathVariable String userName) {
+        return new ResponseEntity<Boolean>(service.isMafia(userName), HttpStatus.OK);
+    }
+
+    /** @brief : isMafia, userName에 해당하는 게이머, 마피아 유무 확인
+     *  @date : 2022-08-01
+     *  @param : userName
+     *  @return : Boolean
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @GetMapping(value = "/gamers/getjob/{userName}")
+    public ResponseEntity<String> getJob(@Parameter(description = "userName", required = true, example = "가가") @PathVariable String userName) {
+        return new ResponseEntity<String>(service.getJob(userName), HttpStatus.OK);
+    }
+
+    @Operation(summary = "죽음 처리", description = "죽은 사람을 처리해주는 api")
+    /** @brief : setDead, 죽었을 때 처리
+     *  @date : 2022-08-01
+     *  @param : userName
+     *  @return : int
+     *  @author : BCB
+     */
+    @PutMapping("gamers/dead")
+    public ResponseEntity<Integer> setDead(@RequestBody Gamer gamer){
+        int result = 0;
+        try {
+            result = service.setDead(gamer.getUserName());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }

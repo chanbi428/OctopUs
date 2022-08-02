@@ -71,13 +71,33 @@ public interface GamerDao extends JpaRepository<Gamer, Integer> {
 //    @Transactional
 //    Long deleteByRoomId(String roomId);
 
-    /** @brief : isVictory, 마피아 승리 조건 확인
+    /** @brief : countAlive, 팀 내 살아있는 사람의 수
      *  @date : 2022-08-01
      *  @param : roomId, gameTeam
      *  @return : int
      *  @author : BCB
      */
     @Query(value = "SELECT count(*) FROM gamer WHERE is_dead = 0 AND room_id = ? AND game_team = ?", nativeQuery = true)
-    public int isVictory(String roomId, String gameTeam);
+    public int countAlive(String roomId, String gameTeam);
 
+
+    /** @brief : setDead, 죽었을 때 처리
+     *  @date : 2022-08-01
+     *  @param : userName
+     *  @return : int
+     *  @author : BCB
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE gamer SET is_dead = 1 WHERE user_name = ?", nativeQuery = true)
+    public int setDead(String userName);
+
+    /** @brief : findByGameJob, 직업으로 Gamer 조회
+     *  @date : 2022-08-01
+     *  @param : gameJob, roomId
+     *  @return : Gamer
+     *  @author : BCB
+     */
+    @Query(value = "SELECT * FROM gamer WHERE game_job = ? AND room_Id = ?", nativeQuery = true)
+    public List<Gamer> findByGameJob(String gameJob, String roomId);
 }
