@@ -2,8 +2,8 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const userLogin = createAsyncThunk(
-  "user/login",
-  async ({ userPW, userId }, { rejectWithValue }) => {
+  "Auth/login",
+  async ({ userId, userPW }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {

@@ -10,7 +10,7 @@ import ShowRoom from "./ShowRoom";
 import { useSelector } from "react-redux";
 import ChatComponent from "../tmp2/components/chat/ChatComponent";
 
-export default function WaitingRoom({history}) {
+export default function WaitingRoom({ history }) {
   const [gameStatus, setGameStatus] = useState(false);
   const [gameTime, setGameTime] = useState("");
   const [idx, setIdx] = useState("");
@@ -82,28 +82,27 @@ export default function WaitingRoom({history}) {
   useEffect(() => {
     sitRoom();
     getCrown();
-    console.log(seats, throne)
-  },[userList]);
+    console.log(seats, throne);
+  }, [userList]);
 
   const sitRoom = () => {
     let sit = [];
     for (let i = 0; i < personLimit; i++) {
-      console.log("목록",userList)
-      console.log("한개씩", userList[i])
+      console.log("목록", userList);
+      console.log("한개씩", userList[i]);
       if (userList[i] !== "") {
         sit = sit.concat({
           nickname: userList[i],
           opa: 1,
         });
-        console.log("sit", sit)
+        console.log("sit", sit);
       } else {
         sit = sit.concat({
           nickname: "",
           opa: 0,
         });
-        console.log("sit", sit)
+        console.log("sit", sit);
       }
-      
     }
     setSeats(sit);
   };
@@ -125,12 +124,11 @@ export default function WaitingRoom({history}) {
   };
 
   const exitRoom = async () => {
-    
     let getRoomInfo = await axios
       .get(`http://localhost:8080/rooms/detail/roomid/${roomId}`)
       .then((res) => {
-        console.log("데이터",res.data)
-    
+        console.log("데이터", res.data);
+
         //     // const temp = JSON.parse(res.data)
         //     // getRoomInfo = temp
         // console.log(res)
@@ -140,7 +138,7 @@ export default function WaitingRoom({history}) {
     // console.log(getRoomInfo)
     // console.log(temp)
     const usersInfo = await getRoomInfo.userList.split(",");
-    console.log(usersInfo)
+    console.log(usersInfo);
     updateRoomInfo(
       getRoomInfo.gameStatus,
       getRoomInfo.gameTime,
@@ -197,20 +195,19 @@ export default function WaitingRoom({history}) {
         roomPw: roomPw,
         userList: userList,
       };
-      await axios.put("http://localhost:8080/rooms", JSON.stringify(data), {
-        headers: {
-          "Content-Type": `application/json`,
-        },
-      })
-      .then(()=> {
-        console.log(data);
-        history.push("/main")
-        // document.location.href = "http://localhost:3000/main";
-      })
-      
+      await axios
+        .put("http://localhost:8080/rooms", JSON.stringify(data), {
+          headers: {
+            "Content-Type": `application/json`,
+          },
+        })
+        .then(() => {
+          console.log(data);
+          history.push("/main");
+          // document.location.href = "http://localhost:3000/main";
+        });
     }
     // 메인페이지로 이동
-
   };
 
   const updateRoomInfo = (
@@ -256,7 +253,7 @@ export default function WaitingRoom({history}) {
     //6인 이상 시작 조건문 넣기
     const getRoomInfo = await axios.get(
       `http://localhost:8080/rooms/detail/roomid/${roomId}`
-    )
+    );
     // .then((res)=> {
     //   console.log(res.data)
     //   const users = res.data.userList.split(",");
@@ -356,10 +353,12 @@ export default function WaitingRoom({history}) {
           alt="이미지가 없다"
           className="waiting-page__img"
         /> */}
-        <SeatsRoom seats={seats} throne={throne}/>
+        <SeatsRoom seats={seats} throne={throne} />
       </section>
       <div className="waiting-page__lower container">
-        <div className="waiting-page__room-setting"><ShowRoom /></div>
+        <div className="waiting-page__room-setting">
+          <ShowRoom />
+        </div>
         <Tmp2 />
       </div>
     </div>
