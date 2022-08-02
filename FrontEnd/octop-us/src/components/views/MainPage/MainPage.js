@@ -45,7 +45,7 @@ function MainPage() {
       .get(`http://localhost:8080/rooms/find/faststart`)
       .then((res) => {
         axios
-          .get(`http://localhost:8080/rooms/detail/roomid/${res.data}`)
+          .get(`http://localhost:8080/rooms/detail/roomid/${res.data.roomId}`)
           .then((item) => {
             console.log(item.data);
             let userList = item.data.userList.split(",");

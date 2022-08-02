@@ -7,7 +7,7 @@ import "./MakeRoom.css";
 function MakeRoom() {
   const [roomName, setRoomName] = useState("");
   const [gameTime, setGameTime] = useState("60");
-  const [isPrivate, setIsPrivate] = useState("false");
+  const [isPrivate, setIsPrivate] = useState("0");
   const [roomPw, setRoomPw] = useState("");
   let userList = [];
   const { userInfo } = useSelector((state) => state.user);
@@ -44,7 +44,7 @@ function MakeRoom() {
       //   'roomChief': 'aa'
       // }
       roomChief: userInfo.userName,
-      isPrivate: isPrivate,
+      private: isPrivate === "1" ? true : false,
       roomName: roomName,
       personLimit: "8",
       roomPw: roomPw,
@@ -54,7 +54,7 @@ function MakeRoom() {
 
     if (roomName === "") {
       alert("방 이름을 입력해주세요!");
-    } else if (isPrivate === "true" && roomPw === "") {
+    } else if (isPrivate === "1" && roomPw === "") {
       alert("방 비밀번호를 설정해주세요!");
     } else {
       if (data.roomChief === userInfo.userName) {
@@ -154,22 +154,22 @@ function MakeRoom() {
             <input
               type="radio"
               id="is_private_false"
-              value={false}
+              value={0}
               onChange={handleIsPrivate}
-              checked={isPrivate === "false"}
+              checked={isPrivate === "0"}
               className="Radio"
             />
             <label htmlFor="is_private_true">비공개</label>
             <input
               type="radio"
               id="is_private_true"
-              value={true}
+              value={1}
               onChange={handleIsPrivate}
-              checked={isPrivate === "true"}
+              checked={isPrivate === "1"}
               className="Radio"
             />
           </div>
-          <div className="make-room__card-body" style={{visibility: isPrivate === "true" ? 'visible' : 'hidden' }}>
+          <div className="make-room__card-body" style={{visibility: isPrivate === "1" ? 'visible' : 'hidden' }}>
             <label htmlFor="room_pw">방 비밀번호 </label> <br />
             <input
               type="password"
