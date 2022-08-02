@@ -10,10 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,5 +44,16 @@ public class GameController {
             e.printStackTrace();
             return new ResponseEntity<>(gamers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /** @brief : delete, 해당하는 roomId를 가진 gamer, night, vote 삭제
+     *  @date : 2022-08-02
+     *  @param : RoomId
+     *  @return : ResponseEntity<Long>
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @DeleteMapping(value = "/games/end/{roomId}")
+    public ResponseEntity<Long> deleteByRoomId(@PathVariable String roomId) {
+        return new ResponseEntity<Long>(service.deleteByRoomId(roomId), HttpStatus.OK);
     }
 }

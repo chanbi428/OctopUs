@@ -100,4 +100,24 @@ public class GameServiceImpl implements GameService {
         */
     }
 
+    /** @brief : delete, 해당하는 roomId를 가진 gamer, night, vote 삭제
+     *  @date : 2022-08-02
+     *  @param : RoomId
+     *  @return : Long
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @Override
+    public Long deleteByRoomId(String roomId) {
+        try{
+            voteDao.deleteByRoomId(roomId);
+            nightDao.deleteByRoomId(roomId);
+            gamerDao.deleteByRoomId(roomId);
+            return 1L;
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1L;
+        }
+    }
+
+
 }
