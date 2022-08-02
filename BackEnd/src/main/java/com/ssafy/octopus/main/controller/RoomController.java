@@ -160,14 +160,11 @@ public class RoomController {
     /** @brief : findRoomIdForFastStart , 빠른 시작 클릭 => roomId 리턴
      *  @date : 2022-07-27
      *  @param
-     *  @return : ResponseEntity<String>
+     *  @return : ResponseEntity<Room>
      *  @author : LDY, 98dlstod@naver.com
      */
     @GetMapping(value = "/rooms/find/faststart")
-    public ResponseEntity<String> findRoomIdForFastStart() {
-        String result = service.findRoomIdForFastStart();
-        System.out.println(result);
-        return new ResponseEntity<String>(service.findRoomIdForFastStart(), HttpStatus.OK);
+    public ResponseEntity<Room> findRoomIdForFastStart() {
+        return new ResponseEntity<Room>(service.findRoomIdForFastStart(), HttpStatus.OK);
     }
-
 }

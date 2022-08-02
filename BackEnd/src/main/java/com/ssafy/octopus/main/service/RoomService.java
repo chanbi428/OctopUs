@@ -30,5 +30,5 @@ public interface RoomService {
 
     Long deleteByRoomId(String roomId); // 방 삭제
 
-    String findRoomIdForFastStart(); // 빠른 시작 시 Room 정보 return
+    Room findRoomIdForFastStart(); // 빠른 시작 시 Room 정보 return
 }
