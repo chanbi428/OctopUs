@@ -21,6 +21,6 @@ public class Vote extends BaseEntity {
     String userName;
     @Column(name = "room_id", columnDefinition = "varchar(40) NOTNULL")
     String roomId;
-    @Column(name = "vote", columnDefinition = "int default 0")
+    @Column(name = "vote", columnDefinition = "default 0")
     int vote;
 }

@@ -61,16 +61,6 @@ public interface GamerDao extends JpaRepository<Gamer, Integer> {
     @Query(value = "UPDATE gamer SET is_victory = 1 WHERE game_team = ?", nativeQuery = true)
     int updateByGameTeam(String gameTeam);
 
-
-//    /** @brief : Gamer List, 모든 Gamer List 반환
-//     *  @date : 2022-07-31
-//     *  @param
-//     *  @return : ResponseEntity<List<Cave>>
-//     *  @author : LDY, 98dlstod@naver.com
-//     */
-//    @Transactional
-//    Long deleteByRoomId(String roomId);
-
     /** @brief : countAlive, 팀 내 살아있는 사람의 수
      *  @date : 2022-08-01
      *  @param : roomId, gameTeam
@@ -100,4 +90,13 @@ public interface GamerDao extends JpaRepository<Gamer, Integer> {
      */
     @Query(value = "SELECT * FROM gamer WHERE game_job = ? AND room_Id = ?", nativeQuery = true)
     public List<Gamer> findByGameJob(String gameJob, String roomId);
+
+    /** @brief : deleteByRoomId, 해당 roomId가진 night 삭제 (게임 종료시 사용)
+     *  @date : 2022-08-02
+     *  @param : roomId
+     *  @return : Long
+     *  @author : LDY
+     */
+    @Transactional
+    Long deleteByRoomId(String roomId);
 }

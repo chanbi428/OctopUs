@@ -27,4 +27,13 @@ public interface NightDao extends JpaRepository<Night, Integer> {
      *  @author : BCB
      */
     public Night findByUserName(String userName);
+
+    /** @brief : deleteByRoomId, 해당 roomId가진 night 삭제 (게임 종료시 사용)
+     *  @date : 2022-08-02
+     *  @param : roomId
+     *  @return : Long
+     *  @author : BCB
+     */
+    @Transactional
+    Long deleteByRoomId(String roomId);
 }

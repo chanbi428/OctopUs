@@ -100,15 +100,6 @@ public class GamerServiceImpl implements GamerService {
         return dao.updateByGameTeam(gameTeam);
     }
 
-//    /** @brief : deleteCaves, 해당하는 roomId를 가진 cave들 삭제
-//     *  @date : 2022-07-31
-//     *  @param : RoomId
-//     *  @return : ResponseEntity<Long>
-//     *  @author : LDY, 98dlstod@naver.com
-//     */
-//    @Override
-//    public Long deleteByRoomId(String roomId) {return dao.deleteByRoomId(roomId);}
-
     /** @brief : isVictory, 마피아 vs 시민 승리 조건 확인
      *  @date : 2022-08-01
      *  @param : roomId
