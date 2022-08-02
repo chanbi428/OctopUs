@@ -1,10 +1,15 @@
 import axios from "axios";
 import "./RoomListItem.css";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 function RoomListItem({ item }) {
   
   const { userInfo } = useSelector((state) => state.user);  
+  const [roomPwIn, setRoomPwIn] = useState("")
+  const handleRoomPwIn = (e) => {
+    setRoomPwIn(e.target.value);
+  }
   const onClickEnterRoom = (e) => {
     e.preventDefault();
 
@@ -12,6 +17,8 @@ function RoomListItem({ item }) {
       alert("이미 게임중입니다!");
     } else if (item.personNum >= item.personLimit) {
       alert("방 인원이 꽉 찼습니다.");
+    } else if (item.private && item.roomPw !== roomPwIn) {
+      alert("비밀번호를 정확히 입력해주세요.");
     } else {
       let userList = item.userList.split(",");
       console.log(userList);
@@ -20,7 +27,7 @@ function RoomListItem({ item }) {
       const personNum = item.personNum + 1;
       const data = {
         roomChief: item.roomChief,
-        isPrivate: item.isPrivate,
+        private: item.private,
         roomName: item.roomName,
         personLimit: item.personLimit,
         personNum: personNum,
@@ -58,7 +65,18 @@ function RoomListItem({ item }) {
             {item.roomName} {item.isPrivate}
           </h5>
           <div className="RoomFooter">
-            <div>{item.isPrivate && <p className="RoomPrivate">자물쇠</p>}</div>
+            <div>{item.private && 
+              <p className="RoomPrivate">🔐</p>
+            }</div>
+            <div>{item.private && 
+              <input
+              type="passwordIn"
+              name="room_pw_in"
+              value={roomPwIn}
+              onChange={handleRoomPwIn}
+              className="Input"
+              />
+            }</div>
             {item.gameStatus ? (
               <button className="main-page__room-list-btn" disabled>
                 게임중
