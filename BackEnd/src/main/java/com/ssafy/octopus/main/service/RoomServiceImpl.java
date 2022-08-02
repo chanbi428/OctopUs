@@ -138,11 +138,13 @@ public class RoomServiceImpl implements RoomService{
     /** @brief : findRoomIdForFastStart , 빠른 시작 클릭 => roomId 리턴
      *  @date : 2022-07-27
      *  @param
-     *  @return : ResponseEntity<String>
+     *  @return : Room
      *  @author : LDY, 98dlstod@naver.com
      */
     @Override
-    public String findRoomIdForFastStart(){
-        return dao.findRoomIdForFastStart();
+    public Room findRoomIdForFastStart(){
+        Room room = new Room();
+        room.setRoomId(dao.findRoomIdForFastStart());
+        return room;
     }
 }

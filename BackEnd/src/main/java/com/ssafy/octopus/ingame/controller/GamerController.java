@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Api(tags = "Gamer Controller")
 @RestController
@@ -70,14 +71,14 @@ public class GamerController {
     }
 
     /** @brief : isDead, userName에 해당하는 게이머의 생사 확인
-     *  @date : 2022-07-31
+     *  @date : 2022-08-02
      *  @param : userName
-     *  @return : Boolean
+     *  @return : ResponseEntity<Gamer>
      *  @author : LDY, 98dlstod@naver.com
      */
     @GetMapping(value = "/gamers/isdead/{userName}")
-    public ResponseEntity<Boolean> isDead(@Parameter(description = "userName", required = true, example = "가가") @PathVariable String userName) {
-        return new ResponseEntity<Boolean>(service.isDead(userName), HttpStatus.OK);
+    public ResponseEntity<Gamer> isDead(@Parameter(description = "userName", required = true, example = "가가") @PathVariable String userName) {
+        return new ResponseEntity<Gamer>(service.isDead(userName), HttpStatus.OK);
     }
 
     /** @brief : getWinners, 승리한 게이머들 조회
@@ -133,25 +134,37 @@ public class GamerController {
     }
 
     /** @brief : isMafia, userName에 해당하는 게이머, 마피아 유무 확인
-     *  @date : 2022-08-01
+     *  @date : 2022-08-02
      *  @param : userName
      *  @return : Boolean
      *  @author : LDY, 98dlstod@naver.com
      */
     @GetMapping(value = "/gamers/ismafia/{userName}")
-    public ResponseEntity<Boolean> isMafia(@Parameter(description = "userName", required = true, example = "가가") @PathVariable String userName) {
-        return new ResponseEntity<Boolean>(service.isMafia(userName), HttpStatus.OK);
+    public ResponseEntity<Gamer> isMafia(@Parameter(description = "userName", required = true, example = "가가") @PathVariable String userName) {
+
+        Gamer gamer = new Gamer();
+        Boolean result = service.isMafia(userName);
+        if(result) {
+            gamer.setGameJob("마피아");
+        }else{
+            gamer.setGameJob("마피아 아님");
+       }
+
+        return new ResponseEntity<Gamer>(gamer, HttpStatus.OK);
     }
 
-    /** @brief : isMafia, userName에 해당하는 게이머, 마피아 유무 확인
-     *  @date : 2022-08-01
+    /** @brief : getJob, userName에 해당하는 게이머 직업 알려줌
+     *  @date : 2022-08-02
      *  @param : userName
-     *  @return : Boolean
+     *  @return : ResponseEntity<Gamer>
      *  @author : LDY, 98dlstod@naver.com
      */
     @GetMapping(value = "/gamers/getjob/{userName}")
-    public ResponseEntity<String> getJob(@Parameter(description = "userName", required = true, example = "가가") @PathVariable String userName) {
-        return new ResponseEntity<String>(service.getJob(userName), HttpStatus.OK);
+    public ResponseEntity<Gamer> getJob(@Parameter(description = "userName", required = true, example = "가가") @PathVariable String userName) {
+        Gamer gamer = new Gamer();
+        String result = service.getJob(userName);
+        gamer.setGameJob(result);
+        return new ResponseEntity<Gamer>(gamer, HttpStatus.OK);
     }
 
     @Operation(summary = "죽음 처리", description = "죽은 사람을 처리해주는 api")

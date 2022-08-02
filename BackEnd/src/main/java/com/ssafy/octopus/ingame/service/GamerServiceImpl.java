@@ -68,14 +68,19 @@ public class GamerServiceImpl implements GamerService {
     /** @brief : isDead, userName에 해당하는 게이머의 생사 확인
      *  @date : 2022-07-31
      *  @param : userName
-     *  @return : Boolean
+     *  @return : Gamer
      *  @author : LDY, 98dlstod@naver.com
      */
     @Override
-    public Boolean isDead(String userName) {
-        Gamer gamer = findByUserName(userName);
-        if(gamer == null) return false;
-        return gamer.isDead() ? true : false;
+    public Gamer isDead(String userName) {
+        Gamer gamer = new Gamer();
+        try{
+            gamer = dao.findByUserName(userName);
+            return gamer;
+        } catch (Exception e){
+            e.printStackTrace();
+            return  gamer;
+        }
     }
 
     /** @brief : updateByUserName, userName에 해당하는 게이머 승리로 변경

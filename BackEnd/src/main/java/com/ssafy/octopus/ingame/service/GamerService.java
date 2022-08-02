@@ -16,15 +16,11 @@ public interface GamerService {
 
     List<Gamer> findByIsVictory(); // 승리한 gamer들 조회
 
-    Boolean isDead(String userName); // userName에 해당하는 게이머의 생사 확인
-
-//    Cave insert(Cave dto); // 공용 굴 생성
+    Gamer isDead(String userName); // userName에 해당하는 게이머의 생사 확인
 
     int updateByUserName(String userName); // userName에 해당하는 게이머 승리로 변경
 
     int updateByGameTeam(String gameTeam); // gameTeam에 해당하는 게이머들 승리로 변경
-
-//    Long deleteByRoomId(String roomId); // 공용 굴 들 삭제
 
     public Gamer isVictory(String roomId); // 마피아 vs 시민 승리 조건 확인
 

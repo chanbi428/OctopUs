@@ -124,12 +124,11 @@ export default function WaitingRoom() {
   };
 
   const exitRoom = async () => {
-    
     let getRoomInfo = await axios
       .get(`http://localhost:8080/rooms/detail/roomid/${roomId}`)
       .then((res) => {
-        console.log("데이터",res.data)
-    
+        console.log("데이터", res.data);
+
         //     // const temp = JSON.parse(res.data)
         //     // getRoomInfo = temp
         // console.log(res)
@@ -139,7 +138,7 @@ export default function WaitingRoom() {
     // console.log(getRoomInfo)
     // console.log(temp)
     const usersInfo = await getRoomInfo.userList.split(",");
-    console.log(usersInfo)
+    console.log(usersInfo);
     updateRoomInfo(
       getRoomInfo.gameStatus,
       getRoomInfo.gameTime,
@@ -209,7 +208,6 @@ export default function WaitingRoom() {
       
     }
     // 메인페이지로 이동
-
   };
 
   const updateRoomInfo = (
@@ -255,7 +253,7 @@ export default function WaitingRoom() {
     //6인 이상 시작 조건문 넣기
     const getRoomInfo = await axios.get(
       `http://localhost:8080/rooms/detail/roomid/${roomId}`
-    )
+    );
     // .then((res)=> {
     //   console.log(res.data)
     //   const users = res.data.userList.split(",");
@@ -358,7 +356,9 @@ export default function WaitingRoom() {
         <SeatsRoom seatInfo={seats} throneInfo={throne}/>
       </section>
       <div className="waiting-page__lower container">
-        <div className="waiting-page__room-setting"><ShowRoom /></div>
+        <div className="waiting-page__room-setting">
+          <ShowRoom />
+        </div>
         <Tmp2 />
       </div>
     </div>

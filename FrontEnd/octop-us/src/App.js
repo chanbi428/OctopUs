@@ -1,12 +1,13 @@
 // import logo from "./logo.svg";
-// import React, { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import LandingPage from "./components/views/LandingPage/LandingPage";
 import MainPage from "./components/views/MainPage/MainPage";
 import Tmp from "./components/views/tmp/tmp";
 import WaitingRoom from "./components/views/WaitingRoom/WaitingRoom";
 // import { userLogin } from "./features/user/userActions";
+import persistLogin from "./features/user/persistLogin";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -40,6 +41,24 @@ function App() {
   // console.log(getUserName);
   //   }
   // }, [userInfo]);
+
+  const dispatch = useDispatch();
+  // const { userInfo } = useSelector((state) => state.user);
+  const getUserToken = localStorage.getItem("userToken")
+    ? localStorage.getItem("userToken")
+    : null;
+  useEffect(() => {
+    if (localStorage.getItem("userToken") != null) {
+      persistLogin()
+        .then((res) => {
+          console.log(res);
+          // dispatch();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [dispatch]);
 
   return (
     <div className="App">
