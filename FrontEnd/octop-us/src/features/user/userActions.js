@@ -2,7 +2,7 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const userLogin = createAsyncThunk(
-  "Auth/login",
+  "user/login",
   async ({ userId, userPW }, { rejectWithValue }) => {
     try {
       const config = {
@@ -20,6 +20,7 @@ export const userLogin = createAsyncThunk(
 
       // 로컬 스토리지에 토큰 저장
       localStorage.setItem("userToken", data.token);
+      localStorage.setItem("userName", data.userName);
 
       return data;
     } catch (error) {
