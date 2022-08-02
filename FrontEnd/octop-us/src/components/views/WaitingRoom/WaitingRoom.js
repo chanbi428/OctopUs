@@ -22,7 +22,7 @@ export default function WaitingRoom() {
   const [roomId, setRoomId] = useState("");
   const [roomName, setRoomName] = useState("");
   const [roomPw, setRoomPw] = useState("");
-  const [userList, setUserList] = useState([]);
+  const [userList, setUserList] = useState(["", "", "", "", "", "", "", ""]);
   let [seats, setSeats] = useState([
     { nickname: "", opa: 0 },
     { nickname: "", opa: 0 },
@@ -69,18 +69,30 @@ export default function WaitingRoom() {
           res.data.roomPw,
           tmp
         );
-        sitRoom();
-        getCrown();
-        console.log(seats, throne);
-        setTimeout(console.log(seats, userList), 1000);
+        // sitRoom(seats);
+        // getCrown(throne);
+        // console.log(seats, throne);
+        // setTimeout(console.log(seats, userList), 1000);
       })
+      // .then(()=> {
+      //   setSeats((seats)=> {
+      //     return sitRoom(seats)
+      //   })
+      //   console.log("Setseats", seats)
+      //   setThrone((throne)=> {
+      //     return getCrown(throne)
+      //   })
+      //   console.log("setthrone", throne)
+      // })
       .catch((error) => console.log(error));
   }, []);
 
   // 유저 목록이 변경되면 문어 자리 다시 앉히고 다시 왕관 배정
   useEffect(() => {
-    sitRoom();
-    getCrown();
+    if (userList !== ["", "", "", "", "", "", "", ""] || userList !== [" ", " ", " ", " ", " ", " ", " ", ""]) {
+      sitRoom(seats);
+      getCrown(throne);
+    }
     console.log(seats, throne)
   }, [userList]);
 
@@ -100,16 +112,16 @@ export default function WaitingRoom() {
             nickname: userList[i],
             opa: 1
           };
-        }
-      }
-    }
-    return sit
-    // setSeats(sit);
+        };
+      };
+    };
+    // return sit
+    setSeats(sit);
   };
 
   const getCrown = () => {
     console.log("throne",throne)
-    let crown = [...throne];
+    let crown = throne;
     for (let j = 0; j < personLimit; j++) {
       if (userList[j] === roomChief) {
         crown[j] = {
@@ -119,14 +131,15 @@ export default function WaitingRoom() {
         crown[j] = {
           crown: 0,
         };
-      }
-    }
+      };
+    };
+    // return crown
     setThrone(crown);
   };
 
   const exitBtnHandler = () => {
-    exitRoom(roomId, userInfo.userName)
-  }
+    exitRoom(roomId, userInfo.userName);
+  };
 
   const updateRoomInfo = (
     gameStatus,
@@ -167,95 +180,7 @@ export default function WaitingRoom() {
     );
   };
 
-  const onClickStart = async () => {
-    //6인 이상 시작 조건문 넣기
-    const getRoomInfo = await axios.get(
-      `http://localhost:8080/rooms/detail/roomid/${roomId}`
-    );
-    // .then((res)=> {
-    //   console.log(res.data)
-    //   const users = res.data.userList.split(",");
-    // })
-    console.log(getRoomInfo);
-    const users = getRoomInfo.userList.split(",");
-    for (let user of users) {
-      let cnt = 0;
-      if (user === "") {
-        cnt = cnt + 1;
-        users.splice(users.indexOf(user), 1);
-      }
-    }
-    const data = {
-      users: users,
-      roomId: getRoomInfo.roomId,
-    };
-    await axios.post("http://localhost:8080/games", data, {
-      headers: {
-        "Content-Type": `application/json`,
-      },
-    });
-    // 소켓 게임 시작 알림
-    await sendMessage();
-    // 직업을 가져온다
-    await axios
-      .get(`http://localhost:8080/gamer/${"userInfo.userName"}`)
-      .then((res) => {
-        const inGameJob = res.data.gameJob;
-        console.log(inGameJob);
-        // setGameJob = inGameJob
-        // 리덕스? 스테이트?
-        axios.put(`http://localhost:8080/rooms/update/status/start/${roomId}`, {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        });
-        // 밤으로 넘어간다 => 소켓? 링크인가
-      });
-  };
-
-  const sendMessage = () => {
-    const data = {
-      type: "system",
-      sender: "FE",
-      senderName: "server",
-      gameRange: "ingame",
-      dataType: "order",
-      data: {
-        datatype: "slot",
-        data: "night",
-      },
-    };
-    this.props.user.getStreamManager().stream.session.signal({
-      data: JSON.stringify(data),
-      type: "chat",
-    });
-    console.log("sendMessage : " + JSON.stringify(data));
-    // this.sendMessage(JSON.stringify(data));
-    // console.log(this.state.message);
-    // if (this.props.user && this.state.message) {
-    //     let message = this.state.message.replace(/ +(?= )/g, '');
-    //     if (message !== '' && message !== ' ') {
-    //         const data = {
-    //             type : 'system',
-    //             sender : 'FE',
-    //             senderName : 'server',
-    //             gameRange : 'ingame',
-    //             dataType : 'order',
-    //             data : {
-    //                 datatype : "slot",
-    //                 data : "night"
-    //             }
-    //         }
-    //         this.props.user.getStreamManager().stream.session.signal({
-    //             data: JSON.stringify(data),
-    //             type: 'chat',
-    //         });
-    //         console.log("sendMessage : " + JSON.stringify(data));
-    //         // this.sendMessage(JSON.stringify(data));
-    //     }
-    // }
-    this.setState({ message: "" });
-  };
+  // onClickStart 함수 분리 => 인자(roomId, userName)
 
   return (
     <div>
@@ -281,4 +206,4 @@ export default function WaitingRoom() {
       </div>
     </div>
   );
-}
+};
