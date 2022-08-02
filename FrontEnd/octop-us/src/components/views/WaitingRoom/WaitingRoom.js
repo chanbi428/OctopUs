@@ -9,6 +9,7 @@ import "./WaitingRoom.css";
 import ShowRoom from "./ShowRoom";
 import { useSelector } from "react-redux";
 import ChatComponent from "../tmp2/components/chat/ChatComponent";
+import { exitRoom } from "../../../features/waiting/exitRoom"
 
 export default function WaitingRoom() {
   const [gameStatus, setGameStatus] = useState(false);
@@ -42,11 +43,9 @@ export default function WaitingRoom() {
     { crown: 0 },
     { crown: 0 },
   ]);
-  // const history = useHistory()
-
   const { userInfo } = useSelector((state) => state.user);
 
-  // 방 입장 시 데이터 받아옴 (방 만들기가 아니라 호스트 이외 사람이 들어올 때)
+  // 방 입장 시 데이터 받아옴
   useEffect(() => {
     let pathName = document.location.pathname.replace("/", "");
     console.log(pathName);
@@ -85,25 +84,27 @@ export default function WaitingRoom() {
     console.log(seats, throne)
   }, [userList]);
 
-  const sitRoom = () => {
-    let sit = [...seats];
+  const sitRoom = (seats) => {
+    let sit = seats;
+    console.log("목록",userList)
+    console.log("seats", seats)
     for (let i = 0; i < personLimit; i++) {
-      console.log("목록",userList)
-      console.log("seats", seats)
-      if (userList[i] !== sit[i].nickname) {
+      if (userList[i] === " " || userList[i] === "") {
         sit[i] = {
-          nickname: userList[i],
-          opa: 1,
+          nickname: " ",
+          opa: 0
         };
-      } 
-      // else {
-      //   sit = sit.concat({
-      //     nickname: "",
-      //     opa: 0,
-      //   });
-      // }
+      } else {
+        if (userList[i] !== sit[i].nickname) {
+          sit[i] = {
+            nickname: userList[i],
+            opa: 1
+          };
+        }
+      }
     }
-    setSeats(sit);
+    return sit
+    // setSeats(sit);
   };
 
   const getCrown = () => {
@@ -123,92 +124,9 @@ export default function WaitingRoom() {
     setThrone(crown);
   };
 
-  const exitRoom = async () => {
-    let getRoomInfo = await axios
-      .get(`http://localhost:8080/rooms/detail/roomid/${roomId}`)
-      .then((res) => {
-        console.log("데이터", res.data);
-
-        //     // const temp = JSON.parse(res.data)
-        //     // getRoomInfo = temp
-        // console.log(res)
-        // console.log(res.data)
-      });
-    // const temp = JSON.parse(getRoomInfo)
-    // console.log(getRoomInfo)
-    // console.log(temp)
-    const usersInfo = await getRoomInfo.userList.split(",");
-    console.log(usersInfo);
-    updateRoomInfo(
-      getRoomInfo.gameStatus,
-      getRoomInfo.gameTime,
-      getRoomInfo.idx,
-      getRoomInfo.personLimit,
-      getRoomInfo.personNum,
-      getRoomInfo.isPrivate,
-      getRoomInfo.roomChief,
-      getRoomInfo.roomId,
-      getRoomInfo.roomName,
-      getRoomInfo.roomPw,
-      usersInfo
-    );
-    let userListInfo = userList;
-    let roomChiefInfo = roomChief;
-    if (personNum === 1) {
-      axios.delete(`http://localhost:8080/rooms/${roomId}`);
-      document.location.href = "http://localhost:3000/main";
-      // 유저 정보가 유지가 안 됨
-    } else if (personNum >= 2) {
-      if ("userInfo.userName" === roomChief) {
-        // 유저 닉네임 정보 필요함
-        for (let user of userListInfo) {
-          if (user !== "userInfo.userName" && user !== "") {
-            roomChiefInfo = user;
-            break;
-          }
-        }
-      }
-      userListInfo.splice(userListInfo.indexOf("userInfo.userName"), 1, "");
-      // let personNumInfo = personNum - 1
-      updateRoomInfo(
-        gameStatus,
-        gameTime,
-        idx,
-        personLimit,
-        personNum - 1,
-        isPrivate,
-        roomChiefInfo,
-        roomId,
-        roomName,
-        roomPw,
-        userListInfo
-      );
-      const data = {
-        gameStatus: gameStatus,
-        gameTime: gameTime,
-        idx: idx,
-        personLimit: personLimit,
-        private: isPrivate,
-        roomChief: roomChief,
-        roomId: roomId,
-        roomName: roomName,
-        roomPw: roomPw,
-        userList: userList,
-      };
-      await axios.put("http://localhost:8080/rooms", JSON.stringify(data), {
-        headers: {
-          "Content-Type": `application/json`,
-        },
-      })
-      .then(()=> {
-        console.log(data);
-        // history.push("/main")
-        document.location.href = "http://localhost:3000/main";
-      })
-      
-    }
-    // 메인페이지로 이동
-  };
+  const exitBtnHandler = () => {
+    exitRoom(roomId, userInfo.userName)
+  }
 
   const updateRoomInfo = (
     gameStatus,
@@ -343,7 +261,7 @@ export default function WaitingRoom() {
     <div>
       <nav>
         <p>대기실 페이지</p>
-        <button onClick={exitRoom} className="waiting-page__exit-btn">
+        <button onClick={exitBtnHandler} className="waiting-page__exit-btn">
           방 나가기
         </button>
       </nav>
