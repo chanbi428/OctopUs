@@ -39,7 +39,6 @@ const userSlice = createSlice({
       console.log("login fulfilled!");
       state.loading = false;
       state.userInfo = payload;
-
       state.userToken = payload.userToken;
     },
     // 유저 로그인이 실패했을 때

@@ -10,15 +10,6 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import store from "./app/store";
 
-// const logger = createLogger();
-
-// const createStoreWithMiddleware = applyMiddleware(
-//   promiseMiddleware,
-//   reduxThunk
-// )(createStore);
-
-// const store = createStore();
-
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
