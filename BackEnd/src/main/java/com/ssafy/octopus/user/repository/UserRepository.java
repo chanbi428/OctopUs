@@ -9,12 +9,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * */
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByIdx(int idx); // find user by idx(pk)
-    User findByUserId(String id); // find user by id(user_id)
-    User findByUserIdAndUserPw(String userId, String userPw); // find user by id, pw (for login)
+    User findByUserName(String id); // find user by id(user_id)
+    User findByUserNameAndUserPw(String userName, String userPw); // find user by id, pw (for login)
     User save(User user); // insert user (for sign up)
     boolean deleteByIdx(int idx); // delete user (for secession)
 
-    int existsByUserId(String userId);//check id exists
-    int existsByUserPw(String userPw);
-    int existsByUserName(String userName);
+    boolean existsByUserName(String userName);
 }

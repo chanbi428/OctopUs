@@ -42,17 +42,17 @@ public class SampleController {
     * */
     @PostMapping("/loginJwt")
     public String jwttest(@RequestBody Map<String, String> map){
-        User user = repository.findByUserId(map.get("userID"));
+        User user = repository.findByUserName(map.get("userID"));
 //        if(!passwordEncoder.matches(map.get("userPw"), user.getUserPw())){
 //            return "Wrong Data";
 //        }
         System.out.println("user : " + user + " map : " + map);
-        System.out.println(jwtTokenProvider.createToken(user.getUserId()));
+        System.out.println(jwtTokenProvider.createToken(user.getUserName()));
         if(!user.getUserPw().equals(map.get("userPw"))){
             return "Wrong Data";
         }
         else{
-            return jwtTokenProvider.createToken(user.getUserId());
+            return jwtTokenProvider.createToken(user.getUserName());
         }
     }
     @GetMapping("/AuthJwt")

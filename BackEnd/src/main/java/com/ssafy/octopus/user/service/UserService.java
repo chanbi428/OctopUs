@@ -10,7 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserService {
     User save(UserDto userDto);
     boolean delete(int idx);
-    boolean idOverlapCheck(String userId);
-    boolean pwOverlapCheck(String userPw);
     boolean nameOverlapCheck(String userName);
 }
