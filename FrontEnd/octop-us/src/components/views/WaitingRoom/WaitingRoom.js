@@ -9,7 +9,7 @@ import "./WaitingRoom.css";
 import ShowRoom from "./ShowRoom";
 import { useSelector } from "react-redux";
 import ChatComponent from "../tmp2/components/chat/ChatComponent";
-import { exitRoom } from "../../../features/waiting/exitRoom"
+import { exitRoom } from "../../../features/waiting/exitRoom";
 
 export default function WaitingRoom() {
   const [gameStatus, setGameStatus] = useState(false);
@@ -81,34 +81,34 @@ export default function WaitingRoom() {
   useEffect(() => {
     sitRoom();
     getCrown();
-    console.log(seats, throne)
+    console.log(seats, throne);
   }, [userList]);
 
   const sitRoom = (seats) => {
     let sit = seats;
-    console.log("목록",userList)
-    console.log("seats", seats)
+    console.log("목록", userList);
+    console.log("seats", seats);
     for (let i = 0; i < personLimit; i++) {
       if (userList[i] === " " || userList[i] === "") {
         sit[i] = {
           nickname: " ",
-          opa: 0
+          opa: 0,
         };
       } else {
         if (userList[i] !== sit[i].nickname) {
           sit[i] = {
             nickname: userList[i],
-            opa: 1
+            opa: 1,
           };
         }
       }
     }
-    return sit
+    return sit;
     // setSeats(sit);
   };
 
   const getCrown = () => {
-    console.log("throne",throne)
+    console.log("throne", throne);
     let crown = [...throne];
     for (let j = 0; j < personLimit; j++) {
       if (userList[j] === roomChief) {
@@ -125,8 +125,8 @@ export default function WaitingRoom() {
   };
 
   const exitBtnHandler = () => {
-    exitRoom(roomId, userInfo.userName)
-  }
+    exitRoom(roomId, userInfo.userName);
+  };
 
   const updateRoomInfo = (
     gameStatus,
@@ -271,7 +271,7 @@ export default function WaitingRoom() {
           alt="이미지가 없다"
           className="waiting-page__img"
         /> */}
-        <SeatsRoom seatInfo={seats} throneInfo={throne}/>
+        <SeatsRoom seatInfo={seats} throneInfo={throne} />
       </section>
       <div className="waiting-page__lower container">
         <div className="waiting-page__room-setting">
