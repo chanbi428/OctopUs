@@ -2,6 +2,7 @@
   background: rgba(58, 64, 74, 0.651);
   padding: 5px !important;
   position: absolute;
+  bottom: 0;
   z-index: 999;
   color: #ffffff;
 }
@@ -86,6 +87,8 @@ video {
   height: 100%;
   position: absolute;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 
 #input,
