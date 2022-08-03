@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SeatsRoom from "./SeatsRoom";
-import Card from "../Card/Card";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./WaitingRoom.css";
 import ShowRoom from "./ShowRoom";
 import { useSelector } from "react-redux";
-import { exitRoom } from "../../features/waiting/exitRoom"
+import { exitRoom } from "../../../../features/waiting/exitRoom"
 
 export default function WaitingRoomPage() {
   const [roomInfo, setRoomInfo] = useState([{

@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import axios from "axios";
 import "./InGame.css";
 import { OpenVidu } from "openvidu-browser";
-import StreamComponent from "./components/stream/StreamComponent";
-import ChatComponent from "./components/chat/ChatComponent";
+import StreamComponent from "./openVidu/stream/StreamComponent";
+import ChatComponent from "./openVidu/chat/ChatComponent";
 
 import OpenViduLayout from "./layout/openvidu-layout";
 import UserModel from "./models/user-model";
-import ToolbarComponent from "./components/toolbar/ToolbarComponent";
-import ShowRoom from "../WaitingRoomPage/ShowRoom";
-import WaitingRoomPage from "../WaitingRoomPage/WaitingRoomPage";
+import ToolbarComponent from "./openVidu/toolbar/ToolbarComponent";
+import ShowRoom from "./components/WaitingRoomPage/ShowRoom";
+import WaitingRoomPage from "./components/WaitingRoomPage/WaitingRoomPage";
 
 var localUser = new UserModel();
 
