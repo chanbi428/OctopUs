@@ -7,6 +7,6 @@ import com.ssafy.octopus.user.entity.User;
  * */
 public interface AuthService {
     User findByIdx(int idx);
-    User findById(String id);
+    User findByName(String name);
     User findByUserNameAndUserPw(String userId, String userPw);
 }

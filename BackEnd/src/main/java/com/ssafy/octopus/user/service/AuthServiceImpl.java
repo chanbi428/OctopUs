@@ -20,8 +20,8 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public User findById(String id) {
-        return userRepository.findByUserName(id);
+    public User findByName(String name) {
+        return userRepository.findByUserName(name);
     }
 
     @Override
