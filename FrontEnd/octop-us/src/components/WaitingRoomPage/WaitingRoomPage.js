@@ -78,7 +78,7 @@ export default function WaitingRoomPage() {
     console.log("목록",roomInfo.userList)
     console.log("seats", seats)
     for (let i = 0; i < roomInfo.personLimit; i++) {
-      if (roomInfo.userList[i] === " " || roomInfo.userList[i] === "") {
+      if (roomInfo.userList[i] === " ") {
         sit[i] = {
           nickname: " ",
           opa: 0

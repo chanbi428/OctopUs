@@ -5,6 +5,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import LandingPage from "./components/LandingPage/LandingPage";
 import MainPage from "./components/MainPage/MainPage";
 import WaitingRoomPage from "./components/WaitingRoomPage/WaitingRoomPage";
+import InGame from "./components/InGame/InGame";
 import { login } from "./features/user/userSlice";
 
 import "./App.css";
@@ -38,7 +39,7 @@ function App() {
       <Routes>
         <Route path="/" exact element={<LandingPage />} />
         <Route path="/main" element={<MainPage />} />
-        <Route path="/:roomId" element={<WaitingRoomPage />} />
+        <Route path="/:roomId" element={<InGame />} />
       </Routes>
     </div>
   );
