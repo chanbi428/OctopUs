@@ -47,11 +47,11 @@ export const userRegister = createAsyncThunk(
       };
 
       const { data } = await axios.post(
-        `${BASE_URL}/user/SignIn`,
+        `${BASE_URL}/user/signUp`,
         { userName, userPW },
         config
       );
-      console.log(data);
+      console.log("회원가입:", data);
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {

@@ -10,49 +10,17 @@ const RegisterModal = (props) => {
   const dispatch = useDispatch();
   const { open, close } = props;
 
-  // const [userName, setUserName] = useState("");
-  // const [userPW, setUserPW] = useState("");
-  // const [confirmuserPW, setConfirmUserPW] = useState("");
-
+  // 회원가입 State
   const [register, setRegister] = useState({
     userName: "",
     userPW: "",
     confirmUserPW: "",
   });
 
+  // 중복 확인 후 아이디 가능 시에만 회원가입 버튼 활성화
   const [isChecked, setIsChecked] = useState(false);
-  // const onChangeNameHandler = (e) => {
-  //   setUserName(e.currentTarget.value);
-  // };
-  // const onChangeUserPWtHandler = (e) => {
-  //   setUserPW(e.currentTarget.value);
-  // };
-  // const onChangeConfirmUserPWtHandler = (e) => {
-  //   setConfirmUserPW(e.currentTarget.value);
-  // };
 
-  // const onRegisterSubmitHandler = (e) => {
-  //   e.preventDefault();
-
-  //   if (userPW !== confirmuserPW) {
-  //     alert("비밀번호가 일치하지 않습니다");
-  //   } else {
-  //     axios
-  //       .post("http://localhost:8080/user/SignIn", JSON.stringify(data), {
-  //         headers: {
-  //           "Content-Type": `application/json`,
-  //         },
-  //       })
-  //       .then(() => {
-  //         setUserName("");
-  //         setUserPW("");
-  //         setConfirmUserPW("");
-  //         close();
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // };
-
+  // 인풋창에 입력할 때 바뀌는 값들
   const onRegisterChangeHandler = (e) => {
     const { name, value } = e.target;
     setRegister({
@@ -61,6 +29,7 @@ const RegisterModal = (props) => {
     });
   };
 
+  // 제출 클릭 시 axios로 유저 정보 전송
   const onRegisterSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -72,27 +41,16 @@ const RegisterModal = (props) => {
     }
   };
 
+  // 닉네임 중복 확인
   const onUserNameCheckHandler = (e) => {
-    e.preventDefault();
-    console.log("중복확인");
-    axios
-      .get(
-        `${BASE_URL}/user/existName/${register.userName}`,
-        JSON.stringify(register.userName),
-        {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        // if (res === "false") {
-        //   setIsChecked(true);
-        // } else {
-        //   alert("이미 존재하는 아이디입니다.");
-        // }
-      });
+    axios.get(`${BASE_URL}/user/existName/${register.userName}`).then((res) => {
+      if (res.data !== true) {
+        alert("중복 확인이 완료되었습니다.");
+        setIsChecked(true);
+      } else {
+        alert("이미 존재하는 아이디입니다.");
+      }
+    });
   };
 
   return (
