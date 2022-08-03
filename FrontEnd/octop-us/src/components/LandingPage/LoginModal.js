@@ -12,7 +12,7 @@ const LoginModal = (props) => {
 
   // 유저 정보 가져오기
   const { userInfo } = useSelector((state) => state.user);
-  const [userId, setUserId] = useState("");
+  const [userName, setUserName] = useState("");
   const [userPW, setUserPW] = useState("");
 
   // 유저 정보가 있으면 메인페이지로 이동
@@ -23,7 +23,7 @@ const LoginModal = (props) => {
   }, [navigate, userInfo]);
 
   const onChangeIdHandler = (e) => {
-    setUserId(e.currentTarget.value);
+    setUserName(e.currentTarget.value);
   };
 
   const onChangePasswordtHandler = (e) => {
@@ -34,7 +34,7 @@ const LoginModal = (props) => {
     e.preventDefault();
     dispatch(
       userLogin({
-        userId,
+        userName,
         userPW,
       })
     );
@@ -50,9 +50,9 @@ const LoginModal = (props) => {
               <input
                 className="login-modal__input"
                 type="text"
-                value={userId}
+                value={userName}
                 onChange={onChangeIdHandler}
-                placeholder="아이디"
+                placeholder="닉네임"
                 required
                 autoFocus
               />
