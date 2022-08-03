@@ -82,7 +82,7 @@ function MainPage() {
               })
               .then((res) => {
                 console.log(res);
-                document.location.href = `http://localhost:3000/${item.data.roomId}`;
+                document.location.href = `https://localhost:3000/${item.data.roomId}`;
                 // console.log(document.location.pathname)
               })
               .catch((err) => console.log(err));

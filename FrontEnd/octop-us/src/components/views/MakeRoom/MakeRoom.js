@@ -66,7 +66,7 @@ function MakeRoom() {
             },
           })
           .then((res) => {
-            document.location.href = `http://localhost:3000/${res.data.roomId}`;
+            document.location.href = `https://localhost:3000/${res.data.roomId}`;
           })
           .catch((err) => console.log(err));
       } else {
@@ -169,7 +169,10 @@ function MakeRoom() {
               className="Radio"
             />
           </div>
-          <div className="make-room__card-body" style={{visibility: isPrivate === "1" ? 'visible' : 'hidden' }}>
+          <div
+            className="make-room__card-body"
+            style={{ visibility: isPrivate === "1" ? "visible" : "hidden" }}
+          >
             <label htmlFor="room_pw">방 비밀번호 </label> <br />
             <input
               type="password"

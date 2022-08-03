@@ -39,13 +39,13 @@ const userSlice = createSlice({
   extraReducers: {
     // 디스패치를 통해 액션이 실행됐을 때 - 로딩 중..
     [userLogin.pending]: (state) => {
-      console.log("login pending!");
+      // console.log("login pending!");
       state.loading = true;
       state.error = null;
     },
     // 유저 로그인이 성공했을 때
     [userLogin.fulfilled]: (state, { payload }) => {
-      console.log("login fulfilled!");
+      // console.log("login fulfilled!");
       state.loading = false;
       state.userInfo = payload;
       state.userToken = payload.userToken;
@@ -54,7 +54,7 @@ const userSlice = createSlice({
     [userLogin.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-      console.log("login rejected!");
+      // console.log("login rejected!");
       console.log(state.payload);
     },
   },

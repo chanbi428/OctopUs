@@ -4,12 +4,11 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 function RoomListItem({ item }) {
-  
-  const { userInfo } = useSelector((state) => state.user);  
-  const [roomPwIn, setRoomPwIn] = useState("")
+  const { userInfo } = useSelector((state) => state.user);
+  const [roomPwIn, setRoomPwIn] = useState("");
   const handleRoomPwIn = (e) => {
     setRoomPwIn(e.target.value);
-  }
+  };
   const onClickEnterRoom = (e) => {
     e.preventDefault();
 
@@ -44,7 +43,7 @@ function RoomListItem({ item }) {
         })
         .then((res) => {
           console.log(res);
-          document.location.href = `http://localhost:3000/${item.roomId}`;
+          document.location.href = `https://localhost:3000/${item.roomId}`;
           // console.log(document.location.pathname)
         })
         .catch((err) => console.log(err));
@@ -53,7 +52,10 @@ function RoomListItem({ item }) {
 
   return (
     <div className="col">
-      <div className="main-page__room-list" style={{backgroundColor: item.gameStatus ? '#e0e0d8' : '#fdfcdc' }}>
+      <div
+        className="main-page__room-list"
+        style={{ backgroundColor: item.gameStatus ? "#e0e0d8" : "#fdfcdc" }}
+      >
         <div className="card-body">
           <div className="RoomHeader">
             <p>{item.idx}</p>
@@ -65,18 +67,18 @@ function RoomListItem({ item }) {
             {item.roomName} {item.isPrivate}
           </h5>
           <div className="RoomFooter">
-            <div>{item.private && 
-              <p className="RoomPrivate">🔐</p>
-            }</div>
-            <div>{item.private && 
-              <input
-              type="passwordIn"
-              name="room_pw_in"
-              value={roomPwIn}
-              onChange={handleRoomPwIn}
-              className="Input"
-              />
-            }</div>
+            <div>{item.private && <p className="RoomPrivate">🔐</p>}</div>
+            <div>
+              {item.private && (
+                <input
+                  type="passwordIn"
+                  name="room_pw_in"
+                  value={roomPwIn}
+                  onChange={handleRoomPwIn}
+                  className="Input"
+                />
+              )}
+            </div>
             {item.gameStatus ? (
               <button className="main-page__room-list-btn" disabled>
                 게임중

@@ -21,7 +21,6 @@ export const persistLogin = async () => {
     },
     config
   );
-  console.log("이것은", data);
 
   return data;
 };

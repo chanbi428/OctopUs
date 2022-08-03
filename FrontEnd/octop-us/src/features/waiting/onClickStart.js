@@ -41,7 +41,7 @@ export const onClickStart = async (roomId, userName) => {
             headers: {
             "Content-Type": `application/json`,
             }})
-            .then(() => document.location.href = "http://localhost:3000/ingame") // 주소 손보고 연결 방식 바꾸기
+            .then(() => document.location.href = "https://localhost:3000/ingame") // 주소 손보고 연결 방식 바꾸기
             .catch((err) => console.log(err))
         })
         .catch((err) => console.log(err))
