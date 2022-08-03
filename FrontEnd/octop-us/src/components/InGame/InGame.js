@@ -400,7 +400,6 @@ class InGame extends Component {
               <WaitingRoomPage />
             </div>
             <div className="d-flex justify-content-between">
-              <ShowRoom />
                 {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                   <div className="aaaaa" style={chatDisplay}>
                     <ChatComponent
