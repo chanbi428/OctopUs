@@ -9,20 +9,22 @@ import "./WaitingRoom.css";
 import ShowRoom from "./ShowRoom";
 import { useSelector } from "react-redux";
 import ChatComponent from "../tmp2/components/chat/ChatComponent";
-import { exitRoom } from "../../../features/waiting/exitRoom";
+import { exitRoom } from "../../../features/waiting/exitRoom"
 
 export default function WaitingRoom() {
-  const [gameStatus, setGameStatus] = useState(false);
-  const [gameTime, setGameTime] = useState("");
-  const [idx, setIdx] = useState("");
-  const [personLimit, setPersonLimit] = useState("");
-  const [personNum, setPersonNum] = useState("");
-  const [isPrivate, setIsPrivate] = useState("");
-  const [roomChief, setRoomChief] = useState("");
-  const [roomId, setRoomId] = useState("");
-  const [roomName, setRoomName] = useState("");
-  const [roomPw, setRoomPw] = useState("");
-  const [userList, setUserList] = useState(["", "", "", "", "", "", "", ""]);
+  const [roomInfo, setRoomInfo] = useState([{
+    gameStatus : false,
+    gameTime : "",
+    idx : "",
+    personLimit : "",
+    personNum : "",
+    private : false,
+    roomChief : "",
+    roomId : "",
+    roomName : "",
+    roomPw : "",
+    userList : ["", "", "", "", "", "", "", ""]
+  }])
   let [seats, setSeats] = useState([
     { nickname: "", opa: 0 },
     { nickname: "", opa: 0 },
@@ -53,77 +55,54 @@ export default function WaitingRoom() {
       .get(`http://localhost:8080/rooms/detail/roomid/${pathName}`)
       .then((res) => {
         console.log(res.data);
-        // console.log(userInfo.userName)
-        const tmp = res.data.userList.split(",");
-        // console.log(tmp);
-        updateRoomInfo(
-          res.data.gameStatus,
-          res.data.gameTime,
-          res.data.idx,
-          res.data.personLimit,
-          res.data.personNum,
-          res.data.private,
-          res.data.roomChief,
-          res.data.roomId,
-          res.data.roomName,
-          res.data.roomPw,
-          tmp
-        );
-        // sitRoom(seats);
-        // getCrown(throne);
-        // console.log(seats, throne);
-        // setTimeout(console.log(seats, userList), 1000);
+        let room = res.data
+        console.log("room data",room)
+        const tmp = room.userList.split(",");
+        setRoomInfo((roomInfo) => {
+          room.userList = tmp
+          return room
+        })
+        console.log(roomInfo)
       })
-      // .then(()=> {
-      //   setSeats((seats)=> {
-      //     return sitRoom(seats)
-      //   })
-      //   console.log("Setseats", seats)
-      //   setThrone((throne)=> {
-      //     return getCrown(throne)
-      //   })
-      //   console.log("setthrone", throne)
-      // })
       .catch((error) => console.log(error));
   }, []);
 
   // 유저 목록이 변경되면 문어 자리 다시 앉히고 다시 왕관 배정
   useEffect(() => {
-    if (userList !== ["", "", "", "", "", "", "", ""] || userList !== [" ", " ", " ", " ", " ", " ", " ", ""]) {
+    if (roomInfo.userList !== ["", "", "", "", "", "", "", ""] || roomInfo.userList !== [" ", " ", " ", " ", " ", " ", " ", " "]) {
       sitRoom(seats);
       getCrown(throne);
     }
     console.log(seats, throne)
-  }, [userList]);
+  }, [roomInfo.userList]);
 
   const sitRoom = (seats) => {
     let sit = seats;
-    console.log("목록", userList);
-    console.log("seats", seats);
-    for (let i = 0; i < personLimit; i++) {
-      if (userList[i] === " " || userList[i] === "") {
+    console.log("목록",roomInfo.userList)
+    console.log("seats", seats)
+    for (let i = 0; i < roomInfo.personLimit; i++) {
+      if (roomInfo.userList[i] === " " || roomInfo.userList[i] === "") {
         sit[i] = {
           nickname: " ",
-          opa: 0,
+          opa: 0
         };
       } else {
-        if (userList[i] !== sit[i].nickname) {
+        if (roomInfo.userList[i] !== sit[i].nickname) {
           sit[i] = {
-            nickname: userList[i],
-            opa: 1,
+            nickname: roomInfo.userList[i],
+            opa: 1
           };
         };
       };
     };
-    // return sit
     setSeats(sit);
   };
 
   const getCrown = () => {
     console.log("throne",throne)
     let crown = throne;
-    for (let j = 0; j < personLimit; j++) {
-      if (userList[j] === roomChief) {
+    for (let j = 0; j < roomInfo.personLimit; j++) {
+      if (roomInfo.userList[j] === roomInfo.roomChief) {
         crown[j] = {
           crown: 1,
         };
@@ -133,55 +112,13 @@ export default function WaitingRoom() {
         };
       };
     };
-    // return crown
     setThrone(crown);
   };
 
   const exitBtnHandler = () => {
-    exitRoom(roomId, userInfo.userName);
+    exitRoom(roomInfo.roomId, userInfo.userName);
   };
-
-  const updateRoomInfo = (
-    gameStatus,
-    gameTime,
-    idx,
-    personLimit,
-    personNum,
-    isPrivate,
-    roomChief,
-    roomId,
-    roomName,
-    roomPw,
-    userList
-  ) => {
-    setGameStatus(gameStatus);
-    setGameTime(gameTime);
-    setIdx(idx);
-    setPersonLimit(personLimit);
-    setPersonNum(personNum);
-    setIsPrivate(isPrivate);
-    setRoomChief(roomChief);
-    setRoomId(roomId);
-    setRoomName(roomName);
-    setRoomPw(roomPw);
-    setUserList(userList);
-    console.log(
-      gameStatus,
-      gameTime,
-      idx,
-      personLimit,
-      personNum,
-      isPrivate,
-      roomChief,
-      roomId,
-      roomName,
-      roomPw,
-      userList
-    );
-  };
-
   // onClickStart 함수 분리 => 인자(roomId, userName)
-
   return (
     <div>
       <nav>
@@ -191,12 +128,7 @@ export default function WaitingRoom() {
         </button>
       </nav>
       <section>
-        {/* <img
-          src="images/waitingpage.png"
-          alt="이미지가 없다"
-          className="waiting-page__img"
-        /> */}
-        <SeatsRoom seatInfo={seats} throneInfo={throne} />
+        <SeatsRoom seatInfo={seats} throneInfo={throne}/>
       </section>
       <div className="waiting-page__lower container">
         <div className="waiting-page__room-setting">

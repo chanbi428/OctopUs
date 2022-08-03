@@ -21,7 +21,7 @@ function RoomListItem({ item }) {
     } else {
       let userList = item.userList.split(",");
       console.log(userList);
-      userList[userList.indexOf("")] = userInfo.userName;
+      userList[userList.indexOf("" || " ")] = userInfo.userName;
       console.log(userList);
       const personNum = item.personNum + 1;
       const data = {
