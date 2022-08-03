@@ -2,58 +2,73 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./RegisterModal.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { userRegister, userNameCheck } from "../../features/user/userActions";
+import { useDispatch } from "react-redux";
 
 const RegisterModal = (props) => {
+  const dispatch = useDispatch();
   const { open, close } = props;
 
-  const [userid, setUserId] = useState("");
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmpassword, setConfirmPassword] = useState("");
+  // const [userName, setUserName] = useState("");
+  // const [userPW, setUserPW] = useState("");
+  // const [confirmuserPW, setConfirmUserPW] = useState("");
 
-  const onChangeIdHandler = (e) => {
-    setUserId(e.currentTarget.value);
+  const [register, setRegister] = useState({
+    userName: "",
+    userPW: "",
+    confirmUserPW: "",
+  });
+
+  // const onChangeNameHandler = (e) => {
+  //   setUserName(e.currentTarget.value);
+  // };
+  // const onChangeUserPWtHandler = (e) => {
+  //   setUserPW(e.currentTarget.value);
+  // };
+  // const onChangeConfirmUserPWtHandler = (e) => {
+  //   setConfirmUserPW(e.currentTarget.value);
+  // };
+
+  // const onRegisterSubmitHandler = (e) => {
+  //   e.preventDefault();
+
+  //   if (userPW !== confirmuserPW) {
+  //     alert("비밀번호가 일치하지 않습니다");
+  //   } else {
+  //     axios
+  //       .post("http://localhost:8080/user/SignIn", JSON.stringify(data), {
+  //         headers: {
+  //           "Content-Type": `application/json`,
+  //         },
+  //       })
+  //       .then(() => {
+  //         setUserName("");
+  //         setUserPW("");
+  //         setConfirmUserPW("");
+  //         close();
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // };
+
+  const onRegisterChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setRegister({
+      ...register,
+      [name]: value,
+    });
   };
-  const onChangeNameHandler = (e) => {
-    setUserName(e.currentTarget.value);
-  };
-  const onChangePasswordtHandler = (e) => {
-    setPassword(e.currentTarget.value);
-  };
-  const onChangeConfirmPasswordtHandler = (e) => {
-    setConfirmPassword(e.currentTarget.value);
+
+  const onUserNameCheckHandler = (e) => {
+    e.preventDefault();
+
+    dispatch(userNameCheck(register));
   };
 
   const onRegisterSubmitHandler = (e) => {
     e.preventDefault();
 
-    const data = {
-      userName: "user_name",
-      userPW: "password",
-      userId: "user_id",
-    };
-
-    if (password !== confirmpassword) {
-      alert("비밀번호가 일치하지 않습니다");
-    } else {
-      data.userId = userid;
-      data.userName = username;
-      data.userPW = password;
-      axios
-        .post("http://localhost:8080/user/SignIn", JSON.stringify(data), {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        })
-        .then(() => {
-          setUserId("");
-          setUserName("");
-          setPassword("");
-          setConfirmPassword("");
-          close();
-        })
-        .catch((err) => console.log(err));
-    }
+    dispatch(userRegister(register));
   };
 
   return (
@@ -62,47 +77,42 @@ const RegisterModal = (props) => {
         <section className="container">
           <form onSubmit={onRegisterSubmitHandler}>
             <p>회원가입</p>
-            <div>
+            <div className="register-modal__input-box">
+              <div className="register-modal__nickname">
+                <input
+                  name="userName"
+                  onChange={onRegisterChangeHandler}
+                  className="register-modal__input-nickname"
+                  type="text"
+                  placeholder="닉네임"
+                  required
+                />
+                <button
+                  className="register-modal__double-check-btn"
+                  onChange={onUserNameCheckHandler}
+                >
+                  중복 확인
+                </button>
+              </div>
               <input
-                className="register-modal__input"
-                type="text"
-                value={userid}
-                onChange={onChangeIdHandler}
-                placeholder="아이디"
-                required
-                autoFocus
-              />
-              <input
-                className="register-modal__input"
-                type="text"
-                value={username}
-                onChange={onChangeNameHandler}
-                placeholder="닉네임"
-                required
-              />
-              <input
+                name="userPW"
+                onChange={onRegisterChangeHandler}
                 className="register-modal__input"
                 type="password"
-                value={password}
-                onChange={onChangePasswordtHandler}
                 placeholder="비밀번호"
                 required
               />
               <input
+                name="confirmUserPW"
+                onChange={onRegisterChangeHandler}
                 className="register-modal__input"
                 type="password"
-                value={confirmpassword}
-                onChange={onChangeConfirmPasswordtHandler}
                 placeholder="비밀번호 확인"
                 required
               />
             </div>
             <footer>
-              <button
-                type="submit"
-                className="register-modal__btn"
-                onClick={onRegisterSubmitHandler}
-              >
+              <button type="submit" className="register-modal__btn">
                 회원가입
               </button>
               <button className="register-modal__btn" onClick={close}>
