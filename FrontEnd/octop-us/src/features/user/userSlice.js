@@ -61,6 +61,7 @@ const userSlice = createSlice({
       console.log(
         "features/user/userSliece : 유저 로그인 실패 login rejected!"
       );
+      alert("닉네임과 비밀번호를 확인해주세요.");
       console.log(state.payload);
     },
   },

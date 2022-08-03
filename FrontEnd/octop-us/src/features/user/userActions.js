@@ -62,30 +62,3 @@ export const userRegister = createAsyncThunk(
     }
   }
 );
-
-// export const userNameCheck = createAsyncThunk(
-//   "user/namecheck",
-//   async ({ userName }, { rejectWithValue }) => {
-//     try {
-//       const config = {
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//       };
-
-//       const { data } = await axios.post(
-//         `${BASE_URL}/user/existName`,
-//         { userName },
-//         config
-//       );
-//       console.log(data);
-//       return data;
-//     } catch (error) {
-//       if (error.response && error.response.data.message) {
-//         return rejectWithValue(error.response.data.message);
-//       } else {
-//         return rejectWithValue(error.message);
-//       }
-//     }
-//   }
-// );
