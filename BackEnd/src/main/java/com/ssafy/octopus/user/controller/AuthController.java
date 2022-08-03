@@ -61,11 +61,10 @@ public class AuthController {
         if(jwtTokenProvider.validateToken(token.getToken())){
             String userPk = jwtTokenProvider.getUserPk(token.getToken());
             System.out.println("loginWithToken userPK : " + userPk);
-            User userTmp = service.findById(userPk);
+            User userTmp = service.findByName(userPk);
             if(userTmp != null){
                 user.setIdx(userTmp.getIdx());
                 user.setUserName(userTmp.getUserName());
-//                user.setUserId(userTmp.getUserId());
                 user.setToken(token.getToken());
                 return new ResponseEntity<>(user, HttpStatus.OK);
             }
