@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SeatsRoom from "./SeatsRoom";
-import MakeRoom from "../MakeRoom/MakeRoom";
-import Tmp2 from "../tmp2/components/VideoRoomComponent";
-import Card from "../../Card/Card";
+import Card from "../Card/Card";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./WaitingRoom.css";
 import ShowRoom from "./ShowRoom";
 import { useSelector } from "react-redux";
-import ChatComponent from "../tmp2/components/chat/ChatComponent";
-import { exitRoom } from "../../../features/waiting/exitRoom"
+import { exitRoom } from "../../features/waiting/exitRoom"
 
-export default function WaitingRoom() {
+export default function WaitingRoomPage() {
   const [roomInfo, setRoomInfo] = useState([{
     gameStatus : false,
     gameTime : "",
@@ -23,7 +20,7 @@ export default function WaitingRoom() {
     roomId : "",
     roomName : "",
     roomPw : "",
-    userList : ["", "", "", "", "", "", "", ""]
+    userList : [" ", " ", " ", " ", " ", " ", " ", " "]
   }])
   let [seats, setSeats] = useState([
     { nickname: "", opa: 0 },
@@ -134,7 +131,6 @@ export default function WaitingRoom() {
         <div className="waiting-page__room-setting">
           <ShowRoom />
         </div>
-        <Tmp2 />
       </div>
     </div>
   );
