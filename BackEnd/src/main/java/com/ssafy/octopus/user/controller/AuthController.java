@@ -38,7 +38,7 @@ public class AuthController {
     @PostMapping("/login") // 로그인
     public ResponseEntity<UserDto> login(@RequestBody UserDto dto){
         System.out.println("login : " + dto);
-        User user = service.findByUserIdAndUserPw(dto.getUserId(), dto.getUserPW());
+        User user = service.findByUserNameAndUserPw(dto.getUserName(), dto.getUserPW());
         UserDto result = new UserDto();
 
         if(user == null){ // 데이터가 없을 경우
@@ -47,8 +47,7 @@ public class AuthController {
         else{ // 정상 처리 되었을 경우
             result.setIdx(user.getIdx());
             result.setUserName(user.getUserName());
-            result.setUserId(user.getUserId());
-            String token = jwtTokenProvider.createToken(user.getUserId());
+            String token = jwtTokenProvider.createToken(user.getUserName());
             result.setToken(token);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
@@ -66,7 +65,7 @@ public class AuthController {
             if(userTmp != null){
                 user.setIdx(userTmp.getIdx());
                 user.setUserName(userTmp.getUserName());
-                user.setUserId(userTmp.getUserId());
+//                user.setUserId(userTmp.getUserId());
                 user.setToken(token.getToken());
                 return new ResponseEntity<>(user, HttpStatus.OK);
             }

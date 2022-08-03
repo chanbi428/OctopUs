@@ -38,6 +38,15 @@ public class UserController {
     }
 
 
+    @GetMapping("/existName")
+    public  ResponseEntity<String> existName(@RequestBody UserDto dto){
+        if(service.nameOverlapCheck(dto.getUserName())){
+            return new ResponseEntity<>("true", HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("false", HttpStatus.NOT_FOUND);
+        }
+    }
     @PostMapping("/SignIn") // 회원가입
     public ResponseEntity<User> signIn(@RequestBody UserDto dto){
         System.out.println("signin : " + dto);
