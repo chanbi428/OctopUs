@@ -1,3 +1,5 @@
+// api 분리 시험용입니다 건들지 마십시오.
+
 // import axios from "axios";
 
 // const BASE_URL = "http://localhost:8080";
