@@ -28,7 +28,7 @@ import javax.persistence.*;
 )
 public class Room {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int idx;
 

@@ -32,6 +32,7 @@ public class GameServiceImpl implements GameService {
     @Override
     @Transactional
     public List<Gamer> insert(List<String> users, String roomId) {
+        System.out.println(users.size());
         List<String[]> jobs = combJobs();  // 현재 게임에서 등장하는 직업들을 저장할 리스트
         if(users.size() == 7){  // 7명일때는 공통에 중립 추가
             jobs.add(new String[]{(int)((Math.random()*1)+1) == 1 ? "재간둥이" : "데스노트", "중립"});
@@ -40,6 +41,12 @@ public class GameServiceImpl implements GameService {
             jobs.add(new String[]{"마피아", "마피아"});
         }
         Collections.shuffle(jobs);  // 직업리스트 무작위 배치(섞어서 랜덤 효과)
+
+        // gamer 테이블에 넣을 데이터
+        List<Gamer> gamers = new ArrayList<>();
+        for(int i=0; i<users.size(); i++){
+            gamers.add(new Gamer(users.get(i), roomId, jobs.get(i)[1], false, jobs.get(i)[0], false));
+        }
 
         // vote 테이블에 넣을 데이터
         List<Vote> votes = new ArrayList<>();
@@ -53,17 +60,12 @@ public class GameServiceImpl implements GameService {
             nights.add(new Night(users.get(i), roomId, ""));
         }
 
-        // gamer 테이블에 넣을 데이터
-        List<Gamer> gamers = new ArrayList<>();
-        for(int i=0; i<users.size(); i++){
-            gamers.add(new Gamer(users.get(i), roomId, jobs.get(i)[1], false, jobs.get(i)[0], false));
-        }
 
         // 하나라도 문제 발생 시에 ROLLBACK
         try{
+            gamerDao.saveAll(gamers);
             voteDao.saveAll(votes);
             nightDao.saveAll(nights);
-            gamerDao.saveAll(gamers);
             return gamers;
         } catch (Exception e){
             e.printStackTrace();
