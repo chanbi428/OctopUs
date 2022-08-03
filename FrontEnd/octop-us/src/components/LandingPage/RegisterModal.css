@@ -64,10 +64,10 @@
   align-items: center;
   justify-content: space-between;
   text-align: center;
-  width: 25vw;
+  width: 15vw;
   height: 4vh;
-  margin-top: 4vh;
-  margin-bottom: 4vh;
+  /* margin-top: 3vh; */
+  /* margin-bottom: 3vh; */
   border-radius: 5px;
 }
 
@@ -84,5 +84,39 @@
 }
 
 .modal > section > form > footer {
-  margin-top: px;
+  margin-top: 3vh;
+}
+
+.register-modal__input-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-left: 3vw;
+  height: 25vh;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+}
+
+.register-modal__nickname {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-modal__input-nickname {
+  width: 15vw;
+}
+
+.register-modal__double-check-btn {
+  text-align: center;
+  width: 5vw;
+  height: 5vh;
+  /* margin: 10px; */
+  border-radius: 5px;
+  /* margin-bottom: 3vh; */
+  margin-left: 2vh;
+  margin-right: 2vh;
+  font-size: 12px;
+  background-color: #f4d35e;
 }
