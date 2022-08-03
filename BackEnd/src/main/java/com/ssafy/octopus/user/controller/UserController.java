@@ -38,12 +38,12 @@ public class UserController {
     }
 
     @GetMapping("/existName/{userName}")
-    public  ResponseEntity<String> existName(@PathVariable String userName){
+    public  String existName(@PathVariable String userName){
         if(service.nameOverlapCheck(userName)){
-            return new ResponseEntity<>("true", HttpStatus.OK);
+            return "true";
         }
         else{
-            return new ResponseEntity<>("false", HttpStatus.NOT_FOUND);
+            return "false";
         }
     }
     @PostMapping("/signUp") // 회원가입
