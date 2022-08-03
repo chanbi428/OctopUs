@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./RegisterModal.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { userRegister, userNameCheck } from "../../features/user/userActions";
+import { userRegister } from "../../features/user/userActions";
 import { useDispatch } from "react-redux";
 
+const BASE_URL = "http://localhost:8080";
 const RegisterModal = (props) => {
   const dispatch = useDispatch();
   const { open, close } = props;
@@ -19,6 +20,7 @@ const RegisterModal = (props) => {
     confirmUserPW: "",
   });
 
+  const [isChecked, setIsChecked] = useState(false);
   // const onChangeNameHandler = (e) => {
   //   setUserName(e.currentTarget.value);
   // };
@@ -59,16 +61,38 @@ const RegisterModal = (props) => {
     });
   };
 
-  const onUserNameCheckHandler = (e) => {
-    e.preventDefault();
-
-    dispatch(userNameCheck(register));
-  };
-
   const onRegisterSubmitHandler = (e) => {
     e.preventDefault();
 
-    dispatch(userRegister(register));
+    if (register.userPW !== register.confirmUserPW) {
+      alert("비밀번호가 일치하지 않습니다.");
+    } else {
+      dispatch(userRegister(register));
+      close();
+    }
+  };
+
+  const onUserNameCheckHandler = (e) => {
+    e.preventDefault();
+    console.log("중복확인");
+    axios
+      .get(
+        `${BASE_URL}/user/existName/${register.userName}`,
+        JSON.stringify(register.userName),
+        {
+          headers: {
+            "Content-Type": `application/json`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        // if (res === "false") {
+        //   setIsChecked(true);
+        // } else {
+        //   alert("이미 존재하는 아이디입니다.");
+        // }
+      });
   };
 
   return (
@@ -80,39 +104,43 @@ const RegisterModal = (props) => {
             <div className="register-modal__input-box">
               <div className="register-modal__nickname">
                 <input
+                  className="register-modal__input"
                   name="userName"
                   onChange={onRegisterChangeHandler}
-                  className="register-modal__input-nickname"
                   type="text"
                   placeholder="닉네임"
                   required
                 />
                 <button
                   className="register-modal__double-check-btn"
-                  onChange={onUserNameCheckHandler}
+                  onClick={onUserNameCheckHandler}
                 >
                   중복 확인
                 </button>
               </div>
               <input
+                className="register-modal__input"
                 name="userPW"
                 onChange={onRegisterChangeHandler}
-                className="register-modal__input"
                 type="password"
                 placeholder="비밀번호"
                 required
               />
               <input
+                className="register-modal__input"
                 name="confirmUserPW"
                 onChange={onRegisterChangeHandler}
-                className="register-modal__input"
                 type="password"
                 placeholder="비밀번호 확인"
                 required
               />
             </div>
             <footer>
-              <button type="submit" className="register-modal__btn">
+              <button
+                type="submit"
+                className="register-modal__btn"
+                disabled={!isChecked}
+              >
                 회원가입
               </button>
               <button className="register-modal__btn" onClick={close}>

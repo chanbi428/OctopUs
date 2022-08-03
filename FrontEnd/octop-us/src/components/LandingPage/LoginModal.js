@@ -12,8 +12,13 @@ const LoginModal = (props) => {
 
   // 유저 정보 가져오기
   const { userInfo } = useSelector((state) => state.user);
-  const [userName, setUserName] = useState("");
-  const [userPW, setUserPW] = useState("");
+  // const [userName, setUserName] = useState("");
+  // const [userPW, setUserPW] = useState("");
+
+  const [login, setLogin] = useState({
+    userName: "",
+    userPW: "",
+  });
 
   // 유저 정보가 있으면 메인페이지로 이동
   useEffect(() => {
@@ -22,22 +27,25 @@ const LoginModal = (props) => {
     }
   }, [navigate, userInfo]);
 
-  const onChangeIdHandler = (e) => {
-    setUserName(e.currentTarget.value);
+  const onLoginChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setLogin({
+      ...login,
+      [name]: value,
+    });
   };
 
-  const onChangePasswordtHandler = (e) => {
-    setUserPW(e.currentTarget.value);
-  };
+  // const onChangeIdHandler = (e) => {
+  //   setUserName(e.currentTarget.value);
+  // };
+
+  // const onChangePasswordtHandler = (e) => {
+  //   setUserPW(e.currentTarget.value);
+  // };
 
   const onLoginSubmitHandler = (e) => {
     e.preventDefault();
-    dispatch(
-      userLogin({
-        userName,
-        userPW,
-      })
-    );
+    dispatch(userLogin(login));
   };
 
   return (
@@ -50,25 +58,25 @@ const LoginModal = (props) => {
               <input
                 className="login-modal__input"
                 type="text"
-                value={userName}
-                onChange={onChangeIdHandler}
+                name="userName"
+                onChange={onLoginChangeHandler}
                 placeholder="닉네임"
                 required
                 autoFocus
               />
               <input
                 className="login-modal__input"
+                name="userPW"
                 type="password"
-                value={userPW}
-                onChange={onChangePasswordtHandler}
+                onChange={onLoginChangeHandler}
                 placeholder="비밀번호"
                 required
               />
             </div>
             <div>
               <button
-                type="submit"
                 className="login-modal__btn"
+                type="submit"
                 onClick={onLoginSubmitHandler}
               >
                 로그인
