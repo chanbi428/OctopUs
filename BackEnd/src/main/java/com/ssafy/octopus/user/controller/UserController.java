@@ -37,19 +37,18 @@ public class UserController {
 
     }
 
-
-    @GetMapping("/existName")
-    public  ResponseEntity<String> existName(@RequestBody UserDto dto){
-        if(service.nameOverlapCheck(dto.getUserName())){
+    @GetMapping("/existName/{userName}")
+    public  ResponseEntity<String> existName(@PathVariable String userName){
+        if(service.nameOverlapCheck(userName)){
             return new ResponseEntity<>("true", HttpStatus.OK);
         }
         else{
             return new ResponseEntity<>("false", HttpStatus.NOT_FOUND);
         }
     }
-    @PostMapping("/SignIn") // 회원가입
-    public ResponseEntity<User> signIn(@RequestBody UserDto dto){
-        System.out.println("signin : " + dto);
+    @PostMapping("/signUp") // 회원가입
+    public ResponseEntity<User> signUp(@RequestBody UserDto dto){
+        System.out.println("signup : " + dto);
         User user = service.save(dto);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
