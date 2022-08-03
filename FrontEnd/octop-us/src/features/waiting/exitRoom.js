@@ -9,13 +9,13 @@ export const exitRoom = async (roomId, userName) => {
         let getRoomInfo = res.data
         let users = res.data.userList.split(',')
         getRoomInfo.userList = users
-        if (Number(getRoomInfo.personNum) === 1) {
+        if (getRoomInfo.personNum === 1) {
             axios.delete(`http://localhost:8080/rooms/${roomId}`)
             .then(() => document.location.href = "http://localhost:3000/main")
             // 세션 떠남 알림 필요 없나?
         }
         if (getRoomInfo.roomChief === userName) {
-            getRoomInfo.userList.splice(userName,1," ")
+            getRoomInfo.userList.splice(getRoomInfo.userList.indexOf(userName),1," ")
             for (let user of getRoomInfo.userList) {
                 if (user !== userName && user !== "" && user !== " ") {
                   getRoomInfo.roomChief = user;
@@ -31,7 +31,7 @@ export const exitRoom = async (roomId, userName) => {
             })
             .then(() => document.location.href = "http://localhost:3000/main")
         } else {
-            getRoomInfo.userList.splice(userName, 1, " ")
+            getRoomInfo.userList.splice(getRoomInfo.userList.indexOf(userName),1," ")
             getRoomInfo.personNum = getRoomInfo.personNum - 1
             getRoomInfo.userList = getRoomInfo.userList.join()
             axios.put("http://localhost:8080/rooms", JSON.stringify(getRoomInfo), {
