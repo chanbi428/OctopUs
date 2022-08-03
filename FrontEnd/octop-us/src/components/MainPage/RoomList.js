@@ -1,6 +1,6 @@
-import RoomListItem from "../RoomListItem/RoomListItem";
+import RoomListItem from "./RoomListItem";
 import "./RoomList.css";
-import Card from "../../../Card/Card";
+import Card from "../Card/Card";
 
 function RoomList({ roomInfo }) {
   return (

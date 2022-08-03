@@ -1,6 +1,6 @@
 import React from 'react'
 import './ShowRoom.css';
-import Card from '../../Card/Card'
+import Card from '../Card/Card'
 
 export default function ShowRoom({roomName, personLimit, personNum, roomId, isPrivate, roomPw, gameTime, roomChief}) {
     return (

@@ -2,10 +2,9 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
-import LandingPage from "./components/views/LandingPage/LandingPage";
-import MainPage from "./components/views/MainPage/MainPage";
-import Tmp from "./components/views/tmp/tmp";
-import WaitingRoom from "./components/views/WaitingRoom/WaitingRoom";
+import LandingPage from "./components/LandingPage/LandingPage";
+import MainPage from "./components/MainPage/MainPage";
+import WaitingRoomPage from "./components/WaitingRoomPage/WaitingRoomPage";
 import { login } from "./features/user/userSlice";
 
 import "./App.css";
@@ -39,8 +38,7 @@ function App() {
       <Routes>
         <Route path="/" exact element={<LandingPage />} />
         <Route path="/main" element={<MainPage />} />
-        <Route path="/tmp" element={<Tmp />} />
-        <Route path="/:roomId" element={<WaitingRoom />}></Route>
+        <Route path="/:roomId" element={<WaitingRoomPage />} />
       </Routes>
     </div>
   );

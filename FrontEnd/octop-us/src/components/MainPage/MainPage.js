@@ -3,9 +3,9 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { logout } from "../../../features/user/userSlice";
-import MakeRoom from "../MakeRoom/MakeRoom";
-import RoomList from "./RoomList/RoomList";
+import { logout } from "../../features/user/userSlice";
+import MakeRoom from "./MakeRoom";
+import RoomList from "./RoomList";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./MainPage.css";
 

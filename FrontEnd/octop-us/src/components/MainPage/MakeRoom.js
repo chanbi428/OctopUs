@@ -1,4 +1,4 @@
-import Card from "../../Card/Card";
+import Card from "../Card/Card";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -28,7 +28,7 @@ function MakeRoom() {
     setRoomPw(e.target.value);
   };
   const createRoom = () => {
-    userList = [userInfo.userName, "", "", "", "", "", "", ""];
+    userList = [userInfo.userName, " ", " ", " ", " ", " ", " ", " "];
     const data = {
       // type : 'system',
       // sender : 'FE',

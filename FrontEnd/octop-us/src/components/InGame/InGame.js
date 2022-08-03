@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "./VideoRoomComponent.css";
+import "./InGame.css";
 import { OpenVidu } from "openvidu-browser";
-import StreamComponent from "./stream/StreamComponent";
-import ChatComponent from "./chat/ChatComponent";
+import StreamComponent from "./components/stream/StreamComponent";
+import ChatComponent from "./components/chat/ChatComponent";
 
-import OpenViduLayout from "../layout/openvidu-layout";
-import UserModel from "../models/user-model";
-import ToolbarComponent from "./toolbar/ToolbarComponent";
-import ShowRoom from "../../WaitingRoom/ShowRoom";
-import WaitingRoom from "../../WaitingRoom/WaitingRoom";
+import OpenViduLayout from "./layout/openvidu-layout";
+import UserModel from "./models/user-model";
+import ToolbarComponent from "./components/toolbar/ToolbarComponent";
+import ShowRoom from "../WaitingRoomPage/ShowRoom";
+import WaitingRoomPage from "../WaitingRoomPage/WaitingRoomPage";
 
 var localUser = new UserModel();
 
-class VideoRoomComponent extends Component {
+class InGame extends Component {
   constructor(props) {
     super(props);
     this.OPENVIDU_SERVER_URL = 'https://i7E106.p.ssafy.io:8443';
@@ -397,7 +397,7 @@ class VideoRoomComponent extends Component {
         {this.state.page === 0 && (
           <div>
             <div>
-              <WaitingRoom />
+              <WaitingRoomPage />
             </div>
             <div className="d-flex justify-content-between">
               <ShowRoom />
@@ -559,4 +559,4 @@ class VideoRoomComponent extends Component {
     });
   }
 }
-export default VideoRoomComponent;
+export default InGame;
