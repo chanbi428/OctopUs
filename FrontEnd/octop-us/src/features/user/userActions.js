@@ -19,8 +19,10 @@ export const userLogin = createAsyncThunk(
       console.log(data);
 
       // 로컬 스토리지에 토큰 저장
-      localStorage.setItem("userToken", data.token);
-      localStorage.setItem("userName", data.userName);
+      // localStorage.setItem("userToken", data.token);
+      // localStorage.setItem("userName", data.userName);
+      sessionStorage.setItem("userToken", data.token);
+      sessionStorage.setItem("userName", data.userName);
 
       return data;
     } catch (error) {

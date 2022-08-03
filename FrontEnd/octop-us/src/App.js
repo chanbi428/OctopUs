@@ -14,10 +14,14 @@ function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const getUserToken = localStorage.getItem("userToken")
+  // const getUserToken = localStorage.getItem("userToken")
+  //   ? localStorage.getItem("userToken")
+  //   : null;
+  // const getUserName = localStorage.getItem("userName");
+  const getUserToken = sessionStorage.getItem("userToken")
     ? localStorage.getItem("userToken")
     : null;
-  const getUserName = localStorage.getItem("userName");
+  const getUserName = sessionStorage.getItem("userName");
 
   // 로그인 상태 유지
   useEffect(() => {
