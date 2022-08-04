@@ -1,0 +1,26 @@
+.shark-game__container {
+  height: 100vh;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.shark-game__img {
+  /* width: 50vw;
+  height: 50vh; */
+  /* object-fit: contain; */
+  /* right: 0;
+  position: absolute; */
+  animation-name: move_shark;
+  animation-duration: 3s;
+}
+
+@keyframes move_shark {
+  from {
+    position: absolute;
+    right: 0;
+  }
+  to {
+    position: absolute;
+    left: 0;
+  }
+}
