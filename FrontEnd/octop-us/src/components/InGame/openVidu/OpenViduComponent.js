@@ -35,7 +35,11 @@ class OpenViduComponent extends Component {
       chatDisplay: "block",
       currentVideoDevice: undefined,
       page: 0,
+      votePage: 0,
+      agreePage: 0,
       userList: ["a", "b", "c", "d"],
+      pickUser: "",
+      agree: false
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -392,6 +396,24 @@ class OpenViduComponent extends Component {
     console.log("clickUser on child : " + e);
   };
 
+  clickBtnVote = () => this.setState({votePage : 1})
+
+  clickBtnMoveAgree = () => this.setState({agreePage : 1})
+
+  selectVote = (userName, e) => {
+    e.preventDefault();
+    if (this.state.votePage === 1) {
+      this.setState({pickUser: userName});
+      console.log("선택한 유저" + this.state.pickUser)
+    }
+  };
+  
+  selectAgree = (e) => {
+    e.preventDefault();
+    this.setState({agree: !this.state.agree})
+    console.log("찬성여부" + this.state.agree)
+  }
+
 
   render() {
     const mySessionId = this.state.mySessionId;
@@ -440,28 +462,26 @@ class OpenViduComponent extends Component {
             </div>
           </div>
         )}
-        {this.state.page === 1 && (
+        {this.state.page === 1 && this.state.agreePage === 0 && (
           <div className="d-flex justify-content-between">
             <div>
               {this.state.userList.map((sub, i) => (
-                <div id="layout" className="ingame-bounds" >
+                <div id="layout" className="ingame-bounds" onClick={e => this.selectVote(sub.nickname, e)}>
                   <div
                     key={i}
                     className="OT_root OT_publisher custom-class"
                     id="remoteUsers"
-                   
                   >
+                    {sub.nickname === this.state.pickUser && (<p>투표</p>)}
                     <StreamComponent user={localUser} />
-                  </div>
-                  <div>
-                    <p>투표</p>
                   </div>
                 </div>
               ))}
             </div>
             <div className="d-flex flex-column justify-content-between">
               <div>
-                <RoundComponent/>
+                <button onClick={this.clickBtnVote}>투표시작</button>
+                <button onClick={this.clickBtnMoveAgree}>찬반시작</button>
               </div>
               <div className="aaaaa" style={chatDisplay}>
                 <ChatComponent
@@ -473,12 +493,13 @@ class OpenViduComponent extends Component {
             </div>
             <div>
               {this.state.userList.map((sub, i) => (
-                <div id="layout" className="ingame-bounds">
+                <div id="layout" className="ingame-bounds" onClick={e => this.selectVote(sub.nickname, e)}>
                   <div
                     key={i}
                     className="OT_root OT_publisher custom-class"
                     id="remoteUsers"
                   >
+                    {sub.nickname === this.state.pickUser && (<p>투표</p>)}
                     <StreamComponent user={localUser} />
                   </div>
                   <div>
@@ -486,6 +507,25 @@ class OpenViduComponent extends Component {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {this.state.agreePage === 1 && (
+          <div className="d-flex justify-content-center">
+            <div className="d-flex flex-column justify-content-between">
+              <h2>최후변론</h2>
+              <div id="layout" className="voted-bounds">
+                {localUser !== undefined &&
+                  localUser.getStreamManager() !== undefined && (
+                    <div className="OT_root OT_publisher custom-class" id="localUser">
+                      <StreamComponent user={localUser} />
+                    </div>
+                  )}
+              </div>
+              <div className="d-flex justify-content-around agree-box">
+                <button onClick={e => this.selectAgree(e)} disabled={this.state.agree === true ? true : false} className="agree__btn">찬성</button>
+                <button onClick={e => this.selectAgree(e)} disabled={this.state.agree === false ? true : false} className="agree__btn">반대</button>
+              </div>
             </div>
           </div>
         )}

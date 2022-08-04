@@ -78,6 +78,16 @@
   margin: 20px;
 }
 
+.voted-bounds {
+  background-color: #494949;
+  overflow: hidden;
+  min-width: 200px !important;
+  position: relative !important;
+  bottom: 0;
+  height: 600px;
+  width: 600px;
+}
+
 .aaaaa {
   width: 50vw;
   height: 300px;
@@ -940,4 +950,21 @@
   text-align: center;
   height: 100%;
   margin-top: 40px;
+}
+
+.agree-box {
+  margin-top: 20px;
+}
+
+.agree__btn {
+  text-align: center;
+  width: 8vw;
+  height: 4vh;
+  margin: 10px;
+  border-radius: 5px;
+  margin-bottom: 0;
+  margin-left: 2vh;
+  margin-right: 2vh;
+  background-color: #f4d35e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
