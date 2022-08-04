@@ -385,7 +385,7 @@ class OpenViduComponent extends Component {
     }
     this.updateLayout();
   }
-
+  // 임시로 만들어놓은 대기실에서 이동하는 버튼 함수
   clickBtn = () => {
     console.log("clickBtn on child");
     this.setState({ page: 1 });
@@ -395,11 +395,11 @@ class OpenViduComponent extends Component {
   clickUser = (e) =>{
     console.log("clickUser on child : " + e);
   };
-
+  // 투표 시작하는 버튼 누름(누르면 투표 활성화)
   clickBtnVote = () => this.setState({votePage : 1})
-
+  // 찬반 투표로 넘어가는 버튼
   clickBtnMoveAgree = () => this.setState({agreePage : 1})
-
+  // 유저를 선택하는 함수 (state의 pickUser가 선택한 userName으로 넘어감)
   selectVote = (userName, e) => {
     e.preventDefault();
     if (this.state.votePage === 1) {
@@ -407,7 +407,7 @@ class OpenViduComponent extends Component {
       console.log("선택한 유저" + this.state.pickUser)
     }
   };
-  
+  // 찬반 버튼 누르면 state.agree가 바뀜
   selectAgree = (e) => {
     e.preventDefault();
     this.setState({agree: !this.state.agree})
@@ -462,6 +462,9 @@ class OpenViduComponent extends Component {
             </div>
           </div>
         )}
+        {/* 페이지 넘어가는 버튼 누르고 찬반 투표가 아닐 때 
+          일단은 다 로컬유저로 해놨습니다 수정 필요
+        */}
         {this.state.page === 1 && this.state.agreePage === 0 && (
           <div className="d-flex justify-content-between">
             <div>
@@ -510,6 +513,7 @@ class OpenViduComponent extends Component {
             </div>
           </div>
         )}
+        {/* 찬반페이지 */}
         {this.state.agreePage === 1 && (
           <div className="d-flex justify-content-center">
             <div className="d-flex flex-column justify-content-between">
