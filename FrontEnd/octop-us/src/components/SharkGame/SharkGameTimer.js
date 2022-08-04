@@ -1,6 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
+const Container = styled.div`
+  margin-top: 30px;
+  width: 100px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+`;
+
+const Front = styled.div`
+  text-align: right;
+`;
+
+const Back = styled.div`
+  width: 1rem;
+`;
+
 function SharkGameTimer() {
   const [timeElapsed, setTimeElapsed] = useState(0);
   const record = useRef;
@@ -22,23 +40,5 @@ function SharkGameTimer() {
     </Container>
   );
 }
-
-const Container = styled.div`
-  margin-top: 30px;
-  width: 100px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 30px;
-`;
-
-const Front = styled.div`
-  text-align: right;
-`;
-
-const Back = styled.div`
-  width: 1rem;
-`;
 
 export default SharkGameTimer;
