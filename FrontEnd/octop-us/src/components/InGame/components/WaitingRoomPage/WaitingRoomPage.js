@@ -125,11 +125,6 @@ export default function WaitingRoomPage() {
       <section>
         <SeatsRoom seatInfo={seats} throneInfo={throne}/>
       </section>
-      <div className="waiting-page__lower container">
-        <div className="waiting-page__room-setting">
-          <ShowRoom />
-        </div>
-      </div>
     </div>
   );
 };
