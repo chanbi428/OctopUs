@@ -15,7 +15,7 @@ export const userLogin = createAsyncThunk(
       };
 
       const { data } = await axios.post(
-        "/Auth/login",
+        `${BASE_URL}/Auth/login`,
         { userName, userPW },
         config
       );
