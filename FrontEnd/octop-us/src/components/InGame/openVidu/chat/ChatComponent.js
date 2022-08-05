@@ -3,7 +3,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Fab from "@material-ui/core/Fab";
 import HighlightOff from "@material-ui/icons/HighlightOff";
 import Send from "@material-ui/icons/Send";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import "./ChatComponent.css";
 import { Tooltip } from "@material-ui/core";
 
@@ -94,15 +95,6 @@ export default class ChatComponent extends Component {
     return (
       <div id="chatContainer">
         <div id="chatComponent" style={styleChat}>
-          <div id="chatToolbar">
-            <span>
-              {this.props.user.getStreamManager().stream.session.sessionId} -
-              CHAT
-            </span>
-            <IconButton id="closeButton" onClick={this.close}>
-              <HighlightOff color="secondary" />
-            </IconButton>
-          </div>
           <div className="message-wrap" ref={this.chatScroll}>
             {this.state.messageList.map((data, i) => (
               <div
@@ -115,12 +107,6 @@ export default class ChatComponent extends Component {
                     : " right")
                 }
               >
-                <canvas
-                  id={"userImg-" + i}
-                  width="60"
-                  height="60"
-                  className="user-img"
-                />
                 <div className="msg-detail">
                   <div className="msg-info">
                     <p> {data.nickname}</p>
@@ -136,16 +122,14 @@ export default class ChatComponent extends Component {
 
           <div id="messageInput">
             <input
-              placeholder="Send a messge"
+              placeholder="메세지를 입력해주세요"
               id="chatInput"
               value={this.state.message}
               onChange={this.handleChange}
               onKeyPress={this.handlePressKey}
             />
             <Tooltip title="Send message">
-              <Fab size="small" id="sendButton" onClick={this.sendMessage}>
-                <Send />
-              </Fab>
+              <Send onClick={this.sendMessage} />
             </Tooltip>
           </div>
         </div>
