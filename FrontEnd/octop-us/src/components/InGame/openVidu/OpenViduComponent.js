@@ -29,6 +29,9 @@ class OpenViduComponent extends Component {
     let userName = localStorage.getItem("userName");
     this.remotes = [];
     this.localUserAccessAllowed = false;
+    // 상위 컴포넌트에서 하위 함수 호출 위한 부분
+    // 혹시 chatComponent 추가하게 된다면 prop처럼 추가하여 잘 달아주세요
+    this.ovref = React.createRef()
     this.state = {
       mySessionId: sessionName,
       myUserName: userName,
@@ -202,6 +205,9 @@ class OpenViduComponent extends Component {
         });
       }
     );
+    // 유저 입장 시 채팅으로 [서버] 입장 알림.
+    console.log("ovref 입장 알림 준비. ovref.current null 시 주석 처리", this.ovref)
+    this.ovref.current.enterNotice()
   }
 
   updateSubscribers() {
@@ -226,7 +232,9 @@ class OpenViduComponent extends Component {
 
   leaveSession() {
     const mySession = this.state.session;
-
+    // 유저 퇴장 시 채팅으로 [서버] 퇴장 알림.
+    console.log("ovref 퇴장 알림 준비. ovref.current null 시 주석 처리", this.ovref)
+    this.ovref.current.exitNotice()
     if (mySession) {
       mySession.disconnect();
     }
@@ -439,6 +447,7 @@ class OpenViduComponent extends Component {
                       user={localUser}
                       chatDisplay={this.state.chatDisplay}
                       close={this.toggleChat}
+                      ref={this.ovref}
                     />
                   </div>
                 )}
@@ -501,6 +510,7 @@ class OpenViduComponent extends Component {
                   user={localUser}
                   chatDisplay={this.state.chatDisplay}
                   close={this.toggleChat}
+                  ref={this.ovref}
                 />
               </div>
             </div>

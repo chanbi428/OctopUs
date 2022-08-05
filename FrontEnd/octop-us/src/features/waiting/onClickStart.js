@@ -1,96 +1,40 @@
 import React from 'react';
 import axios from 'axios';
-import { sendMessage } from "./sendMessage";
+import { useSelector } from 'react-redux';
 
 
-export const onClickStart = async (roomId, userName) => {
-    const navigate = useNavigate();
-    //6인 이상 시작 조건문 넣기
-    await axios
-    .get(`http://localhost:8080/rooms/detail/roomid/${roomId}`)
+export const OnClickStart = (roomId, userName) => {
+    //게임 초기 정보 db에 넣어주기
+    console.log("필요 파라미터 잘 받았는지 확인!",roomId, userName)
+    const info = useSelector((state) => state.wait)
+    console.log("start 함수에서 리덕스 정보 잘 받았는지 확인", info)
+    const data = {
+        roomId : roomId,
+        users : info.userList
+    }
+    axios.post("http://localhost:8080/games", data, {
+        headers: {
+          "Content-Type": `application/json`,
+        }}
+    )
     .then((res) => {
-        console.log(res.data)
-        let information = res.data
-        let usersInfo = res.data.userList(",")
-        const data = {
-            users : usersInfo,
-            roomId : roomId
-        };
-        await axios
-            .post("http://localhost:8080/games", data, {
-            headers: {
-              "Content-Type": `application/json`,
-            },
-        })
+        console.log("post로 게임 유저, 룸 정보 잘 넘겨짐!",res.data)
+        // 방의 상태를 게임 중 상태로 변경
+        axios.put(`http://localhost:8080/rooms/update/status/start/${res.data.roomId}`, {
+        headers: {
+        "Content-Type": `application/json`,
+        }})
+        .then((res) => console.log("게임 중으로 변경 성공!", res.data))
+        .catch((err) => console.log("게임 중으로 변경 실패!", err))
     })
-    .catch((err) => console.log(err));
-
-    const message = {
-        datatype : "slot",
-        data : "night"
-    };
-    await sendMessage(message);
-    await axios
-        .get(`http://localhost:8080/gamer/${userName}`)
-        .then((res) => {
-        const inGameJob = res.data.gameJob;
-        console.log(inGameJob);
-        // setGameJob = inGameJob
-        // 리덕스로 인게임 유저 정보에 저장하기!
-        await axios.put(`http://localhost:8080/rooms/update/status/start/${roomId}`, {
-            headers: {
-            "Content-Type": `application/json`,
-            }})
-            .then(() => document.location.href = "https://localhost:3000/ingame") // 주소 손보고 연결 방식 바꾸기
-            .catch((err) => console.log(err))
-        })
-        .catch((err) => console.log(err))
-        
-
-    // const getRoomInfoa = axios.get(
-    //   `http://localhost:8080/rooms/detail/roomid/${roomId}`
-    // );
-    // .then((res)=> {
-    //   console.log(res.data)
-    //   const users = res.data.userList.split(",");
-    // })
-    // console.log(getRoomInfo);
-    // const users = getRoomInfo.userList.split(",");
-    // for (let user of users) {
-    //   let cnt = 0;
-    //   if (user === "") {
-    //     cnt = cnt + 1;
-    //     users.splice(users.indexOf(user), 1);
-    //   }
-    // }
-    // const data = {
-    //   users: users,
-    //   roomId: getRoomInfo.roomId,
-    // };
-    // await axios.post("http://localhost:8080/games", data, {
-    //   headers: {
+    .catch((err) => console.log(err))
+    // 방의 상태를 게임 중 상태로 변경
+    // axios.put(`http://localhost:8080/rooms/update/status/start/${roomId}`, {
+    //     headers: {
     //     "Content-Type": `application/json`,
-    //   },
-    // });
-    // const message = {
-    //   datatype : "slot",
-    //   data : "night"
-    // }
-    // // 소켓 게임 시작 알림
-    // await sendMessage(message);
-    // // 직업을 가져온다
-    // await axios
-    //   .get(`http://localhost:8080/gamer/${"userInfo.userName"}`)
-    //   .then((res) => {
-    //     const inGameJob = res.data.gameJob;
-    //     console.log(inGameJob);
-    //     // setGameJob = inGameJob
-    //     // 리덕스? 스테이트?
-    //     axios.put(`http://localhost:8080/rooms/update/status/start/${roomId}`, {
-    //       headers: {
-    //         "Content-Type": `application/json`,
-    //       },
-    //     });
-    //     // 밤으로 넘어간다 => 소켓? 링크인가
-    //   });
-  };
+    //     }})
+    //     .then((res) => console.log("게임 중으로 변경 성공!", res.data))
+    //     .catch((err) => console.log("게임 중으로 변경 실패!", err))
+    
+}
+export default OnClickStart;
