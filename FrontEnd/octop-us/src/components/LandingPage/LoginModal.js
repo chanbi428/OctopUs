@@ -1,22 +1,17 @@
-import React, { useState } from "react";
-// import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-// import { useDispatch, useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { userLogin } from "../../features/user/userActions";
 import "./LoginModal.css";
 
 const LoginModal = (props) => {
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const { open, close } = props;
 
   // 유저 정보 가져오기
-  // const { userInfo } = useSelector((state) => state.user);
-
-  // const [userName, setUserName] = useState("");
-  // const [userPW, setUserPW] = useState("");
+  const { userInfo } = useSelector((state) => state.user);
 
   const [login, setLogin] = useState({
     userName: "",
@@ -24,11 +19,11 @@ const LoginModal = (props) => {
   });
 
   // 유저 정보가 있으면 메인페이지로 이동
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     navigate("/main");
-  //   }
-  // }, [navigate, userInfo]);
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/main");
+    }
+  }, [navigate, userInfo]);
 
   const onLoginChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -37,14 +32,6 @@ const LoginModal = (props) => {
       [name]: value,
     });
   };
-
-  // const onChangeIdHandler = (e) => {
-  //   setUserName(e.currentTarget.value);
-  // };
-
-  // const onChangePasswordtHandler = (e) => {
-  //   setUserPW(e.currentTarget.value);
-  // };
 
   const onLoginSubmitHandler = (e) => {
     e.preventDefault();
