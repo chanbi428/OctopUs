@@ -7,9 +7,20 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 30px;
+  border-radius: 10px;
+  animation-name: cellColor;
+
+  @keyframes cellColor {
+    0% {
+      background: rgb(random(0, 255), random(0, 255), random(0, 255));
+    }
+  }
 `;
 
 function SharkGameCell({ num, handleClick }) {
+  const cellColor = ["#fdfcdc", "#f4d35e", "#00afb9", "#0081a7", "#13293d"];
+  const randomColor = cellColor[Math.floor(Math.random() * cellColor.length)];
+  console.log(randomColor);
   return (
     <Container onClick={() => handleClick(num)}>
       {num !== 0 ? num : null}

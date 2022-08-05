@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import SharkGameBoard from "./SharkGameBoard";
 import SharkGameTimer from "./SharkGameTimer";
-import SharkGameStart from "./SharkGameStart";
+import SharkGameTutorial from "./SharkGameTutorial";
 
 const Container = styled.div`
   display: flex;
@@ -11,6 +11,7 @@ const Container = styled.div`
   width: 600px;
   height: 600px;
   border: 1px solid black;
+  flex-direction: column;
 `;
 
 const StartButton = styled.button`
@@ -29,17 +30,17 @@ function SharkGame() {
   const [gameFlag, setGameFlag] = useState(false); // 게임이 진행중인지 여부
   // 게임 진행 시 클릭해야 할 숫자. 초기 1, 누를 때마다 2, 3, 4 ... 25까지
   const [current, setCurrent] = useState(1);
-  const [eventChange, setEventChange] = useState(false);
-
-  // 이벤트 발생 -> 게임으로 화면 전환
+  //
+  const [startChange, setStartChange] = useState(false);
   useEffect(() => {
-    if (!eventChange) {
-      const eventTimer = setTimeout(() => {
-        setEventChange(true);
-      }, 4000);
-      return () => clearTimeout(eventTimer);
+    if (!startChange) {
+      const startTimer = setTimeout(() => {
+        setStartChange(true);
+      }, 10000);
+      // console.log(startChange);
+      return () => clearTimeout(startTimer);
     }
-  }, [eventChange]);
+  }, [startChange]);
 
   const onClickHandler = (num) => {
     if (num === current) {
@@ -79,18 +80,18 @@ function SharkGame() {
 
   return (
     <div>
-      {!eventChange && <SharkGameStart />}
-      {eventChange && (
+      {!startChange && <SharkGameTutorial />}
+      {startChange && (
         <Container>
-          <SharkGameBoard
-            numbers={numbers}
-            handleClick={onClickHandler}
-          ></SharkGameBoard>
           {gameFlag ? (
             <SharkGameTimer />
           ) : (
             <StartButton onClick={startGame}>start</StartButton>
           )}
+          <SharkGameBoard
+            numbers={numbers}
+            handleClick={onClickHandler}
+          ></SharkGameBoard>
         </Container>
       )}
     </div>
