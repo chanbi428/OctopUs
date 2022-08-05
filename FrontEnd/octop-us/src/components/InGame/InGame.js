@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useRef } from "react";
 import "./InGame.css";
 import WaitingRoomPage from "./components/WaitingRoomPage/WaitingRoomPage";
 import OpenViduComponent from "./openVidu/OpenViduComponent";
@@ -12,6 +12,8 @@ const InGame = () => {
     setPage(1);
   };
 
+  const chatRef = useRef()
+
   return (
     <div className="screen">
       <div>
@@ -20,6 +22,7 @@ const InGame = () => {
         <div style={{ display: "flex" }}>
           {page === 0 && (
             <div>
+              {/* 여기에 showRoom 옮기면 카드 이중으로 나타나는 거 사라집니다. */}
               <div className="waiting-page__lower container">
                 <div className="waiting-page__room-setting">
                   <ShowRoom />
@@ -28,7 +31,10 @@ const InGame = () => {
             </div>
           )}
           <div>
-            <OpenViduComponent onClickBtn={clickBtn} />
+            <OpenViduComponent 
+            onClickBtn={clickBtn} 
+            ref={chatRef}
+            />
           </div>
         </div>
       </div>
