@@ -6,8 +6,8 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import MainPage from "./components/MainPage/MainPage";
 import InGame from "./components/InGame/InGame";
 import { login } from "./features/user/userSlice";
-import SharkGame from "./components/SharkGame/SharkGame";
-import SharkGameStart from "./components/SharkGame/SharkGameStart";
+import SharkGame from "./components/MiniGame/SharkGame/SharkGame";
+import SharkGameTutorial from "./components/MiniGame/SharkGame/SharkGameTutorial";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -46,7 +46,7 @@ function App() {
         <Route path="/main" element={<MainPage />} />
         <Route path="/:roomId" element={<InGame />} />
         <Route path="/SharkGame" element={<SharkGame />} />
-        <Route path="/SharkGameStart" element={<SharkGameStart />} />
+        <Route path="/SharkGameTutorial" element={<SharkGameTutorial />} />
       </Routes>
     </div>
   );
