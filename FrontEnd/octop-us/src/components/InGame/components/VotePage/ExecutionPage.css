@@ -1,0 +1,31 @@
+.execution-img {
+  width: 600px;
+  height: 600px;
+  filter: grayscale(100%);
+  position: absolute;
+  transform: scaleX(-1);
+}
+
+.dead-img {
+  width: 600px;
+  height: 600px;
+  z-index: 1000;
+  position: absolute;
+}
+
+.cam-img {
+  position: relative;
+}
+
+.fade-in-box {
+  animation: fadein 2s;
+}
+
+@keyframes fadein {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}

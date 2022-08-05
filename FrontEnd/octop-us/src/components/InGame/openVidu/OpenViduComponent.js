@@ -4,6 +4,9 @@ import { OpenVidu } from "openvidu-browser";
 import StreamComponent from "./stream/StreamComponent";
 import ChatComponent from "./chat/ChatComponent";
 import RoundComponent from "../components/JobComponents/RoundComponent";
+import VotePage from "../components/VotePage/VotePage";
+import VoteWaitPage from "../components/VotePage/VoteWaitPage";
+import ExecutionPage from "../components/VotePage/ExecutionPage";
 
 import OpenViduLayout from "../layout/openvidu-layout";
 import UserModel from "../models/user-model";
@@ -35,8 +38,9 @@ class OpenViduComponent extends Component {
       chatDisplay: "block",
       currentVideoDevice: undefined,
       page: 0,
-      votePage: 0,
-      agreePage: 0,
+      voteWaitPageStart: 0,
+      votePageStart: 0,
+      agreePageStart: 0,
       userList: ["a", "b", "c", "d"],
       pickUser: "",
       agree: false
@@ -396,13 +400,16 @@ class OpenViduComponent extends Component {
     console.log("clickUser on child : " + e);
   };
   // 투표 시작하는 버튼 누름(누르면 투표 활성화)
-  clickBtnVote = () => this.setState({votePage : 1})
+  clickBtnVote = () => this.setState({votePageStart : 1})
+  moveVoteWait = () => this.setState({voteWaitPageStart : 1})
   // 찬반 투표로 넘어가는 버튼
-  clickBtnMoveAgree = () => this.setState({agreePage : 1})
+  moveAgree = () => this.setState({agreePageStart : 1})
+
+  move
   // 유저를 선택하는 함수 (state의 pickUser가 선택한 userName으로 넘어감)
   selectVote = (userName, e) => {
     e.preventDefault();
-    if (this.state.votePage === 1) {
+    if (this.state.votePageStart === 1) {
       this.setState({pickUser: userName});
       console.log("선택한 유저" + this.state.pickUser)
     }
@@ -465,7 +472,7 @@ class OpenViduComponent extends Component {
         {/* 페이지 넘어가는 버튼 누르고 찬반 투표가 아닐 때 
           일단은 다 로컬유저로 해놨습니다 수정 필요
         */}
-        {this.state.page === 1 && this.state.agreePage === 0 && (
+        {this.state.page === 1 && this.state.agreePageStart === 0 && (
           <div className="d-flex justify-content-between">
             <div>
               {this.state.userList.map((sub, i) => (
@@ -483,8 +490,11 @@ class OpenViduComponent extends Component {
             </div>
             <div className="d-flex flex-column justify-content-between">
               <div>
+                {this.state.voteWaitPageStart === 1
+                  ? <VoteWaitPage moveAgree={this.moveAgree} />
+                  : <VotePage moveVoteWait={this.moveVoteWait} />
+                }
                 <button onClick={this.clickBtnVote}>투표시작</button>
-                <button onClick={this.clickBtnMoveAgree}>찬반시작</button>
               </div>
               <div className="aaaaa" style={chatDisplay}>
                 <ChatComponent
@@ -514,7 +524,7 @@ class OpenViduComponent extends Component {
           </div>
         )}
         {/* 찬반페이지 */}
-        {this.state.agreePage === 1 && (
+        {this.state.agreePageStart === 1 && (
           <div className="d-flex justify-content-center">
             <div className="d-flex flex-column justify-content-between">
               <h2>최후변론</h2>
@@ -522,7 +532,10 @@ class OpenViduComponent extends Component {
                 {localUser !== undefined &&
                   localUser.getStreamManager() !== undefined && (
                     <div className="OT_root OT_publisher custom-class" id="localUser">
-                      <StreamComponent user={localUser} />
+                      <StreamComponent user={localUser}/>
+                      {this.state.agree === true &&
+                        <ExecutionPage streamId={localUser.streamManager.stream.streamId} />
+                      }
                     </div>
                   )}
               </div>
