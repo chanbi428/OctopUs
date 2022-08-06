@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userLogin } from "./userActions";
 
-// 세션 스토리지 유저토큰
-const userToken = sessionStorage.getItem("userToken")
-  ? sessionStorage.getItem("userToken")
+// 로컬 스토리지 유저토큰
+const userToken = localStorage.getItem("userToken")
+  ? localStorage.getItem("userToken")
   : null;
 
 const initialState = {
@@ -27,8 +27,8 @@ const userSlice = createSlice({
     },
     // 로그아웃 리듀서
     logout: (state) => {
-      sessionStorage.removeItem("userToken");
-      sessionStorage.removeItem("userName");
+      localStorage.removeItem("userToken");
+      localStorage.removeItem("userName");
       state.loading = false;
       state.userInfo = null;
       state.userToken = null;

@@ -1,8 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SharkGameBoard from "./SharkGameBoard";
 import SharkGameTimer from "./SharkGameTimer";
+import SharkGameStartCount from "./SharkGameStartCount";
 import SharkGameTutorial from "./SharkGameTutorial";
+
+import { BASE_URL, config } from "../../../api/BASE_URL";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -20,25 +25,35 @@ const StartButton = styled.button`
   height: 50px;
 `;
 
+// 16칸 배열 생성
 let array = [];
 for (let i = 1; i <= 16; i++) {
   array.push(i);
 }
 
-function SharkGame() {
+function SharkGame(props) {
   const [numbers, setNumbers] = useState(array); // 1~16 숫자 배열
   const [gameFlag, setGameFlag] = useState(false); // 게임이 진행중인지 여부
-  // 게임 진행 시 클릭해야 할 숫자. 초기 1, 누를 때마다 2, 3, 4 ... 25까지
-  const [current, setCurrent] = useState(1);
-  //
+  const [current, setCurrent] = useState(1); // 게임 진행 시 클릭 할 숫자. 1 ~ 25
   const [startChange, setStartChange] = useState(false);
+  // const { userInfo } = useSelector((state) => state.user);
+  // const { gamerInfo } = useSelector((state) => state.gamer);
+
   useEffect(() => {
     if (!startChange) {
       const startTimer = setTimeout(() => {
         setStartChange(true);
-      }, 10000);
-      // console.log(startChange);
+      }, 15000); // 여기 수정 v
       return () => clearTimeout(startTimer);
+    }
+    if (startChange) {
+      // 게임 시작시 userName과 roomId 보내기 - 되는 코드임 나중에 주석 풀기
+      // const user_name = gamerInfo.userName;
+      // const room_id = gamerInfo.roomId;
+      // axios.post(BASE_URL + "games/mini/shark", { user_name, room_id }, config);
+      setNumbers(shuffleArray(array));
+      setCurrent(1);
+      setGameFlag(true);
     }
   }, [startChange]);
 
@@ -57,15 +72,8 @@ function SharkGame() {
     }
   };
 
-  // 게임 시작, 초기값 1
-  const startGame = () => {
-    setNumbers(shuffleArray(array));
-    setCurrent(1);
-    setGameFlag(true);
-  };
-
   // 게임 종료
-  const endGame = () => {
+  const endGame = (time) => {
     setGameFlag(false);
   };
 
@@ -80,14 +88,10 @@ function SharkGame() {
 
   return (
     <div>
-      {!startChange && <SharkGameTutorial />}
+      {!startChange && <SharkGameStartCount />}
       {startChange && (
         <Container>
-          {gameFlag ? (
-            <SharkGameTimer />
-          ) : (
-            <StartButton onClick={startGame}>start</StartButton>
-          )}
+          <SharkGameTimer />
           <SharkGameBoard
             numbers={numbers}
             handleClick={onClickHandler}
