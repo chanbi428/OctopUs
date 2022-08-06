@@ -6,8 +6,7 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import MainPage from "./components/MainPage/MainPage";
 import InGame from "./components/InGame/InGame";
 import { login } from "./features/user/userSlice";
-import SharkGame from "./components/MiniGame/SharkGame/SharkGame";
-import SharkGameTutorial from "./components/MiniGame/SharkGame/SharkGameTutorial";
+import SharkGameResult from "./components/MiniGame/SharkGame/SharkGameResult";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,14 +15,10 @@ function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const getUserToken = localStorage.getItem("userToken")
-  //   ? localStorage.getItem("userToken")
-  //   : null;
-  // const getUserName = localStorage.getItem("userName");
-  const getUserToken = sessionStorage.getItem("userToken")
+  const getUserToken = localStorage.getItem("userToken")
     ? localStorage.getItem("userToken")
     : null;
-  const getUserName = sessionStorage.getItem("userName");
+  const getUserName = localStorage.getItem("userName");
 
   // 로그인 상태 유지
   useEffect(() => {
@@ -45,8 +40,7 @@ function App() {
         <Route path="/" exact element={<LandingPage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/:roomId" element={<InGame />} />
-        <Route path="/SharkGame" element={<SharkGame />} />
-        <Route path="/SharkGameTutorial" element={<SharkGameTutorial />} />
+        <Route path="/SharkGame" element={<SharkGameResult />} />
       </Routes>
     </div>
   );

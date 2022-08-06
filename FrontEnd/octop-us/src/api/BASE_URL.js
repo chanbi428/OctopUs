@@ -10,3 +10,10 @@
 // };
 // const getAPI = axios.post(`${BASE_URL}${url}`, data, config);
 // export default getAPI;
+
+export const BASE_URL = "http://localhost:8080";
+export const config = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
