@@ -88,7 +88,6 @@ function SharkGame(props) {
 
   return (
     <div>
-      {/* 여기 수정 Tutorial -> Start */}
       {!startChange && <SharkGameStartCount />}
       {startChange && (
         <Container>
