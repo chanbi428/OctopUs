@@ -137,9 +137,13 @@ const FishingComponent = () => {
               </div>
               <p>count : {count}</p>
               <div id="centerPlace">
-                <span id="citizenPercent">시민 : {citizenPercent.toFixed(1)}%</span>
+                <span id="citizenPercent">
+                  시민 : {citizenPercent.toFixed(1)}%
+                </span>
                 <button onClick={countFun}>Click</button>
-                <span id="mafiaPercent">마피아 : {mafiaPercent.toFixed(1)}%</span>
+                <span id="mafiaPercent">
+                  마피아 : {mafiaPercent.toFixed(1)}%
+                </span>
               </div>
             </div>
           </Card>
