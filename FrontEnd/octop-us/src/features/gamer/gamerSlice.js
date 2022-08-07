@@ -23,6 +23,12 @@ const gamerSlice = createSlice({
   name: "gamer",
   initialState,
   reducers: {
+    // gamer init
+    setGamerInit: (state, { payload }) => {
+      state.userName = payload.userName;
+      state.gameJob = payload.gameJob;
+      state.roomId = payload.roomId;
+    },
     // set UserName Reducer
     setUserName: (state, { payload }) => {
       state.userName = payload.userName;
@@ -144,8 +150,8 @@ const gamerSlice = createSlice({
           list.push({
             userName: user,
             isDead: false,
-            // sub: undefined,
-            sub: i, //임시 테스트용
+            sub: undefined,
+            // sub: i, //임시 테스트용
           });
         }
       });
@@ -182,6 +188,7 @@ const gamerSlice = createSlice({
 });
 
 export const {
+  setGamerInit,
   setUserName,
   setRoom,
   setUserList,

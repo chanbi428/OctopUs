@@ -33,11 +33,11 @@ function App() {
   }, [dispatch]);
 
   // 로그인 안 되어 있을 때 주소에 /main 쳐서 들어가는 것 방지
-  useEffect(() => {
-    if (!getUserToken) {
-      navigate("/");
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   if (!getUserToken) {
+  //     navigate("/");
+  //   }
+  // }, [navigate]);
 
   return (
     <div className="App">

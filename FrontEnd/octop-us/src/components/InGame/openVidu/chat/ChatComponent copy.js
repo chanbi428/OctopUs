@@ -10,8 +10,12 @@ import { Tooltip } from "@material-ui/core";
 import { connect } from "react-redux";
 import axios from "axios";
 import { updateRoomId, updateUserList } from "../../../../features/waiting/waitSlice";
-import { gamerUserList } from "../../../../features/gamer/gamerActions";
-import { setGamerInit } from "../../../../features/gamer/gamerSlice";
+import { gamerInit, gamerUserList } from "../../../../features/gamer/gamerActions";
+import {
+  setGamerInit,
+  setUserName,
+  updateUserListforSub,
+} from "../../../../features/gamer/gamerSlice";
 
 class ChatComponent extends Component {
   constructor(props) {
@@ -156,12 +160,33 @@ class ChatComponent extends Component {
     this.props.setUserList(data);
   };
 
-  settingGamerInit = (data) => {
-    this.props.setInit(data);
+  // settingInit = (data) => {
+  //   this.props.setInit(data)
+  // }
+
+  // settingGamerList = (data) => {
+  //   this.props.setGamerList(data)
+  // }
+
+  // 다영
+
+  gameSetGamerInit = (data) => {
+    this.props.dispatch(setGamerInit(data));
+    console.warn("REDUX : GAMER INIT");
+    console.log("업데이트 게이머 INIT 확인", this.props.gamerData);
+    this.gameGamerUserList();
   };
 
-  settingGamerList = (data) => {
-    this.props.setGamerList(data);
+  gameGamerUserList = () => {
+    this.props.dispatch(gamerUserList(this.props.gamer.roomId));
+    console.warn("REDUX : GAMER USER LIST INIT");
+    console.log("업데이트 게이머 유저리시트 확인", this.props.gamerData);
+  };
+
+  gameUpdateUserListForSub = () => {
+    this.props.dispatch(updateUserListforSub({ subscribers: this.state.subscribers }));
+    console.warn("REDUX : GAMER USER LIST FOR SUB");
+    console.log("업데이트 게이머 SUB 확인", this.props.gamerData);
   };
 
   componentDidUpdate(prevState) {
@@ -196,18 +221,17 @@ class ChatComponent extends Component {
         // console.log("게임 시작 감지!" , this.props,)
         axios.get(`http://localhost:8080/gamers/${userName}`).then((res) => {
           console.log("DB에서 유저 개인 게임 정보 받아오기 성공!", res.data);
+          // console.log("db 유저 이후", this.props.waitData)
           const roomNum = this.props.waitData.roomId;
-
           // // 다영
-          this.settingGamerInit(res.data);
-          console.warn("REDUX : GAMER INIT1 : USER");
-          console.log("업데이트 게이머 확인", this.props.gamerData);
-
-          this.settingGamerList(roomNum);
-          console.warn("REDUX : GAMER INIT2 : USERLIST");
-          console.log("업데이트 게이머 유저리스트 확인", this.props.gamerData);
-
-          this.settingUserList(roomNum);
+          this.gameSetGamerInit(res.data);
+          // this.gameGamerInit();
+          // this.gameUpdateUserListForSub();
+          // this.settingInit(userName)
+          // this.settingUserList(roomNum)
+          // this.props.dispatch(gamerUserList(this.props.gamer.roomId));
+          // console.warn("REDUX : GAMER INIT : USERLIST")
+          // console.log("업데이트 게이머 유저리스트 확인", this.props.gamerData)
 
           const lst = this.state.messageList.concat({
             connectionId: this.props.user.getStreamManager().stream.streamId,
@@ -216,6 +240,9 @@ class ChatComponent extends Component {
           });
           this.setState({ messageList: lst });
         });
+        // 다영
+        // this.gameGamerInit();
+        // this.gameUpdateUserListForSub();
       }
     }
   }
@@ -287,15 +314,15 @@ const mapDispatchToProps = (dispatch) => {
     setUserList: (data) => {
       dispatch(updateUserList(data));
     },
-    setInit: (data) => {
-      dispatch(setGamerInit(data));
-    },
-    setGamerList: (data) => {
-      dispatch(gamerUserList(data));
-    },
+    // settingGamerInit: (data) => {
+    //   dispatch(setGamerInit(data));
+    // }
+    // setGamerList : (data) => {dispatch(gamerUserList(data))},
+    // setInit: (data) => { dispatch(gamerInit(data)) },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(
-  ChatComponent
-);
+// export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(
+//   ChatComponent
+// );
+export default connect(mapStateToProps)(ChatComponent);

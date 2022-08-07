@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Api(tags = "Game Controller")
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = {"POST"})
+@CrossOrigin(origins = "*")
 public class GameController {
 
     @Autowired
