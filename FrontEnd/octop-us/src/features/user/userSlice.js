@@ -2,9 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { userLogin } from "./userActions";
 
 // 세션 스토리지 유저토큰
-const userToken = sessionStorage.getItem("userToken")
-  ? sessionStorage.getItem("userToken")
-  : null;
+const userToken = localStorage.getItem("userToken") ? localStorage.getItem("userToken") : null;
 
 const initialState = {
   loading: false,
@@ -27,8 +25,8 @@ const userSlice = createSlice({
     },
     // 로그아웃 리듀서
     logout: (state) => {
-      sessionStorage.removeItem("userToken");
-      sessionStorage.removeItem("userName");
+      localStorage.removeItem("userToken");
+      localStorage.removeItem("userName");
       state.loading = false;
       state.userInfo = null;
       state.userToken = null;
@@ -39,17 +37,13 @@ const userSlice = createSlice({
   extraReducers: {
     // 디스패치를 통해 액션이 실행됐을 때 - 로딩 중..
     [userLogin.pending]: (state) => {
-      console.log(
-        "features/user/userSliece : 디스패치를 통해 액션이 실행됨 login pending!"
-      );
+      console.log("features/user/userSliece : 디스패치를 통해 액션이 실행됨 login pending!");
       state.loading = true;
       state.error = null;
     },
     // 유저 로그인이 성공했을 때
     [userLogin.fulfilled]: (state, { payload }) => {
-      console.log(
-        "features/user/userSliece : 유저 로그인 성공 login fulfilled!"
-      );
+      console.log("features/user/userSliece : 유저 로그인 성공 login fulfilled!");
       state.loading = false;
       state.userInfo = payload;
       state.userToken = payload.userToken;
@@ -58,9 +52,7 @@ const userSlice = createSlice({
     [userLogin.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-      console.log(
-        "features/user/userSliece : 유저 로그인 실패 login rejected!"
-      );
+      console.log("features/user/userSliece : 유저 로그인 실패 login rejected!");
       alert("닉네임과 비밀번호를 확인해주세요.");
       console.log(state.payload);
     },

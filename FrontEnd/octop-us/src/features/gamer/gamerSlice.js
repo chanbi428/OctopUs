@@ -4,6 +4,7 @@ import { gamerUserList } from "./gamerActions";
 import { gamerDead } from "./gamerActions";
 
 const initialState = {
+  gameStatus: 0, // 0 대기실 1 .. 2.. 3.. 4.. ?
   loading: false,
   error: null,
   roomId: null,
@@ -15,6 +16,7 @@ const initialState = {
   minigameList: [true, true, true], // 미니게임1, 미니게임2, 미니게임3
   minigameResult: true, // true : Mafia , false : No Mafia
   userList: null,
+  subscribers: null,
 };
 
 const gamerSlice = createSlice({
@@ -31,6 +33,10 @@ const gamerSlice = createSlice({
     },
     setUserList: (state, { payload }) => {
       state.userList = payload.userList;
+    },
+    // 게임 status 변경
+    setGameStatus: (state, { payload }) => {
+      state.gameStatus = payload.gameStatus;
     },
     // 기자 사용 능력 소멸
     hasntSkill: (state) => {
@@ -53,10 +59,31 @@ const gamerSlice = createSlice({
       state.userList.forEach((user) => {
         if (user.userName === payload.userName) {
           user.isDead = true;
-          // user.sub = ?
         }
       });
     },
+    // subscribers 와 연결
+    updateUserListforSub: (state, { payload }) => {
+      console.warn("In subscribers");
+      console.log(payload.subscribers);
+
+      state.userList.forEach((user) => {
+        var idx = 0;
+        payload.subscribers.forEach((sub) => {
+          console.log(sub);
+          if (user.userName === sub.nickname) {
+            user.sub = idx;
+          }
+          idx++;
+        });
+      });
+    },
+
+    // updateUserListforSub: (state, { payload }) => {
+    //   state.userList.forEach((user) => {
+    //   })
+    // }
+
     // 죽은 사람 => userList의 isDead = true 리듀서
     // updateUserListforSub: (state, { payload }) => {
     //   state.userList.forEach((user) => {
@@ -105,12 +132,22 @@ const gamerSlice = createSlice({
       let users = payload.userList.split(",");
 
       const list = [];
-      users.forEach((user) => {
-        list.push({
-          userName: user,
-          isDead: false,
-          // sub: undefined,
-        });
+      users.forEach((user, i) => {
+        if (user === state.userName) {
+          list.push({
+            userName: user,
+            isDead: false,
+            // sub: undefined,
+            sub: undefined, //임시 테스트용
+          });
+        } else {
+          list.push({
+            userName: user,
+            isDead: false,
+            // sub: undefined,
+            sub: i, //임시 테스트용
+          });
+        }
       });
 
       state.userList = list;
@@ -140,7 +177,6 @@ const gamerSlice = createSlice({
       state.loading = false;
       state.error = payload;
       console.error("features/gamer/gamerSliece : 게이머 dead 처리 실패 rejected!");
-      console.log(state.payload);
     },
   },
 });
@@ -149,11 +185,13 @@ export const {
   setUserName,
   setRoom,
   setUserList,
+  setGameStatus,
   hasntSkill,
   useMinigame,
   mafiaWinAtMinigame,
   mafiaLoseAtMinigame,
-  updateUserList,
+  updateUserListforDead,
+  updateUserListforSub,
 } = gamerSlice.actions;
 
 export default gamerSlice.reducer;

@@ -14,16 +14,12 @@ export const userLogin = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.post(
-        `${BASE_URL}/Auth/login`,
-        { userName, userPW },
-        config
-      );
+      const { data } = await axios.post(`${BASE_URL}/Auth/login`, { userName, userPW }, config);
       console.log(data);
 
       // 세션 스토리지에 토큰 저장
-      sessionStorage.setItem("userToken", data.token);
-      sessionStorage.setItem("userName", data.userName);
+      localStorage.setItem("userToken", data.token);
+      localStorage.setItem("userName", data.userName);
 
       return data;
     } catch (error) {
@@ -46,11 +42,7 @@ export const userRegister = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.post(
-        `${BASE_URL}/user/signUp`,
-        { userName, userPW },
-        config
-      );
+      const { data } = await axios.post(`${BASE_URL}/user/signUp`, { userName, userPW }, config);
       console.log("회원가입:", data);
       return data;
     } catch (error) {
