@@ -22,13 +22,7 @@ import java.util.Optional;
  */
 
 @RestController
-@CrossOrigin(
-        // localhost:3000 과 127.0.0.1 구분
-        origins = "http://localhost:3000", //allowCredentials = "true" 인 경우, origins="*" 는 X
-        allowCredentials = "true",
-        allowedHeaders = "*",
-        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT, RequestMethod.HEAD, RequestMethod.OPTIONS}
-)
+@CrossOrigin(origins = "*")
 public class CaveController {
 
     @Autowired
