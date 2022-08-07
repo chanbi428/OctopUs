@@ -11,8 +11,7 @@ export const exitRoom = async (roomId, userName) => {
         getRoomInfo.userList = users
         if (getRoomInfo.personNum === 1) {
             axios.delete(`http://localhost:8080/rooms/${roomId}`)
-            .then(() => document.location.href = "http://localhost:3000/main")
-            // 세션 떠남 알림 필요 없나?
+            .then(()=> console.log("혼자일 때 방 나가기 완료"))
         }
         if (getRoomInfo.roomChief === userName) {
             getRoomInfo.userList.splice(getRoomInfo.userList.indexOf(userName),1," ")
@@ -29,7 +28,7 @@ export const exitRoom = async (roomId, userName) => {
                 "Content-Type": `application/json`,
                 },
             })
-            .then(() => document.location.href = "http://localhost:3000/main")
+            .then((res)=> console.log("방장일 때 방 나가기 완료", res.data))
         } else {
             getRoomInfo.userList.splice(getRoomInfo.userList.indexOf(userName),1," ")
             getRoomInfo.personNum = getRoomInfo.personNum - 1
@@ -39,10 +38,7 @@ export const exitRoom = async (roomId, userName) => {
                 "Content-Type": `application/json`,
                 },
             })
-            .then(() => {
-                document.location.href = "http://localhost:3000/main"
-            })
-            // 방 떠날 때 세션 알림 필요한가? 방 떠날 때 방장에게 알려야 하는 거 아닌가?
+            .then((res) => console.log("방장 아닐 때 방 나가기 완료", ))
         }
       });
   };
