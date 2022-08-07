@@ -233,8 +233,8 @@ class OpenViduComponent extends Component {
   leaveSession() {
     const mySession = this.state.session;
     // 유저 퇴장 시 채팅으로 [서버] 퇴장 알림.
-    console.log("ovref 퇴장 알림 준비. ovref.current null 시 주석 처리", this.ovref)
-    this.ovref.current.exitNotice()
+    // console.log("ovref 퇴장 알림 준비. ovref.current null 시 주석 처리", this.ovref)
+    // this.ovref.current.exitNotice()
     if (mySession) {
       mySession.disconnect();
     }

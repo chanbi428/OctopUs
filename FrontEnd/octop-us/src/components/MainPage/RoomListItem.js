@@ -19,9 +19,9 @@ function RoomListItem({ item }) {
     } else if (item.private && item.roomPw !== roomPwIn) {
       alert("비밀번호를 정확히 입력해주세요.");
     } else {
-      let userList = item.userList.split(",");
-      console.log(userList);
-      userList[userList.indexOf("")] = userInfo.userName;
+      let userList = item.userList.split(", ");
+      console.log(userList); 
+      userList[userList.indexOf(" ")] = userInfo.userName;
       console.log(userList);
       const personNum = item.personNum + 1;
       const data = {
@@ -32,7 +32,7 @@ function RoomListItem({ item }) {
         personNum: personNum,
         roomPw: item.roomPw,
         gameTime: item.gameTime,
-        userList: userList.join(),
+        userList: userList.join(", "),
         roomId: item.roomId,
       };
       axios
