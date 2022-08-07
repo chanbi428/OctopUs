@@ -4,10 +4,9 @@ import axios from 'axios';
 export const ClickStart = (roomId, userList, userName) => {
     //게임 초기 정보 db에 넣어주기
     console.log("필요 파라미터 잘 받았는지 확인!",roomId, userList, userName)
-    let users = userList.join(", ")
     const data = {
         roomId : roomId,
-        users : users
+        users : userList
     }
     console.log(JSON.stringify(data))
     axios.post("http://localhost:8080/games", JSON.stringify(data), {

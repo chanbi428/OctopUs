@@ -192,7 +192,8 @@ class ChatComponent extends Component {
             }
           });
       } else if (msg.includes("[게임]")) {
-        const userName = localStorage.getItem("userName");
+        const userName = this.props.userData.userInfo.userName
+        console.log(userName)
         // console.log("게임 시작 감지!" , this.props,)
         axios.get(`http://localhost:8080/gamers/${userName}`).then((res) => {
           console.log("DB에서 유저 개인 게임 정보 받아오기 성공!", res.data);
