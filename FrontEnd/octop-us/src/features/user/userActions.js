@@ -1,19 +1,12 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-// import getAPI from "../../api/user";
+import { BASE_URL, config } from "../../api/BASE_URL";
 
-const BASE_URL = "http://localhost:8080";
+// BASE_URL, config 받아오는 것으로 수정
 export const userLogin = createAsyncThunk(
   "user/login",
   async ({ userName, userPW }, { rejectWithValue }) => {
     try {
-      // const { data } = await getAPI("/Auth/login", { userName, userPW });
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-
       const { data } = await axios.post(
         `${BASE_URL}/Auth/login`,
         { userName, userPW },

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { BASE_URL, config } from "../../../api/BASE_URL";
-import axios from "axios";
+// import { BASE_URL, config } from "../../../api/BASE_URL";
+// import axios from "axios";
 
 const Container = styled.div`
   margin-top: 30px;
@@ -17,10 +17,10 @@ const Front = styled.div`
   text-align: right;
 `;
 
-function SharkGameTimer() {
+function SharkGameTimer({ isFinish }) {
   const [timeElapsed, setTimeElapsed] = useState(30); // 30초 제한
-  const [playTime, setPlayTime] = useState(0); // 몇 초에 성공했는지 기록
-  const record = useRef;
+  const [playTime, setPlayTime] = useState(0); // 1초씩 줄어들기
+  const record = useRef();
   record.current = playTime;
 
   // 보드판 위에 뜨는 타이머
@@ -49,15 +49,14 @@ function SharkGameTimer() {
     };
   }, []);
 
-  // 30초 땡 끝나면 나의 플레이타임 보내기
+  // 게임 끝났을 때 내 기록 보내기
   useEffect(() => {
-    setInterval(() => {
-      const time = record.current / 1000;
-      console.log("마지막" + time);
-      // 요청 보내는 것, 쓸 거임
+    if (isFinish) {
+      const time = playTime / 1000;
+      console.log(`게임 끝! 내 기록: ${time}`);
       // axios.post(BASE_URL + "games/mini/shark", { time }, config);
-    }, 30000);
-  }, []);
+    }
+  }, [isFinish]);
 
   return (
     <Container>

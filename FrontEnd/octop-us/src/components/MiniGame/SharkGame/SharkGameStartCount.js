@@ -5,7 +5,7 @@ const SharkGameStartCount = () => {
   // 3, 2, 1, 0 초에 각각 다른 이미지 보여줄 것
   const [count, setCount] = useState(14);
   const [eventChange, setEventChange] = useState(false);
-  const spaceCount = useRef;
+  const spaceCount = useRef();
   spaceCount.current = count;
 
   useEffect(() => {
@@ -34,13 +34,13 @@ const SharkGameStartCount = () => {
       {!eventChange && <SharkGameTutorial />}
       {eventChange && (
         <div className="shark-game-count__container">
-          {(count == 4 || count == 5) && (
+          {(count === 4 || count === 5) && (
             <img src="images/3.png" alt="3" className="shark-game-count__img" />
           )}
-          {count == 3 && (
+          {count === 3 && (
             <img src="images/2.png" alt="2" className="shark-game-count__img" />
           )}
-          {count == 2 && (
+          {count === 2 && (
             <img src="images/1.png" alt="1" className="shark-game-count__img" />
           )}
           {count < 2 && (

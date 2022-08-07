@@ -3,11 +3,11 @@ import styled from "styled-components";
 import SharkGameBoard from "./SharkGameBoard";
 import SharkGameTimer from "./SharkGameTimer";
 import SharkGameStartCount from "./SharkGameStartCount";
-import SharkGameTutorial from "./SharkGameTutorial";
+// import SharkGameTutorial from "./SharkGameTutorial";
 
-import { BASE_URL, config } from "../../../api/BASE_URL";
-import { useSelector } from "react-redux";
-import axios from "axios";
+// import { BASE_URL, config } from "../../../api/BASE_URL";
+// import { useSelector } from "react-redux";
+// import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -19,12 +19,6 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const StartButton = styled.button`
-  margin-top: 30px;
-  width: 100px;
-  height: 50px;
-`;
-
 // 16칸 배열 생성
 let array = [];
 for (let i = 1; i <= 16; i++) {
@@ -34,6 +28,7 @@ for (let i = 1; i <= 16; i++) {
 function SharkGame(props) {
   const [numbers, setNumbers] = useState(array); // 1~16 숫자 배열
   const [gameFlag, setGameFlag] = useState(false); // 게임이 진행중인지 여부
+  const [isFinish, setIsFinish] = useState(false);
   const [current, setCurrent] = useState(1); // 게임 진행 시 클릭 할 숫자. 1 ~ 25
   const [startChange, setStartChange] = useState(false);
   // const { userInfo } = useSelector((state) => state.user);
@@ -73,8 +68,9 @@ function SharkGame(props) {
   };
 
   // 게임 종료
-  const endGame = (time) => {
+  const endGame = () => {
     setGameFlag(false);
+    setIsFinish(true);
   };
 
   // 배열 섞기
@@ -91,7 +87,7 @@ function SharkGame(props) {
       {!startChange && <SharkGameStartCount />}
       {startChange && (
         <Container>
-          <SharkGameTimer />
+          <SharkGameTimer isFinish={isFinish} />
           <SharkGameBoard
             numbers={numbers}
             handleClick={onClickHandler}
