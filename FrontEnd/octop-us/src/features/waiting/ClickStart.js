@@ -1,18 +1,16 @@
 import React from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 
-
-export const OnClickStart = (roomId, userName) => {
+export const ClickStart = (roomId, userList, userName) => {
     //게임 초기 정보 db에 넣어주기
-    console.log("필요 파라미터 잘 받았는지 확인!",roomId, userName)
-    const info = useSelector((state) => state.wait)
-    console.log("start 함수에서 리덕스 정보 잘 받았는지 확인", info)
+    console.log("필요 파라미터 잘 받았는지 확인!",roomId, userList, userName)
+    let users = userList.join(", ")
     const data = {
         roomId : roomId,
-        users : info.userList
+        users : users
     }
-    axios.post("http://localhost:8080/games", data, {
+    console.log(JSON.stringify(data))
+    axios.post("http://localhost:8080/games", JSON.stringify(data), {
         headers: {
           "Content-Type": `application/json`,
         }}
@@ -20,7 +18,7 @@ export const OnClickStart = (roomId, userName) => {
     .then((res) => {
         console.log("post로 게임 유저, 룸 정보 잘 넘겨짐!",res.data)
         // 방의 상태를 게임 중 상태로 변경
-        axios.put(`http://localhost:8080/rooms/update/status/start/${res.data.roomId}`, {
+        axios.put(`http://localhost:8080/rooms/update/status/start/${roomId}`, {
         headers: {
         "Content-Type": `application/json`,
         }})
@@ -37,4 +35,4 @@ export const OnClickStart = (roomId, userName) => {
     //     .catch((err) => console.log("게임 중으로 변경 실패!", err))
     
 }
-export default OnClickStart;
+export default ClickStart;
