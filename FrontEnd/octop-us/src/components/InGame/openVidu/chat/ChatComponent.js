@@ -278,14 +278,14 @@ class ChatComponent extends Component {
         // console.log("게임 시작 감지!" , this.props,)
         axios.get(`http://localhost:8080/gamers/${userName}`).then((res) => {
           console.log("DB에서 유저 개인 게임 정보 받아오기 성공!", res.data);
-          const roomNum = this.props.waitData.roomId;
+          const roomNum = res.data.roomId;
 
  //         // // 다영
           this.settingGamerInit(res.data);
           console.warn("REDUX : GAMER INIT1 : USER");
           console.log("업데이트 게이머 확인", this.props.gamerData);
 
-          this.settingGamerList(roomNum);
+          this.settingGamerList(res.data.roomId);
           console.warn("REDUX : GAMER INIT2 : USERLIST");
           console.log("업데이트 게이머 유저리스트 확인", this.props.gamerData);
 
