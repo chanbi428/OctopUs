@@ -7,8 +7,8 @@ import RoundComponent from "../components/JobComponents/RoundComponent";
 import VotePage from "../components/VotePage/VotePage";
 import VoteWaitPage from "../components/VotePage/VoteWaitPage";
 import ExecutionPage from "../components/VotePage/ExecutionPage";
-import GameAnimation from '../../MiniGame/LoadingAnimation/AnimationRouter'
-import "./OpenViduComponent.css"
+import GameAnimation from "../../MiniGame/LoadingAnimation/AnimationRouter";
+import "./OpenViduComponent.css";
 
 import OpenViduLayout from "../layout/openvidu-layout";
 import UserModel from "../models/user-model";
@@ -29,15 +29,13 @@ class OpenViduComponent extends Component {
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
     let hostName = this.props.host ? this.props.host : "HostA";
-    let sessionName = this.props.sessionName
-      ? this.props.sessionName
-      : "SessionA";
+    let sessionName = this.props.sessionName ? this.props.sessionName : "SessionA";
     let userName = localStorage.getItem("userName");
     this.remotes = [];
     this.localUserAccessAllowed = false;
     // 상위 컴포넌트에서 하위 함수 호출 위한 부분
     // 혹시 chatComponent 추가하게 된다면 prop처럼 추가하여 잘 달아주세요
-    this.ovref = React.createRef()
+    this.ovref = React.createRef();
     this.state = {
       mySessionId: sessionName,
       myUserName: userName,
@@ -52,11 +50,11 @@ class OpenViduComponent extends Component {
       agreePageStart: 0,
       votePage: 0,
       agreePage: 0,
-      gameNum:0,
+      gameNum: 0,
       hostName: hostName,
       userList: ["a", "b", "c", "d"],
       pickUser: "",
-      agree: false
+      agree: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -82,10 +80,7 @@ class OpenViduComponent extends Component {
       animate: true, // Whether you want to animate the transitions
     };
 
-    this.layout.initLayoutContainer(
-      document.getElementById("layout"),
-      openViduLayoutOptions
-    );
+    this.layout.initLayoutContainer(document.getElementById("layout"), openViduLayoutOptions);
     window.addEventListener("beforeunload", this.onbeforeunload);
     window.addEventListener("resize", this.updateLayout);
     this.joinSession();
@@ -103,8 +98,8 @@ class OpenViduComponent extends Component {
 
   joinSession() {
     var options = {
-      loglevel: 0
-      }
+      loglevel: 0,
+    };
     this.OV = new OpenVidu(options);
 
     this.setState(
@@ -113,7 +108,7 @@ class OpenViduComponent extends Component {
       },
       () => {
         this.subscribeToStreamCreated();
-  
+
         this.connectToSession();
       }
     );
@@ -138,11 +133,7 @@ class OpenViduComponent extends Component {
               status: error.status,
             });
           }
-          console.log(
-            "There was an error getting the token:",
-            error.code,
-            error.message
-          );
+          console.log("There was an error getting the token:", error.code, error.message);
           alert("There was an error getting the token:", error.message);
         });
     }
@@ -164,11 +155,7 @@ class OpenViduComponent extends Component {
           });
         }
         alert("There was an error connecting to the session:", error.message);
-        console.log(
-          "There was an error connecting to the session:",
-          error.code,
-          error.message
-        );
+        console.log("There was an error connecting to the session:", error.code, error.message);
       });
   }
 
@@ -208,20 +195,15 @@ class OpenViduComponent extends Component {
       isScreenShareActive: localUser.isScreenShareActive(),
     });
 
-    this.setState(
-      { currentVideoDevice: videoDevices[0], localUser: localUser },
-      () => {
-        this.state.localUser.getStreamManager().on("streamPlaying", (e) => {
-          this.updateLayout();
-          publisher.videos[0].video.parentElement.classList.remove(
-            "custom-class"
-          );
-        });
-      }
-    );
+    this.setState({ currentVideoDevice: videoDevices[0], localUser: localUser }, () => {
+      this.state.localUser.getStreamManager().on("streamPlaying", (e) => {
+        this.updateLayout();
+        publisher.videos[0].video.parentElement.classList.remove("custom-class");
+      });
+    });
     // 유저 입장 시 채팅으로 [서버] 입장 알림.
-    console.log("ovref 입장 알림 준비. ovref.current null 시 주석 처리", this.ovref)
-    this.ovref.current.enterNotice()
+    console.log("ovref 입장 알림 준비. ovref.current null 시 주석 처리", this.ovref);
+    this.ovref.current.enterNotice();
   }
 
   updateSubscribers() {
@@ -283,9 +265,7 @@ class OpenViduComponent extends Component {
 
   deleteSubscriber(stream) {
     const remoteUsers = this.state.subscribers;
-    const userStream = remoteUsers.filter(
-      (user) => user.getStreamManager().stream === stream
-    )[0];
+    const userStream = remoteUsers.filter((user) => user.getStreamManager().stream === stream)[0];
     let index = remoteUsers.indexOf(userStream, 0);
     if (index > -1) {
       remoteUsers.splice(index, 1);
@@ -301,9 +281,7 @@ class OpenViduComponent extends Component {
       // var subscribers = this.state.subscribers;
       subscriber.on("streamPlaying", (e) => {
         this.checkSomeoneShareScreen();
-        subscriber.videos[0].video.parentElement.classList.remove(
-          "custom-class"
-        );
+        subscriber.videos[0].video.parentElement.classList.remove("custom-class");
       });
       const newUser = new UserModel();
       newUser.setStreamManager(subscriber);
@@ -421,46 +399,43 @@ class OpenViduComponent extends Component {
     this.props.onClickBtn();
   };
 
-
-  clickUser = (e) =>{
+  clickUser = (e) => {
     console.log("clickUser on child : " + e);
   };
   // 투표 시작하는 버튼 누름(누르면 투표 활성화)
-  clickBtnVote = () => this.setState({votePageStart : 1})
-  moveVoteWait = () => this.setState({voteWaitPageStart : 1})
+  clickBtnVote = () => this.setState({ votePageStart: 1 });
+  moveVoteWait = () => this.setState({ voteWaitPageStart: 1 });
   // 찬반 투표로 넘어가는 버튼
-  moveAgree = () => this.setState({agreePageStart : 1})
-
+  moveAgree = () => this.setState({ agreePageStart: 1 });
 
   // 유저를 선택하는 함수 (state의 pickUser가 선택한 userName으로 넘어감)
   selectVote = (userName, e) => {
     e.preventDefault();
     if (this.state.votePageStart === 1) {
-      this.setState({pickUser: userName});
-      console.log("선택한 유저" + this.state.pickUser)
+      this.setState({ pickUser: userName });
+      console.log("선택한 유저" + this.state.pickUser);
     }
   };
-  clickBtnGame=(e)=>{
-    this.setState({page:2});
-    if(e === 1){
-      this.setState({gameNum : 1});
-    }
-    else if (e === 2){
-      this.setState({gameNum : 2});
+  clickBtnGame = (e) => {
+    this.setState({ page: 2 });
+    if (e === 1) {
+      this.setState({ gameNum: 1 });
+    } else if (e === 2) {
+      this.setState({ gameNum: 2 });
     }
     this.props.selectGame(e);
     const startTimer = setTimeout(() => {
-      this.setState({page:1});
+      this.setState({ page: 1 });
     }, 4000); // 여기 수정 v
     return () => clearTimeout(startTimer);
-  }
+  };
   // 찬반 버튼 누르면 state.agree가 바뀜
   selectAgree = (e) => {
     e.preventDefault();
-    this.setState({agree: !this.state.agree})
-    console.log("찬성여부" + this.state.agree)
-  }
-  clickBtnAuto(){
+    this.setState({ agree: !this.state.agree });
+    console.log("찬성여부" + this.state.agree);
+  };
+  clickBtnAuto() {
     this.state.voteWaitPageStart = 1;
   }
 
@@ -469,56 +444,51 @@ class OpenViduComponent extends Component {
     this.props.setUserListForSub(data);
   };
   // 밤으로 넘어가는 버튼 (시장)
-  clickBtnNightForNone = () => this.setState({ agreePage: 0, votePage: 0, page: 2 });
+  clickBtnNightForNone = () => this.setState({ agreePage: 0, votePageStart: 0, page: 2 });
   // 밤으로 넘어가는 버튼(마피아)
-  clickBtnNightForMafia = () => this.setState({ agreePage: 0, votePage: 1, page: 3 });
+  clickBtnNightForMafia = () => this.setState({ agreePage: 0, votePageStart: 1, page: 3 });
   // 밤으로 넘어가는 버튼(마피아x 의사, 경찰, 기자)
-  clickBtnNightForOther = () => this.setState({ agreePage: 0, votePage: 1, page: 4 });
+  clickBtnNightForOther = () => this.setState({ agreePage: 0, votePageStart: 1, page: 4 });
   // 밤으로 넘어가는 버튼(죽은 사람)
-  clickBtnNightForDead = () => this.setState({ agreePage: 0, votePage: 0, page: 5 });
+  clickBtnNightForDead = () => this.setState({ agreePage: 0, votePageStart: 0, page: 5 });
 
   render() {
     // const mySessionId = this.state.mySessionId;
-    const mySessionId = this.props.sessionName;// !== undefined ? this.props.sessionName : "SessionA";
+    const mySessionId = this.props.sessionName; // !== undefined ? this.props.sessionName : "SessionA";
     const localUser = this.state.localUser;
     var chatDisplay = { display: this.state.chatDisplay };
     return (
-      <div className="screen" id ="screen-div">
+      <div className="screen" id="screen-div">
         {this.state.page === 0 && (
           <div>
             <div className="d-flex justify-content-between">
-              {localUser !== undefined &&
-                localUser.getStreamManager() !== undefined && (
-                  <div className="aaaaa" style={chatDisplay}>
-                    <ChatComponent
-                      user={localUser}
-                      chatDisplay={this.state.chatDisplay}
-                      close={this.toggleChat}
-                      ref={this.ovref}
-                      roomName = {this.props.roomName}
-                      settingListForSub = {this.settingListForSub}
-                      subscribers = {this.state.subscribers}
-                      canSend = "true"
-                    />
-                  </div>
-                )}
+              {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                <div className="aaaaa" style={chatDisplay}>
+                  <ChatComponent
+                    user={localUser}
+                    chatDisplay={this.state.chatDisplay}
+                    close={this.toggleChat}
+                    ref={this.ovref}
+                    roomName={this.props.roomName}
+                    settingListForSub={this.settingListForSub}
+                    subscribers={this.state.subscribers}
+                    canSend="true"
+                  />
+                </div>
+              )}
               <div className="setting_box">
                 <div id="layout" className="bounds">
-                  {localUser !== undefined &&
-                    localUser.getStreamManager() !== undefined && (
-                      <div
-                        className="OT_root OT_publisher custom-class"
-                        id="localUser"
-                      >
-                        <StreamComponent user={localUser} />
-                        <ToolbarComponent
-                          user={localUser}
-                          camStatusChanged={this.camStatusChanged}
-                          micStatusChanged={this.micStatusChanged}
-                          toggleChat={this.toggleChat}
-                        />
-                      </div>
-                    )}
+                  {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                    <div className="OT_root OT_publisher custom-class" id="localUser">
+                      <StreamComponent user={localUser} />
+                      <ToolbarComponent
+                        user={localUser}
+                        camStatusChanged={this.camStatusChanged}
+                        micStatusChanged={this.micStatusChanged}
+                        toggleChat={this.toggleChat}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div>
                   <button className="start__btn" onClick={this.clickBtn}>
@@ -535,15 +505,14 @@ class OpenViduComponent extends Component {
         {this.state.page === 1 && this.state.agreePageStart === 0 && (
           <div className="d-flex justify-content-between">
             <div>
-              
               {this.state.userList.map((sub, i) => (
-                <div id="layout" className="ingame-bounds" onClick={e => this.selectVote(sub.nickname, e)}>
-                  <div
-                    key={i}
-                    className="OT_root OT_publisher custom-class"
-                    id="remoteUsers"
-                  >
-                    {sub.nickname === this.state.pickUser && (<p>투표</p>)}
+                <div
+                  id="layout"
+                  className="ingame-bounds"
+                  onClick={(e) => this.selectVote(sub.nickname, e)}
+                >
+                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
+                    {sub.nickname === this.state.pickUser && <p>투표</p>}
                     <StreamComponent user={localUser} />
                   </div>
                 </div>
@@ -555,8 +524,8 @@ class OpenViduComponent extends Component {
                   ? <VoteWaitPage moveAgree={this.moveAgree} />
                   : <VotePage moveVoteWait={this.moveVoteWait} />
                 } */}
-                <button onClick={() =>this.clickBtnGame(1)}>낚시게임시작</button>
-                <button onClick={() =>this.clickBtnGame(2)}>상어게임시작</button>
+                <button onClick={() => this.clickBtnGame(1)}>낚시게임시작</button>
+                <button onClick={() => this.clickBtnGame(2)}>상어게임시작</button>
                 <button onClick={this.clickBtnVote}>투표시작</button>
                 <button onClick={this.clickBtnMoveAgree}>찬반시작</button>
                 <button onClick={this.clickBtnAuto}>투표,찬반 자동</button>
@@ -571,22 +540,22 @@ class OpenViduComponent extends Component {
                   chatDisplay={this.state.chatDisplay}
                   close={this.toggleChat}
                   ref={this.ovref}
-                  roomName = {this.props.roomName}
-                  settingListForSub = {this.settingListForSub}
-                  subscribers = {this.state.subscribers}
-                  canSend = "true"
+                  roomName={this.props.roomName}
+                  settingListForSub={this.settingListForSub}
+                  subscribers={this.state.subscribers}
+                  canSend="true"
                 />
               </div>
             </div>
             <div>
               {this.state.userList.map((sub, i) => (
-                <div id="layout" className="ingame-bounds" onClick={e => this.selectVote(sub.nickname, e)}>
-                  <div
-                    key={i}
-                    className="OT_root OT_publisher custom-class"
-                    id="remoteUsers"
-                  >
-                    {sub.nickname === this.state.pickUser && (<p>투표</p>)}
+                <div
+                  id="layout"
+                  className="ingame-bounds"
+                  onClick={(e) => this.selectVote(sub.nickname, e)}
+                >
+                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
+                    {sub.nickname === this.state.pickUser && <p>투표</p>}
                     <StreamComponent user={localUser} />
                   </div>
                   <div>
@@ -603,30 +572,41 @@ class OpenViduComponent extends Component {
             <div className="d-flex flex-column justify-content-between">
               <h2>최후변론</h2>
               <div id="layout" className="voted-bounds">
-                {localUser !== undefined &&
-                  localUser.getStreamManager() !== undefined && (
-                    <div className="OT_root OT_publisher custom-class" id="localUser">
-                      <StreamComponent user={localUser}/>
-                      {this.state.agree === true &&
-                        <ExecutionPage streamId={localUser.streamManager.stream.streamId} />
-                      }
-                    </div>
-                  )}
+                {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                  <div className="OT_root OT_publisher custom-class" id="localUser">
+                    <StreamComponent user={localUser} />
+                    {this.state.agree === true && (
+                      <ExecutionPage streamId={localUser.streamManager.stream.streamId} />
+                    )}
+                  </div>
+                )}
               </div>
               <div className="d-flex justify-content-around agree-box">
-                <button onClick={e => this.selectAgree(e)} disabled={this.state.agree === true ? true : false} className="agree__btn">찬성</button>
-                <button onClick={e => this.selectAgree(e)} disabled={this.state.agree === false ? true : false} className="agree__btn">반대</button>
+                <button
+                  onClick={(e) => this.selectAgree(e)}
+                  disabled={this.state.agree === true ? true : false}
+                  className="agree__btn"
+                >
+                  찬성
+                </button>
+                <button
+                  onClick={(e) => this.selectAgree(e)}
+                  disabled={this.state.agree === false ? true : false}
+                  className="agree__btn"
+                >
+                  반대
+                </button>
               </div>
             </div>
           </div>
         )}
-        {this.state.page === 2 &&(
-          <GameAnimation gameNum={this.state.gameNum} />)}
-        
-        {this.state.page === 2 && this.state.votePage === 0 && (
+        {this.state.page === 2 && <GameAnimation gameNum={this.state.gameNum} />}
+
+        {/* 밤페이지 - 밤역할 수행 x (시장..) */}
+        {this.state.page === 2 && this.state.votePageStart === 0 && (
           <div className="d-flex justify-content-between">
             <div>
-            {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
+              {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div id="layout" className="ingame-bounds">
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     <img src="images/octopus.png" width="200" />
@@ -635,20 +615,20 @@ class OpenViduComponent extends Component {
               ))}
             </div>
             <div className="d-flex flex-column justify-content-between">
+              <div></div>
               <div className="aaaaa" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
                   chatDisplay={this.state.chatDisplay}
                   close={this.toggleChat}
-                  page={this.state.page}
-                  settingListForSub = {this.settingListForSub}
-                  subscribers = {this.state.subscribers}
-                  canSend = "false"
+                  settingListForSub={this.settingListForSub}
+                  subscribers={this.state.subscribers}
+                  canSend="false"
                 />
               </div>
             </div>
             <div>
-            {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
+              {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
                 <div id="layout" className="ingame-bounds">
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     <img src="images/octopus.png" width="200" />
@@ -659,7 +639,7 @@ class OpenViduComponent extends Component {
           </div>
         )}
         {/* 밤페이지 - 밤역할 수행 o (마피아) */}
-        {this.state.page === 3 && this.state.votePage === 1 && (
+        {this.state.page === 3 && this.state.votePageStart === 1 && (
           <div className="d-flex justify-content-between">
             <div>
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
@@ -674,7 +654,11 @@ class OpenViduComponent extends Component {
                       <img src="images/octopus.png" width="200" />
                     ) : (
                       <StreamComponent
-                        user={subGamer.subIdx === undefined ? localUser : this.state.subscribers[subGamer.subIdx]}
+                        user={
+                          subGamer.subIdx === undefined
+                            ? localUser
+                            : this.state.subscribers[subGamer.subIdx]
+                        }
                       />
                     )}
                   </div>
@@ -688,9 +672,9 @@ class OpenViduComponent extends Component {
                   user={localUser}
                   chatDisplay={this.state.chatDisplay}
                   close={this.toggleChat}
-                  settingListForSub = {this.settingListForSub}
-                  subscribers = {this.state.subscribers}
-                  canSend = "true"
+                  settingListForSub={this.settingListForSub}
+                  subscribers={this.state.subscribers}
+                  canSend="true"
                 />
               </div>
             </div>
@@ -707,7 +691,11 @@ class OpenViduComponent extends Component {
                       <img src="images/octopus.png" width="200" />
                     ) : (
                       <StreamComponent
-                        user={subGamer.subIdx === undefined ? localUser : this.state.subscribers[subGamer.subIdx]}
+                        user={
+                          subGamer.subIdx === undefined
+                            ? localUser
+                            : this.state.subscribers[subGamer.subIdx]
+                        }
                       />
                     )}
                   </div>
@@ -720,7 +708,7 @@ class OpenViduComponent extends Component {
           </div>
         )}
         {/* 밤페이지 - 밤역할 수행 o 의사, 경찰, 기자 */}
-        {this.state.page === 4 && this.state.votePage === 1 && (
+        {this.state.page === 4 && this.state.votePageStart === 1 && (
           <div className="d-flex justify-content-between">
             <div>
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
@@ -731,11 +719,15 @@ class OpenViduComponent extends Component {
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.userName === this.state.pickUser && <p>투표</p>}
-                    {subGamer.isDead === true ? (
+                    {subGamer.userName !== this.props.gamerData.userName ? (
                       <img src="images/octopus.png" width="200" />
                     ) : (
                       <StreamComponent
-                        user={subGamer.subIdx === undefined ? localUser : this.state.subscribers[subGamer.subIdx]}
+                        user={
+                          subGamer.subIdx === undefined
+                            ? localUser
+                            : this.state.subscribers[subGamer.subIdx]
+                        }
                       />
                     )}
                   </div>
@@ -749,9 +741,9 @@ class OpenViduComponent extends Component {
                   user={localUser}
                   chatDisplay={this.state.chatDisplay}
                   close={this.toggleChat}
-                  settingListForSub = {this.settingListForSub}
-                  subscribers = {this.state.subscribers}
-                  canSend = "false"
+                  settingListForSub={this.settingListForSub}
+                  subscribers={this.state.subscribers}
+                  canSend="false"
                 />
               </div>
             </div>
@@ -764,11 +756,15 @@ class OpenViduComponent extends Component {
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.userName === this.state.pickUser && <p>투표</p>}
-                    {subGamer.isDead === true ? (
+                    {subGamer.userName !== this.props.gamerData.userName ? (
                       <img src="images/octopus.png" width="200" />
                     ) : (
                       <StreamComponent
-                        user={subGamer.subIdx === undefined ? localUser : this.state.subscribers[subGamer.subIdx]}
+                        user={
+                          subGamer.subIdx === undefined
+                            ? localUser
+                            : this.state.subscribers[subGamer.subIdx]
+                        }
                       />
                     )}
                   </div>
@@ -781,10 +777,10 @@ class OpenViduComponent extends Component {
           </div>
         )}
         {/* 밤페이지 - 밤역할 수행 x (죽은 사람) */}
-        {this.state.page === 5 && this.state.votePage === 0 && (
+        {this.state.page === 5 && this.state.votePageStart === 0 && (
           <div className="d-flex justify-content-between">
             <div>
-            {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
+              {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div id="layout" className="ingame-bounds">
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     <img src="images/octopus.png" width="200" />
@@ -799,14 +795,14 @@ class OpenViduComponent extends Component {
                   user={localUser}
                   chatDisplay={this.state.chatDisplay}
                   close={this.toggleChat}
-                  settingListForSub = {this.settingListForSub}
-                  subscribers = {this.state.subscribers}
-                  canSend = "true"
+                  settingListForSub={this.settingListForSub}
+                  subscribers={this.state.subscribers}
+                  canSend="true"
                 />
               </div>
             </div>
             <div>
-            {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
+              {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
                 <div id="layout" className="ingame-bounds">
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     <img src="images/octopus.png" width="200" />
@@ -844,8 +840,7 @@ class OpenViduComponent extends Component {
       axios
         .post(this.OPENVIDU_SERVER_URL + "/openvidu/api/sessions", data, {
           headers: {
-            Authorization:
-              "Basic " + btoa("OPENVIDUAPP:" + this.OPENVIDU_SERVER_SECRET),
+            Authorization: "Basic " + btoa("OPENVIDUAPP:" + this.OPENVIDU_SERVER_SECRET),
             "Content-Type": "application/json",
           },
         })
@@ -873,11 +868,9 @@ class OpenViduComponent extends Component {
                   '"'
               )
             ) {
-              window.location.assign(
-                this.OPENVIDU_SERVER_URL + "/accept-certificate"
-              );
+              window.location.assign(this.OPENVIDU_SERVER_URL + "/accept-certificate");
             }
-          } 
+          }
         });
     });
   }
@@ -887,15 +880,11 @@ class OpenViduComponent extends Component {
       var data = JSON.stringify({});
       axios
         .post(
-          this.OPENVIDU_SERVER_URL +
-            "/openvidu/api/sessions/" +
-            sessionId +
-            "/connection",
+          this.OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + sessionId + "/connection",
           data,
           {
             headers: {
-              Authorization:
-                "Basic " + btoa("OPENVIDUAPP:" + this.OPENVIDU_SERVER_SECRET),
+              Authorization: "Basic " + btoa("OPENVIDUAPP:" + this.OPENVIDU_SERVER_SECRET),
               "Content-Type": "application/json",
             },
           }
@@ -926,4 +915,3 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(
   OpenViduComponent
 );
-
