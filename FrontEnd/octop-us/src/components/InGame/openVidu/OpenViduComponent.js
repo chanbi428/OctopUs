@@ -623,7 +623,7 @@ class OpenViduComponent extends Component {
         {this.state.page === 2 &&(
           <GameAnimation gameNum={this.state.gameNum} />)}
         
-         {this.state.page === 2 && this.state.votePage === 0 && (
+        {this.state.page === 2 && this.state.votePage === 0 && (
           <div className="d-flex justify-content-between">
             <div>
             {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (

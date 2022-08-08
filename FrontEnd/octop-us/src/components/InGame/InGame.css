@@ -1,30 +1,10 @@
-/* #header {
-  color: #ffffff;
-  background-color: #333333;
-  padding: 0 14px 0 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 999999;
-  min-width: 200px !important;
-} */
-#parent-div{
-  justify-content : center;
+#parent-div {
+  justify-content: center;
 }
 
 .toolbar {
   min-height: 40px !important;
 }
-
-/* #titleContent {
-  max-width: 100px;
-  background-color: #494949;
-  margin: 5px -18px;
-  padding: 0px 15px;
-  font-size: 16px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-} */
 
 .buttonsContent {
   height: 40px !important;
@@ -96,11 +76,11 @@
   height: 300px;
 }
 
-.screen {
+/* .screen {
   height: 100%;
   padding-left: 20px;
   padding-right: 20px;
-}
+} */
 /*!
  * Copyright (c) 2017 TokBox, Inc.
  * Released under the MIT license

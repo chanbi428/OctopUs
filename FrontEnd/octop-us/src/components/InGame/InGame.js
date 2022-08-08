@@ -26,7 +26,8 @@ const InGame = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const tmpSessions = location.pathname !== undefined ? location.pathname : "SessionA";
+    const tmpSessions =
+      location.pathname !== undefined ? location.pathname : "SessionA";
     getRoomName();
     console.log("tmpRoomName : " + roomName);
     console.log("tmpSessions : " + tmpSessions);
@@ -34,8 +35,10 @@ const InGame = () => {
     },[location]);
 
   async function getRoomName() {
-    const {data} = await axios.get(`/rooms/detail/roomid${location.pathname}`);
-    console.log("parse Room data : "+JSON.stringify(data ));
+    const { data } = await axios.get(
+      `/rooms/detail/roomid${location.pathname}`
+    );
+    console.log("parse Room data : " + JSON.stringify(data));
     setRoomName(data.roomName);
     setHostName(data.roomChief);
   }
@@ -46,23 +49,22 @@ const InGame = () => {
     chatRef.current.ovref.current.gameNotice()
     setPage(1)
   };
-  const clickBtnGame=(e)=>{
+  const clickBtnGame = (e) => {
     console.log("before setInterval : " + e);
     setGameNum(0);
     const startTimer = setTimeout(() => {
-      if(e === 1){
+      if (e === 1) {
         clickBtnFish();
-      }
-      else if (e === 2){
+      } else if (e === 2) {
         clickBtnShark();
       }
     }, 4000); // 여기 수정 v
     return () => clearTimeout(startTimer);
-  }
-  const clickBtnFish = (e) =>{
+  };
+  const clickBtnFish = (e) => {
     setGameNum(1);
   };
-  const clickBtnShark = (e) =>{
+  const clickBtnShark = (e) => {
     setGameNum(2);
   };
   const chatRef = useRef();
@@ -79,7 +81,7 @@ const InGame = () => {
   };
 
   return (
-    <div className="screen">
+    <div>
       <div id="parent-div">
         {page === 0 && <WaitingRoomPage 
         clickExitBtn={clickExitBtn}
