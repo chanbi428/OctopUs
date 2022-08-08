@@ -135,23 +135,26 @@ const gamerSlice = createSlice({
     },
     //  get UserList 성공
     [gamerUserList.fulfilled]: (state, { payload }) => {
-      let users = payload.userList.split(",");
 
       const list = [];
-      users.forEach((user, i) => {
+      payload.forEach((user, i) => {
         if (user === state.userName) {
           list.push({
-            userName: user,
+            userName: user.userName,
             isDead: false,
-            // sub: undefined,
-            sub: undefined, //임시 테스트용
+            gameJob: user.gameJob,
+            gameTeam: user.gameTeam,
+            // subIdx: undefined,
+            subIdx: undefined, //임시 테스트용
           });
         } else {
           list.push({
-            userName: user,
+            userName: user.userName,
             isDead: false,
-            sub: undefined,
-            // sub: i, //임시 테스트용
+            gameJob: user.gameJob,
+            gameTeam: user.gameTeam,
+            subIdx: undefined,
+            // subIdx: i, //임시 테스트용
           });
         }
       });

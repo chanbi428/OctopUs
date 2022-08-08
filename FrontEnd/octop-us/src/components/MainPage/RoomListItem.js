@@ -19,7 +19,7 @@ function RoomListItem({ item }) {
     } else if (item.private && item.roomPw !== roomPwIn) {
       alert("비밀번호를 정확히 입력해주세요.");
     } else {
-      let userList = item.userList.split(", ");
+      let userList = item.userList.split(",");
       console.log(userList); 
       userList[userList.indexOf(" ")] = userInfo.userName;
       console.log(userList);
@@ -32,7 +32,7 @@ function RoomListItem({ item }) {
         personNum: personNum,
         roomPw: item.roomPw,
         gameTime: item.gameTime,
-        userList: userList.join(", "),
+        userList: userList.join(","),
         roomId: item.roomId,
       };
       axios
@@ -44,7 +44,7 @@ function RoomListItem({ item }) {
         .then((res) => {
           console.log(res);
           document.location.href = `https://localhost:3000/${item.roomId}`;
-          // console.log(document.location.pathname)
+          console.log(document.location.pathname)
         })
         .catch((err) => console.log(err));
     }

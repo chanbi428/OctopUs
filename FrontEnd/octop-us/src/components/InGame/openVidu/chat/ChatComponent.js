@@ -176,7 +176,7 @@ class ChatComponent extends Component {
             // state에 seats를 저장하거나 state에 유저리스트를 저장한다. 유저리스트 저장이 좀 더 쓸모 있을 것 같다.
             // console.log("문어자리 업데이트용-chatcompo", res.data)
             const roomNum = res.data.roomId;
-            const users = res.data.userList.split(", ");
+            const users = res.data.userList.split(",");
             console.log("유저 비교!!!", users, this.props.waitData.userList);
             if (this.props.waitData.userList !== users || this.props.waitData.roomId !== roomNum) {
               this.settingRoomId({ roomId: roomNum });
@@ -208,6 +208,11 @@ class ChatComponent extends Component {
           console.warn("REDUX : GAMER INIT2 : USERLIST");
           console.log("업데이트 게이머 유저리스트 확인", this.props.gamerData);
 
+          this.props.settingListForSub({subscribers : this.props.subscribers});
+          console.warn("REDUX : GAMER INIT3 : SUB");
+          console.log("업데이트 SUBSCRIBERS 확인", this.props.subscribers);
+          console.log("업데이트 게이머 확인", this.props.gamerData);
+
           this.settingUserList(roomNum);
 
           const lst = this.state.messageList.concat({
@@ -227,7 +232,7 @@ class ChatComponent extends Component {
 
   render() {
     const styleChat = { display: this.props.chatDisplay };
-    const { waitData, userData, gamerData, setRoomId, setUserList, setGamerList, setInit } =
+    const { waitData, userData, gamerData, setRoomId, setUserList, setGamerList, setInit, settingListForSub } =
       this.props;
     return (
       <div id="chatContainer">
@@ -254,8 +259,9 @@ class ChatComponent extends Component {
               </div>
             ))}
           </div>
-
-          <div id="messageInput">
+          {
+            this.props.canSend === "true" ?
+            <div id="messageInput">
             <input
               placeholder="메세지를 입력해주세요"
               id="chatInput"
@@ -267,6 +273,9 @@ class ChatComponent extends Component {
               <Send onClick={this.sendMessage} />
             </Tooltip>
           </div>
+          :
+          <div></div>
+          }
         </div>
       </div>
     );

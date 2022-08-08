@@ -54,7 +54,7 @@ export default function WaitingRoomPage(props) {
       .then((res) => {
         let room = res.data
         console.log("room data",room)
-        const tmp = room.userList.split(", ");
+        const tmp = room.userList.split(",");
         room.userList = tmp
         setRoomInfo(room)
         console.log("set roomInfo", roomInfo)
