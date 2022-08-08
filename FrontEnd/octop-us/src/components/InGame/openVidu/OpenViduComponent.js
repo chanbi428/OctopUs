@@ -8,6 +8,7 @@ import VotePage from "../components/VotePage/VotePage";
 import VoteWaitPage from "../components/VotePage/VoteWaitPage";
 import ExecutionPage from "../components/VotePage/ExecutionPage";
 import GameAnimation from '../../MiniGame/LoadingAnimation/AnimationRouter'
+import "./OpenViduComponent.css"
 
 import OpenViduLayout from "../layout/openvidu-layout";
 import UserModel from "../models/user-model";
@@ -24,6 +25,7 @@ class OpenViduComponent extends Component {
       : "MY_SECRET";
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
+    let hostName = this.props.host ? this.props.host : "HostA";
     let sessionName = this.props.sessionName
       ? this.props.sessionName
       : "SessionA";
@@ -48,6 +50,7 @@ class OpenViduComponent extends Component {
       votePage: 0,
       agreePage: 0,
       gameNum:0,
+      hostName: hostName,
       userList: ["a", "b", "c", "d"],
       pickUser: "",
       agree: false
@@ -96,7 +99,10 @@ class OpenViduComponent extends Component {
   }
 
   joinSession() {
-    this.OV = new OpenVidu();
+    var options = {
+      loglevel: 0
+      }
+    this.OV = new OpenVidu(options);
 
     this.setState(
       {
@@ -403,7 +409,10 @@ class OpenViduComponent extends Component {
   }
   // 임시로 만들어놓은 대기실에서 이동하는 버튼 함수
   clickBtn = () => {
-    console.log("clickBtn on child");
+    // if(this.props.host === myUserName){ // host일 경우에만 게임 시작 가능
+    //   this.setState({ page: 1 });
+    //   this.props.onClickBtn();
+    // }
     this.setState({ page: 1 });
     this.props.onClickBtn();
   };
@@ -427,32 +436,27 @@ class OpenViduComponent extends Component {
     }
   };
   clickBtnGame=(e)=>{
-    // console.log("Click Btn Game : " + e);
     this.setState({page:2});
-    this.setState({gameNum : 1});
-    console.log("Click Btn Game : " + this.state.gameAni);
-    const timer = setInterval(()=>{
-      if(e === 1){
-        this.clickBtnFish();
-      }
-      else if (e === 2){
-        this.clickBtnShark();
-      }
-    },4000);
+    if(e === 1){
+      this.setState({gameNum : 1});
+    }
+    else if (e === 2){
+      this.setState({gameNum : 2});
+    }
+    this.props.selectGame(e);
+    const startTimer = setTimeout(() => {
+      this.setState({page:1});
+    }, 4000); // 여기 수정 v
+    return () => clearTimeout(startTimer);
   }
-  clickBtnFish = (e) =>{
-    this.setState({page:1});
-    this.setState({gameNum : 1});
-  };
-  clickBtnShark = (e) =>{
-    this.setState({page:1});
-    this.setState({gameNum : 2});
-  };
   // 찬반 버튼 누르면 state.agree가 바뀜
   selectAgree = (e) => {
     e.preventDefault();
     this.setState({agree: !this.state.agree})
     console.log("찬성여부" + this.state.agree)
+  }
+  clickBtnAuto(){
+    this.state.voteWaitPageStart = 1;
   }
 
 
@@ -461,10 +465,8 @@ class OpenViduComponent extends Component {
     const mySessionId = this.props.sessionName;// !== undefined ? this.props.sessionName : "SessionA";
     const localUser = this.state.localUser;
     var chatDisplay = { display: this.state.chatDisplay };
-    console.log('gameAni : ' + mySessionId);
-    console.log('gameAni2 : ' + this.props.sessionName);
     return (
-      <div className="screen">
+      <div className="screen" id ="screen-div">
         {this.state.page === 0 && (
           <div>
             <div className="d-flex justify-content-between">
@@ -528,15 +530,15 @@ class OpenViduComponent extends Component {
             </div>
             <div className="d-flex flex-column justify-content-between">
               <div>
-                {this.state.voteWaitPageStart === 1
+                {/* {this.state.voteWaitPageStart === 1
                   ? <VoteWaitPage moveAgree={this.moveAgree} />
                   : <VotePage moveVoteWait={this.moveVoteWait} />
-                }
-                <button onClick={this.clickBtnVote}>투표시작</button>
-                <button onClick={this.clickBtnMoveAgree}>찬반시작</button>
+                } */}
                 <button onClick={() =>this.clickBtnGame(1)}>낚시게임시작</button>
                 <button onClick={() =>this.clickBtnGame(2)}>상어게임시작</button>
-                <RoundComponent gameNum={this.state.gameNum}/>
+                <button onClick={this.clickBtnVote}>투표시작</button>
+                <button onClick={this.clickBtnMoveAgree}>찬반시작</button>
+                <button onClick={this.clickBtnAuto}>투표,찬반 자동</button>
               </div>
               <div className="aaaaa" style={chatDisplay}>
                 <ChatComponent

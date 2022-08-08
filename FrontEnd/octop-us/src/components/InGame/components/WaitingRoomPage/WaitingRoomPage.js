@@ -3,6 +3,7 @@ import axios from "axios";
 import SeatsRoom from "./SeatsRoom";
 import "./WaitingRoom.css";
 import ShowRoom from "./ShowRoom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { exitRoom } from "../../../../features/waiting/exitRoom"
 
@@ -41,6 +42,7 @@ export default function WaitingRoomPage() {
     { crown: 0 },
   ]);
   const { userInfo } = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   // 방 입장 시 데이터 받아옴
   useEffect(() => {
@@ -112,6 +114,7 @@ export default function WaitingRoomPage() {
 
   const exitBtnHandler = () => {
     exitRoom(roomInfo.roomId, userInfo.userName);
+    navigate("/main"); // go to main
   };
   // onClickStart 함수 분리 => 인자(roomId, userName)
   return (

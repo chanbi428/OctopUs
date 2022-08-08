@@ -8,6 +8,9 @@
   z-index: 999999;
   min-width: 200px !important;
 } */
+#parent-div{
+  justify-content : center;
+}
 
 .toolbar {
   min-height: 40px !important;
