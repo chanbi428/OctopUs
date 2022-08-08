@@ -42,7 +42,7 @@ const InGame = () => {
   const GameStartClickBtn = () => {
     console.log("clickBtn : " + sessionName);
     setSessionName(sessionName);
-    // ClickStart(roomId, userList, userInfo.userName)
+    ClickStart(roomId, userList, userInfo.userName)
     chatRef.current.ovref.current.gameNotice();
     setPage(1);
   };
