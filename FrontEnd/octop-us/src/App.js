@@ -19,7 +19,7 @@ function App() {
     ? localStorage.getItem("userToken")
     : null;
   const getUserName = localStorage.getItem("userName");
-
+  
   // 로그인 상태 유지
   useEffect(() => {
     if (getUserToken) {

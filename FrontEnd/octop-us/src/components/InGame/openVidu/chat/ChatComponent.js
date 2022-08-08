@@ -12,6 +12,10 @@ import { connect } from 'react-redux';
 // import { room } from "../../../../features/waiting/waitSlice"
 // import { gamerInit, gamerUserList } from "../../../../features/gamer/gamerActions"
 import { setMessageList } from "../../../../features/gamer/gamerSlice";
+import axios from "axios";
+import { updateRoomId, updateUserList } from "../../../../features/waiting/waitSlice";
+import { gamerUserList } from "../../../../features/gamer/gamerActions";
+import { setGamerInit } from "../../../../features/gamer/gamerSlice";
 
 class ChatComponent extends Component {
   constructor(props) {
@@ -53,7 +57,7 @@ class ChatComponent extends Component {
           const avatar = userImg.getContext("2d");
           avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
         }, 50);
-        if (data.isDead == true && this.props.gamerData.isDead == true) {
+        if (data.isDead === true && this.props.gamerData.isDead === true) {
           // 유령
           this.props.setMessageList({ message: message });
         }
@@ -69,7 +73,7 @@ class ChatComponent extends Component {
           this.props.setMessageList({ message: message });
         }
         this.scrollToBottom();
-      });
+    });
   }
 
   handleChange(event) {
@@ -107,8 +111,7 @@ class ChatComponent extends Component {
   scrollToBottom() {
     setTimeout(() => {
       try {
-        this.chatScroll.current.scrollTop =
-          this.chatScroll.current.scrollHeight;
+        this.chatScroll.current.scrollTop = this.chatScroll.current.scrollHeight;
       } catch (err) {}
     }, 20);
   }
@@ -121,21 +124,20 @@ class ChatComponent extends Component {
     console.log("입장 알림")
     const data = { message: `[알림] ${this.props.userData.userInfo.userName}님이 입장하셨습니다`, nickname: '서버', streamId: this.props.user.getStreamManager().stream.streamId, job: '', gameStatus: 0 , isDead: false };
     this.props.user.getStreamManager().stream.session.signal({
-        data: JSON.stringify(data),
-        type: 'chat',
+      data: JSON.stringify(data),
+      type: "chat",
     });
-    console.log("메시지 수신 확인", this.state.message)
-    console.log("목록 확인", this.state.messageList)
-    console.log("메시지 확인", this.state.messageList.at(-1))
-    
+    // console.log("메시지 수신 확인", this.state.message)
+    // console.log("목록 확인", this.state.messageList)
+    // console.log("메시지 확인", this.state.messageList.at(-1))
   }
 
   exitNotice() {
     console.log("입장 알림")
     const data = { message: `[알림] ${this.props.userData.userInfo.userName}님이 퇴장하셨습니다`, nickname: '서버', streamId: this.props.user.getStreamManager().stream.streamId, job: '', gameStatus: 0 , isDead: false };
     this.props.user.getStreamManager().stream.session.signal({
-        data: JSON.stringify(data),
-        type: 'chat',
+      data: JSON.stringify(data),
+      type: "chat",
     });
   }
 
@@ -143,21 +145,179 @@ class ChatComponent extends Component {
     console.log("게임 시작 알림")
     const data = { message: `[게임] 게임을 시작합니다`, nickname: '서버', streamId: this.props.user.getStreamManager().stream.streamId, job: '', gameStatus: 0 , isDead: false };
     this.props.user.getStreamManager().stream.session.signal({
-        data: JSON.stringify(data),
-        type: 'chat',
+      data: JSON.stringify(data),
+      type: "chat",
     });
+  }
+
+  cancelNotice() {
+    console.log("notice 감지 후 동작, 그 후 messageList 초기화 위함");
+    const data = {
+      message: ``,
+      nickname: "서버",
+      streamId: this.props.user.getStreamManager().stream.streamId,
+    };
+    this.props.user.getStreamManager().stream.session.signal({
+      data: JSON.stringify(data),
+      type: "chat",
+    });
+  }
+
+  settingRoomId = (data) => {
+    this.props.setRoomId(data);
+  };
+
+  settingUserList = (data) => {
+    this.props.setUserList(data);
+  };
+
+  settingGamerInit = (data) => {
+    this.props.setInit(data);
+  };
+
+  settingGamerList = (data) => {
+    this.props.setGamerList(data);
+  };
+
+  // componentDidUpdate(prevState) {
+  //   if (this.state.messageList.length !== prevState.messageList) {
+  //     console.log(this.UserModel);
+  //     let msg = this.state.messageList.at(-1).message;
+  //     if (msg.includes("[알림]")) {
+  //       // console.log("개인이 감지해야함", this.props.waitData.roomId)  // roomChief를 알거나, roomId를 알거나...
+  //       axios
+  //         .get(`http://localhost:8080/rooms/detail/roomid/${this.props.waitData.roomId}`)
+  //         .then((res) => {
+  //           // state에 seats를 저장하거나 state에 유저리스트를 저장한다. 유저리스트 저장이 좀 더 쓸모 있을 것 같다.
+  //           // console.log("문어자리 업데이트용-chatcompo", res.data)
+  //           const roomNum = res.data.roomId;
+  //           const users = res.data.userList.split(",");
+  //           console.log("유저 비교!!!", users, this.props.waitData.userList);
+  //           if (this.props.waitData.userList !== users || this.props.waitData.roomId !== roomNum) {
+  //             this.settingRoomId({ roomId: roomNum });
+  //             console.log("업데이트 아이디 확인", this.props.waitData);
+  //             this.settingUserList(users);
+  //             console.log("업데이트 리스트 확인", this.props.waitData);
+  //             const lst = this.state.messageList.concat({
+  //               connectionId: this.props.user.getStreamManager().stream.streamId,
+  //               message: "",
+  //               nickname: "",
+  //             });
+  //             this.setState({ messageList: lst });
+  //           }
+  //         });
+  //     } else if (msg.includes("[게임]")) {
+  //       const userName = this.props.userData.userInfo.userName
+  //       console.log(userName)
+  //       // console.log("게임 시작 감지!" , this.props,)
+  //       axios.get(`http://localhost:8080/gamers/${userName}`).then((res) => {
+  //         console.log("DB에서 유저 개인 게임 정보 받아오기 성공!", res.data);
+  //         const roomNum = this.props.waitData.roomId;
+
+  //         // // 다영
+  //         this.settingGamerInit(res.data);
+  //         console.warn("REDUX : GAMER INIT1 : USER");
+  //         console.log("업데이트 게이머 확인", this.props.gamerData);
+
+  //         this.settingGamerList(roomNum);
+  //         console.warn("REDUX : GAMER INIT2 : USERLIST");
+  //         console.log("업데이트 게이머 유저리스트 확인", this.props.gamerData);
+
+  //         this.props.settingListForSub({subscribers : this.props.subscribers});
+  //         console.warn("REDUX : GAMER INIT3 : SUB");
+  //         console.log("업데이트 SUBSCRIBERS 확인", this.props.subscribers);
+  //         console.log("업데이트 게이머 확인", this.props.gamerData);
+
+  //         this.settingUserList(roomNum);
+
+  //         const lst = this.state.messageList.concat({
+  //           connectionId: this.props.user.getStreamManager().stream.streamId,
+  //           message: "",
+  //           nickname: "",
+  //         });
+  //         this.setState({ messageList: lst });
+  //       });
+  //     }
+  //   }
+  // }
+
+  componentDidUpdate(prevState) {
+    if (this.props.gamerData.messageList.length !== 0) {
+      console.log(this.UserModel);
+      let msg = this.props.gamerData.messageList.at(-1).message;
+      console.log("ComponentDidUpdate의 메세지 가장 마지막꺼", msg);
+      if (msg.includes("[알림]")) {
+        // console.log("개인이 감지해야함", this.props.waitData.roomId)  // roomChief를 알거나, roomId를 알거나...
+        axios
+          .get(`http://localhost:8080/rooms/detail/roomid/${this.props.waitData.roomId}`)
+          .then((res) => {
+            // state에 seats를 저장하거나 state에 유저리스트를 저장한다. 유저리스트 저장이 좀 더 쓸모 있을 것 같다.
+            // console.log("문어자리 업데이트용-chatcompo", res.data)
+            const roomNum = res.data.roomId;
+            const users = res.data.userList.split(",");
+            console.log("유저 비교!!!", users, this.props.waitData.userList);
+            if (this.props.waitData.userList !== users || this.props.waitData.roomId !== roomNum) {
+              this.settingRoomId({ roomId: roomNum });
+              console.log("업데이트 아이디 확인", this.props.waitData);
+              this.settingUserList(users);
+              console.log("업데이트 리스트 확인", this.props.waitData);
+              const lst = {
+                connectionId: this.props.user.getStreamManager().stream.streamId,
+                message: "",
+                nickname: "",
+                job: '',
+                gameStatus: 0 , 
+                isDead: false
+              };
+              this.props.setMessageList({ message: lst });
+            }
+          });
+      } else if (msg.includes("[게임]")) {
+        const userName = this.props.userData.userInfo.userName
+        console.log(userName)
+        // console.log("게임 시작 감지!" , this.props,)
+        axios.get(`http://localhost:8080/gamers/${userName}`).then((res) => {
+          console.log("DB에서 유저 개인 게임 정보 받아오기 성공!", res.data);
+          const roomNum = this.props.waitData.roomId;
+
+ //         // // 다영
+          this.settingGamerInit(res.data);
+          console.warn("REDUX : GAMER INIT1 : USER");
+          console.log("업데이트 게이머 확인", this.props.gamerData);
+
+          this.settingGamerList(roomNum);
+          console.warn("REDUX : GAMER INIT2 : USERLIST");
+          console.log("업데이트 게이머 유저리스트 확인", this.props.gamerData);
+
+          this.props.settingListForSub({subscribers : this.props.subscribers});
+          console.warn("REDUX : GAMER INIT3 : SUB");
+          console.log("업데이트 SUBSCRIBERS 확인", this.props.subscribers);
+          console.log("업데이트 게이머 확인", this.props.gamerData);
+
+          this.settingUserList(roomNum);
+
+          const lst = {
+            connectionId: this.props.user.getStreamManager().stream.streamId,
+            message: "",
+            nickname: "",
+            job: '',
+            gameStatus: 0 , 
+            isDead: false
+          };
+          this.props.setMessageList({ message: lst });
+        });
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    console.log("chatComponent unmount!!");
   }
 
   render() {
     const styleChat = { display: this.props.chatDisplay };
-    const { 
-      waitData, 
-      userData, 
-      gamerData, 
-      // updateRoom, 
-      // updateUserList,
-      // updateInit 
-      } = this.props;
+    const { waitData, userData, gamerData, setRoomId, setUserList, setGamerList, setInit, settingListForSub } =
+      this.props;
     return (
       <div id="chatContainer">
         <div id="chatComponent" style={styleChat}>
@@ -259,8 +419,9 @@ class ChatComponent extends Component {
               }
             })}
           </div>
-
-          <div id="messageInput">
+          {
+            this.props.canSend === "true" ?
+            <div id="messageInput">
             <input
               placeholder="메세지를 입력해주세요"
               id="chatInput"
@@ -272,6 +433,9 @@ class ChatComponent extends Component {
               <Send onClick={this.sendMessage} />
             </Tooltip>
           </div>
+          :
+          <div></div>
+          }
         </div>
       </div>
     );
@@ -279,9 +443,9 @@ class ChatComponent extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  waitData : state.wait,
-  userData : state.user,
-  gamerData : state.gamer
+  userData: state.user,
+  waitData: state.wait,
+  gamerData: state.gamer,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -291,7 +455,22 @@ const mapDispatchToProps = (dispatch) => {
     // updateUserList : (data) => {dispatch(gamerUserList(data))},
     // updateInit : (data) => {dispatch(gamerInit(data))},
     setMessageList: (data) => {dispatch(setMessageList(data))},
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps, null, {forwardRef: true})(ChatComponent)
+    setRoomId: (data) => {
+      dispatch(updateRoomId(data));
+    },
+    setUserList: (data) => {
+      dispatch(updateUserList(data));
+    },
+    setInit: (data) => {
+      dispatch(setGamerInit(data));
+    },
+    setGamerList: (data) => {
+      dispatch(gamerUserList(data));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(
+  ChatComponent
+);

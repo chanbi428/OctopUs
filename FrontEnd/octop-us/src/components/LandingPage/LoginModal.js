@@ -65,11 +65,7 @@ const LoginModal = (props) => {
               />
             </div>
             <div>
-              <button
-                className="login-modal__btn"
-                type="submit"
-                onClick={onLoginSubmitHandler}
-              >
+              <button className="login-modal__btn" type="submit" onClick={onLoginSubmitHandler}>
                 로그인
               </button>
               <button className="login-modal__btn" onClick={close}>

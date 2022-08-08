@@ -17,11 +17,27 @@ export const gamerInit = createAsyncThunk("gamer/init", async (userName, { rejec
   }
 });
 
+// export const gamerUserList = createAsyncThunk(
+//   "gamer/userList",
+//   async (roomId, { rejectWithValue }) => {
+//     try {
+//       const { data } = await axios.get(`${BASE_URL}/rooms/detail/roomid/${roomId}`);
+//       return data;
+//     } catch (error) {
+//       if (error.response && error.response.data.message) {
+//         return rejectWithValue(error.response.data.message);
+//       } else {
+//         return rejectWithValue(error.message);
+//       }
+//     }
+//   }
+// );
+
 export const gamerUserList = createAsyncThunk(
   "gamer/userList",
   async (roomId, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${BASE_URL}/rooms/detail/roomid/${roomId}`);
+      const { data } = await axios.get(`${BASE_URL}/gamers/detail/roomid/${roomId}`);
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -40,7 +56,7 @@ export const gamerDead = createAsyncThunk("gamer/imDead", async (userName, { rej
       userName: userName,
       dead: true,
       gameTeam: null,
-      idx: null,
+      subIdx: null,
       roomId: null,
       victory: null,
     };

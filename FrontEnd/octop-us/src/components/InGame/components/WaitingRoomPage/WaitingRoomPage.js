@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import SeatsRoom from "./SeatsRoom";
 import "./WaitingRoom.css";
-import ShowRoom from "./ShowRoom";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { exitRoom } from "../../../../features/waiting/exitRoom"
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { updateUserList, updateRoomId } from "../../../../features/waiting/waitSlice"
 
-export default function WaitingRoomPage() {
-  const [roomInfo, setRoomInfo] = useState([{
+export default function WaitingRoomPage(props) {
+  const [roomInfo, setRoomInfo] = useState({
     gameStatus : false,
     gameTime : "",
     idx : "",
@@ -19,8 +17,8 @@ export default function WaitingRoomPage() {
     roomId : "",
     roomName : "",
     roomPw : "",
-    userList : [" ", " ", " ", " ", " ", " ", " ", " "]
-  }])
+    userList : ["", "", "", "", "", "", "", ""]
+  })
   let [seats, setSeats] = useState([
     { nickname: "", opa: 0 },
     { nickname: "", opa: 0 },
@@ -41,8 +39,9 @@ export default function WaitingRoomPage() {
     { crown: 0 },
     { crown: 0 },
   ]);
-  const { userInfo } = useSelector((state) => state.user);
-  const navigate = useNavigate();
+  const { roomId } = useSelector((state) => state.wait)
+  const { userList } = useSelector((state) => state.wait)
+  const dispatch = useDispatch();
 
   // 방 입장 시 데이터 받아옴
   useEffect(() => {
@@ -51,36 +50,55 @@ export default function WaitingRoomPage() {
     axios
       .get(`http://localhost:8080/rooms/detail/roomid/${pathName}`)
       .then((res) => {
-        console.log(res.data);
         let room = res.data
         console.log("room data",room)
         const tmp = room.userList.split(",");
-        setRoomInfo((roomInfo) => {
-          room.userList = tmp
-          return room
-        })
-        console.log(roomInfo)
+        room.userList = tmp
+        setRoomInfo(room)
+        console.log("set roomInfo", roomInfo)
+        updateRoomInfo(room)
+        console.log('update roomInfo', roomInfo)
+        dispatch(updateRoomId({roomId : room.roomId}))
+        console.log(room.userList)
+        dispatch(updateUserList(room.userList))
+        console.log("waitingroom useEffect 어디서 에러가 나나", roomId, userList)
       })
       .catch((error) => console.log(error));
-  }, []);
+  },[]);
+
+  const updateRoomInfo = (data) => {
+    setRoomInfo({
+        gameStatus : data.gameStatus,
+        gameTime : data.gameTime,
+        idx : data.idx,
+        personLimit : data.personLimit,
+        personNum : data.personNum,
+        private : data.private,
+        roomChief : data.roomChief,
+        roomId : data.roomId,
+        roomName : data.roomName,
+        roomPw : data.roomPw,
+        userList : data.userList
+      })
+  }
 
   // 유저 목록이 변경되면 문어 자리 다시 앉히고 다시 왕관 배정
   useEffect(() => {
-    if (roomInfo.userList !== ["", "", "", "", "", "", "", ""] || roomInfo.userList !== [" ", " ", " ", " ", " ", " ", " ", " "]) {
+    if (roomInfo.userList !== ["", "", "", "", "", "", "", ""]) {
       sitRoom(seats);
       getCrown(throne);
     }
     console.log(seats, throne)
-  }, [roomInfo.userList]);
+  }, [userList]);
 
   const sitRoom = (seats) => {
     let sit = seats;
     console.log("목록",roomInfo.userList)
     console.log("seats", seats)
     for (let i = 0; i < roomInfo.personLimit; i++) {
-      if (roomInfo.userList[i] === " ") {
+      if (roomInfo.userList[i] === "") {
         sit[i] = {
-          nickname: " ",
+          nickname: "",
           opa: 0
         };
       } else {
@@ -112,16 +130,11 @@ export default function WaitingRoomPage() {
     setThrone(crown);
   };
 
-  const exitBtnHandler = () => {
-    exitRoom(roomInfo.roomId, userInfo.userName);
-    navigate("/main"); // go to main
-  };
-  // onClickStart 함수 분리 => 인자(roomId, userName)
   return (
     <div>
       <nav>
         <p>대기실 페이지</p>
-        <button onClick={exitBtnHandler} className="waiting-page__exit-btn">
+        <button onClick={props.clickExitBtn} className="waiting-page__exit-btn">
           방 나가기
         </button>
       </nav>
@@ -129,5 +142,5 @@ export default function WaitingRoomPage() {
         <SeatsRoom seatInfo={seats} throneInfo={throne}/>
       </section>
     </div>
-  );
+  ); 
 };

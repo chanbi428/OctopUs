@@ -1,11 +1,14 @@
-import { React, useState, useRef, useEffect } from "react";
+import React, {useState, useRef, useEffect } from "react";
+import { useLocation,useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 import "./InGame.css";
 import axios from "axios";
 import WaitingRoomPage from "./components/WaitingRoomPage/WaitingRoomPage";
 import OpenViduComponent from "./openVidu/OpenViduComponent";
 import ShowRoom from "./components/WaitingRoomPage/ShowRoom";
 import RoundComponent from "./components/JobComponents/RoundComponent";
-import { useLocation } from 'react-router-dom';
+import exitRoom from "../../features/waiting/exitRoom";
+import ClickStart from "../../features/waiting/ClickStart";
 
 const InGame = () => {
   const [page, setPage] = useState(0);
@@ -13,6 +16,12 @@ const InGame = () => {
   const [roomName, setRoomName] = useState("RoomA");
   const [hostName, setHostName] = useState("HostA");
   const [gameNum, setGameNum] = useState(0);
+  // const userName = localStorage.getItem("userName")
+  const navigate = useNavigate()
+  const { roomId } = useSelector((state) => state.wait)
+  const { userList } = useSelector((state) => state.wait)
+  const { userInfo } = useSelector((state) => state.user)
+  console.log("인게임 렌더링", roomId, userList )
 
   const location = useLocation();
 
@@ -22,7 +31,7 @@ const InGame = () => {
     console.log("tmpRoomName : " + roomName);
     console.log("tmpSessions : " + tmpSessions);
     setSessionName(tmpSessions);
-  },[location]);
+    },[location]);
 
   async function getRoomName() {
     const {data} = await axios.get(`/rooms/detail/roomid${location.pathname}`);
@@ -30,10 +39,12 @@ const InGame = () => {
     setRoomName(data.roomName);
     setHostName(data.roomChief);
   }
-  const clickBtn = () => {
+  const GameStartClickBtn = () => {
     console.log("clickBtn : " + sessionName);
     setSessionName(sessionName);
-    setPage(1);
+    ClickStart(roomId, userList, userInfo.userName)
+    chatRef.current.ovref.current.gameNotice()
+    setPage(1)
   };
   const clickBtnGame=(e)=>{
     console.log("before setInterval : " + e);
@@ -54,32 +65,46 @@ const InGame = () => {
   const clickBtnShark = (e) =>{
     setGameNum(2);
   };
-  const chatRef = useRef()
+  const chatRef = useRef();
 
-  console.log("InGame : " + gameNum);
+  const clickExitBtn = () => {
+    console.log(roomId)
+    console.log("방 나가기 버튼 누르고 절차 시작") // 
+    chatRef.current.ovref.current.exitNotice()
+    exitRoom(roomId, userInfo.userName)
+    chatRef.current.leaveSession() 
+    console.log("leave session 성공")
+    navigate("/main")
+    console.log("navigate로 방 나가기 완전 종료")
+  };
+
   return (
     <div className="screen">
       <div id="parent-div">
-        {page === 0 && <WaitingRoomPage />}
+        {page === 0 && <WaitingRoomPage 
+        clickExitBtn={clickExitBtn}
+        />}
 
         <div style={{ display: "flex" }}>
           {page === 0 && (
             <div>
               {/* 여기에 showRoom 옮기면 카드 이중으로 나타나는 거 사라집니다. */}
-              <div className="waiting-page__lower container">
+              <ShowRoom />
+              {/* <div className="waiting-page__lower container">
                 <div className="waiting-page__room-setting">
-                  <ShowRoom />
+                  
                 </div>
-              </div>
+              </div> */}
             </div>
           )}
           <div>
             <RoundComponent gameNum={gameNum}/>
-            <OpenViduComponent onClickBtn={clickBtn} selectGame={clickBtnGame} sessionName={sessionName} roomName={roomName} ref={chatRef} host={hostName}/>
+            <OpenViduComponent onClickBtn={GameStartClickBtn} selectGame={clickBtnGame} sessionName={sessionName} roomName={roomName} ref={chatRef} host={hostName}/>
           </div>
         </div>
       </div>
     </div>
   );
 };
+
 export default InGame;
