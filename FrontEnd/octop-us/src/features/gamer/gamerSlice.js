@@ -4,6 +4,7 @@ import { gamerUserList } from "./gamerActions";
 import { gamerDead } from "./gamerActions";
 
 const initialState = {
+  gameStatus: 0, // 0 대기실 1 밤 2 낮...?
   loading: false,
   error: null,
   roomId: null,
@@ -15,6 +16,8 @@ const initialState = {
   minigameList: [true, true, true], // 미니게임1, 미니게임2, 미니게임3
   minigameResult: true, // true : Mafia , false : No Mafia
   userList: null,
+
+  messageList: [],  // 채팅내용 저장
 };
 
 const gamerSlice = createSlice({
@@ -31,6 +34,10 @@ const gamerSlice = createSlice({
     },
     setUserList: (state, { payload }) => {
       state.userList = payload.userList;
+    },
+    // 게임 status 변경
+    setGameStatus: (state, { payload }) => {
+      state.gameStatus = payload.gameStatus;
     },
     // 기자 사용 능력 소멸
     hasntSkill: (state) => {
@@ -65,6 +72,18 @@ const gamerSlice = createSlice({
     //     }
     //   });
     // },
+    setIsDead: (state, { payload }) => {
+      state.isDead = payload.isDead;
+    },
+    setJob: (state, { payload }) => {
+      state.job = payload.job;
+    },
+    setMessageList: (state, { payload }) => {
+      state.messageList = [...state.messageList, payload.message];
+    },
+    setMessageListReset: (state) => {
+      state.messageList = []
+    }
   },
   extraReducers: {
     /*
@@ -154,6 +173,11 @@ export const {
   mafiaWinAtMinigame,
   mafiaLoseAtMinigame,
   updateUserList,
+  setIsDead,
+  setJob,
+  setMessageList,
+  setMessageListReset,
+  setGameStatus
 } = gamerSlice.actions;
 
 export default gamerSlice.reducer;
