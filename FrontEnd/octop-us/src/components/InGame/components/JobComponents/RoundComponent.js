@@ -1,16 +1,18 @@
-import React from 'react';
+import {React, useState} from 'react';
 import "../../../Card/Card";
-import logo from '../../../../logo.svg';
 import '../../../../App.css';
-import FishingComponent from '../../../MiniGame/FishGame/FishingComponents';
+import FishingStater from '../../../MiniGame/FishGame/FishingStarter';
+import SharkGame from '../../../MiniGame/SharkGame/SharkGame';
 
-function RoundComponent() {
+function RoundComponent(props) {
     return (
         <div className="App">
-        {/* <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-        </header> */}
-        <FishingComponent/>
+        {props.gameNum === 1 && (
+          <FishingStater/>
+        )}
+        {props.gameNum === 2 && (
+          <SharkGame/>
+        )}
       </div>
     )
 }

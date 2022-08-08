@@ -2,6 +2,7 @@ import { React, useState, useEffect, useRef } from "react";
 import Card from "../../Card/Card";
 import axios from "axios";
 import "./FishingCss.css";
+import FishGameTutorial from "./FishingTutorial";
 
 import {
   CircularProgress,
@@ -39,6 +40,9 @@ const FishingComponent = () => {
 
   const [time, setTime] = useState(30);
   const classes = useStyles();
+
+  const mafiaWinMent = "[마피아]팀의 승리로 인해 오늘 투표를 진행하지 않습니다.";
+  const citizenWinMent = "[시민]팀의 승리로 인해 오늘 ...는 진행하지 않습니다.";
 
   const spaceCount = useRef;
   spaceCount.current = count;
@@ -82,7 +86,7 @@ const FishingComponent = () => {
 
   function endGame() {
     console.log("endGame");
-    // setShowMode(true);
+    setShowMode(true);
   }
   function countFun(e) {
     setCount(count + 1);
@@ -135,23 +139,39 @@ const FishingComponent = () => {
                   className={[classes.linearProgress, classes.margin]}
                 />
               </div>
-              <p>count : {count}</p>
-              <div id="centerPlace">
-                <span id="citizenPercent">
-                  시민 : {citizenPercent.toFixed(1)}%
-                </span>
-                <button onClick={countFun}>Click</button>
-                <span id="mafiaPercent">
-                  마피아 : {mafiaPercent.toFixed(1)}%
-                </span>
+              {/* <p>count : {count}</p> */}
+              <div className="row justify-content-between" id="centerPlace">
+                <div className="col-4" id="citizenPercent">
+                  <span id="citizenPercent">
+                    시민 : {citizenPercent.toFixed(1)}%
+                  </span>
+                </div>
+                <div className="col-4" id="buttonCenter">
+                  <button className="btn btn-primary" onClick={countFun}>
+                    Click
+                  </button>
+                </div>
+                <div className="col-4" id="mafiaPercent">
+                  <span id="mafiaPercent">
+                    마피아 : {mafiaPercent.toFixed(1)}%
+                  </span>
+                </div>
               </div>
             </div>
           </Card>
         </div>
       )}
       {showMode === true && (
-        <Card>
-          <p>{CircularProgress > mafiaPercent ? "시민" : "마피아"}승리!!</p>
+        <Card id="mainComponent">
+          <div id="winMent">
+            <p>
+              {citizenPercent > mafiaPercent ? "시민" : "마피아"}팀의 승리!!
+            </p>
+            <img src="images/trophy.png" width={"500px"}></img>
+            <p id="winMentExplane">
+              {citizenPercent > mafiaPercent ? citizenWinMent : mafiaWinMent}
+            </p>
+          </div>
         </Card>
       )}
     </div>

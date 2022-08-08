@@ -20,20 +20,20 @@ const Container = styled.div`
 `;
 
 const SharkGameTutorial = () => {
-  const [eventChange, setEventChange] = useState(false);
+  const [eventChange, setEventChange] = useState(true);
 
-  useEffect(() => {
-    if (!eventChange) {
-      const eventTimer = setTimeout(() => {
-        setEventChange(true);
-      }, 4000);
-      return () => clearTimeout(eventTimer);
-    }
-  }, [eventChange]);
+  // useEffect(() => {
+  //   if (!eventChange) {
+  //     const eventTimer = setTimeout(() => {
+  //       setEventChange(true);
+  //     }, 4000);
+  //     return () => clearTimeout(eventTimer);
+  //   }
+  // }, [eventChange]);
 
   return (
     <div>
-      {!eventChange && <SharkGameStart />}
+      {/* {!eventChange && <SharkGameStart />} */}
       {eventChange && (
         <Container>
           <h1>게임 설명</h1>

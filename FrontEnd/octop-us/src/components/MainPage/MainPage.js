@@ -13,7 +13,7 @@ function MainPage() {
   const [roomInfo, setRoomInfo] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  console.log("MainPage");
   const { userInfo } = useSelector((state) => state.user);
 
   const onClickLogout = () => {
@@ -26,6 +26,7 @@ function MainPage() {
       .get("http://localhost:8080/rooms")
       .then((res) => setRoomInfo(res.data))
       .catch((err) => console.log(err));
+      console.log("MainPage useEffect");
   }, []);
 
   const [search, setSearch] = useState("");

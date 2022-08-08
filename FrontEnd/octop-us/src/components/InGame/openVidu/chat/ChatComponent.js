@@ -141,6 +141,16 @@ class ChatComponent extends Component {
     return (
       <div id="chatContainer">
         <div id="chatComponent" style={styleChat}>
+          <div id="chatToolbar">
+            <span>
+              {/* {this.props.user.getStreamManager().stream.session.sessionId} - */}
+              {this.props.roomName} -
+              CHAT
+            </span>
+            <IconButton id="closeButton" onClick={this.close}>
+              <HighlightOff color="secondary" />
+            </IconButton>
+          </div>
           <div className="message-wrap" ref={this.chatScroll}>
             {this.state.messageList.map((data, i) => (
               <div

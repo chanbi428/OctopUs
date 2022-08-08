@@ -7,6 +7,7 @@ import RoundComponent from "../components/JobComponents/RoundComponent";
 import VotePage from "../components/VotePage/VotePage";
 import VoteWaitPage from "../components/VotePage/VoteWaitPage";
 import ExecutionPage from "../components/VotePage/ExecutionPage";
+import GameAnimation from '../../MiniGame/LoadingAnimation/AnimationRouter'
 
 import OpenViduLayout from "../layout/openvidu-layout";
 import UserModel from "../models/user-model";
@@ -44,6 +45,9 @@ class OpenViduComponent extends Component {
       voteWaitPageStart: 0,
       votePageStart: 0,
       agreePageStart: 0,
+      votePage: 0,
+      agreePage: 0,
+      gameNum:0,
       userList: ["a", "b", "c", "d"],
       pickUser: "",
       agree: false
@@ -422,6 +426,28 @@ class OpenViduComponent extends Component {
       console.log("선택한 유저" + this.state.pickUser)
     }
   };
+  clickBtnGame=(e)=>{
+    // console.log("Click Btn Game : " + e);
+    this.setState({page:2});
+    this.setState({gameNum : 1});
+    console.log("Click Btn Game : " + this.state.gameAni);
+    const timer = setInterval(()=>{
+      if(e === 1){
+        this.clickBtnFish();
+      }
+      else if (e === 2){
+        this.clickBtnShark();
+      }
+    },4000);
+  }
+  clickBtnFish = (e) =>{
+    this.setState({page:1});
+    this.setState({gameNum : 1});
+  };
+  clickBtnShark = (e) =>{
+    this.setState({page:1});
+    this.setState({gameNum : 2});
+  };
   // 찬반 버튼 누르면 state.agree가 바뀜
   selectAgree = (e) => {
     e.preventDefault();
@@ -431,10 +457,12 @@ class OpenViduComponent extends Component {
 
 
   render() {
-    const mySessionId = this.state.mySessionId;
+    // const mySessionId = this.state.mySessionId;
+    const mySessionId = this.props.sessionName;// !== undefined ? this.props.sessionName : "SessionA";
     const localUser = this.state.localUser;
     var chatDisplay = { display: this.state.chatDisplay };
-
+    console.log('gameAni : ' + mySessionId);
+    console.log('gameAni2 : ' + this.props.sessionName);
     return (
       <div className="screen">
         {this.state.page === 0 && (
@@ -448,6 +476,7 @@ class OpenViduComponent extends Component {
                       chatDisplay={this.state.chatDisplay}
                       close={this.toggleChat}
                       ref={this.ovref}
+                      roomName = {this.props.roomName}
                     />
                   </div>
                 )}
@@ -504,6 +533,10 @@ class OpenViduComponent extends Component {
                   : <VotePage moveVoteWait={this.moveVoteWait} />
                 }
                 <button onClick={this.clickBtnVote}>투표시작</button>
+                <button onClick={this.clickBtnMoveAgree}>찬반시작</button>
+                <button onClick={() =>this.clickBtnGame(1)}>낚시게임시작</button>
+                <button onClick={() =>this.clickBtnGame(2)}>상어게임시작</button>
+                <RoundComponent gameNum={this.state.gameNum}/>
               </div>
               <div className="aaaaa" style={chatDisplay}>
                 <ChatComponent
@@ -511,6 +544,7 @@ class OpenViduComponent extends Component {
                   chatDisplay={this.state.chatDisplay}
                   close={this.toggleChat}
                   ref={this.ovref}
+                  roomName = {this.props.roomName}
                 />
               </div>
             </div>
@@ -555,6 +589,9 @@ class OpenViduComponent extends Component {
               </div>
             </div>
           </div>
+        )}
+        {this.state.page === 2 &&(
+          <GameAnimation gameNum={this.state.gameNum}/>
         )}
       </div>
     );

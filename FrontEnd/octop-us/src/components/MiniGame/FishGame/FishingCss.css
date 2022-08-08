@@ -52,7 +52,7 @@
   }
   #Clock{
     color: #fff;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
     font-size: 35px;
     margin: auto;
     position: relative;
@@ -64,12 +64,32 @@
   }
   #centerPlace{
     margin: auto;
+    width: 100%;
+    justify-content: center; 
+    text-align: center;
+  }
+  #buttonCenter{
+    margin: auto;
     position: relative;
+    display: inline-block;
   }
   #citizenPercent{
     float: left;
+    text-align: left;
   }
   #mafiaPercent{
     float: right;
+    text-align: right;
+  }
+  #winMent{
+    margin: auto;
+    margin-top: 50px;
+    width: 100%;
+    justify-content: center; 
+    text-align: center;
+    font-size: 45px;
+  }
+  #winMentExplane{
+    font-size: 35px;
   }
   
