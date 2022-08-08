@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun } from "@fortawesome/free-solid-svg-icons";
 import { faCloud } from "@fortawesome/free-solid-svg-icons";
-import "./NightToDayLoading.css";
+import './NightToDayLoading.css'
 
 const NightToDayLoading = () => {
   return (

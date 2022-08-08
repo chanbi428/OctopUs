@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAsterisk } from "@fortawesome/free-solid-svg-icons";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
-import "./DayToNightLoading.css";
+import './DayToNightLoading.css'
 
 const DayToNightLoading = () => {
   return (
