@@ -26,7 +26,7 @@
 }
 
 #chatComponent {
-  background-color: #b8b8b8;
+  background-color: #fdfcdc;
   position: absolute;
   z-index: 99999;
   top: 0;
@@ -35,18 +35,18 @@
   bottom: 0;
   height: calc(100%);
   width: calc(100%);
-  border-radius: 20px;
+  border-radius: 6px;
 }
 
 .message-wrap {
+  margin-top: 10px;
   padding: 0 15px;
-  height: calc(100% - 80px);
+  height: calc(100% - 45px);
   overflow: auto;
 }
 
 .message {
   position: relative;
-  padding: 7px 0;
 }
 .user-img {
   position: absolute;
@@ -57,7 +57,7 @@
 }
 
 .msg-detail {
-  width: calc(100% - 65px);
+  width: calc(100% - 20px);
   display: inline-block;
 }
 
@@ -74,9 +74,9 @@
 
 .msg-content {
   position: relative;
-  margin-top: 5px;
+  margin-top: 3px;
   border-radius: 5px;
-  padding: 8px;
+  padding: 5px;
   color: #000000;
   width: auto;
   max-width: 80%;
@@ -95,7 +95,18 @@ span.triangle {
 
 .text {
   word-break: break-all;
+  font-size: 12px;
   color: #000000;
+}
+.mafia {
+  word-break: break-all;
+  font-size: 12px;
+  color: #a22626;
+}
+.ghost {
+  word-break: break-all;
+  font-size: 12px;
+  color: #747474;
 }
 
 /* Start message from other user */
@@ -105,7 +116,7 @@ span.triangle {
 }
 
 .message.left .msg-detail {
-  padding-left: 65px;
+  padding-left: 20px;
 }
 
 .message.left .user-img {
@@ -161,12 +172,12 @@ span.triangle {
   border-bottom-right-radius: 6px;
 }
 #messageInput input {
-  width: 90%;
+  width: 94%;
   height: 100%;
   border: none;
   outline: none;
-  font-size: 8px;
-  margin-left: -6%;
+  font-size: 12px;
+  margin-left: -2%;
   color: #000000;
 }
 

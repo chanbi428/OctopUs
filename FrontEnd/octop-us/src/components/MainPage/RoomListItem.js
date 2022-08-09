@@ -20,7 +20,7 @@ function RoomListItem({ item }) {
       alert("비밀번호를 정확히 입력해주세요.");
     } else {
       let userList = item.userList.split(",");
-      console.log(userList);
+      console.log(userList); 
       userList[userList.indexOf("")] = userInfo.userName;
       console.log(userList);
       const personNum = item.personNum + 1;
@@ -44,7 +44,7 @@ function RoomListItem({ item }) {
         .then((res) => {
           console.log(res);
           document.location.href = `https://localhost:3000/${item.roomId}`;
-          // console.log(document.location.pathname)
+          console.log(document.location.pathname)
         })
         .catch((err) => console.log(err));
     }

@@ -1,0 +1,9 @@
+.screen {
+  height: 100%;
+  /* padding-left: 20px;
+  padding-right: 20px; */
+}
+
+#screen-div {
+  position: relative;
+}

@@ -28,7 +28,7 @@ function MakeRoom() {
     setRoomPw(e.target.value);
   };
   const createRoom = () => {
-    userList = [userInfo.userName, " ", " ", " ", " ", " ", " ", " "];
+    userList = [userInfo.userName, "", "", "", "", "", "", ""];
     const data = {
       // type : 'system',
       // sender : 'FE',

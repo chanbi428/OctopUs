@@ -1,19 +1,12 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-// import getAPI from "../../api/user";
+import { BASE_URL, config } from "../../api/BASE_URL";
 
-const BASE_URL = "http://localhost:8080";
+// BASE_URL, config 받아오는 것으로 수정
 export const userLogin = createAsyncThunk(
   "user/login",
   async ({ userName, userPW }, { rejectWithValue }) => {
     try {
-      // const { data } = await getAPI("/Auth/login", { userName, userPW });
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-
       const { data } = await axios.post(
         `${BASE_URL}/Auth/login`,
         { userName, userPW },
@@ -21,9 +14,9 @@ export const userLogin = createAsyncThunk(
       );
       console.log(data);
 
-      // 세션 스토리지에 토큰 저장
-      sessionStorage.setItem("userToken", data.token);
-      sessionStorage.setItem("userName", data.userName);
+      // 로컬 스토리지에 토큰 저장
+      localStorage.setItem("userToken", data.token);
+      localStorage.setItem("userName", data.userName);
 
       return data;
     } catch (error) {
@@ -46,11 +39,7 @@ export const userRegister = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.post(
-        `${BASE_URL}/user/signUp`,
-        { userName, userPW },
-        config
-      );
+      const { data } = await axios.post(`${BASE_URL}/user/signUp`, { userName, userPW }, config);
       console.log("회원가입:", data);
       return data;
     } catch (error) {

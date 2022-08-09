@@ -1,0 +1,31 @@
+.shark-game__container {
+  height: 1080px;
+  width: 1920px;
+  position: absolute;
+  overflow: hidden;
+}
+
+.shark-game__img {
+  animation: move_shark 1 4s;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 10px;
+  height: 10px;
+}
+
+@keyframes move_shark {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(50);
+    right: 50%;
+    top: 50%;
+  }
+  100% {
+    transform: scale(0);
+    right: 100%;
+    top: 100%;
+  }
+}
