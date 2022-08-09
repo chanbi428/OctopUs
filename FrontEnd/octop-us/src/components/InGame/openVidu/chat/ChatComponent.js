@@ -36,10 +36,18 @@ class ChatComponent extends Component {
   }
 
   componentDidMount() {
-    this.props.user
+    const userData = this.props.user;
+    let data;
+    for (data in userData.getStreamManager().stream.session){
+      console.log("componentDidMount on ChatComponent : " + JSON.stringify(data));
+    }
+    console.log("componentDidMount on ChatComponent session : " + this.props.user.getStreamManager().stream.streamId);
+    if(this.props.user.getStreamManager().stream.streamId === undefined){
+      this.props.user
       .getStreamManager()
       .stream.session.on("signal:chat", (event) => {
         const data = JSON.parse(event.data);
+        console.log("componentDidMount : " +  JSON.stringify(data));
         let message = {
           connectionId: event.from.connectionId,
           nickname: data.nickname,
@@ -49,14 +57,14 @@ class ChatComponent extends Component {
           gameStatus: data.gameStatus,
         };
         const document = window.document;
-        setTimeout(() => {
-          const userImg = document.getElementById(
-            "userImg-" + (this.state.messageList.length - 1)
-          );
-          const video = document.getElementById("video-" + data.streamId);
-          const avatar = userImg.getContext("2d");
-          avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
-        }, 50);
+        // setTimeout(() => {
+        //   const userImg = document.getElementById(
+        //     "userImg-" + (this.state.messageList.length - 1)
+        //   );
+        //   const video = document.getElementById("video-" + data.streamId);
+        //   const avatar = userImg.getContext("2d");
+        //   avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
+        // }, 50);
         if (data.isDead === true && this.props.gamerData.isDead === true) {
           // 유령
           this.props.setMessageList({ message: message });
@@ -74,6 +82,8 @@ class ChatComponent extends Component {
         }
         this.scrollToBottom();
     });
+    }
+    
   }
 
   handleChange(event) {
@@ -323,7 +333,6 @@ class ChatComponent extends Component {
         <div id="chatComponent" style={styleChat}>
           <div id="chatToolbar">
             <span>
-              {/* {this.props.user.getStreamManager().stream.session.sessionId} - */}
               {this.props.roomName} -
               CHAT
             </span>

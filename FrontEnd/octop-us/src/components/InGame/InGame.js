@@ -11,8 +11,12 @@ import exitRoom from "../../features/waiting/exitRoom";
 import ClickStart from "../../features/waiting/ClickStart";
 
 const InGame = () => {
+  const location = useLocation();
+  const urlPath = 'SessionA'; //(location.pathname !== undefined ? location.pathname : "SessionA");
+  // /36ddb75a-0958-4302-a8b4-c5fb660d9e26
+  console.log("InGame started : " + urlPath);//(location.pathname !== undefined ? location.pathname : "SessionA";
   const [page, setPage] = useState(0);
-  const [sessionName, setSessionName] = useState("SessionA");
+  const [sessionName, setSessionName] = useState(urlPath);
   const [roomName, setRoomName] = useState("RoomA");
   const [hostName, setHostName] = useState("HostA");
   const [gameNum, setGameNum] = useState(0);
@@ -23,7 +27,7 @@ const InGame = () => {
   const { userInfo } = useSelector((state) => state.user);
   console.log("인게임 렌더링", roomId, userList);
 
-  const location = useLocation();
+  
 
   useEffect(() => {
     const tmpSessions = location.pathname !== undefined ? location.pathname : "SessionA";
