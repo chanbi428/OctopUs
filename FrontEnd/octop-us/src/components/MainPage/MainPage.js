@@ -36,10 +36,16 @@ function MainPage() {
 
   const onClickSearch = (e) => {
     e.preventDefault();
-    axios
+    if(search == ''){
+      onClickSearchReset(e);
+    }
+    else{
+      axios
       .get(`http://localhost:8080/rooms/detail/roomnamelike/${search}`)
       .then((res) => setRoomInfo(res.data))
       .catch((err) => console.log(err));
+    }
+
   };
 
   const onClickSearchReset = (e) => {
@@ -92,7 +98,11 @@ function MainPage() {
       })
       .catch((err) => console.log(err));
   };
-
+  const onKeyPress = (e) => {
+    if(e.key == 'Enter') {
+      onClickSearch(e);
+    }
+  };
   return (
     <div className="MainPage container">
       <div className="main-page__user-info">
@@ -112,11 +122,12 @@ function MainPage() {
               value={search}
               onChange={onChangeSearch}
               className="main-page__searchbar-input"
+              onKeyPress={onKeyPress}
             />
             <button onClick={onClickSearch} className="search__btn">
               검색
             </button>
-            <button onClick={onClickSearchReset} className="search__btn">
+            <button onClick={onClickSearchReset} className="search__btn" >
               초기화
             </button>
           </div>

@@ -88,7 +88,7 @@ function RoomListItem({ item }) {
                 className="main-page__room-list-btn"
                 onClick={onClickEnterRoom}
               >
-                게임시작
+                게임입장
               </button>
             )}
           </div>
