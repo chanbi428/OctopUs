@@ -8,9 +8,11 @@ import MakeRoom from "./MakeRoom";
 import RoomList from "./RoomList";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./MainPage.css";
+import LoadingSpanner from "../LoadingPage/LoadingSpan/LoadingSpanner";
 
 function MainPage() {
   const [roomInfo, setRoomInfo] = useState([]);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log("MainPage");
@@ -24,7 +26,10 @@ function MainPage() {
   useEffect(() => {
     axios
       .get("http://localhost:8080/rooms")
-      .then((res) => setRoomInfo(res.data))
+      .then((res) => {
+        setRoomInfo(res.data);
+        setLoading(true);
+      })
       .catch((err) => console.log(err));
       console.log("MainPage useEffect");
   }, []);
@@ -40,9 +45,13 @@ function MainPage() {
       onClickSearchReset(e);
     }
     else{
+      setLoading(false);
       axios
       .get(`http://localhost:8080/rooms/detail/roomnamelike/${search}`)
-      .then((res) => setRoomInfo(res.data))
+      .then((res) => {
+        setRoomInfo(res.data);
+        setLoading(true);
+      })
       .catch((err) => console.log(err));
     }
 
@@ -50,9 +59,12 @@ function MainPage() {
 
   const onClickSearchReset = (e) => {
     e.preventDefault();
+    setLoading(false);
     axios
       .get(`http://localhost:8080/rooms`)
-      .then((res) => setRoomInfo(res.data))
+      .then((res) => {
+        setRoomInfo(res.data);
+        setLoading(true);})
       .catch((err) => console.log(err));
   };
 
@@ -89,8 +101,7 @@ function MainPage() {
               })
               .then((res) => {
                 console.log(res);
-                document.location.href = `https://localhost:3000/${item.data.roomId}`;
-                // console.log(document.location.pathname)
+                navigate(`/${item.data.roomId}`);
               })
               .catch((err) => console.log(err));
           })
@@ -134,7 +145,7 @@ function MainPage() {
         </header>
         <main className="main-page__main">
           <MakeRoom />
-          <RoomList roomInfo={roomInfo} />
+          {loading ? (<RoomList roomInfo={roomInfo} loading={loading}/>) : (<LoadingSpanner/>)}
         </main>
       </div>
       <div className="MainFooter">
