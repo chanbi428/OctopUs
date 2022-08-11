@@ -36,6 +36,7 @@ const RegisterModal = (props) => {
     if (register.userPW !== register.confirmUserPW) {
       alert("비밀번호가 일치하지 않습니다.");
     } else {
+      alert("회원가입 성공입니다. 로그인 해주시길 바랍니다.");
       dispatch(userRegister(register));
       close();
     }
@@ -70,6 +71,7 @@ const RegisterModal = (props) => {
                   required
                 />
                 <button
+                  type="button"
                   className="register-modal__double-check-btn"
                   onClick={onUserNameCheckHandler}
                 >
@@ -102,7 +104,7 @@ const RegisterModal = (props) => {
                 회원가입
               </button>
               <button className="register-modal__btn" onClick={close}>
-                뒤로가기
+                취소
               </button>
             </footer>
           </form>

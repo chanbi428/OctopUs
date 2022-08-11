@@ -105,6 +105,7 @@ function MakeRoom() {
               value={roomName}
               onChange={handleRoomName}
               className="Input"
+              maxLength={20}
             />
           </div>
           {/* <div className="CardBody">
