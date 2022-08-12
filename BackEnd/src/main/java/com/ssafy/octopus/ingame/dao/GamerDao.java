@@ -99,4 +99,12 @@ public interface GamerDao extends JpaRepository<Gamer, Integer> {
      */
     @Transactional
     Long deleteByRoomId(String roomId);
+
+    /** @brief : 기자 조회
+     *  @date : 2022-08-12
+     *  @param : roomId, GameJob
+     *  @return : Gamer
+     *  @author : BCB
+     */
+    public Gamer findByRoomIdAndGameJob(String roomId, String gameJob);
 }

@@ -163,15 +163,15 @@ class ChatComponent extends Component {
           }
         }
         if (data.page === 2) {
-          if (this.props.gamerData.host === this.props.gamerData.userName) {
-            axios
-              .get(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
-              .then((res) => {
-                console.log("host가 밤 초기화");
-              });
-          }
+          //if (this.props.gamerData.host === this.props.gamerData.userName) {
+          axios
+            .get(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
+            .then((res) => {
+              console.log("host가 밤 초기화");
+            });
+          //}
           console.log("pickUser 초기화");
-          //this.props.setPickUser({ pickUser: "" });
+          this.state.pickUser = "";
         }
         const obj = {
           minigameResult: this.props.gamerData.minigameResult,
@@ -180,7 +180,7 @@ class ChatComponent extends Component {
           isDead: this.props.gamerData.isDead,
           shark: this.props.gamerData.shark,
           fisher: this.props.gamerData.fisher,
-          reporter: this.props.gamerData.reporter,
+          reporter: this.props.getPickUser(),
         };
         console.log("change repoter 값", this.props.gamerData.reporter);
         setTimeout(() => {
@@ -218,6 +218,11 @@ class ChatComponent extends Component {
         // 각자 DB에 업뎃하게 함
         console.log("night 끝났음");
         this.props.updatePickUser();
+        //console.log("getPickUser", this.props.getPickUser());
+        // setTimeout(() => {
+        //   this.props.setReporter({ reporter: this.props.reporter });
+        // }, 3000);
+
         // axios.get(`${BASE_URL}/nights/reporter/${this.props.gamerData.roomId}`).then((res) => {
         //   console.log("기자ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ", res);
         //   this.props.setReporter({ reporter: res.data.nomineeName });
