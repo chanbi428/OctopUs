@@ -34,6 +34,7 @@ import {
   setFisher,
   setPickUser,
   useMinigame,
+  setReporter,
 } from "../../../features/gamer/gamerSlice";
 
 import Timer from "../Timer";
@@ -692,6 +693,8 @@ class OpenViduComponent extends Component {
             });
           });
           //});
+        } else if (this.props.gamerData.job === "기자" && this.state.pickUser != "") {
+          this.props.setReporter({ reporter: this.state.pickUser });
         }
       });
     setTimeout(() => {
@@ -914,7 +917,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className="ingame-bounds"
-                  onClick={(e) => this.selectVoteAtNight(subGamer.userName, e)}
+                  onClick={(e) => this.selectVoteAtNight(subGamer, e)}
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.userName === this.state.pickUser && <p>투표</p>}
@@ -958,7 +961,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className="ingame-bounds"
-                  onClick={(e) => this.selectVoteAtNight(subGamer.userName, e)}
+                  onClick={(e) => this.selectVoteAtNight(subGamer, e)}
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.userName === this.state.pickUser && <p>투표</p>}
@@ -1376,6 +1379,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     useMinigame: (data) => {
       dispatch(useMinigame(data));
+    },
+    setReporter: (data) => {
+      dispatch(setReporter(data));
     },
   };
 };

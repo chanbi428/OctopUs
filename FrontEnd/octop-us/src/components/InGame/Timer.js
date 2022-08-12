@@ -2,11 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import clickBtnGame from "./InGame.js";
-
-export const Timer = (time, user, page, flag, obj) => {
-  console.log("제발 timer 안 1");
-  // const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } = useSelector((state) => state.gamer)
-  console.log("제발 timer 안 2");
+import { BASE_URL } from "../../api/BASE_URL";
+export const Timer = async (time, user, page, flag, obj) => {
+  // const { reporter } = useSelector((state) => state.gamer);
+  console.log("타이머가 호출됨", page, obj);
   var tmp = time;
   var isChange = 0;
   const timerInterval = setInterval(() => {
