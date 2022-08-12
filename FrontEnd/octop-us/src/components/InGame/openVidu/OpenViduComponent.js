@@ -32,8 +32,8 @@ import {
   hasntSkill,
   setShark,
   setFisher,
-  useMinigame,
   setPickUser,
+  useMinigame,
 } from "../../../features/gamer/gamerSlice";
 
 import Timer from "../Timer";
