@@ -12,6 +12,32 @@
   margin: 2vh;
   border-radius: 5px;
   background-color: #fdfcdc;
+  font-family: BMJUA;
+  font-size: 25px;
+  letter-spacing: 3px;
+  text-decoration: none;
+  display: inline-block;
+  border: 3px solid rgba(0, 0, 0);
+  border-bottom: 3px solid rgba(0, 0, 0);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.landing-page__btn:hover {
+  width: 40vh;
+  height: 6vh;
+  margin: 2vh;
+  border-radius: 5px;
+  background-color: #fdfcdc;
+  font-family: BMJUA;
+  font-size: 25px;
+  letter-spacing: 3px;
+  text-decoration: none;
+  display: inline-block;
+  border: 3px solid rgba(0, 0, 0, 0.21);
+  border-bottom: 4px solid rgba(0, 0, 0, 0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 }
 
 .landing-page__modal {

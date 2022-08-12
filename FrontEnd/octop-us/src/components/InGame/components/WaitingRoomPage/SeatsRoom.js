@@ -8,81 +8,67 @@ export default function SeatsRoom(props) {
   let [throneInfo, setThroneInfo] = useState(props.throneInfo);
   console.log("room", seatInfo, throneInfo);
   return (
-    <div className="row">
-      <div id="leftside" className="offset-2 col-4">
-        <div className="container col" style={{ opacity: seatInfo[0].opa }}>
-          <p>{seatInfo[0].nickname}</p>
-          {/* <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[0].nickname}</p>  */}
-          {/* {throneInfo[0].crown === 1 ? 
-          <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[0].nickname}</p> 
-          : <p>{seatInfo[0].nickname}</p>} */}
-          <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
+    <div className="col d-flex flex-column align-items-center">
+      <div className="row">
+      <div className="container col" style={{ opacity: seatInfo[1].opa }}  id="num_one">
+          <div className="nameBox">
+            <span className="nameTag">{seatInfo[1].nickname}</span>
+            {throneInfo[1].crown === 1 && <FontAwesomeIcon icon={faCrown} className="crown"/> }
+          </div>
+          <img className="octopus" src="images/octopus/yellow.gif" alt="octopus1.gif"/>
         </div>
-        <div className="container col" style={{ opacity: seatInfo[2].opa }}>
-          <p>{seatInfo[2].nickname}</p>
-          {/* <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[2].nickname}</p>  */}
-          {/* {throneInfo[2].crown === 1 ? 
-          <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[2].nickname}</p> 
-          : <p>{seatInfo[2].nickname}</p>} */}
-          <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
+        <div className="container col" style={{ opacity: seatInfo[0].opa }} id="num_zero">
+          <div className="nameBox" >
+            <span className="nameTag">{seatInfo[0].nickname}</span>
+            {throneInfo[0].crown === 1 && <FontAwesomeIcon icon={faCrown} className="crown"/> }
+          </div>
+          <img className="octopus" src="images/octopus/red.gif" alt="octopus0.gif"/>
         </div>
-        <div className="container col" style={{ opacity: seatInfo[4].opa }}>
-          <p>{seatInfo[4].nickname}</p>
-          {/* <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[4].nickname}</p>  */}
-          {/* {throneInfo[4].crown === 1 ? 
-          <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[4].nickname}</p> 
-          : <p>{seatInfo[4].nickname}</p>} */}
-          <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
+        <div className="container col" style={{ opacity: seatInfo[4].opa }} id="num_four">
+          <div className="nameBox" >
+            <span className="nameTag">{seatInfo[4].nickname}</span>
+            {throneInfo[4].crown === 1 && <FontAwesomeIcon icon={faCrown} className="crown"/> }
+          </div>
+          <img className="octopus" src="images/octopus/purple.gif" alt="octopus4.gif"/>
         </div>
-        <div className="container col" style={{ opacity: seatInfo[6].opa }}>
-          <p>{seatInfo[6].nickname}</p>
-          {/* <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[6].nickname}</p>  */}
-          {/* {throneInfo[6].crown === 1 ? 
-          <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[6].nickname}</p> 
-          : <p>{seatInfo[6].nickname}</p>} */}
-          <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
+        <div className="container col" style={{ opacity: seatInfo[5].opa }} id="num_five">
+          <div className="nameBox" >
+            <span className="nameTag">{seatInfo[5].nickname}</span>
+            {throneInfo[5].crown === 1 && <FontAwesomeIcon icon={faCrown} className="crown"/> }
+          </div>
+          <img className="octopus" src="images/octopus/babypink.gif" alt="octopus5.gif"/>
         </div>
       </div>
-      <div id="rigntside" className="col-4 offset-2">
-        <div className="container col" style={{ opacity: seatInfo[1].opa }}>
-          <p>{seatInfo[1].nickname}</p>
-          {/* <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[1].nickname}</p>  */}
-          {/* {throneInfo[1].crown === 1 ? 
-          <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[1].nickname}</p> 
-          : <p>{seatInfo[1].nickname}</p>} */}
-          <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
+      <div className="row">
+      <div className="container col" style={{ opacity: seatInfo[2].opa }}  id="num_two">
+          <div className="nameBox">
+            <span className="nameTag">{seatInfo[2].nickname}</span>
+            {throneInfo[2].crown === 1 && <FontAwesomeIcon icon={faCrown} className="crown"/> }
+          </div>
+          <img className="octopus" src="images/octopus/green.gif" alt="octopus2.gif"/>
         </div>
-        <div className="container col" style={{ opacity: seatInfo[3].opa }}>
-          <p>{seatInfo[3].nickname}</p>
-          {/* <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[3].nickname}</p>  */}
-          {/* {throneInfo[3].crown === 1 ? 
-          <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[3].nickname}</p> 
-          : <p>{seatInfo[3].nickname}</p>} */}
-          <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
+        <div className="container col" style={{ opacity: seatInfo[3].opa }} id="num_thr">
+          <div className="nameBox" >
+            <span className="nameTag">{seatInfo[3].nickname}</span>
+            {throneInfo[3].crown === 1 && <FontAwesomeIcon icon={faCrown} className="crown"/> }
+          </div>
+          <img className="octopus" src="images/octopus/mint.gif" alt="octopus3.gif"/>
         </div>
-        <div className="container col" style={{ opacity: seatInfo[5].opa }}>
-          <p>{seatInfo[5].nickname}</p>
-          {/* <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[5].nickname}</p>  */}
-          {/* {throneInfo[5].crown === 1 ? 
-          <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[5].nickname}</p> 
-          : <p>{seatInfo[5].nickname}</p>} */}
-          <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
+        <div className="container col" style={{ opacity: seatInfo[6].opa }} id="num_six">
+          <div className="nameBox" >
+            <span className="nameTag">{seatInfo[6].nickname}</span>
+            {throneInfo[6].crown === 1 && <FontAwesomeIcon icon={faCrown} className="crown"/> }
+          </div>
+          <img className="octopus" src="images/octopus/blue.gif" alt="octopus6.gif"/>
         </div>
-        <div className="container col" style={{ opacity: seatInfo[7].opa }}>
-          <p>{seatInfo[7].nickname}</p>
-          {/* <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[7].nickname}</p>  */}
-          {/* {throneInfo[7].crown === 1 ? 
-          <p><FontAwesomeIcon icon={faCrown} className="crown"/> {seatInfo[7].nickname}</p> 
-          : <p>{seatInfo[7].nickname}</p>} */}
-          <img src="https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-octopus-animal-justicon-lineal-color-justicon.png" />
+        <div className="container col" style={{ opacity: seatInfo[7].opa }} id="num_svn"> 
+          <div className="nameBox" >
+            <span className="nameTag">{seatInfo[7].nickname}</span>
+            {throneInfo[7].crown === 1 && <FontAwesomeIcon icon={faCrown} className="crown"/> }
+          </div>
+          <img className="octopus" src="images/octopus/violet.gif" alt="octopus7.gif"/>
         </div>
       </div>
-      <a target="_blank" href="https://icons8.com/icon/59DW1U5zYwbI/octopus">
-        Octopus icon by Icons8
-      </a>
-      <a target="_blank" href="https://icons8.com/icon/fcj8w2EL5ShF/octopus">
-        Octopus icon by Icons8
-      </a>
     </div>
   );
 }
