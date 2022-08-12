@@ -7,3 +7,11 @@
 #screen-div {
   position: relative;
 }
+
+.setting_box {
+  padding-left: 2rem;
+}
+
+.bounds {
+  border-radius: 15px;
+}

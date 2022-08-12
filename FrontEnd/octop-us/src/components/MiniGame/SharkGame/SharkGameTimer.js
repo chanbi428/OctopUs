@@ -20,6 +20,7 @@ const Front = styled.div`
 function SharkGameTimer({ isFinish }) {
   const [timeElapsed, setTimeElapsed] = useState(30); // 30초 제한
   const [playTime, setPlayTime] = useState(0); // 1초씩 줄어들기
+  // const { userInfo } = useSelector((state) => state.user);
   const record = useRef();
   record.current = playTime;
 
@@ -54,7 +55,8 @@ function SharkGameTimer({ isFinish }) {
     if (isFinish) {
       const time = playTime / 1000;
       console.log(`게임 끝! 내 기록: ${time}`);
-      // axios.post(BASE_URL + "games/mini/shark", { time }, config);
+      // const user_name = userInfo.userName;
+      // axios.put(BASE_URL + "games/mini/shark", { user_name, time }, config);
     }
   }, [isFinish]);
 

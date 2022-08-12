@@ -367,6 +367,7 @@ class ChatComponent extends Component {
   };
 
   componentDidUpdate(prevState) {
+    this.scrollToBottom();
     if (this.props.gamerData.messageList.length !== 0) {
       console.log(this.UserModel);
       let msg = this.props.gamerData.messageList.at(-1).message;
@@ -461,15 +462,15 @@ class ChatComponent extends Component {
     return (
       <div id="chatContainer">
         <div id="chatComponent" style={styleChat}>
-          <div id="chatToolbar">
+          {/* <div id="chatToolbar">
             <span>
-              {/* {this.props.user.getStreamManager().stream.session.sessionId} - */}
+              {this.props.user.getStreamManager().stream.session.sessionId} -
               {this.props.roomName} - CHAT
             </span>
             <IconButton id="closeButton" onClick={this.close}>
               <HighlightOff color="secondary" />
             </IconButton>
-          </div>
+          </div> */}
           <div className="message-wrap" ref={this.chatScroll}>
             {gamerData.messageList.map((data, i) => {
               if (data.message !== "") {

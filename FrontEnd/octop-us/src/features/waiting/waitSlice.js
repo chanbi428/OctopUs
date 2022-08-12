@@ -4,6 +4,10 @@ const initialState = {
   roomId : "",
   userList : [],
   roomChief: "",
+  personNum : 0,
+  isPrivate : false,
+  roomPw : "",
+  gameTime : "",
   seats : [
     { nickname: "", opa: 0 },
     { nickname: "", opa: 0 },
@@ -60,10 +64,32 @@ const waitSlice = createSlice({
     },
     updateRoomChief : (state, {payload}) => {
       state.roomChief = payload.roomChief
+    },
+    updatePersonNum : (state, {payload}) => {
+      state.personNum = payload.personNum
+    },
+    updateIsPrivate : (state, {payload}) => {
+      state.isPrivate = payload.isPrivate
+    },
+    updateRoomPw : (state, {payload}) => {
+      state.roomPw = payload.roomPw
+    },
+    updateGameTime : (state, {payload}) => {
+      state.gameTime = payload.gameTime
     }
   },
 });
 
-export const { updateRoom, updateOctopus, updateRoomId, updateUserList, updateRoomChief } = waitSlice.actions;
+export const { 
+  updateRoom, 
+  updateOctopus, 
+  updateRoomId, 
+  updateUserList, 
+  updateRoomChief,
+  updatePersonNum,
+  updateIsPrivate,
+  updateRoomPw,
+  updateGameTime
+ } = waitSlice.actions;
 
 export default waitSlice.reducer;

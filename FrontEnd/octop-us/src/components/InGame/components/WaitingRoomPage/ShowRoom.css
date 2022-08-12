@@ -1,18 +1,30 @@
-.MakeRoom {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    height: 500px;
-    
-  }
+.ShowRoom {
+  font-family: BMJUA;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  flex-direction: column;
+  padding: 15px;
+  width: 300px;
+  height: 300px;
+  margin : 1.5rem 2rem 1rem 3rem;
+  border-radius: 10px;
+  background-color : #00afb9;
+}
+
+.ShowCardHeader {
+  /* margin-bottom: 5px; */
+  margin-top: 5px;
+}
   
-  .CardBody {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    width: 100%;
-    text-align: center;
-  }
-  
-  .Radio {
-    margin: 0px 5px 0px 5px;
-  }
+.CardBody {
+  font-family: "GmarketSansMedium";
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 100%;
+  text-align: center;
+}
+
+.ShowInfo {
+  margin-bottom: 5px;
+}

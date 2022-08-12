@@ -38,23 +38,36 @@ export default class ToolbarComponent extends Component {
     render() {
         const localUser = this.props.user;
         return (
-            <AppBar className="toolbar" id="header">
-                <Toolbar className="toolbar">
-                    <div className="buttonsContent">
-                        <IconButton color="inherit" className="navButton" id="navMicButton" onClick={this.micStatusChanged}>
-                            {localUser !== undefined && localUser.isAudioActive() ? <Mic /> : <MicOff color="secondary" />}
-                        </IconButton>
+            // <AppBar className="toolbar" id="header">
+            //     <Toolbar className="toolbar">
+            //         <div className="buttonsContent">
+            //             <IconButton color="inherit" className="navButton" id="navMicButton" onClick={this.micStatusChanged}>
+            //                 {localUser !== undefined && localUser.isAudioActive() ? <Mic /> : <MicOff color="secondary" />}
+            //             </IconButton>
 
-                        <IconButton color="inherit" className="navButton" id="navCamButton" onClick={this.camStatusChanged}>
-                            {localUser !== undefined && localUser.isVideoActive() ? (
-                                <Videocam />
-                            ) : (
-                                <VideocamOff color="secondary" />
-                            )}
-                        </IconButton>
-                    </div>
-                </Toolbar>
-            </AppBar>
+            //             <IconButton color="inherit" className="navButton" id="navCamButton" onClick={this.camStatusChanged}>
+            //                 {localUser !== undefined && localUser.isVideoActive() ? (
+            //                     <Videocam />
+            //                 ) : (
+            //                     <VideocamOff color="secondary" />
+            //                 )}
+            //             </IconButton>
+            //         </div>
+            //     </Toolbar>
+            // </AppBar>
+            <div className="buttonsContent">
+                <IconButton color="inherit" className="navButton" id="navMicButton" onClick={this.micStatusChanged}>
+                    {localUser !== undefined && localUser.isAudioActive() ? <Mic /> : <MicOff color="secondary" />}
+                </IconButton>
+
+                <IconButton color="inherit" className="navButton" id="navCamButton" onClick={this.camStatusChanged}>
+                    {localUser !== undefined && localUser.isVideoActive() ? (
+                        <Videocam />
+                    ) : (
+                        <VideocamOff color="secondary" />
+                    )}
+                </IconButton>
+            </div>
         );
     }
 }
