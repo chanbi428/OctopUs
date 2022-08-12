@@ -47,3 +47,10 @@ section {
   overflow: hidden;
   border: 3px solid black;
 }
+
+.waitingroom_title {
+  padding-top: 5px;
+  font-family: BMJUA;
+  font-size: 30px;
+  margin-left: 1rem;
+}
