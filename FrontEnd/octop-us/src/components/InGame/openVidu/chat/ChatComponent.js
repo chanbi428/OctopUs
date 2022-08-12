@@ -19,7 +19,13 @@ import {
   updateRoomChief,
 } from "../../../../features/waiting/waitSlice";
 import { gamerUserList } from "../../../../features/gamer/gamerActions";
-import { setGamerInit, setUserList, setReporter } from "../../../../features/gamer/gamerSlice";
+import {
+  setGamerInit,
+  setUserList,
+  setReporter,
+  setMessageListReset,
+  setGameStatus,
+} from "../../../../features/gamer/gamerSlice";
 import { BASE_URL } from "../../../../api/BASE_URL";
 import Timer from "../../Timer";
 
@@ -124,6 +130,7 @@ class ChatComponent extends Component {
           this.props.gamerData
         );
         if (data.page === 1) {
+          this.props.setMessageListReset();
           console.log("1페이지다", this.props.gamerData.job);
           // 크레이지 경찰
           if (this.props.gamerData.job == "크레이지경찰") {
@@ -163,20 +170,24 @@ class ChatComponent extends Component {
           }
         }
         if (data.page === 2) {
+          console.log("pickUser 초기화");
+          this.props.resetPickUser();
           //if (this.props.gamerData.host === this.props.gamerData.userName) {
           axios
-            .get(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
+            .put(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
             .then((res) => {
               console.log("host가 밤 초기화");
             });
           //}
+        }
+        if (data.page === 8) {
           console.log("pickUser 초기화");
-          this.state.pickUser = "";
+          this.props.resetPickUser();
         }
         const obj = {
           minigameResult: this.props.gamerData.minigameResult,
           job: this.props.gamerData.job,
-          hasSkill: this.props.gamerData.hasSkill,
+          hasSkill: this.props.getHasSkill(),
           isDead: this.props.gamerData.isDead,
           shark: this.props.gamerData.shark,
           fisher: this.props.gamerData.fisher,
@@ -619,6 +630,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     setReporter: (data) => {
       dispatch(setReporter(data));
+    },
+    setMessageListReset: () => {
+      dispatch(setMessageListReset());
+    },
+    setGameStatus: (data) => {
+      dispatch(setGameStatus(data));
     },
   };
 };
