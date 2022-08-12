@@ -179,3 +179,10 @@
     opacity: 1;
   }
 }
+
+.day-to-night__text {
+  font-family: BMJUA;
+  font-size: 30px;
+  color: white;
+  margin-left: 15vw;
+}
