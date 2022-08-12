@@ -1,6 +1,7 @@
 import Card from "../Card/Card";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { BASE_URL, CLIENT_URL } from "../../api/BASE_URL";
 import axios from "axios";
 import "./MakeRoom.css";
 
@@ -60,26 +61,26 @@ function MakeRoom() {
       if (data.roomChief === userInfo.userName) {
         console.log(data);
         axios
-          .post("http://localhost:8080/rooms", JSON.stringify(data), {
+          .post(`${BASE_URL}/rooms`, JSON.stringify(data), {
             headers: {
               "Content-Type": `application/json`,
             },
           })
           .then((res) => {
-            document.location.href = `https://localhost:3000/${res.data.roomId}`;
+            document.location.href = `${CLIENT_URL}/${res.data.roomId}`;
           })
           .catch((err) => console.log(err));
       } else {
         console.log(data);
         axios
-          .put("http://localhost:8080/rooms", JSON.stringify(data), {
+          .put(`${BASE_URL}/rooms`, JSON.stringify(data), {
             headers: {
               "Content-Type": `application/json`,
             },
           }) // 이후 이 부분이 필요한가 생각 중...
           .then((res) => {
             axios
-              .get(`http://localhost:8080/rooms/detail/roomname/${roomName}`)
+              .get(`${BASE_URL}/rooms/detail/roomname/${roomName}`)
               .then((res) => {
                 console.log(res.data[0].roomId);
               });
@@ -90,21 +91,25 @@ function MakeRoom() {
   };
 
   return (
-    <div>
-      <Card className="MakeRoom">
-        <header className="CardHeader">
-          <h2>방 설정</h2>
-        </header>
-        <main>
+    <Card className="MakeRoom">
+      <div className="make-room__contents">
+        <div className="make-room__header">
+          <span>MAKE ROOM</span>
+        </div>
+        <div className="make-room__settings">
           <div className="make-room__card-body">
-            <label htmlFor="room_name">방 이름</label>
-            <br />
+            <span htmlFor="room_name" className="make-room__title">
+              방 제목
+            </span>
             <input
               type="text"
               name="room_name"
               value={roomName}
               onChange={handleRoomName}
-              className="Input"
+              maxLength={20}
+              className="make-room__input"
+              autoFocus
+              placeholder="방 제목을 입력하세요."
             />
           </div>
           {/* <div className="CardBody">
@@ -119,75 +124,86 @@ function MakeRoom() {
             />
           </div> */}
           <div className="make-room__card-body">
-            회의 시간 <br />
-            <label htmlFor="game_time_60">60</label>
-            <input
-              type="radio"
-              id="game_time_60"
-              value={60}
-              onChange={handleGameTime}
-              checked={gameTime === "60"}
-              className="Radio"
-            />
-            <label htmlFor="game_time_90">90</label>
-            <input
-              type="radio"
-              id="game_time_90"
-              value={90}
-              onChange={handleGameTime}
-              checked={gameTime === "90"}
-              className="Radio"
-            />
-            <label htmlFor="game_time_120">120</label>
-            <input
-              type="radio"
-              id="game_time_120"
-              value={120}
-              onChange={handleGameTime}
-              checked={gameTime === "120"}
-              className="Radio"
-            />
+            <span className="make-room__title">회의 시간</span>
+            <div className="make-room__timesettings">
+              <div className="make-room__timesetting">
+                <input
+                  type="radio"
+                  id="game_time_60"
+                  value={60}
+                  onChange={handleGameTime}
+                  checked={gameTime === "60"}
+                />
+                <label htmlFor="game_time_60">60초</label>
+              </div>
+              <div className="make-room__timesetting">
+                <input
+                  type="radio"
+                  id="game_time_90"
+                  value={90}
+                  onChange={handleGameTime}
+                  checked={gameTime === "90"}
+                />
+                <label htmlFor="game_time_90">90초</label>
+              </div>
+              <div className="make-room__timesetting">
+                <input
+                  type="radio"
+                  id="game_time_120"
+                  value={120}
+                  onChange={handleGameTime}
+                  checked={gameTime === "120"}
+                />
+                <label htmlFor="game_time_120">120초</label>
+              </div>
+            </div>
           </div>
           <div className="make-room__card-body">
-            공개 방 여부 <br />
-            <label htmlFor="is_private_false">공개</label>
-            <input
-              type="radio"
-              id="is_private_false"
-              value={0}
-              onChange={handleIsPrivate}
-              checked={isPrivate === "0"}
-              className="Radio"
-            />
-            <label htmlFor="is_private_true">비공개</label>
-            <input
-              type="radio"
-              id="is_private_true"
-              value={1}
-              onChange={handleIsPrivate}
-              checked={isPrivate === "1"}
-              className="Radio"
-            />
+            <span className="make-room__title">공개 방 설정</span>
+            <div>
+              <input
+                type="radio"
+                id="is_private_false"
+                value={0}
+                onChange={handleIsPrivate}
+                checked={isPrivate === "0"}
+                className="Radio"
+              />
+              <label htmlFor="is_private_false">공개</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="is_private_true"
+                value={1}
+                onChange={handleIsPrivate}
+                checked={isPrivate === "1"}
+                className="Radio"
+              />
+              <label htmlFor="is_private_true">비공개</label>
+            </div>
           </div>
           <div
             className="make-room__card-body"
             style={{ visibility: isPrivate === "1" ? "visible" : "hidden" }}
           >
-            <label htmlFor="room_pw">방 비밀번호 </label> <br />
+            <label htmlFor="room_pw">방 비밀번호</label>
             <input
               type="password"
               name="room_pw"
               value={roomPw}
               onChange={handleRoomPw}
-              className="Input"
+              className="make-room__password-input"
+              autoFocus
+              placeholder="방 비밀번호를 입력하세요."
             />
           </div>
-        </main>
-        <button className="make-room__btn" onClick={createRoom}>
-          방 생성하기
-        </button>
-      </Card>
-    </div>
+        </div>
+      </div>
+      <button className="make-room__btn" onClick={createRoom}>
+        방 생성하기
+      </button>
+    </Card>
   );
 }
 

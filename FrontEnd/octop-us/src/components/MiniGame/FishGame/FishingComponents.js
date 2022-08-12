@@ -3,6 +3,10 @@ import Card from "../../Card/Card";
 import axios from "axios";
 import "./FishingCss.css";
 import FishGameTutorial from "./FishingTutorial";
+import { BASE_URL, config } from "../../../api/BASE_URL";
+
+import Timer from "../../InGame/Timer";
+import { useSelector } from "react-redux";
 
 import {
   CircularProgress,
@@ -29,39 +33,61 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const FishingComponent = () => {
+const FishingComponent = (props) => {
   const [user, setUser] = useState("");
-  const [job, setJob] = useState("mafia");
+  const [jobs, setJobs] = useState("mafia");
   const [roomId, setRoomId] = useState("1234");
   const [count, setCount] = useState(0);
   const [citizenPercent, setCitizenPercent] = useState(50);
   const [mafiaPercent, setMafiaPercent] = useState(50);
   const [showMode, setShowMode] = useState(false);
+  const [existMode, setExistMode] = useState(true);
 
   const [time, setTime] = useState(30);
   const classes = useStyles();
 
-  const mafiaWinMent = "[마피아]팀의 승리로 인해 오늘 투표를 진행하지 않습니다.";
+  const mafiaWinMent =
+    "[마피아]팀의 승리로 인해 오늘 투표를 진행하지 않습니다.";
   const citizenWinMent = "[시민]팀의 승리로 인해 오늘 ...는 진행하지 않습니다.";
 
   const spaceCount = useRef;
   spaceCount.current = count;
 
-  const BASE_URL = "http://localhost:8080";
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
+  // timer로 돌아가기
+  const { userInfo } = useSelector((state) => state.user);
+  const { roomChief } = useSelector((state) => state.wait);
+  const { localUser } = useSelector((state) => state.gamer);
+  const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } =
+    useSelector((state) => state.gamer);
+  const obj = {
+    minigameResult: minigameResult,
+    job: job,
+    hasSkill: hasSkill,
+    isDead: isDead,
+    shark: shark,
+    fisher: fisher,
+    reporter: reporter,
+  };
+  var flag = {
+    gameEnd: false, // 게임종료여부,
+    voteGo: false, // 투표결과(최후변론 할지 안할지),
+    agreeVoteGo: false, // 찬반투표결과(처형 할지 안할지)
   };
 
-  // makeDB();
-
   useEffect(() => {
+    let time = 0;
     const updater = setInterval(() => {
-      console.log("useEffect : " + count);
+      console.log("useEffect : " + count + " timer : " + time);
       updateCount(spaceCount.current);
       setCount(0);
       spaceCount.current = 0;
+      time++;
+      if(time >= 3) {
+        return () => {
+          console.log("timer 2 : " + time);
+          clearInterval(updater);
+        };
+      }
     }, 10000); // 1000 -> 1 second / update percent time
 
     return () => {
@@ -85,21 +111,28 @@ const FishingComponent = () => {
   }, [time]);
 
   function endGame() {
-    console.log("endGame");
     setShowMode(true);
+    console.log("endGame : " + showMode);
+    
+    const startTimer = setTimeout(() => {
+      // 타이머로 이동
+      if (roomChief === userInfo.userName) {
+        Timer(0, localUser, 20, flag, obj);
+      }
+      props.stateVisible(citizenPercent > mafiaPercent ? true : false);
+    }, 3000);
+    
+    return () => clearTimeout(startTimer);
   }
   function countFun(e) {
     setCount(count + 1);
   }
-  async function makeDB() {
-    console.log("makeDB running...");
-    await axios.get(BASE_URL + "/games/mini/fish/make", { roomId }, config);
-  }
+  
   async function updateCount(count) {
     console.log("update : " + count);
     let citizen = 0;
     let mafia = 0;
-    if (job === "citizen") {
+    if (jobs === "citizen") {
       citizen = count;
       mafia = 0;
     } else {
@@ -131,7 +164,7 @@ const FishingComponent = () => {
           <Card>
             <div id="mainComponent">
               <div id="centerPlace">
-                <img src="images/fish/fishbg.jpg"></img>
+                <img src="images/minigame/fishgame1.jpg"></img>
                 <LinearProgress
                   id="progressPercent"
                   variant="determinate"

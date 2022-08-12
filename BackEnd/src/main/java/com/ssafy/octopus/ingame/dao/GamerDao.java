@@ -58,8 +58,8 @@ public interface GamerDao extends JpaRepository<Gamer, Integer> {
      */
     @Modifying
     @Transactional
-    @Query(value = "UPDATE gamer SET is_victory = 1 WHERE game_team = ?", nativeQuery = true)
-    int updateByGameTeam(String gameTeam);
+    @Query(value = "UPDATE gamer SET is_victory = 1 WHERE room_id = ? AND game_team = ?", nativeQuery = true)
+    int updateByGameTeam(String roomId, String gameTeam);
 
     /** @brief : countAlive, 팀 내 살아있는 사람의 수
      *  @date : 2022-08-01

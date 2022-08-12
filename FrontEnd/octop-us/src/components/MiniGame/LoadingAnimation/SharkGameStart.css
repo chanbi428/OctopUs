@@ -1,8 +1,9 @@
 .shark-game__container {
-  height: 1080px;
-  width: 1920px;
+  height: 100vh;
+  width: 95vw;
   position: absolute;
   overflow: hidden;
+  margin-left: 0;
 }
 
 .shark-game__img {

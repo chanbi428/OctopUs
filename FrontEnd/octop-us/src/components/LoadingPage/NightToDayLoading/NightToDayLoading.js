@@ -1,9 +1,39 @@
+import { useEffect } from "react";
+import axios from "axios";
+
+import { BASE_URL } from "../../../api/BASE_URL";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun } from "@fortawesome/free-solid-svg-icons";
 import { faCloud } from "@fortawesome/free-solid-svg-icons";
 import './NightToDayLoading.css'
 
-const NightToDayLoading = () => {
+const NightToDayLoading = (props) => {
+  // 승리 유저 조회 후 업데이트 하고 리스트 넘김
+  let pathName = document.location.pathname.replace("/", "");
+  let victoryUsers = []
+
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}/gamers/victory/team/${pathName}`)
+      .then((res) => {
+        if(res.data.victory) {
+          axios
+            .put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${res.data.gameTeam}`)
+            .then((res) => {
+              axios
+                .get(`${BASE_URL}/gamers/winners`)
+                .then((res) => {
+                  victoryUsers = res.data.map(row => row.userName)
+                  props.setVictoryUser(victoryUsers)
+                })
+                .catch((err) => console.log(err));
+            })
+            .catch((err) => console.log(err));
+        }
+      })
+      .catch((err) => console.log(err));
+  })
+
   return (
     <div className="wrap-sun">
       <div className="circle-sun">

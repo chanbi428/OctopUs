@@ -12,12 +12,18 @@ const initialState = {
   job: null,
   hasSkill: true,
   isDead: false,
+  host: "",
   idx: 0,
   minigameList: [true, true, true], // 미니게임1, 미니게임2, 미니게임3
-  minigameResult: true, // true : Mafia , false : No Mafia
+  minigameResult: false, // true : Mafia , false : No Mafia
   userList: null,
-  messageList: [],  // 채팅내용 저장
+  messageList: [], // 채팅내용 저장
   subscribers: null,
+  shark: false,
+  fisher: true,
+  reporter: "가가",
+  localUser: null,
+  pickUser: "",
 };
 
 const gamerSlice = createSlice({
@@ -27,7 +33,7 @@ const gamerSlice = createSlice({
     // gamer init
     setGamerInit: (state, { payload }) => {
       state.userName = payload.userName;
-      state.gameJob = payload.gameJob;
+      state.job = payload.gameJob;
       state.roomId = payload.roomId;
     },
     // set UserName Reducer
@@ -44,6 +50,10 @@ const gamerSlice = createSlice({
     // 게임 status 변경
     setGameStatus: (state, { payload }) => {
       state.gameStatus = payload.gameStatus;
+    },
+    // 밤에 지목한 사람 업뎃
+    setPickUser: (state, { payload }) => {
+      state.pickUser = payload.pickUser;
     },
     // 기자 사용 능력 소멸
     hasntSkill: (state) => {
@@ -85,6 +95,24 @@ const gamerSlice = createSlice({
         });
       });
     },
+    // set localUser Reducer
+    setLocalUser: (state, { payload }) => {
+      state.localUser = payload.localUser;
+    },
+    // set Reporter Reducer
+    setReporter: (state, { payload }) => {
+      state.reporter = payload.reporter;
+    },
+
+    // set shark Reducer
+    setShark: (state, { payload }) => {
+      state.shark = payload.shark;
+    },
+
+    // set fisher Reducer
+    setFisher: (state, { payload }) => {
+      state.fisher = payload.fisher;
+    },
 
     // updateUserListforSub: (state, { payload }) => {
     //   state.userList.forEach((user) => {
@@ -109,8 +137,8 @@ const gamerSlice = createSlice({
       state.messageList = [...state.messageList, payload.message];
     },
     setMessageListReset: (state) => {
-      state.messageList = []
-    }
+      state.messageList = [];
+    },
   },
   extraReducers: {
     /*
@@ -148,13 +176,12 @@ const gamerSlice = createSlice({
     },
     //  get UserList 성공
     [gamerUserList.fulfilled]: (state, { payload }) => {
-
       const list = [];
       payload.forEach((user, i) => {
         if (user === state.userName) {
           list.push({
             userName: user.userName,
-            isDead: false,
+            isDead: user.dead,
             gameJob: user.gameJob,
             gameTeam: user.gameTeam,
             // subIdx: undefined,
@@ -163,7 +190,7 @@ const gamerSlice = createSlice({
         } else {
           list.push({
             userName: user.userName,
-            isDead: false,
+            isDead: user.dead,
             gameJob: user.gameJob,
             gameTeam: user.gameTeam,
             subIdx: undefined,
@@ -220,6 +247,11 @@ export const {
   setMessageListReset,
   updateUserListforDead,
   updateUserListforSub,
+  setReporter,
+  setShark,
+  setFisher,
+  setLocalUser,
+  setPickUser,
 } = gamerSlice.actions;
 
 export default gamerSlice.reducer;

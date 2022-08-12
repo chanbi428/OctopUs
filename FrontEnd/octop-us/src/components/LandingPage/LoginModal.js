@@ -42,30 +42,40 @@ const LoginModal = (props) => {
   return (
     <div className={open ? "openModal modal" : "modal"}>
       {open ? (
-        <section>
+        <div className="login-modal__section">
           <form onSubmit={onLoginSubmitHandler}>
-            <p>로그인</p>
-            <div>
-              <input
-                className="login-modal__input"
-                type="text"
-                name="userName"
-                onChange={onLoginChangeHandler}
-                placeholder="닉네임"
-                required
-                autoFocus
-              />
-              <input
-                className="login-modal__input"
-                name="userPW"
-                type="password"
-                onChange={onLoginChangeHandler}
-                placeholder="비밀번호"
-                required
-              />
+            <h1>&nbsp;LOGIN</h1>
+            <div className="login-modal__inputcontainer">
+              <div className="login-modal__inputbox">
+                &nbsp;&nbsp;&nbsp;닉네임 :&nbsp;
+                <input
+                  className="login-modal__input"
+                  type="text"
+                  name="userName"
+                  onChange={onLoginChangeHandler}
+                  placeholder="닉네임"
+                  required
+                  autoFocus
+                />
+              </div>
+              <div className="login-modal__inputbox">
+                비밀번호 :&nbsp;
+                <input
+                  className="login-modal__password"
+                  name="userPW"
+                  type="password"
+                  onChange={onLoginChangeHandler}
+                  placeholder="비밀번호"
+                  required
+                />
+              </div>
             </div>
             <div>
-              <button className="login-modal__btn" type="submit" onClick={onLoginSubmitHandler}>
+              <button
+                className="login-modal__btn"
+                type="submit"
+                onClick={onLoginSubmitHandler}
+              >
                 로그인
               </button>
               <button className="login-modal__btn" onClick={close}>
@@ -73,7 +83,7 @@ const LoginModal = (props) => {
               </button>
             </div>
           </form>
-        </section>
+        </div>
       ) : null}
     </div>
   );

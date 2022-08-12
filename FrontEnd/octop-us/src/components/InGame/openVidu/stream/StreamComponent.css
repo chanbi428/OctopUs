@@ -1,11 +1,16 @@
 .nickname {
-  background: rgba(58, 64, 74, 0.651);
+  /* background: rgba(58, 64, 74, 0.651); */
   padding: 5px !important;
   position: absolute;
   bottom: 0;
   z-index: 999;
+  border-radius: 10px;
   color: #ffffff;
+  text-shadow: -1px 0px black, 0px 1px black, 1px 0px black, 0px -1px black;
+  font-size: 22px;
+  /* -webkit-text-stroke: 1px red; */
 }
+
 .form-control {
   color: black;
 }
@@ -52,6 +57,9 @@ video {
 }
 
 #statusIcons {
+  position: relative;
+  top : 0px;
+  right: 0px;
   bottom: 0;
   background: #c71100;
   width: 40px;

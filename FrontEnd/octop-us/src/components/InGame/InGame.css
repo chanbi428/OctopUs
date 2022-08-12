@@ -2,6 +2,10 @@
   justify-content: center;
 }
 
+#cursor_change {
+  cursor: pointer;
+}
+
 .toolbar {
   min-height: 40px !important;
 }

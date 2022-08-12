@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
+import { BASE_URL, CLIENT_URL } from "../../api/BASE_URL";
 import { logout } from "../../features/user/userSlice";
 import MakeRoom from "./MakeRoom";
 import RoomList from "./RoomList";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./MainPage.css";
+import LoadingSpanner from "../LoadingPage/LoadingSpan/LoadingSpanner";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import { faOctopusDeploy } from "@fortawesome/free-brands-svg-icons";
 
 function MainPage() {
   const [roomInfo, setRoomInfo] = useState([]);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log("MainPage");
@@ -23,10 +32,16 @@ function MainPage() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/rooms")
+
+      .get(`${BASE_URL}/rooms`)
+      .then((res) => {
+        setRoomInfo(res.data);
+        setLoading(true);
+      })
+
       .then((res) => setRoomInfo(res.data))
       .catch((err) => console.log(err));
-      console.log("MainPage useEffect");
+    console.log("MainPage useEffect");
   }, []);
 
   const [search, setSearch] = useState("");
@@ -36,27 +51,42 @@ function MainPage() {
 
   const onClickSearch = (e) => {
     e.preventDefault();
-    axios
-      .get(`http://localhost:8080/rooms/detail/roomnamelike/${search}`)
-      .then((res) => setRoomInfo(res.data))
-      .catch((err) => console.log(err));
+    if (search == "") {
+      onClickSearchReset(e);
+    } else {
+      setLoading(false);
+      axios
+        .get(`${BASE_URL}/rooms/detail/roomnamelike/${search}`)
+        .then((res) => {
+          setRoomInfo(res.data);
+          setLoading(true);
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   const onClickSearchReset = (e) => {
     e.preventDefault();
+    setLoading(false);
     axios
-      .get(`http://localhost:8080/rooms`)
-      .then((res) => setRoomInfo(res.data))
+
+      .get(`${BASE_URL}/rooms`)
+      .then((res) => {
+        setRoomInfo(res.data);
+        setLoading(true);
+      })
+
       .catch((err) => console.log(err));
+    setSearch("");
   };
 
   const onClickFastStart = (e) => {
     e.preventDefault();
     axios
-      .get(`http://localhost:8080/rooms/find/faststart`)
+      .get(`${BASE_URL}/rooms/find/faststart`)
       .then((res) => {
         axios
-          .get(`http://localhost:8080/rooms/detail/roomid/${res.data.roomId}`)
+          .get(`${BASE_URL}/rooms/detail/roomid/${res.data.roomId}`)
           .then((item) => {
             console.log(item.data);
             let userList = item.data.userList.split(",");
@@ -76,15 +106,14 @@ function MainPage() {
               roomId: item.data.roomId,
             };
             axios
-              .put("http://localhost:8080/rooms", JSON.stringify(data), {
+              .put(`${BASE_URL}/rooms`, JSON.stringify(data), {
                 headers: {
                   "Content-Type": `application/json`,
                 },
               })
               .then((res) => {
                 console.log(res);
-                document.location.href = `https://localhost:3000/${item.data.roomId}`;
-                // console.log(document.location.pathname)
+                navigate(`/${item.data.roomId}`);
               })
               .catch((err) => console.log(err));
           })
@@ -92,45 +121,85 @@ function MainPage() {
       })
       .catch((err) => console.log(err));
   };
+  const onKeyPress = (e) => {
+    if (e.key == "Enter") {
+      onClickSearch(e);
+    }
+  };
+
+  const onClickRefresh = () => {
+    window.location.reload();
+  };
 
   return (
-    <div className="MainPage container">
-      <div className="main-page__user-info">
-        {userInfo ? (
-          <p>{userInfo.userName} 님 안녕하세요!</p>
-        ) : (
-          <p>대충 유저 정보</p>
-        )}
-        <button onClick={onClickLogout}>로그아웃</button>
-      </div>
-      <div className="MainBody">
-        <header className="main-page__header">
-          <h1>로고</h1>
-          <div className="main-page__searchbar">
+    <div id="main-page">
+      <div className="container">
+        <div className="main-page__top">
+          <div>
+            <img src="images/logo.png" alt="" className="main-page__logo" />
+          </div>
+          <div className="main-page__top-left">
+            {userInfo ? (
+              <div>
+                <div className="main-page__logout-set" onClick={onClickLogout}>
+                  LOGOUT
+                  <ExitToAppIcon style={{ fontSize: "2rem" }} />
+                </div>
+                <div className="main-page__userinfo">
+                  <FontAwesomeIcon
+                    icon={faOctopusDeploy}
+                    className="main-page__user-image"
+                  />
+                  <div className="main-page__username">{userInfo.userName}</div>
+                </div>
+              </div>
+            ) : (
+              <p className="main-page__user">대충 유저 정보</p>
+            )}
+          </div>
+        </div>
+        <div className="main-page__searchbar-container">
+          <div className="main-page__searchbar-set">
             <input
               type="text"
               value={search}
               onChange={onChangeSearch}
               className="main-page__searchbar-input"
+              onKeyPress={onKeyPress}
+              placeholder="검색할 방 제목을 입력하세요."
             />
-            <button onClick={onClickSearch} className="search__btn">
-              검색
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              onClick={onClickSearch}
+              className="main-page__search_btn"
+            />
+            <FontAwesomeIcon
+              icon={faArrowRotateRight}
+              onClick={onClickSearchReset}
+              className="main-page__search_btn"
+            />
+          </div>
+          <div className="main-page__btn-set">
+            <button
+              className="main-page__quickstart"
+              onClick={onClickFastStart}
+            >
+              <FontAwesomeIcon icon={faPlay} />
+              &nbsp;빠른시작
             </button>
-            <button onClick={onClickSearchReset} className="search__btn">
-              초기화
+            <button className="main-page__reset" onClick={onClickRefresh}>
+              <FontAwesomeIcon icon={faArrowsRotate} />
+              <span className="main-page__quickstart-text">&nbsp;새로고침</span>
             </button>
           </div>
-        </header>
-        <main className="main-page__main">
+        </div>
+        <div className="main-page__main">
           <MakeRoom />
-          <RoomList roomInfo={roomInfo} />
-        </main>
-      </div>
-      <div className="MainFooter">
-        <div>
-          <button className="main-page__quickstart" onClick={onClickFastStart}>
-            빠른시작
-          </button>
+          {loading ? (
+            <RoomList roomInfo={roomInfo} loading={loading} />
+          ) : (
+            <LoadingSpanner />
+          )}
         </div>
       </div>
     </div>
