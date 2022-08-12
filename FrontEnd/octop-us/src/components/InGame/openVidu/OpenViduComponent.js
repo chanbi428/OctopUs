@@ -5,8 +5,8 @@ import StreamComponent from "./stream/StreamComponent";
 import ChatComponent from "./chat/ChatComponent";
 import RoundComponent from "../components/JobComponents/RoundComponent";
 import JobCardComponent from "../components/JobComponents/JobCardComponent";
-import NightAnimationComponent from "../components/JobComponents/NightAnimationComponent";
-import DayAnimationComponent from "../components/JobComponents/DayAnimationComponent";
+import DayToNightLoading from "../../LoadingPage/DayToNightLoading/DayToNightLoading"
+import NightToDayLoading from "../../LoadingPage/NightToDayLoading/NightToDayLoading"
 import DeathResultComponent from "../components/JobComponents/DeathResultComponent";
 import NewsResultComponent from "../components/JobComponents/NewsResultComponent";
 import VoteAnimationComponent from "../components/VotePage/VoteAnimationComponent";
@@ -75,6 +75,7 @@ class OpenViduComponent extends Component {
       gameNum: 0,
       hostName: hostName,
       userList: ["a", "b", "c", "d"],
+      victoryUsers: ["a1", "a2"],
       pickUser: "",
       agree: false,
 
@@ -604,7 +605,15 @@ class OpenViduComponent extends Component {
     this.state.voteWaitPageStart = 1;
   }
 
-  //
+  // 하민 (승리 유저 갱신)
+  setVictoryUser = (data) => {
+    this.setState({ victoryUsers: data })
+    console.log("승리 유저 바뀜!")
+    this.state.localUser.getStreamManager().stream.session.signal({
+      type: "gameEnd",
+    });
+  }
+
 
   // 다영 (리덕스 gamer : userList <-> subscribers 연결 하는 함수)
   settingListForSub = (data) => {
@@ -745,7 +754,7 @@ class OpenViduComponent extends Component {
         )}
         {this.state.page === 2 && ( // 밤 애니메이션
           <div>
-            <NightAnimationComponent />
+            <DayToNightLoading />
           </div>
         )}
         {/* 밤페이지 - 밤역할 수행 x (시장, 재간둥이, 능력 쓴 기자) */}
@@ -1018,7 +1027,7 @@ class OpenViduComponent extends Component {
          */}
         {this.state.page === 7 && (
           <div>
-            <DayAnimationComponent />
+            <NightToDayLoading />
           </div>
         )}
         {/* 죽음 결과
@@ -1235,14 +1244,61 @@ class OpenViduComponent extends Component {
         */}
         {/* {this.state.page === 10 && <GameAnimation gameNum={this.state.gameNum} />} */}
         {this.state.page === 20 && <GameAnimation gameNum={this.state.gameNum} />}
-        {/*
+{/*
           최종 게임 결과 
         */}
-        {this.state.page === 17 && (
-          <div>
-            <GameResultPage />
+        {this.state.page === 15 && (
+          <div className="d-flex flex-column">
+            <div>
+              <GameResultPage />
+            </div>
+            {/* 승자들 */}
+            <div className="d-flex justify-content-around row row-cols-3">
+              {this.props.gamerData.userList.filter((sub) => this.state.victoryUsers.includes(sub.userName)).map((subGamer, i) => (
+                <div id="layout" className="ingame-bounds col">
+                  {localUser !== undefined &&
+                    localUser.getStreamManager() !== undefined && (
+                      <div
+                        key={i}
+                        className="OT_root OT_publisher custom-class"
+                        id="localUser"
+                      >
+                        <StreamComponent user={
+                          subGamer.subIdx === undefined
+                            ? localUser
+                            : this.state.subscribers[subGamer.subIdx]
+                        } />
+                        <p>{subGamer.gameJob}</p>
+                      </div>
+                    )}
+                </div>
+              ))}
+            </div>
+            {/* 패자들 */}
+            <div>
+              {this.props.gamerData.userList.filter((sub) => (this.state.victoryUsers.includes(sub.userName) === false)).map((subGamer, i) => (
+                <div id="layout" className="ingame-bounds col">
+                  {localUser !== undefined &&
+                    localUser.getStreamManager() !== undefined && (
+                      <div
+                        key={i}
+                        className="OT_root OT_publisher custom-class"
+                        id="localUser"
+                      >
+                        <StreamComponent user={
+                          subGamer.subIdx === undefined
+                            ? localUser
+                            : this.state.subscribers[subGamer.subIdx]
+                        } />
+                        <p>{subGamer.gameJob}</p>
+                      </div>
+                    )}
+                </div>
+              ))}
+            </div>
           </div>
-        )}
+          )
+        }
       </div>
     );
   }
