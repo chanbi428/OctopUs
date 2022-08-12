@@ -18,13 +18,13 @@ import GameAnimation from "../../MiniGame/LoadingAnimation/AnimationRouter";
 import SharkGame from "../../MiniGame/SharkGame/SharkGame";
 import FishingStater from "../../MiniGame/FishGame/FishingStarter";
 import GameResultPage from "../components/JobComponents/GameResultPage";
-import CrazyCard from "../../LoadingPage/JobCard/CrazyCard/CrazyCard"
-import DoctorCard from "../../LoadingPage/JobCard/DoctorCard/DoctorCard"
-import MafiaCard from "../../LoadingPage/JobCard/MafiaCard/MafiaCard"
-import MayorCard from "../../LoadingPage/JobCard/MayorCard/MayorCard"
-import NeutralCard from "../../LoadingPage/JobCard/NeutralCard/NeutralCard"
-import PoliceCard from "../../LoadingPage/JobCard/PoliceCard/PoliceCard"
-import ReporterCard from "../../LoadingPage/JobCard/ReporterCard/ReporterCard"
+import CrazyCard from "../../LoadingPage/JobCard/CrazyCard/CrazyCard";
+import DoctorCard from "../../LoadingPage/JobCard/DoctorCard/DoctorCard";
+import MafiaCard from "../../LoadingPage/JobCard/MafiaCard/MafiaCard";
+import MayorCard from "../../LoadingPage/JobCard/MayorCard/MayorCard";
+import NeutralCard from "../../LoadingPage/JobCard/NeutralCard/NeutralCard";
+import PoliceCard from "../../LoadingPage/JobCard/PoliceCard/PoliceCard";
+import ReporterCard from "../../LoadingPage/JobCard/ReporterCard/ReporterCard";
 import "./OpenViduComponent.css";
 
 import OpenViduLayout from "../layout/openvidu-layout";
@@ -88,6 +88,7 @@ class OpenViduComponent extends Component {
       agree: false,
 
       timer: 0,
+      hasSkill: true,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -474,9 +475,7 @@ class OpenViduComponent extends Component {
 
     this.settingLocalUser({ localUser: this.state.localUser });
     console.log(this.state.localUser);
-    console.log("제발 2");
     this.timer(0, this.state.localUser, 0, flag, obj);
-    console.log("제발 3");
   };
 
   clickUser = (e) => {
@@ -712,6 +711,7 @@ class OpenViduComponent extends Component {
     if (this.props.gamerData.job === "기자" && this.state.pickUser != "") {
       console.log("기자가 리덕스에 값 저장");
       this.props.setReporter({ reporter: this.state.pickUser });
+      this.setState({ hasSkill: false });
     }
   };
 
@@ -724,6 +724,14 @@ class OpenViduComponent extends Component {
   getPickUser = () => {
     console.log("getPickUser실행!!!", this.state.pickUser);
     return this.state.pickUser;
+  };
+
+  resetPickUser = () => {
+    this.setState({ pickUser: "" });
+  };
+
+  getHasSkill = () => {
+    return this.state.hasSkill;
   };
 
   render() {
@@ -753,6 +761,8 @@ class OpenViduComponent extends Component {
                     changePerson={this.changePerson}
                     updatePickUser={this.updatePickUser}
                     getPickUser={this.getPickUser}
+                    resetPickUser={this.resetPickUser}
+                    getHasSkill={this.getHasSkill}
                   />
                 </div>
               )}
@@ -826,6 +836,8 @@ class OpenViduComponent extends Component {
                   changePerson={this.changePerson}
                   updatePickUser={this.updatePickUser}
                   getPickUser={this.getPickUser}
+                  resetPickUser={this.resetPickUser}
+                  getHasSkill={this.getHasSkill}
                 />
               </div>
             </div>
@@ -869,12 +881,13 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
-                    {subGamer.userName === this.state.myUserName && 
-                      <ToolbarComponent user={localUser}
-                      camStatusChanged={this.camStatusChanged}
-                      micStatusChanged={this.micStatusChanged}
+                    {subGamer.userName === this.state.myUserName && (
+                      <ToolbarComponent
+                        user={localUser}
+                        camStatusChanged={this.camStatusChanged}
+                        micStatusChanged={this.micStatusChanged}
                       />
-                    }
+                    )}
                   </div>
                 </div>
               ))}
@@ -906,6 +919,8 @@ class OpenViduComponent extends Component {
                   changePerson={this.changePerson}
                   updatePickUser={this.updatePickUser}
                   getPickUser={this.getPickUser}
+                  resetPickUser={this.resetPickUser}
+                  getHasSkill={this.getHasSkill}
                 />
               </div>
             </div>
@@ -931,12 +946,13 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
-                    {subGamer.userName === this.state.myUserName && 
-                      <ToolbarComponent user={localUser}
-                      camStatusChanged={this.camStatusChanged}
-                      micStatusChanged={this.micStatusChanged}
+                    {subGamer.userName === this.state.myUserName && (
+                      <ToolbarComponent
+                        user={localUser}
+                        camStatusChanged={this.camStatusChanged}
+                        micStatusChanged={this.micStatusChanged}
                       />
-                    }
+                    )}
                   </div>
                   <div>
                     <p>투표</p>
@@ -972,13 +988,13 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
-                    {subGamer.userName === this.state.myUserName && 
+                    {subGamer.userName === this.state.myUserName && (
                       <ToolbarComponent
-                      user={localUser}
-                      camStatusChanged={this.camStatusChanged}
-                      micStatusChanged={this.micStatusChanged}
+                        user={localUser}
+                        camStatusChanged={this.camStatusChanged}
+                        micStatusChanged={this.micStatusChanged}
                       />
-                    }
+                    )}
                   </div>
                 </div>
               ))}
@@ -999,6 +1015,8 @@ class OpenViduComponent extends Component {
                   changePerson={this.changePerson}
                   updatePickUser={this.updatePickUser}
                   getPickUser={this.getPickUser}
+                  resetPickUser={this.resetPickUser}
+                  getHasSkill={this.getHasSkill}
                 />
               </div>
             </div>
@@ -1024,12 +1042,13 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
-                    {subGamer.userName === this.state.myUserName && 
-                      <ToolbarComponent user={localUser}
-                      camStatusChanged={this.camStatusChanged}
-                      micStatusChanged={this.micStatusChanged}
+                    {subGamer.userName === this.state.myUserName && (
+                      <ToolbarComponent
+                        user={localUser}
+                        camStatusChanged={this.camStatusChanged}
+                        micStatusChanged={this.micStatusChanged}
                       />
-                    }
+                    )}
                   </div>
                   <div>
                     <p>투표</p>
@@ -1071,6 +1090,8 @@ class OpenViduComponent extends Component {
                   changePerson={this.changePerson}
                   updatePickUser={this.updatePickUser}
                   getPickUser={this.getPickUser}
+                  resetPickUser={this.resetPickUser}
+                  getHasSkill={this.getHasSkill}
                 />
               </div>
             </div>
@@ -1129,12 +1150,13 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
-                    {subGamer.userName === this.state.myUserName && 
-                      <ToolbarComponent user={localUser}
-                      camStatusChanged={this.camStatusChanged}
-                      micStatusChanged={this.micStatusChanged}
+                    {subGamer.userName === this.state.myUserName && (
+                      <ToolbarComponent
+                        user={localUser}
+                        camStatusChanged={this.camStatusChanged}
+                        micStatusChanged={this.micStatusChanged}
                       />
-                    }
+                    )}
                   </div>
                 </div>
               ))}
@@ -1157,6 +1179,8 @@ class OpenViduComponent extends Component {
                   changePerson={this.changePerson}
                   updatePickUser={this.updatePickUser}
                   getPickUser={this.getPickUser}
+                  resetPickUser={this.resetPickUser}
+                  getHasSkill={this.getHasSkill}
                 />
               </div>
             </div>
@@ -1175,12 +1199,13 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
-                    {subGamer.userName === this.state.myUserName && 
-                      <ToolbarComponent user={localUser}
-                      camStatusChanged={this.camStatusChanged}
-                      micStatusChanged={this.micStatusChanged}
+                    {subGamer.userName === this.state.myUserName && (
+                      <ToolbarComponent
+                        user={localUser}
+                        camStatusChanged={this.camStatusChanged}
+                        micStatusChanged={this.micStatusChanged}
                       />
-                    }
+                    )}
                   </div>
                 </div>
               ))}
@@ -1211,12 +1236,13 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
-                    {subGamer.userName === this.state.myUserName && 
-                      <ToolbarComponent user={localUser}
-                      camStatusChanged={this.camStatusChanged}
-                      micStatusChanged={this.micStatusChanged}
+                    {subGamer.userName === this.state.myUserName && (
+                      <ToolbarComponent
+                        user={localUser}
+                        camStatusChanged={this.camStatusChanged}
+                        micStatusChanged={this.micStatusChanged}
                       />
-                    }
+                    )}
                   </div>
                 </div>
               ))}
@@ -1244,6 +1270,8 @@ class OpenViduComponent extends Component {
                   changePerson={this.changePerson}
                   updatePickUser={this.updatePickUser}
                   getPickUser={this.getPickUser}
+                  resetPickUser={this.resetPickUser}
+                  getHasSkill={this.getHasSkill}
                 />
               </div>
             </div>
@@ -1267,12 +1295,13 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
-                    {subGamer.userName === this.state.myUserName && 
-                      <ToolbarComponent user={localUser}
-                      camStatusChanged={this.camStatusChanged}
-                      micStatusChanged={this.micStatusChanged}
+                    {subGamer.userName === this.state.myUserName && (
+                      <ToolbarComponent
+                        user={localUser}
+                        camStatusChanged={this.camStatusChanged}
+                        micStatusChanged={this.micStatusChanged}
                       />
-                    }
+                    )}
                   </div>
                   <div>
                     <p>투표</p>
@@ -1380,12 +1409,13 @@ class OpenViduComponent extends Component {
                               : this.state.subscribers[subGamer.subIdx]
                           }
                         />
-                        {subGamer.userName === this.state.myUserName && 
-                          <ToolbarComponent user={localUser}
-                          camStatusChanged={this.camStatusChanged}
-                          micStatusChanged={this.micStatusChanged}
+                        {subGamer.userName === this.state.myUserName && (
+                          <ToolbarComponent
+                            user={localUser}
+                            camStatusChanged={this.camStatusChanged}
+                            micStatusChanged={this.micStatusChanged}
                           />
-                        }
+                        )}
                         <p>{subGamer.gameJob}</p>
                       </div>
                     )}
