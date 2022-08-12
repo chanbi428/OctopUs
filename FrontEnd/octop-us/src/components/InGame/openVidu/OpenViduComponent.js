@@ -1244,7 +1244,7 @@ class OpenViduComponent extends Component {
         */}
         {/* {this.state.page === 10 && <GameAnimation gameNum={this.state.gameNum} />} */}
         {this.state.page === 20 && <GameAnimation gameNum={this.state.gameNum} />}
-{/*
+        {/*
           최종 게임 결과 
         */}
         {this.state.page === 15 && (
