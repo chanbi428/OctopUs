@@ -757,7 +757,6 @@ class OpenViduComponent extends Component {
                         user={localUser}
                         camStatusChanged={this.camStatusChanged}
                         micStatusChanged={this.micStatusChanged}
-                        toggleChat={this.toggleChat}
                       />
                     </div>
                   )}
@@ -784,7 +783,7 @@ class OpenViduComponent extends Component {
         )}
         {this.state.page === 2 && ( // 밤 애니메이션
           <div>
-            <DayToNightLoading />
+            <DayToNightLoading updateTurn={this.updateTurn} turn={this.state.turn} />
           </div>
         )}
         {/* 밤페이지 - 밤역할 수행 x (시장, 재간둥이, 능력 쓴 기자) */}
@@ -861,6 +860,12 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
+                    {subGamer.userName === this.state.myUserName && 
+                      <ToolbarComponent user={localUser}
+                      camStatusChanged={this.camStatusChanged}
+                      micStatusChanged={this.micStatusChanged}
+                      />
+                    }
                   </div>
                 </div>
               ))}
@@ -916,6 +921,12 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
+                    {subGamer.userName === this.state.myUserName && 
+                      <ToolbarComponent user={localUser}
+                      camStatusChanged={this.camStatusChanged}
+                      micStatusChanged={this.micStatusChanged}
+                      />
+                    }
                   </div>
                   <div>
                     <p>투표</p>
@@ -951,6 +962,13 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
+                    {subGamer.userName === this.state.myUserName && 
+                      <ToolbarComponent
+                      user={localUser}
+                      camStatusChanged={this.camStatusChanged}
+                      micStatusChanged={this.micStatusChanged}
+                      />
+                    }
                   </div>
                 </div>
               ))}
@@ -995,6 +1013,12 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
+                    {subGamer.userName === this.state.myUserName && 
+                      <ToolbarComponent user={localUser}
+                      camStatusChanged={this.camStatusChanged}
+                      micStatusChanged={this.micStatusChanged}
+                      />
+                    }
                   </div>
                   <div>
                     <p>투표</p>
@@ -1093,6 +1117,12 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
+                    {subGamer.userName === this.state.myUserName && 
+                      <ToolbarComponent user={localUser}
+                      camStatusChanged={this.camStatusChanged}
+                      micStatusChanged={this.micStatusChanged}
+                      />
+                    }
                   </div>
                 </div>
               ))}
@@ -1132,6 +1162,12 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
+                    {subGamer.userName === this.state.myUserName && 
+                      <ToolbarComponent user={localUser}
+                      camStatusChanged={this.camStatusChanged}
+                      micStatusChanged={this.micStatusChanged}
+                      />
+                    }
                   </div>
                 </div>
               ))}
@@ -1162,6 +1198,12 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
+                    {subGamer.userName === this.state.myUserName && 
+                      <ToolbarComponent user={localUser}
+                      camStatusChanged={this.camStatusChanged}
+                      micStatusChanged={this.micStatusChanged}
+                      />
+                    }
                   </div>
                 </div>
               ))}
@@ -1211,6 +1253,12 @@ class OpenViduComponent extends Component {
                         }
                       />
                     )}
+                    {subGamer.userName === this.state.myUserName && 
+                      <ToolbarComponent user={localUser}
+                      camStatusChanged={this.camStatusChanged}
+                      micStatusChanged={this.micStatusChanged}
+                      />
+                    }
                   </div>
                   <div>
                     <p>투표</p>
@@ -1318,6 +1366,12 @@ class OpenViduComponent extends Component {
                               : this.state.subscribers[subGamer.subIdx]
                           }
                         />
+                        {subGamer.userName === this.state.myUserName && 
+                          <ToolbarComponent user={localUser}
+                          camStatusChanged={this.camStatusChanged}
+                          micStatusChanged={this.micStatusChanged}
+                          />
+                        }
                         <p>{subGamer.gameJob}</p>
                       </div>
                     )}
