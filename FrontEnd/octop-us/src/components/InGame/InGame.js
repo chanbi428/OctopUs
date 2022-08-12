@@ -9,14 +9,12 @@ import ShowRoom from "./components/WaitingRoomPage/ShowRoom";
 import RoundComponent from "./components/JobComponents/RoundComponent";
 import exitRoom from "../../features/waiting/exitRoom";
 import ClickStart from "../../features/waiting/ClickStart";
-import { BASE_URL } from "../../api/BASE_URL"
-import { updateRoomId, updateUserList, updateRoomChief } from "../../features/waiting/waitSlice"
+import { BASE_URL } from "../../api/BASE_URL";
+import { updateRoomId, updateUserList, updateRoomChief } from "../../features/waiting/waitSlice";
 
 const InGame = () => {
   const [page, setPage] = useState(0);
-  const [sessionName, setSessionName] = useState(
-    document.location.pathname.slice(1)
-  );
+  const [sessionName, setSessionName] = useState(document.location.pathname.slice(1));
   const [roomName, setRoomName] = useState("RoomA");
   const [hostName, setHostName] = useState("HostA");
   const [gameNum, setGameNum] = useState(0);
@@ -37,8 +35,7 @@ const InGame = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const tmpSessions =
-      location.pathname !== undefined ? location.pathname : "SessionA";
+    const tmpSessions = location.pathname !== undefined ? location.pathname : "SessionA";
     getRoomName();
     console.log("tmpRoomName : " + roomName);
     console.log("tmpSessions : " + tmpSessions);
@@ -46,14 +43,12 @@ const InGame = () => {
   }, [location]);
 
   async function getRoomName() {
-    const { data } = await axios.get(
-      `/rooms/detail/roomid${location.pathname}`
-    );
+    const { data } = await axios.get(`/rooms/detail/roomid${location.pathname}`);
     console.log("parse Room data : " + JSON.stringify(data));
     setRoomName(data.roomName);
     setHostName(data.roomChief);
   }
-  const GameStartClickBtn = async() => {
+  const GameStartClickBtn = async () => {
     try {
       await console.log("clickBtn : " + sessionName);
       await setSessionName(sessionName);
@@ -61,7 +56,7 @@ const InGame = () => {
       await chatRef.current.ovref.current.gameNotice();
       await setPage(1);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
     setPage(1);
   };
@@ -92,7 +87,7 @@ const InGame = () => {
   };
   const chatRef = useRef();
 
-  const clickExitBtn = async() => {
+  const clickExitBtn = async () => {
     await console.log(roomId);
     await console.log("방 나가기 버튼 누르고 절차 시작"); //
     await chatRef.current.ovref.current.exitNotice();
@@ -101,9 +96,9 @@ const InGame = () => {
     await console.log("leave session 성공");
     await navigate("/main");
     await console.log("navigate로 방 나가기 완전 종료");
-    await dispatch(updateRoomId(""))
-    await dispatch(updateRoomChief(""))
-    await dispatch(updateUserList([]))
+    await dispatch(updateRoomId(""));
+    await dispatch(updateRoomChief(""));
+    await dispatch(updateUserList([]));
   };
 
   return (
