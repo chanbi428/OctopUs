@@ -101,8 +101,8 @@ public class GamerServiceImpl implements GamerService {
      *  @author : LDY, 98dlstod@naver.com
      */
     @Override
-    public int updateByGameTeam(String gameTeam) {
-        return dao.updateByGameTeam(gameTeam);
+    public int updateByGameTeam(String roomId, String gameTeam) {
+        return dao.updateByGameTeam(roomId, gameTeam);
     }
 
     /** @brief : isVictory, 마피아 vs 시민 승리 조건 확인

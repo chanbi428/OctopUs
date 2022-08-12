@@ -20,7 +20,7 @@ public interface GamerService {
 
     int updateByUserName(String userName); // userName에 해당하는 게이머 승리로 변경
 
-    int updateByGameTeam(String gameTeam); // gameTeam에 해당하는 게이머들 승리로 변경
+    int updateByGameTeam(String roomId, String gameTeam); // gameTeam에 해당하는 게이머들 승리로 변경
 
     public Gamer isVictory(String roomId); // 마피아 vs 시민 승리 조건 확인
 
