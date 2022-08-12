@@ -202,14 +202,6 @@ function MainPage() {
           )}
         </div>
       </div>
-      <div className="MainFooter">
-        <div>
-          <button className="main-page__quickstart" onClick={onClickFastStart}>
-            빠른시작
-          </button>
-          <RoomList roomInfo={roomInfo} />
-        </div>
-      </div>
     </div>
   );
 }
