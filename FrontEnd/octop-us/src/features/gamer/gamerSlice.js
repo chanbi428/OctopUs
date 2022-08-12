@@ -24,6 +24,7 @@ const initialState = {
   reporter: "가가",
   localUser: null,
   pickUser: "",
+  gameturn: 0,
 };
 
 const gamerSlice = createSlice({
@@ -139,6 +140,10 @@ const gamerSlice = createSlice({
     setMessageListReset: (state) => {
       state.messageList = [];
     },
+    // 턴 체크
+    setTurnCheck: (state) => {
+      state.gameturn++;
+    },
   },
   extraReducers: {
     /*
@@ -146,7 +151,9 @@ const gamerSlice = createSlice({
     */
     // 디스패치를 통해 액션이 실행됐을 때 - 로딩 중..
     [gamerInit.pending]: (state) => {
-      console.log("features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer init!");
+      console.log(
+        "features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer init!"
+      );
       state.loading = true;
       state.error = null;
     },
@@ -206,7 +213,9 @@ const gamerSlice = createSlice({
     [gamerUserList.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-      console.error("features/gamer/gamerSliece :  get UserList 실패 rejected!");
+      console.error(
+        "features/gamer/gamerSliece :  get UserList 실패 rejected!"
+      );
       console.log(state.payload);
     },
 
@@ -214,7 +223,9 @@ const gamerSlice = createSlice({
     gamer Dead
     */
     [gamerDead.pending]: (state) => {
-      console.log("features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer dead!");
+      console.log(
+        "features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer dead!"
+      );
       state.loading = true;
       state.error = null;
     },
@@ -225,7 +236,9 @@ const gamerSlice = createSlice({
     [gamerDead.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-      console.error("features/gamer/gamerSliece : 게이머 dead 처리 실패 rejected!");
+      console.error(
+        "features/gamer/gamerSliece : 게이머 dead 처리 실패 rejected!"
+      );
     },
   },
 });
@@ -252,6 +265,7 @@ export const {
   setFisher,
   setLocalUser,
   setPickUser,
+  setTurnCheck,
 } = gamerSlice.actions;
 
 export default gamerSlice.reducer;
