@@ -9,7 +9,11 @@ import { login } from "./features/user/userSlice";
 import SharkGameResult from "./components/MiniGame/SharkGame/SharkGameResult";
 import NightToDayLoading from "./components/LoadingPage/NightToDayLoading/NightToDayLoading";
 import DayToNightLoading from "./components/LoadingPage/DayToNightLoading/DayToNightLoading";
-import JobCard from "./components/LoadingPage/JobCard/JobCard"
+import MafiaCard from "./components/LoadingPage/JobCard/MafiaCard/MafiaCard"
+import NeutralCard from "./components/LoadingPage/JobCard/NeutralCard/NeutralCard"
+import CrazyCard from "./components/LoadingPage/JobCard/CrazyCard/CrazyCard"
+import DoctorCard from "./components/LoadingPage/JobCard/DoctorCard/DoctorCard"
+
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -46,7 +50,10 @@ function App() {
         <Route path="/SharkGame" element={<SharkGameResult />} />
         <Route path="/DayToNightLoading" element={<DayToNightLoading />} />
         <Route path="/NightToDayLoading" element={<NightToDayLoading />} />
-        <Route path="/JobCard" element={<JobCard />}></Route>
+        <Route path="/mafia" element={<MafiaCard />} />
+        <Route path="/neutral" element={<NeutralCard/>}/>
+        <Route path="/crazy" element={<CrazyCard/>}/>
+        <Route path="/doc" element={<DoctorCard/>}/>
       </Routes>
     </div>
   );

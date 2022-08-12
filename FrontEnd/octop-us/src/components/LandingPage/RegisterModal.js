@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { BASE_URL } from "../../api/BASE_URL";
 import axios from "axios";
 import "./RegisterModal.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { userRegister } from "../../features/user/userActions";
-import { useDispatch } from "react-redux";
 
-const BASE_URL = "http://localhost:8080";
 const RegisterModal = (props) => {
   const dispatch = useDispatch();
   const { open, close } = props;
@@ -57,11 +57,13 @@ const RegisterModal = (props) => {
   return (
     <div className={open ? "openModal modal" : "modal"}>
       {open ? (
-        <section className="container">
+        <div className="register-modal__section">
           <form onSubmit={onRegisterSubmitHandler}>
-            <p>회원가입</p>
-            <div className="register-modal__input-box">
-              <div className="register-modal__nickname">
+            <h1>&nbsp;SIGN UP</h1>
+            <div className="register-modal__inputcontainer">
+              <div className="register-modal__inputbox">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;닉네임
+                :&nbsp;
                 <input
                   className="register-modal__input"
                   name="userName"
@@ -69,6 +71,7 @@ const RegisterModal = (props) => {
                   type="text"
                   placeholder="닉네임"
                   required
+                  autoFocus
                 />
                 <button
                   type="button"
@@ -78,24 +81,30 @@ const RegisterModal = (props) => {
                   중복 확인
                 </button>
               </div>
-              <input
-                className="register-modal__input"
-                name="userPW"
-                onChange={onRegisterChangeHandler}
-                type="password"
-                placeholder="비밀번호"
-                required
-              />
-              <input
-                className="register-modal__input"
-                name="confirmUserPW"
-                onChange={onRegisterChangeHandler}
-                type="password"
-                placeholder="비밀번호 확인"
-                required
-              />
+              <div className="register-modal__inputbox">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;비밀번호 :&nbsp;
+                <input
+                  className="register-modal__password"
+                  name="userPW"
+                  onChange={onRegisterChangeHandler}
+                  type="password"
+                  placeholder="비밀번호"
+                  required
+                />
+              </div>
+              <div className="register-modal__inputbox">
+                비밀번호 확인 :&nbsp;
+                <input
+                  className="register-modal__password"
+                  name="confirmUserPW"
+                  onChange={onRegisterChangeHandler}
+                  type="password"
+                  placeholder="비밀번호 확인"
+                  required
+                />
+              </div>
             </div>
-            <footer>
+            <div>
               <button
                 type="submit"
                 className="register-modal__btn"
@@ -106,9 +115,9 @@ const RegisterModal = (props) => {
               <button className="register-modal__btn" onClick={close}>
                 취소
               </button>
-            </footer>
+            </div>
           </form>
-        </section>
+        </div>
       ) : null}
     </div>
   );

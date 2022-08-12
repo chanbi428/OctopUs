@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SharkGameStart from "./SharkGameStart";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,20 +21,21 @@ const Container = styled.div`
 `;
 
 const SharkGameTutorial = () => {
-  const [eventChange, setEventChange] = useState(true);
+  const [eventChange, setEventChange] = useState(false);
 
-  // useEffect(() => {
-  //   if (!eventChange) {
-  //     const eventTimer = setTimeout(() => {
-  //       setEventChange(true);
-  //     }, 4000);
-  //     return () => clearTimeout(eventTimer);
-  //   }
-  // }, [eventChange]);
+  // 시작 애니메이션 -> 튜토리얼 연결 부분
+  useEffect(() => {
+    if (!eventChange) {
+      const eventTimer = setTimeout(() => {
+        setEventChange(true);
+      }, 4000);
+      return () => clearTimeout(eventTimer);
+    }
+  }, [eventChange]);
 
   return (
     <div>
-      {/* {!eventChange && <SharkGameStart />} */}
+      {!eventChange && <SharkGameStart />}
       {eventChange && (
         <Container>
           <h1>게임 설명</h1>

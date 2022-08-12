@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+
+import { BASE_URL, config } from "../../../api/BASE_URL";
+import axios from "axios";
+
 import styled from "styled-components";
 import SharkGameBoard from "./SharkGameBoard";
 import SharkGameTimer from "./SharkGameTimer";
 import SharkGameStartCount from "./SharkGameStartCount";
-// import SharkGameTutorial from "./SharkGameTutorial";
-
-// import { BASE_URL, config } from "../../../api/BASE_URL";
-// import { useSelector } from "react-redux";
-// import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -31,8 +31,6 @@ function SharkGame(props) {
   const [isFinish, setIsFinish] = useState(false);
   const [current, setCurrent] = useState(1); // 게임 진행 시 클릭 할 숫자. 1 ~ 25
   const [startChange, setStartChange] = useState(false);
-  // const { userInfo } = useSelector((state) => state.user);
-  // const { gamerInfo } = useSelector((state) => state.gamer);
 
   useEffect(() => {
     if (!startChange) {
@@ -42,10 +40,6 @@ function SharkGame(props) {
       return () => clearTimeout(startTimer);
     }
     if (startChange) {
-      // 게임 시작시 userName과 roomId 보내기 - 되는 코드임 나중에 주석 풀기
-      // const user_name = gamerInfo.userName;
-      // const room_id = gamerInfo.roomId;
-      // axios.post(BASE_URL + "games/mini/shark", { user_name, room_id }, config);
       setNumbers(shuffleArray(array));
       setCurrent(1);
       setGameFlag(true);

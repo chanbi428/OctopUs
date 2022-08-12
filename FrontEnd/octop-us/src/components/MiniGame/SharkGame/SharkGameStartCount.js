@@ -35,17 +35,29 @@ const SharkGameStartCount = () => {
       {eventChange && (
         <div className="shark-game-count__container">
           {(count === 4 || count === 5) && (
-            <img src="images/3.png" alt="3" className="shark-game-count__img" />
+            <img
+              src="images/minigame/3.png"
+              alt="3"
+              className="shark-game-count__img"
+            />
           )}
           {count === 3 && (
-            <img src="images/2.png" alt="2" className="shark-game-count__img" />
+            <img
+              src="images/minigame/2.png"
+              alt="2"
+              className="shark-game-count__img"
+            />
           )}
           {count === 2 && (
-            <img src="images/1.png" alt="1" className="shark-game-count__img" />
+            <img
+              src="images/minigame/1.png"
+              alt="1"
+              className="shark-game-count__img"
+            />
           )}
           {count < 2 && (
             <img
-              src="images/go.png"
+              src="images/minigame/go.png"
               alt="go"
               className="shark-game-count__img"
             />

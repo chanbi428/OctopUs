@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  roomId : " ",
+  roomId : "",
   userList : [],
+  roomChief: "",
   seats : [
     { nickname: "", opa: 0 },
     { nickname: "", opa: 0 },
@@ -56,10 +57,13 @@ const waitSlice = createSlice({
     updateUserList : (state, {payload}) => {
       state.userList = payload
       // console.log("state 유저리스트 확인용", payload, state.userList)
+    },
+    updateRoomChief : (state, {payload}) => {
+      state.roomChief = payload.roomChief
     }
   },
 });
 
-export const { updateRoom, updateOctopus, updateRoomId, updateUserList } = waitSlice.actions;
+export const { updateRoom, updateOctopus, updateRoomId, updateUserList, updateRoomChief } = waitSlice.actions;
 
 export default waitSlice.reducer;

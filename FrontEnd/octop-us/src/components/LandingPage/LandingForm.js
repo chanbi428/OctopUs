@@ -24,11 +24,11 @@ function LandingForm(props) {
     <div>
       <div className="landing-page__btndiv">
         <button className="landing-page__btn" onClick={openLoginModal}>
-          로그인
+          &nbsp;LOGIN
         </button>
         <LoginModal open={loginmodalopen} close={closeLoginModal}></LoginModal>
         <button className="landing-page__btn" onClick={openRegisterModal}>
-          회원가입
+          &nbsp;SIGN UP
         </button>
         <RegisterModal
           open={registermodalopen}
