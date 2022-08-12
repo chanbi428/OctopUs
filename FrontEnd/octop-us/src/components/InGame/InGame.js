@@ -57,7 +57,7 @@ const InGame = () => {
     try {
       await console.log("clickBtn : " + sessionName);
       await setSessionName(sessionName);
-      await ClickStart(roomId, userList, userInfo.userName);
+      // await ClickStart(roomId, userList, userInfo.userName);
       await chatRef.current.ovref.current.gameNotice();
       await setPage(1);
     } catch (error) {
@@ -131,7 +131,10 @@ const InGame = () => {
               </div> */}
             </div>
           )}
-          <div className="m-4">
+          <div 
+          // className="m-4"
+          className="mt-4"
+          >
             <RoundComponent gameNum={gameNum} />
             <OpenViduComponent
               onClickBtn={GameStartClickBtn}

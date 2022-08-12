@@ -1,7 +1,7 @@
 import React from 'react';
 import './DoctorCard.scss'
 
-export const JobCard= () => {
+export const DoctorCard= () => {
     const flip = (evt) => {
       console.log(evt.target)
       const jobCard = document.querySelector(".card_doc")
@@ -15,13 +15,16 @@ export const JobCard= () => {
     }
 
     return (
-      <div className="container_doc">
-        <div className="card_doc" onClick={flip}>
-          <div className="card_doc front_doc"></div>
-          <div className="card_doc back_doc"></div>
+      <div>
+        <div className="container_doc">
+          <div className="card_doc" onClick={flip}>
+            <div className="card_doc front_doc"></div>
+            <div className="card_doc back_doc"></div>
+          </div>
+          <audio src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/945546/%E7%BF%BB%E7%89%8C%E9%9F%B3%E6%95%88.m4a" id="audioHint"></audio>
         </div>
-        <audio src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/945546/%E7%BF%BB%E7%89%8C%E9%9F%B3%E6%95%88.m4a" id="audioHint"></audio>
+        <div className="guide_doc">카드를 눌러 직업을 확인하세요!</div>
       </div>
     )
 }
-export default JobCard;
+export default DoctorCard;

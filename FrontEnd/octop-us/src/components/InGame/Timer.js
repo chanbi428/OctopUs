@@ -23,9 +23,10 @@ export const Timer = (time, user, page, flag, obj) => {
     if (tmp == -1) {
       // 대기실 -> 직업 카드 애니메이션
       if (page == 0) {
+        console.log("타이머 작동했나 확인, 직업 카드 애니메이션")
         data2 = {
           page: 1,
-          initTime: 3,
+          initTime: 5,
         };
         // 카드애니메이션 -> 밤 애니메이션
       } else if (page == 1) {

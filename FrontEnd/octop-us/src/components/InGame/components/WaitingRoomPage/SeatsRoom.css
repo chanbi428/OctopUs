@@ -29,8 +29,8 @@
 }
 
 #num_zero {
-    margin-top : 2rem;
-    margin-bottom: 4rem;
+    /* margin-top : 1rem; */
+    margin-bottom: 3rem;
     margin-right: 1rem;
     margin-left: 1rem;
     animation: motion 0.3s linear 0s infinite alternate; 
@@ -38,8 +38,8 @@
 }
 
 #num_one {
-    margin-top : 2rem;
-    margin-bottom: 4rem;
+    /* margin-top : 1rem; */
+    margin-bottom: 3rem;
     margin-right: 1rem;
     margin-left: 1rem;
     animation: motion 0.3s linear 0s infinite alternate; 
@@ -83,8 +83,8 @@
 }
 
 #num_six {
-    margin-top : 2rem;
-    margin-bottom: 4rem;
+    /* margin-top : 1rem; */
+    margin-bottom: 3rem;
     margin-right: 1rem;
     margin-left: 1rem;
     animation: motion 0.3s linear 0s infinite alternate; 
@@ -92,8 +92,8 @@
 }
 
 #num_svn {
-    margin-top : 2rem;
-    margin-bottom: 4rem;
+    /* margin-top : 1rem; */
+    margin-bottom: 3rem;
     margin-right: 1rem;
     margin-left: 1rem;
     animation: motion 0.3s linear 0s infinite alternate; 
