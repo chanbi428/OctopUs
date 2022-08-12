@@ -131,7 +131,10 @@ const InGame = () => {
               </div> */}
             </div>
           )}
-          <div className="m-4">
+          <div 
+          // className="m-4"
+          className="mt-4"
+          >
             <RoundComponent gameNum={gameNum} />
             <OpenViduComponent
               onClickBtn={GameStartClickBtn}

@@ -39,7 +39,7 @@ function MainPage() {
         setLoading(true);
       })
 
-      .then((res) => setRoomInfo(res.data))
+      // .then((res) => setRoomInfo(res.data))
       .catch((err) => console.log(err));
     console.log("MainPage useEffect");
   }, []);
