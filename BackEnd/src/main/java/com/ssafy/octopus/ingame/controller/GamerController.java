@@ -109,9 +109,11 @@ public class GamerController {
      *  @return : int
      *  @author : LDY, 98dlstod@naver.com
      */
-    @PutMapping(value="/gamers/isvictory/gameTeam/{gameTeam}")
-    public ResponseEntity<Integer> updateByGameTeam(@Parameter(description = "gameTeam", required = true, example = "마피아")@PathVariable String gameTeam) {
-        return new ResponseEntity<Integer>(service.updateByGameTeam(gameTeam), HttpStatus.OK);
+    @PutMapping(value="/gamers/isvictory/gameTeam/{roomId}/{gameTeam}")
+    public ResponseEntity<Integer> updateByGameTeam(
+            @Parameter(description = "roomId", required = true, example = "123456789") @PathVariable String roomId,
+            @Parameter(description = "gameTeam", required = true, example = "마피아")@PathVariable String gameTeam) {
+        return new ResponseEntity<Integer>(service.updateByGameTeam(roomId, gameTeam), HttpStatus.OK);
     }
 
     /** @brief : isVictory, 마피아 vs 시민 승리 조건 확인
