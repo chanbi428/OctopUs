@@ -105,25 +105,6 @@ class OpenViduComponent extends Component {
       this.setState({ gameNum: gameChoice });
       this.props.selectGame(gameChoice);
       this.setState({ page: pageNum });
-      const startTimer = setTimeout(() => {
-        console.log("changePage waiting end");
-        const flag = {
-          gameEnd: false, // 게임종료여부,
-          voteGo: false, // 투표결과(최후변론 할지 안할지),
-          agreeVoteGo: false, // 찬반투표결과(처형 할지 안할지)
-        };
-        const obj = {
-          minigameResult: this.props.gamerData.minigameResult,
-          job: this.props.gamerData.job,
-          hasSkill: this.props.gamerData.hasSkill,
-          isDead: this.props.gamerData.isDead,
-          shark: this.props.gamerData.shark,
-          fisher: this.props.gamerData.fisher,
-          reporter: this.props.gamerData.reporter,
-        };
-        this.timer(0, this.state.localUser, 10, flag, obj);
-      }, 48500);
-      return () => clearTimeout(startTimer);
     } else {
       this.setState({ page: pageNum });
     }
