@@ -85,7 +85,7 @@ class OpenViduComponent extends Component {
       victoryUsers: ["a1", "a2"],
       pickUser: "",
       agree: false,
-
+      speakingUsers: [0, 0, 0, 0, 0, 0, 0, 0],
       timer: 0,
     };
 
@@ -164,6 +164,37 @@ class OpenViduComponent extends Component {
         this.connectToSession();
       }
     );
+    setTimeout(() => {
+      this.state.session.on('publisherStartSpeaking', (event) => {
+        const array = event.connection.data.split('"');
+        const targetPlayerId = array[3]
+        let tmp = [0, 0, 0, 0, 0, 0, 0, 0]
+        console.log("누구?", this.props.gamerData.userList, array, targetPlayerId)
+        {this.props.gamerData.userList && (
+          this.props.gamerData.userList.map((sub, i) => {
+            if(sub.userName === targetPlayerId) {
+              tmp[i] = 1
+              this.setState({ speakingUsers: tmp })
+              console.log("말한다")
+            }
+          })
+        )}
+      });
+    
+      this.state.session.on('publisherStopSpeaking', (event) => {
+        const array = event.connection.data.split('"');
+        const targetPlayerId = array[3]
+        let tmp = [0, 0, 0, 0, 0, 0, 0, 0]
+        {this.props.gamerData.userList && (
+          this.props.gamerData.userList.map((sub, i) => {
+            if(sub.userName === targetPlayerId) {
+              tmp[i] = 0
+              this.setState({ speakingUsers: tmp })
+            }
+          })
+        )}
+      });
+    }, 1000);
   }
 
   connectToSession() {
@@ -969,12 +1000,13 @@ class OpenViduComponent extends Component {
                       micStatusChanged={this.micStatusChanged}
                       />
                     }
+                    {this.state.speakingUsers[i] === 1 && <p>말한다..</p>}
                   </div>
                 </div>
               ))}
             </div>
             <div className="d-flex flex-column justify-content-between">
-              <div></div>
+              <div>{this.state.speakingUsers}</div>
               <div className="aaaaa" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
@@ -1019,6 +1051,7 @@ class OpenViduComponent extends Component {
                       micStatusChanged={this.micStatusChanged}
                       />
                     }
+                    {this.state.speakingUsers[i+4] === 1 && <p>말한다..</p>}
                   </div>
                   <div>
                     <p>투표</p>
