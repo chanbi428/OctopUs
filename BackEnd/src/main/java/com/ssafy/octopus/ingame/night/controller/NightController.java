@@ -1,5 +1,6 @@
 package com.ssafy.octopus.ingame.night.controller;
 
+import com.ssafy.octopus.ingame.entity.Gamer;
 import com.ssafy.octopus.ingame.night.entity.Night;
 import com.ssafy.octopus.ingame.night.service.NightService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -87,6 +88,18 @@ public class NightController {
         } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(night, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("nights/reporter/{roomId}")
+    public ResponseEntity<Gamer> findByRoomIdAndGameJob(@PathVariable String roomId){
+        Gamer gamer = new Gamer();
+        try{
+            gamer = service.findByRoomIdAndGameJob(roomId, "기자");
+            return new ResponseEntity<>(gamer, HttpStatus.OK);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(gamer, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -20,7 +20,7 @@ const initialState = {
   messageList: [], // 채팅내용 저장
   subscribers: null,
   shark: false,
-  fisher: true,
+  fisher: false,
   reporter: "가가",
   localUser: null,
   pickUser: "",
@@ -102,7 +102,9 @@ const gamerSlice = createSlice({
     },
     // set Reporter Reducer
     setReporter: (state, { payload }) => {
+      console.log("setReporter 기자", payload);
       state.reporter = payload.reporter;
+      console.log("setReporter after 기자", state.reporter);
     },
 
     // set shark Reducer
