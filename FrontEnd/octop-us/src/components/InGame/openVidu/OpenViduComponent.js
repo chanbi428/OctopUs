@@ -41,6 +41,7 @@ import {
   setFisher,
   setPickUser,
   useMinigame,
+  setReporter,
 } from "../../../features/gamer/gamerSlice";
 
 import Timer from "../Timer";
@@ -708,9 +709,10 @@ class OpenViduComponent extends Component {
           //});
         }
       });
-    setTimeout(() => {
-      this.nightResult();
-    }, 1000);
+    if (this.props.gamerData.job === "기자" && this.state.pickUser != "") {
+      console.log("기자가 리덕스에 값 저장");
+      this.props.setReporter({ reporter: this.state.pickUser });
+    }
   };
 
   nightResult() {
@@ -718,6 +720,11 @@ class OpenViduComponent extends Component {
       console.log("밤 결과 확인!", res.data);
     });
   }
+
+  getPickUser = () => {
+    console.log("getPickUser실행!!!", this.state.pickUser);
+    return this.state.pickUser;
+  };
 
   render() {
     const mySessionId = this.props.sessionName; // !== undefined ? this.props.sessionName : "SessionA";
@@ -745,6 +752,7 @@ class OpenViduComponent extends Component {
                     clickBtnGame={this.clickBtnGame}
                     changePerson={this.changePerson}
                     updatePickUser={this.updatePickUser}
+                    getPickUser={this.getPickUser}
                   />
                 </div>
               )}
@@ -817,6 +825,7 @@ class OpenViduComponent extends Component {
                   clickBtnGame={this.clickBtnGame}
                   changePerson={this.changePerson}
                   updatePickUser={this.updatePickUser}
+                  getPickUser={this.getPickUser}
                 />
               </div>
             </div>
@@ -896,6 +905,7 @@ class OpenViduComponent extends Component {
                   clickBtnGame={this.clickBtnGame}
                   changePerson={this.changePerson}
                   updatePickUser={this.updatePickUser}
+                  getPickUser={this.getPickUser}
                 />
               </div>
             </div>
@@ -988,6 +998,7 @@ class OpenViduComponent extends Component {
                   clickBtnGame={this.clickBtnGame}
                   changePerson={this.changePerson}
                   updatePickUser={this.updatePickUser}
+                  getPickUser={this.getPickUser}
                 />
               </div>
             </div>
@@ -1059,6 +1070,7 @@ class OpenViduComponent extends Component {
                   clickBtnGame={this.clickBtnGame}
                   changePerson={this.changePerson}
                   updatePickUser={this.updatePickUser}
+                  getPickUser={this.getPickUser}
                 />
               </div>
             </div>
@@ -1144,6 +1156,7 @@ class OpenViduComponent extends Component {
                   clickBtnGame={this.clickBtnGame}
                   changePerson={this.changePerson}
                   updatePickUser={this.updatePickUser}
+                  getPickUser={this.getPickUser}
                 />
               </div>
             </div>
@@ -1230,6 +1243,7 @@ class OpenViduComponent extends Component {
                   clickBtnGame={this.clickBtnGame}
                   changePerson={this.changePerson}
                   updatePickUser={this.updatePickUser}
+                  getPickUser={this.getPickUser}
                 />
               </div>
             </div>
@@ -1494,6 +1508,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     useMinigame: (data) => {
       dispatch(useMinigame(data));
+    },
+    setReporter: (data) => {
+      dispatch(setReporter(data));
     },
   };
 };

@@ -84,4 +84,18 @@ public class NightServiceImpl implements NightService {
             return kill.getNomineeName();  // 죽은 사람을 return
         }
     }
+
+    /** @brief : 기자 조회
+     *  @date : 2022-08-12
+     *  @param : roomId, gameJob
+     *  @return : Night
+     *  @author : BCB
+     */
+    @Override
+    public Gamer findByRoomIdAndGameJob(String roomId, String gameJob){
+        Gamer gamer = gamerDao.findByRoomIdAndGameJob(roomId, gameJob);
+        Night night = dao.findByUserName(gamer.getUserName());
+        Gamer result = gamerDao.findByUserName(night.getNomineeName());
+        return result;
+    }
 }
