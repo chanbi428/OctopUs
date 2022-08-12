@@ -46,9 +46,8 @@ const FishingComponent = (props) => {
   const [time, setTime] = useState(30);
   const classes = useStyles();
 
-  const mafiaWinMent =
-    "[마피아]팀의 승리로 인해 오늘 투표를 진행하지 않습니다.";
-  const citizenWinMent = "[시민]팀의 승리로 인해 오늘 ...는 진행하지 않습니다.";
+  const mafiaWinMent = "오징어 팀의 승리로 오늘 투표를 진행하지 않습니다.";
+  const citizenWinMent = "문어 팀의 승리! 투표로 넘어갑니다.";
 
   const spaceCount = useRef;
   spaceCount.current = count;
@@ -82,7 +81,7 @@ const FishingComponent = (props) => {
       setCount(0);
       spaceCount.current = 0;
       time++;
-      if(time >= 3) {
+      if (time >= 3) {
         return () => {
           console.log("timer 2 : " + time);
           clearInterval(updater);
@@ -113,7 +112,7 @@ const FishingComponent = (props) => {
   function endGame() {
     setShowMode(true);
     console.log("endGame : " + showMode);
-    
+
     const startTimer = setTimeout(() => {
       // 타이머로 이동
       if (roomChief === userInfo.userName) {
@@ -121,13 +120,13 @@ const FishingComponent = (props) => {
       }
       props.stateVisible(citizenPercent > mafiaPercent ? true : false);
     }, 3000);
-    
+
     return () => clearTimeout(startTimer);
   }
   function countFun(e) {
     setCount(count + 1);
   }
-  
+
   async function updateCount(count) {
     console.log("update : " + count);
     let citizen = 0;
@@ -164,7 +163,7 @@ const FishingComponent = (props) => {
           <Card>
             <div id="mainComponent">
               <div id="centerPlace">
-                <img src="images/minigame/fishgame1.jpg"></img>
+                <img src="images/minigame/fishbg.jpg"></img>
                 <LinearProgress
                   id="progressPercent"
                   variant="determinate"
@@ -176,7 +175,7 @@ const FishingComponent = (props) => {
               <div className="row justify-content-between" id="centerPlace">
                 <div className="col-4" id="citizenPercent">
                   <span id="citizenPercent">
-                    시민 : {citizenPercent.toFixed(1)}%
+                    문어 : {citizenPercent.toFixed(1)}%
                   </span>
                 </div>
                 <div className="col-4" id="buttonCenter">
@@ -186,7 +185,7 @@ const FishingComponent = (props) => {
                 </div>
                 <div className="col-4" id="mafiaPercent">
                   <span id="mafiaPercent">
-                    마피아 : {mafiaPercent.toFixed(1)}%
+                    오징어 : {mafiaPercent.toFixed(1)}%
                   </span>
                 </div>
               </div>
@@ -198,7 +197,7 @@ const FishingComponent = (props) => {
         <Card id="mainComponent">
           <div id="winMent">
             <p>
-              {citizenPercent > mafiaPercent ? "시민" : "마피아"}팀의 승리!!
+              {citizenPercent > mafiaPercent ? "문어" : "오징어"}팀의 승리!!
             </p>
             <img src="images/trophy.png" width={"500px"}></img>
             <p id="winMentExplane">
