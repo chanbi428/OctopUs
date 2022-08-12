@@ -235,6 +235,12 @@ export const Timer = (time, user, page, flag, obj) => {
           page: 0,
           initTime: 0,
         };
+      } else if (page == 20){
+        data2 = {
+          page: 10,
+          initTime: 3,
+        };
+        isChange = 0
       }
       if (isChange === 0) {
         user.getStreamManager().stream.session.signal({

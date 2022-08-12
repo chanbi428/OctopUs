@@ -6,7 +6,11 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import {
   updateUserList,
   updateRoomId,
-  updateRoomChief
+  updateRoomChief,
+  updatePersonNum,
+  updateIsPrivate,
+  updateRoomPw,
+  updateGameTime
 } from "../../../../features/waiting/waitSlice";
 import { BASE_URL } from "../../../../api/BASE_URL";
 
@@ -70,11 +74,10 @@ export default function WaitingRoomPage(props) {
         console.log(room.userList);
         dispatch(updateUserList(room.userList));
         dispatch(updateRoomChief({ roomChief : room.roomChief }))
-        console.log(
-          "waitingroom useEffect 어디서 에러가 나나",
-          roomId,
-          userList
-        );
+        dispatch(updatePersonNum({ personNum : room.personNum}))
+        dispatch(updateIsPrivate({ isPrivate : room.private }))
+        dispatch(updateRoomPw({ roomPw : room.roomPw }))
+        dispatch(updateGameTime({ gameTime : room.gameTime }))
       })
       .catch((error) => console.log(error));
   }, []);
@@ -105,12 +108,6 @@ export default function WaitingRoomPage(props) {
     console.log("유저 목록 변경 후 자리 배치 다시 하기!", seats, throne)
     console.log(seats, throne)
   }, [userList, roomChief]);
-
-  // useEffect(() => {
-  //   console.log("방장 바뀜!!!", throne)
-  //   getCrown(throne);
-  //   setTimeout(console.log("방장 바뀌고 왕관 바껴야함!!!", throne), 1000)
-  // }, [roomChief])
 
   const sitRoom = (seats) => {
     let sit = seats;
@@ -155,7 +152,7 @@ export default function WaitingRoomPage(props) {
   return (
     <div>
       <nav>
-        <p>대기실 페이지</p>
+        <p className="waitingroom_title">{roomInfo.roomName}</p>
         <button onClick={props.clickExitBtn} className="waiting-page__exit-btn">
           방 나가기
         </button>

@@ -117,7 +117,7 @@ const FishingComponent = (props) => {
     const startTimer = setTimeout(() => {
       // 타이머로 이동
       if (roomChief === userInfo.userName) {
-        Timer(30, localUser, 10, flag, obj);
+        Timer(0, localUser, 20, flag, obj);
       }
       props.stateVisible(citizenPercent > mafiaPercent ? true : false);
     }, 3000);
