@@ -181,7 +181,7 @@ const gamerSlice = createSlice({
         if (user === state.userName) {
           list.push({
             userName: user.userName,
-            isDead: false,
+            isDead: user.dead,
             gameJob: user.gameJob,
             gameTeam: user.gameTeam,
             // subIdx: undefined,
@@ -190,7 +190,7 @@ const gamerSlice = createSlice({
         } else {
           list.push({
             userName: user.userName,
-            isDead: false,
+            isDead: user.dead,
             gameJob: user.gameJob,
             gameTeam: user.gameTeam,
             subIdx: undefined,
