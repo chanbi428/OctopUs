@@ -18,6 +18,13 @@ import GameAnimation from "../../MiniGame/LoadingAnimation/AnimationRouter";
 import SharkGame from "../../MiniGame/SharkGame/SharkGame";
 import FishingStater from "../../MiniGame/FishGame/FishingStarter";
 import GameResultPage from "../components/JobComponents/GameResultPage";
+import CrazyCard from "../../LoadingPage/JobCard/CrazyCard/CrazyCard"
+import DoctorCard from "../../LoadingPage/JobCard/DoctorCard/DoctorCard"
+import MafiaCard from "../../LoadingPage/JobCard/MafiaCard/MafiaCard"
+import MayorCard from "../../LoadingPage/JobCard/MayorCard/MayorCard"
+import NeutralCard from "../../LoadingPage/JobCard/NeutralCard/NeutralCard"
+import PoliceCard from "../../LoadingPage/JobCard/PoliceCard/PoliceCard"
+import ReporterCard from "../../LoadingPage/JobCard/ReporterCard/ReporterCard"
 import "./OpenViduComponent.css";
 
 import OpenViduLayout from "../layout/openvidu-layout";
@@ -463,6 +470,7 @@ class OpenViduComponent extends Component {
       fisher: this.props.gamerData.fisher,
       reporter: this.props.gamerData.reporter,
     };
+
     this.settingLocalUser({ localUser: this.state.localUser });
     console.log(this.state.localUser);
     console.log("제발 2");
@@ -765,7 +773,13 @@ class OpenViduComponent extends Component {
         )}
         {this.state.page === 1 && ( // 직업 카드 애니메이션
           <div>
-            <JobCardComponent />
+            {this.props.gamerData.job === "마피아" && <MafiaCard />}
+            {this.props.gamerData.job === "크레이지경찰" && <CrazyCard />}
+            {this.props.gamerData.job === "경찰" && <PoliceCard />}
+            {this.props.gamerData.job === "의사" && <DoctorCard />}
+            {this.props.gamerData.job === "시장" && <MayorCard />}
+            {this.props.gamerData.job === "기자" && <ReporterCard />}
+            {this.props.gamerData.job === "재간둥이" && <NeutralCard />}
           </div>
         )}
         {this.state.page === 2 && ( // 밤 애니메이션
