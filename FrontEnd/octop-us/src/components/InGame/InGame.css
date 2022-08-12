@@ -14,7 +14,7 @@
   height: 40px !important;
   text-align: center;
   margin: auto;
-  min-width: 250px;
+  min-width: 200px;
 }
 
 .navButton {
@@ -58,6 +58,7 @@
   background-color: #494949;
   overflow: hidden;
   min-width: 200px !important;
+  width: 200px !important;
   position: relative !important;
   bottom: 0;
   height: 20vh;
