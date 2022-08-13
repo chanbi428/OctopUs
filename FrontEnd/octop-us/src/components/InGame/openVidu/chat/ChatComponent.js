@@ -202,6 +202,7 @@ class ChatComponent extends Component {
           shark: this.props.gamerData.shark,
           fisher: this.props.gamerData.fisher,
           reporter: this.props.getPickUser(),
+          roomChief: this.props.waitData.roomChief,
           // vote: this.propss.getPickUser(), // 다영 추가
         };
         console.log("change repoter 값", this.props.gamerData.reporter);
