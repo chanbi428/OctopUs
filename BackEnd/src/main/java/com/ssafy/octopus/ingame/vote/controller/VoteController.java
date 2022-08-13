@@ -5,6 +5,7 @@ import com.ssafy.octopus.ingame.vote.dto.VoteDto;
 import com.ssafy.octopus.ingame.vote.entity.Vote;
 import com.ssafy.octopus.ingame.vote.service.VoteService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,5 +108,16 @@ public class VoteController {
             e.printStackTrace();
             return new ResponseEntity<>(vote, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /** @brief : updateVote, roomId의 해당하는 vote의 vote 초기화
+     *  @date : 2022-08-13
+     *  @param : roomId
+     *  @return : ResponseEntity<Integer>
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @PutMapping(value="/vote/initialization/{roomId}")
+    public ResponseEntity<Integer> updateByRoomIdForInitialization(@Parameter(description = "방 ID", required = true, example = "roomId")@PathVariable String roomId) {
+        return new ResponseEntity<Integer>(service.updateByRoomIdForInitialization(roomId), HttpStatus.OK);
     }
 }
