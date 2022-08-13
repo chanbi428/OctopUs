@@ -108,13 +108,13 @@ const gamerSlice = createSlice({
     },
 
     // set shark Reducer
-    setShark: (state, { payload }) => {
-      state.shark = payload.shark;
+    setShark: (state) => {
+      state.shark = true;
     },
 
     // set fisher Reducer
-    setFisher: (state, { payload }) => {
-      state.fisher = payload.fisher;
+    setFisher: (state) => {
+      state.fisher = true;
     },
 
     // updateUserListforSub: (state, { payload }) => {
