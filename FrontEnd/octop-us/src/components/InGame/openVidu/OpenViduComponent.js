@@ -25,6 +25,8 @@ import MayorCard from "../../LoadingPage/JobCard/MayorCard/MayorCard";
 import NeutralCard from "../../LoadingPage/JobCard/NeutralCard/NeutralCard";
 import PoliceCard from "../../LoadingPage/JobCard/PoliceCard/PoliceCard";
 import ReporterCard from "../../LoadingPage/JobCard/ReporterCard/ReporterCard";
+import ShowRoom from "../components/WaitingRoomPage/ShowRoom";
+import WaitingRoomPage from "../components/WaitingRoomPage/WaitingRoomPage";
 import "./OpenViduComponent.css";
 
 import OpenViduLayout from "../layout/openvidu-layout";
@@ -196,6 +198,7 @@ class OpenViduComponent extends Component {
           })
         )}
       });
+
     }, 1000);
   }
 
@@ -831,47 +834,59 @@ class OpenViduComponent extends Component {
       <div className="screen" id="screen-div">
         {this.state.page === 0 && ( // 대기실
           <div>
-            <div className="d-flex justify-content-between">
-              {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                <div className="aaaaa" style={chatDisplay}>
-                  <ChatComponent
-                    user={localUser}
-                    chatDisplay={this.state.chatDisplay}
-                    close={this.toggleChat}
-                    ref={this.ovref}
-                    roomName={this.props.roomName}
-                    settingListForSub={this.settingListForSub}
-                    subscribers={this.state.subscribers}
-                    canSend="true"
-                    changeTime={this.changeTime}
-                    changePage={this.changePage}
-                    clickBtnGame={this.clickBtnGame}
-                    changePerson={this.changePerson}
-                    updatePickUser={this.updatePickUser}
-                    getPickUser={this.getPickUser}
-                    resetPickUser={this.resetPickUser}
-                    getHasSkill={this.getHasSkill}
-                    updatePickUserAtVote={this.updatePickUserAtVote}
-                  />
-                </div>
-              )}
-              <div className="setting_box">
-                <div id="layout" className="bounds">
-                  {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                    <div className="OT_root OT_publisher custom-class" id="localUser">
-                      <StreamComponent user={localUser} />
-                      <ToolbarComponent
-                        user={localUser}
-                        camStatusChanged={this.camStatusChanged}
-                        micStatusChanged={this.micStatusChanged}
-                      />
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <button className="start__btn" onClick={this.clickBtn}>
-                    START
-                  </button>
+            <WaitingRoomPage clickExitBtn={this.props.clickExitBtn} />
+            <div className="d-flex">
+              <ShowRoom 
+                roomName={this.props.roomName} 
+                personNum={this.props.personNum} 
+                roomId={this.props.roomId}
+                roomChief={this.props.roomChief}
+                isPrivate={this.props.isPrivate}
+                roomPw={this.props.roomPw}
+                gameTime={this.props.gameTime}
+              />
+              <div className="d-flex justify-content-between">
+                {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                  <div className="aaaaa" style={chatDisplay}>
+                    <ChatComponent
+                      user={localUser}
+                      chatDisplay={this.state.chatDisplay}
+                      close={this.toggleChat}
+                      ref={this.ovref}
+                      roomName={this.props.roomName}
+                      settingListForSub={this.settingListForSub}
+                      subscribers={this.state.subscribers}
+                      canSend="true"
+                      changeTime={this.changeTime}
+                      changePage={this.changePage}
+                      clickBtnGame={this.clickBtnGame}
+                      changePerson={this.changePerson}
+                      updatePickUser={this.updatePickUser}
+                      getPickUser={this.getPickUser}
+                      resetPickUser={this.resetPickUser}
+                      getHasSkill={this.getHasSkill}
+                      updatePickUserAtVote={this.updatePickUserAtVote}
+                    />
+                  </div>
+                )}
+                <div className="setting_box">
+                  <div id="layout" className="bounds">
+                    {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                      <div className="OT_root OT_publisher custom-class" id="localUser">
+                        <StreamComponent user={localUser} />
+                        <ToolbarComponent
+                          user={localUser}
+                          camStatusChanged={this.camStatusChanged}
+                          micStatusChanged={this.micStatusChanged}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <button className="start__btn" onClick={this.clickBtn}>
+                      START
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

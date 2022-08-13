@@ -104,42 +104,26 @@ const InGame = () => {
   return (
     <div>
       <div id="parent-div">
-        {page === 0 && <WaitingRoomPage clickExitBtn={clickExitBtn} />}
-
-        <div style={{ display: "flex" }}>
-          {page === 0 && (
-            <div>
-              {/* 여기에 showRoom 옮기면 카드 이중으로 나타나는 거 사라집니다. */}
-              <ShowRoom 
-              roomName={roomName} 
-              personNum={personNum} 
-              roomId={roomId}
-              roomChief={roomChief}
-              isPrivate={isPrivate}
-              roomPw={roomPw}
-              gameTime={gameTime}
-              />
-              {/* <div className="waiting-page__lower container">
-                <div className="waiting-page__room-setting">
-                  
-                </div>
-              </div> */}
-            </div>
-          )}
-          <div 
-          // className="m-4"
-          className="mt-4"
-          >
-            <RoundComponent gameNum={gameNum} />
-            <OpenViduComponent
-              onClickBtn={GameStartClickBtn}
-              selectGame={clickBtnGame}
-              sessionName={sessionName}
-              roomName={roomName}
-              ref={chatRef}
-              host={hostName}
-            />
-          </div>
+        <div 
+        // className="m-4"
+        className="mt-4"
+        >
+          <RoundComponent gameNum={gameNum} />
+          <OpenViduComponent
+            onClickBtn={GameStartClickBtn}
+            clickExitBtn={clickExitBtn}
+            selectGame={clickBtnGame}
+            sessionName={sessionName}
+            roomName={roomName}
+            ref={chatRef}
+            host={hostName}
+            personNum={personNum} 
+            roomId={roomId}
+            roomChief={roomChief}
+            isPrivate={isPrivate}
+            roomPw={roomPw}
+            gameTime={gameTime}
+          />
         </div>
       </div>
     </div>
