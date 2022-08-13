@@ -85,7 +85,7 @@ class OpenViduComponent extends Component {
       gameNum: 0,
       hostName: hostName,
       userList: ["a", "b", "c", "d"],
-      victoryUsers: ["a1", "a2"],
+      victoryUsers: ["d1", "d2", "d3", "d4", "d5"],
       pickUser: "",
       agree: false,
       speakingUsers: [0, 0, 0, 0, 0, 0, 0, 0],
@@ -174,7 +174,7 @@ class OpenViduComponent extends Component {
       this.state.session.on('publisherStartSpeaking', (event) => {
         const array = event.connection.data.split('"');
         const targetPlayerId = array[3]
-        let tmp = [0, 0, 0, 0, 0, 0, 0, 0]
+        let tmp = [...this.state.speakingUsers]
         console.log("누구?", this.props.gamerData.userList, array, targetPlayerId)
         {this.props.gamerData.userList && (
           this.props.gamerData.userList.map((sub, i) => {
@@ -190,7 +190,7 @@ class OpenViduComponent extends Component {
       this.state.session.on('publisherStopSpeaking', (event) => {
         const array = event.connection.data.split('"');
         const targetPlayerId = array[3]
-        let tmp = [0, 0, 0, 0, 0, 0, 0, 0]
+        let tmp = [...this.state.speakingUsers]
         {this.props.gamerData.userList && (
           this.props.gamerData.userList.map((sub, i) => {
             if(sub.userName === targetPlayerId) {
@@ -1036,7 +1036,7 @@ class OpenViduComponent extends Component {
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div
                   id="layout"
-                  className="ingame-bounds"
+                  className={this.state.speakingUsers[i] ? "ingame-bounds-speaking" : "ingame-bounds"}
                   onClick={(e) => this.selectVoteAtNight(subGamer, e)}
                 >
                   <div
@@ -1065,7 +1065,6 @@ class OpenViduComponent extends Component {
                       micStatusChanged={this.micStatusChanged}
                       />
                     }
-                    {this.state.speakingUsers[i] === 1 && <p>말한다..</p>}
                   </div>
                 </div>
               ))}
@@ -1093,7 +1092,7 @@ class OpenViduComponent extends Component {
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
                 <div
                   id="layout"
-                  className="ingame-bounds"
+                  className={this.state.speakingUsers[i] ? "ingame-bounds-speaking" : "ingame-bounds"}
                   onClick={(e) => this.selectVoteAtNight(subGamer, e)}
                 >
                   <div
@@ -1121,7 +1120,6 @@ class OpenViduComponent extends Component {
                       micStatusChanged={this.micStatusChanged}
                       />
                     }
-                    {this.state.speakingUsers[i+4] === 1 && <p>말한다..</p>}
                   </div>
                   <div>
                     <p>투표</p>
@@ -1464,23 +1462,48 @@ class OpenViduComponent extends Component {
           최종 게임 결과 
         */}
         {this.state.page === 15 && (
-          <div className="d-flex flex-column">
-            <div>
-              <GameResultPage />
-            </div>
+          <div className="d-flex flex-column justify-content-center">
             {/* 승자들 */}
-            <div className="d-flex justify-content-around row row-cols-3">
+            <div className="d-flex justify-content-around winner-box">
+              <div> <GameResultPage /> </div>
               {this.props.gamerData.userList
                 .filter((sub) => this.state.victoryUsers.includes(sub.userName))
                 .map((subGamer, i) => (
-                  <div id="layout" className="ingame-bounds col">
-                    {localUser !== undefined &&
-                      localUser.getStreamManager() !== undefined && (
-                        <div
-                          key={i}
-                          className="OT_root OT_publisher custom-class"
-                          id="localUser"
-                        >
+                  <div className="d-flex justify-content-center flex-column">
+                    <div id="layout" className="ingame-bounds">
+                      {localUser !== undefined &&
+                        localUser.getStreamManager() !== undefined && (
+                          <div
+                            key={i}
+                            className="OT_root OT_publisher custom-class"
+                            id="localUser"
+                          >
+                            <StreamComponent
+                              user={
+                                subGamer.subIdx === undefined
+                                  ? localUser
+                                  : this.state.subscribers[subGamer.subIdx]
+                              }
+                            />
+                          </div>
+                        )}
+                    </div>
+                    <p className="result-job-text">{subGamer.gameJob}</p>
+                  </div>
+                ))}
+            </div>
+            {/* 패자들 */}
+            <div className="d-flex justify-content-around">
+              {this.props.gamerData.userList
+                .filter(
+                  (sub) =>
+                    this.state.victoryUsers.includes(sub.userName) === false
+                )
+                .map((subGamer, i) => (
+                  <div>
+                    <div id="layout" className="ingame-bounds col">
+                      {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                        <div key={i} className="OT_root OT_publisher custom-class" id="localUser">
                           <StreamComponent
                             user={
                               subGamer.subIdx === undefined
@@ -1488,39 +1511,16 @@ class OpenViduComponent extends Component {
                                 : this.state.subscribers[subGamer.subIdx]
                             }
                           />
-                          <p>{subGamer.gameJob}</p>
+                          {subGamer.userName === this.state.myUserName && 
+                            <ToolbarComponent user={localUser}
+                            camStatusChanged={this.camStatusChanged}
+                            micStatusChanged={this.micStatusChanged}
+                            />
+                          }
                         </div>
                       )}
-                  </div>
-                ))}
-            </div>
-            {/* 패자들 */}
-            <div>
-              {this.props.gamerData.userList
-                .filter(
-                  (sub) =>
-                    this.state.victoryUsers.includes(sub.userName) === false
-                )
-                .map((subGamer, i) => (
-                  <div id="layout" className="ingame-bounds col">
-                    {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                      <div key={i} className="OT_root OT_publisher custom-class" id="localUser">
-                        <StreamComponent
-                          user={
-                            subGamer.subIdx === undefined
-                              ? localUser
-                              : this.state.subscribers[subGamer.subIdx]
-                          }
-                        />
-                        {subGamer.userName === this.state.myUserName && 
-                          <ToolbarComponent user={localUser}
-                          camStatusChanged={this.camStatusChanged}
-                          micStatusChanged={this.micStatusChanged}
-                          />
-                        }
-                        <p>{subGamer.gameJob}</p>
-                      </div>
-                    )}
+                    </div>
+                    <p className="result-job-text">{subGamer.gameJob}</p>
                   </div>
                 ))}
             </div>
