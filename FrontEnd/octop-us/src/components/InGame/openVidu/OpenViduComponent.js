@@ -25,6 +25,8 @@ import MayorCard from "../../LoadingPage/JobCard/MayorCard/MayorCard";
 import NeutralCard from "../../LoadingPage/JobCard/NeutralCard/NeutralCard";
 import PoliceCard from "../../LoadingPage/JobCard/PoliceCard/PoliceCard";
 import ReporterCard from "../../LoadingPage/JobCard/ReporterCard/ReporterCard";
+import ShowRoom from "../components/WaitingRoomPage/ShowRoom";
+import WaitingRoomPage from "../components/WaitingRoomPage/WaitingRoomPage";
 import "./OpenViduComponent.css";
 
 import OpenViduLayout from "../layout/openvidu-layout";
@@ -198,6 +200,7 @@ class OpenViduComponent extends Component {
             });
         }
       });
+
     }, 1000);
   }
 
@@ -622,16 +625,26 @@ class OpenViduComponent extends Component {
     }
   }
 
-  clickBtnMiniGame = (e) => {
-    if (e === 1) {
-      console.log("낚시게임 리덕스에 저장");
-      this.settingFisher({ fisher: true });
-    } else if (e === 2) {
-      console.log("상어게임 리덕스에 저장");
-      this.settingShark({ shark: true });
-    }
-    this.usingMinigame({ idx: e - 1 });
+  // clickBtnMiniGame = (e) => {
+  //   if (e === 1) {
+  //     console.log("낚시게임 리덕스에 저장");
+  //     this.settingFisher({ fisher: true });
+  //   } else if (e === 2) {
+  //     console.log("상어게임 리덕스에 저장");
+  //     this.settingShark({ shark: true });
+  //   }
+  //   this.usingMinigame({ idx: e - 1 });
+  // };
+
+  clickSharkMiniGame = () => {
+    this.props.setShark()
+    this.usingMinigame({idx : 1})
   };
+
+  clickFisherMiniGame = () => {
+    this.props.setFisher()
+    this.usingMinigame({idx : 0})
+  }
 
   clickBtnGame = (e) => {
     console.log("clickBtnGame : " + e);
@@ -833,47 +846,59 @@ class OpenViduComponent extends Component {
       <div className="screen" id="screen-div">
         {this.state.page === 0 && ( // 대기실
           <div>
-            <div className="d-flex justify-content-between">
-              {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                <div className="aaaaa" style={chatDisplay}>
-                  <ChatComponent
-                    user={localUser}
-                    chatDisplay={this.state.chatDisplay}
-                    close={this.toggleChat}
-                    ref={this.ovref}
-                    roomName={this.props.roomName}
-                    settingListForSub={this.settingListForSub}
-                    subscribers={this.state.subscribers}
-                    canSend="true"
-                    changeTime={this.changeTime}
-                    changePage={this.changePage}
-                    clickBtnGame={this.clickBtnGame}
-                    changePerson={this.changePerson}
-                    updatePickUser={this.updatePickUser}
-                    getPickUser={this.getPickUser}
-                    resetPickUser={this.resetPickUser}
-                    getHasSkill={this.getHasSkill}
-                    updatePickUserAtVote={this.updatePickUserAtVote}
-                  />
-                </div>
-              )}
-              <div className="setting_box">
-                <div id="layout" className="bounds">
-                  {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                    <div className="OT_root OT_publisher custom-class" id="localUser">
-                      <StreamComponent user={localUser} />
-                      <ToolbarComponent
-                        user={localUser}
-                        camStatusChanged={this.camStatusChanged}
-                        micStatusChanged={this.micStatusChanged}
-                      />
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <button className="start__btn" onClick={this.clickBtn}>
-                    START
-                  </button>
+            <WaitingRoomPage clickExitBtn={this.props.clickExitBtn} />
+            <div className="d-flex">
+              <ShowRoom 
+                roomName={this.props.roomName} 
+                personNum={this.props.personNum} 
+                roomId={this.props.roomId}
+                roomChief={this.props.roomChief}
+                isPrivate={this.props.isPrivate}
+                roomPw={this.props.roomPw}
+                gameTime={this.props.gameTime}
+              />
+              <div className="d-flex justify-content-between">
+                {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                  <div className="aaaaa" style={chatDisplay}>
+                    <ChatComponent
+                      user={localUser}
+                      chatDisplay={this.state.chatDisplay}
+                      close={this.toggleChat}
+                      ref={this.ovref}
+                      roomName={this.props.roomName}
+                      settingListForSub={this.settingListForSub}
+                      subscribers={this.state.subscribers}
+                      canSend="true"
+                      changeTime={this.changeTime}
+                      changePage={this.changePage}
+                      clickBtnGame={this.clickBtnGame}
+                      changePerson={this.changePerson}
+                      updatePickUser={this.updatePickUser}
+                      getPickUser={this.getPickUser}
+                      resetPickUser={this.resetPickUser}
+                      getHasSkill={this.getHasSkill}
+                      updatePickUserAtVote={this.updatePickUserAtVote}
+                    />
+                  </div>
+                )}
+                <div className="setting_box">
+                  <div id="layout" className="bounds">
+                    {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                      <div className="OT_root OT_publisher custom-class" id="localUser">
+                        <StreamComponent user={localUser} />
+                        <ToolbarComponent
+                          user={localUser}
+                          camStatusChanged={this.camStatusChanged}
+                          micStatusChanged={this.micStatusChanged}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <button className="start__btn" onClick={this.clickBtn}>
+                      START
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -989,8 +1014,8 @@ class OpenViduComponent extends Component {
               <div className="mafiaButtons">
                 <p className="icons-property"></p>
                 {this.props.gamerData.minigameList[0] === true ? (
-                  <button onClick={() => this.clickBtnMiniGame(1)} className="mafiaEventBtn">
-                    <img src="icons/icons8-spinner-lure-50.png" alt="lure event" />
+                  <button onClick={this.clickFisherMiniGame} className="mafiaEventBtn">
+                    <img src="icons/icons8-spinner-lure-50.png" alt="lure event"/>
                   </button>
                 ) : (
                   <button className="usedEventBtn">
@@ -998,8 +1023,8 @@ class OpenViduComponent extends Component {
                   </button>
                 )}
                 {this.props.gamerData.minigameList[1] === true ? (
-                  <button onClick={() => this.clickBtnMiniGame(2)} className="mafiaEventBtn">
-                    <img src="icons/icons8-shark-50.png" alt="shark event" />
+                  <button onClick={this.clickSharkMiniGame} className="mafiaEventBtn">
+                    <img src="icons/icons8-shark-50.png" alt="shark event"/>
                   </button>
                 ) : (
                   <button className="usedEventBtn">
@@ -1658,11 +1683,11 @@ const mapDispatchToProps = (dispatch) => {
     setHasntSkill: (data) => {
       dispatch(hasntSkill(data));
     },
-    setShark: (data) => {
-      dispatch(setShark(data));
+    setShark: () => {
+      dispatch(setShark());
     },
-    setFisher: (data) => {
-      dispatch(setFisher(data));
+    setFisher: () => {
+      dispatch(setFisher());
     },
     useMinigame: (data) => {
       dispatch(useMinigame(data));
