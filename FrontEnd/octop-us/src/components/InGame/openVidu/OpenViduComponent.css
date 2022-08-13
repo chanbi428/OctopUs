@@ -15,3 +15,32 @@
 .bounds {
   border-radius: 15px;
 }
+
+.mafiaButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-self: end;
+  gap: 1rem;
+}
+
+.property {
+  opacity: 0;
+}
+
+.mafiaEventBtn {
+  all : unset;
+}
+
+.mafiaEventBtn:hover {
+  transform: scale(1.5);
+}
+
+.usedEventBtn {
+  all : unset;
+  opacity: 0.5;
+}
+
+.usedEventBtn:hover {
+  cursor: not-allowed;
+}
