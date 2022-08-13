@@ -982,16 +982,25 @@ class OpenViduComponent extends Component {
               ))}
             </div>
             <div className="d-flex flex-column justify-content-between">
-              <div>
+            <div className="mafiaButtons">
+                <p className="icons-property"></p>
                 {this.props.gamerData.minigameList[0] === true ? (
-                  <button onClick={() => this.clickBtnMiniGame(1)}>낚시게임시작</button>
+                  <button onClick={() => this.clickBtnMiniGame(1)} className="mafiaEventBtn">
+                    <img src="icons/icons8-spinner-lure-50.png" alt="lure event"/>
+                  </button>
                 ) : (
-                  <div></div>
+                  <button className="usedEventBtn">
+                    <img src="icons/icons8-spinner-lure-50.png" alt="lure event"/>
+                  </button>
                 )}
                 {this.props.gamerData.minigameList[1] === true ? (
-                  <button onClick={() => this.clickBtnMiniGame(2)}>상어게임시작</button>
+                  <button onClick={() => this.clickBtnMiniGame(2)} className="mafiaEventBtn">
+                    <img src="icons/icons8-shark-50.png" alt="shark event"/>
+                  </button>
                 ) : (
-                  <div></div>
+                  <button className="usedEventBtn">
+                    <img src="icons/icons8-shark-50.png" alt="shark event"/>
+                  </button>
                 )}
               </div>
               <div className="aaaaa" style={chatDisplay}>
