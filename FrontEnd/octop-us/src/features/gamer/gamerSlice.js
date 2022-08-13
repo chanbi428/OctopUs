@@ -74,11 +74,16 @@ const gamerSlice = createSlice({
     },
     // 죽은 사람 => userList의 isDead = true 리듀서
     updateUserListforDead: (state, { payload }) => {
+      console.log("gamerSlice에서 죽음 처리", payload.userName);
       state.userList.forEach((user) => {
         if (user.userName === payload.userName) {
+          console.log(payload.userName, "죽었다");
           user.isDead = true;
         }
       });
+      if (payload.userName === state.userName) {
+        state.isDead = true;
+      }
     },
     // subscribers 와 연결
     updateUserListforSub: (state, { payload }) => {
@@ -153,9 +158,7 @@ const gamerSlice = createSlice({
     */
     // 디스패치를 통해 액션이 실행됐을 때 - 로딩 중..
     [gamerInit.pending]: (state) => {
-      console.log(
-        "features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer init!"
-      );
+      console.log("features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer init!");
       state.loading = true;
       state.error = null;
     },
@@ -215,9 +218,7 @@ const gamerSlice = createSlice({
     [gamerUserList.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-      console.error(
-        "features/gamer/gamerSliece :  get UserList 실패 rejected!"
-      );
+      console.error("features/gamer/gamerSliece :  get UserList 실패 rejected!");
       console.log(state.payload);
     },
 
@@ -225,9 +226,7 @@ const gamerSlice = createSlice({
     gamer Dead
     */
     [gamerDead.pending]: (state) => {
-      console.log(
-        "features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer dead!"
-      );
+      console.log("features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer dead!");
       state.loading = true;
       state.error = null;
     },
@@ -238,9 +237,7 @@ const gamerSlice = createSlice({
     [gamerDead.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-      console.error(
-        "features/gamer/gamerSliece : 게이머 dead 처리 실패 rejected!"
-      );
+      console.error("features/gamer/gamerSliece : 게이머 dead 처리 실패 rejected!");
     },
   },
 });

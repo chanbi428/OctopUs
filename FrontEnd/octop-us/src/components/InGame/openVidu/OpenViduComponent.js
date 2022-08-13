@@ -167,34 +167,36 @@ class OpenViduComponent extends Component {
       }
     );
     setTimeout(() => {
-      this.state.session.on('publisherStartSpeaking', (event) => {
+      this.state.session.on("publisherStartSpeaking", (event) => {
         const array = event.connection.data.split('"');
-        const targetPlayerId = array[3]
-        let tmp = [...this.state.speakingUsers]
-        console.log("누구?", this.props.gamerData.userList, array, targetPlayerId)
-        {this.props.gamerData.userList && (
-          this.props.gamerData.userList.map((sub, i) => {
-            if(sub.userName === targetPlayerId) {
-              tmp[i] = 1
-              this.setState({ speakingUsers: tmp })
-              console.log("말한다")
-            }
-          })
-        )}
+        const targetPlayerId = array[3];
+        let tmp = [...this.state.speakingUsers];
+        console.log("누구?", this.props.gamerData.userList, array, targetPlayerId);
+        {
+          this.props.gamerData.userList &&
+            this.props.gamerData.userList.map((sub, i) => {
+              if (sub.userName === targetPlayerId) {
+                tmp[i] = 1;
+                this.setState({ speakingUsers: tmp });
+                console.log("말한다");
+              }
+            });
+        }
       });
-    
-      this.state.session.on('publisherStopSpeaking', (event) => {
+
+      this.state.session.on("publisherStopSpeaking", (event) => {
         const array = event.connection.data.split('"');
-        const targetPlayerId = array[3]
-        let tmp = [...this.state.speakingUsers]
-        {this.props.gamerData.userList && (
-          this.props.gamerData.userList.map((sub, i) => {
-            if(sub.userName === targetPlayerId) {
-              tmp[i] = 0
-              this.setState({ speakingUsers: tmp })
-            }
-          })
-        )}
+        const targetPlayerId = array[3];
+        let tmp = [...this.state.speakingUsers];
+        {
+          this.props.gamerData.userList &&
+            this.props.gamerData.userList.map((sub, i) => {
+              if (sub.userName === targetPlayerId) {
+                tmp[i] = 0;
+                this.setState({ speakingUsers: tmp });
+              }
+            });
+        }
       });
     }, 1000);
   }
@@ -952,7 +954,9 @@ class OpenViduComponent extends Component {
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div
                   id="layout"
-                  className={this.state.speakingUsers[i] ? "ingame-bounds-speaking" : "ingame-bounds"}
+                  className={
+                    this.state.speakingUsers[i] ? "ingame-bounds-speaking" : "ingame-bounds"
+                  }
                   onClick={(e) => this.selectPerson(subGamer, e)}
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
@@ -982,24 +986,24 @@ class OpenViduComponent extends Component {
               ))}
             </div>
             <div className="d-flex flex-column justify-content-between">
-            <div className="mafiaButtons">
+              <div className="mafiaButtons">
                 <p className="icons-property"></p>
                 {this.props.gamerData.minigameList[0] === true ? (
                   <button onClick={() => this.clickBtnMiniGame(1)} className="mafiaEventBtn">
-                    <img src="icons/icons8-spinner-lure-50.png" alt="lure event"/>
+                    <img src="icons/icons8-spinner-lure-50.png" alt="lure event" />
                   </button>
                 ) : (
                   <button className="usedEventBtn">
-                    <img src="icons/icons8-spinner-lure-50.png" alt="lure event"/>
+                    <img src="icons/icons8-spinner-lure-50.png" alt="lure event" />
                   </button>
                 )}
                 {this.props.gamerData.minigameList[1] === true ? (
                   <button onClick={() => this.clickBtnMiniGame(2)} className="mafiaEventBtn">
-                    <img src="icons/icons8-shark-50.png" alt="shark event"/>
+                    <img src="icons/icons8-shark-50.png" alt="shark event" />
                   </button>
                 ) : (
                   <button className="usedEventBtn">
-                    <img src="icons/icons8-shark-50.png" alt="shark event"/>
+                    <img src="icons/icons8-shark-50.png" alt="shark event" />
                   </button>
                 )}
               </div>
@@ -1027,7 +1031,9 @@ class OpenViduComponent extends Component {
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
                 <div
                   id="layout"
-                  className={this.state.speakingUsers[i+4] ? "ingame-bounds-speaking" : "ingame-bounds"}
+                  className={
+                    this.state.speakingUsers[i + 4] ? "ingame-bounds-speaking" : "ingame-bounds"
+                  }
                   onClick={(e) => this.selectPerson(subGamer, e)}
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
@@ -1215,14 +1221,14 @@ class OpenViduComponent extends Component {
          */}
         {this.state.page === 7 && (
           <div>
-            <NightToDayLoading />
+            <NightToDayLoading setVictoryUser={this.setVictoryUser} />
           </div>
         )}
         {/* 죽음 결과
          */}
         {this.state.page === 8 && (
           <div>
-            <DeathResultComponent />
+            <DeathResultComponent user={this.state.localUser} />
           </div>
         )}
         {/* 기자 결과s
@@ -1238,7 +1244,12 @@ class OpenViduComponent extends Component {
           <div className="d-flex justify-content-between">
             <div>
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
-                <div id="layout" className={this.state.speakingUsers[i] ? "ingame-bounds-speaking" : "ingame-bounds"}>
+                <div
+                  id="layout"
+                  className={
+                    this.state.speakingUsers[i] ? "ingame-bounds-speaking" : "ingame-bounds"
+                  }
+                >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.png" width="200" />
@@ -1288,7 +1299,12 @@ class OpenViduComponent extends Component {
             </div>
             <div>
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
-                <div id="layout" className={this.state.speakingUsers[i+4] ? "ingame-bounds-speaking" : "ingame-bounds"}>
+                <div
+                  id="layout"
+                  className={
+                    this.state.speakingUsers[i + 4] ? "ingame-bounds-speaking" : "ingame-bounds"
+                  }
+                >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.png" width="200" />
@@ -1322,7 +1338,9 @@ class OpenViduComponent extends Component {
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div
                   id="layout"
-                  className={this.state.speakingUsers[i] ? "ingame-bounds-speaking" : "ingame-bounds"}
+                  className={
+                    this.state.speakingUsers[i] ? "ingame-bounds-speaking" : "ingame-bounds"
+                  }
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
@@ -1382,7 +1400,9 @@ class OpenViduComponent extends Component {
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
                 <div
                   id="layout"
-                  className={this.state.speakingUsers[i+4] ? "ingame-bounds-speaking" : "ingame-bounds"}
+                  className={
+                    this.state.speakingUsers[i + 4] ? "ingame-bounds-speaking" : "ingame-bounds"
+                  }
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
@@ -1475,28 +1495,26 @@ class OpenViduComponent extends Component {
           <div className="d-flex flex-column justify-content-center">
             {/* 승자들 */}
             <div className="d-flex justify-content-around winner-box">
-              <div> <GameResultPage /> </div>
+              <div>
+                {" "}
+                <GameResultPage />{" "}
+              </div>
               {this.props.gamerData.userList
                 .filter((sub) => this.state.victoryUsers.includes(sub.userName))
                 .map((subGamer, i) => (
                   <div className="d-flex justify-content-center flex-column">
                     <div id="layout" className="ingame-bounds">
-                      {localUser !== undefined &&
-                        localUser.getStreamManager() !== undefined && (
-                          <div
-                            key={i}
-                            className="OT_root OT_publisher custom-class"
-                            id="localUser"
-                          >
-                            <StreamComponent
-                              user={
-                                subGamer.subIdx === undefined
-                                  ? localUser
-                                  : this.state.subscribers[subGamer.subIdx]
-                              }
-                            />
-                          </div>
-                        )}
+                      {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                        <div key={i} className="OT_root OT_publisher custom-class" id="localUser">
+                          <StreamComponent
+                            user={
+                              subGamer.subIdx === undefined
+                                ? localUser
+                                : this.state.subscribers[subGamer.subIdx]
+                            }
+                          />
+                        </div>
+                      )}
                     </div>
                     <p className="result-job-text">{subGamer.gameJob}</p>
                   </div>
@@ -1505,10 +1523,7 @@ class OpenViduComponent extends Component {
             {/* 패자들 */}
             <div className="d-flex justify-content-around">
               {this.props.gamerData.userList
-                .filter(
-                  (sub) =>
-                    this.state.victoryUsers.includes(sub.userName) === false
-                )
+                .filter((sub) => this.state.victoryUsers.includes(sub.userName) === false)
                 .map((subGamer, i) => (
                   <div>
                     <div id="layout" className="ingame-bounds col">
@@ -1521,12 +1536,13 @@ class OpenViduComponent extends Component {
                                 : this.state.subscribers[subGamer.subIdx]
                             }
                           />
-                          {subGamer.userName === this.state.myUserName && 
-                            <ToolbarComponent user={localUser}
-                            camStatusChanged={this.camStatusChanged}
-                            micStatusChanged={this.micStatusChanged}
+                          {subGamer.userName === this.state.myUserName && (
+                            <ToolbarComponent
+                              user={localUser}
+                              camStatusChanged={this.camStatusChanged}
+                              micStatusChanged={this.micStatusChanged}
                             />
-                          }
+                          )}
                         </div>
                       )}
                     </div>
