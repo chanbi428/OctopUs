@@ -19,7 +19,13 @@ import {
   updateRoomChief,
 } from "../../../../features/waiting/waitSlice";
 import { gamerUserList } from "../../../../features/gamer/gamerActions";
-import { setGamerInit, setUserList, setReporter } from "../../../../features/gamer/gamerSlice";
+import {
+  setGamerInit,
+  setUserList,
+  setReporter,
+  setMessageListReset,
+  setGameStatus,
+} from "../../../../features/gamer/gamerSlice";
 import { BASE_URL } from "../../../../api/BASE_URL";
 import Timer from "../../Timer";
 
@@ -124,6 +130,7 @@ class ChatComponent extends Component {
           this.props.gamerData
         );
         if (data.page === 1) {
+          this.props.setMessageListReset();
           console.log("1페이지다", this.props.gamerData.job);
           // 크레이지 경찰
           if (this.props.gamerData.job == "크레이지경찰") {
@@ -163,24 +170,39 @@ class ChatComponent extends Component {
           }
         }
         if (data.page === 2) {
+          console.log("pickUser 초기화");
+          this.props.resetPickUser();
           //if (this.props.gamerData.host === this.props.gamerData.userName) {
           axios
-            .get(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
+            .put(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
             .then((res) => {
               console.log("host가 밤 초기화");
             });
           //}
-          console.log("pickUser 초기화");
-          this.state.pickUser = "";
         }
+        if (data.page === 8) {
+          console.log("pickUser 초기화");
+          this.props.resetPickUser();
+        }
+        // 다영 추가
+        // if (data.page === 11) {
+        //   console.log("VOTE : pickUser 초기화");
+        //   this.props.resetPickUser();
+        //   axios
+        //     .put(`${BASE_URL}/vote/initialization/${this.props.gamerData.roomId}`)
+        //     .then((res) => {
+        //       console.log("HOST : VOTE TABLE에서 VOTE 초기화");
+        //     });
+        // }
         const obj = {
           minigameResult: this.props.gamerData.minigameResult,
           job: this.props.gamerData.job,
-          hasSkill: this.props.gamerData.hasSkill,
+          hasSkill: this.props.getHasSkill(),
           isDead: this.props.gamerData.isDead,
           shark: this.props.gamerData.shark,
           fisher: this.props.gamerData.fisher,
           reporter: this.props.getPickUser(),
+          // vote: this.propss.getPickUser(), // 다영 추가
         };
         console.log("change repoter 값", this.props.gamerData.reporter);
         setTimeout(() => {
@@ -229,6 +251,30 @@ class ChatComponent extends Component {
         // });
         //if (this.props.gamerData.host === this.props.gamerData.userName) {
         //}
+      });
+      // 다영 수정
+      this.props.user.getStreamManager().stream.session.on("signal:voteEnd", (event) => {
+        // 각자 DB에 업뎃하게 함
+        console.log("VOTE 끝남");
+        console.log("HOST : 각자 VOTE 테이블에 투표 결과 UPDATE! ");
+        this.props.updatePickUserAtVote();
+      });
+
+      this.props.user.getStreamManager().stream.session.on("signal:voteResult", (event) => {
+        const data = JSON.parse(event.data);
+        console.log("VOTE : RECIEVE MESSAGE, MAX VOTES notice받음");
+        console.log("RECEIVED MAX VOTES : ", data.votes.userName);
+        if (data.votes.userName !== "skip") {
+          // 그냥 페이지 테스트용
+          console.log("NO MAX VOTES => 찬반 페이지 PASS");
+          this.props.resetPickUser(); // pickUser reset
+          // this.props.changePage(data.page, data.gameChoice);
+        } else {
+          console.log("MAX VOTES => 찬반 페이지 GO");
+          this.state.localUser.getStreamManager().stream.session.signal({
+            type: "voteGo",
+          });
+        }
       });
     }
     this.scrollToBottom();
@@ -619,6 +665,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     setReporter: (data) => {
       dispatch(setReporter(data));
+    },
+    setMessageListReset: () => {
+      dispatch(setMessageListReset());
+    },
+    setGameStatus: (data) => {
+      dispatch(setGameStatus(data));
     },
   };
 };

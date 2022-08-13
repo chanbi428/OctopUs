@@ -65,4 +65,15 @@ public interface VoteDao extends JpaRepository<Vote, Integer> {
      */
     @Transactional
     Long deleteByRoomId(String roomId);
+
+    /** @brief : updateVote, roomId의 해당하는 vote의 vote 초기화
+     *  @date : 2022-08-13
+     *  @param : roomId
+     *  @return : int
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE vote SET vote = 0 WHERE room_id = ?", nativeQuery = true)
+    int updateByRoomIdForInitialization(String roomId);
 }
