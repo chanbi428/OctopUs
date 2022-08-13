@@ -25,6 +25,7 @@ import {
   setReporter,
   setMessageListReset,
   setGameStatus,
+  updateUserListforDead,
 } from "../../../../features/gamer/gamerSlice";
 import { BASE_URL } from "../../../../api/BASE_URL";
 import Timer from "../../Timer";
@@ -172,6 +173,7 @@ class ChatComponent extends Component {
         if (data.page === 2) {
           console.log("pickUser 초기화");
           this.props.resetPickUser();
+          this.props.setGameStatus({ gameStatus: 1 });
           //if (this.props.gamerData.host === this.props.gamerData.userName) {
           axios
             .put(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
@@ -180,9 +182,10 @@ class ChatComponent extends Component {
             });
           //}
         }
-        if (data.page === 8) {
+        if (data.page === 10) {
           console.log("pickUser 초기화");
           this.props.resetPickUser();
+          this.props.setGameStatus({ gameStatus: 0 });
         }
         // 다영 추가
         // if (data.page === 11) {
@@ -201,7 +204,7 @@ class ChatComponent extends Component {
           isDead: this.props.gamerData.isDead,
           shark: this.props.gamerData.shark,
           fisher: this.props.gamerData.fisher,
-          reporter: this.props.getPickUser(),
+          reporter: this.props.gamerData.job === "기자" ? this.props.getPickUser() : "",
           roomChief: this.props.waitData.roomChief,
           // vote: this.propss.getPickUser(), // 다영 추가
         };
@@ -276,6 +279,15 @@ class ChatComponent extends Component {
             type: "voteGo",
           });
         }
+      });
+      this.props.user.getStreamManager().stream.session.on("signal:dead", (event) => {
+        const data = JSON.parse(event.data);
+        const deadUser = data.userName;
+        console.log(data.userName, "이 죽었습니다고 전부에게 알림");
+        this.props.updateUserListforDead({ userName: deadUser });
+        setTimeout(() => {
+          console.log("죽음처리됐는지 확인", this.props.gamerData.userList);
+        }, 1000);
       });
     }
     this.scrollToBottom();
@@ -672,6 +684,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setGameStatus: (data) => {
       dispatch(setGameStatus(data));
+    },
+    updateUserListforDead: (data) => {
+      dispatch(updateUserListforDead(data));
     },
   };
 };
