@@ -623,16 +623,26 @@ class OpenViduComponent extends Component {
     }
   }
 
-  clickBtnMiniGame = (e) => {
-    if (e === 1) {
-      console.log("낚시게임 리덕스에 저장");
-      this.settingFisher({ fisher: true });
-    } else if (e === 2) {
-      console.log("상어게임 리덕스에 저장");
-      this.settingShark({ shark: true });
-    }
-    this.usingMinigame({ idx: e - 1 });
+  // clickBtnMiniGame = (e) => {
+  //   if (e === 1) {
+  //     console.log("낚시게임 리덕스에 저장");
+  //     this.settingFisher({ fisher: true });
+  //   } else if (e === 2) {
+  //     console.log("상어게임 리덕스에 저장");
+  //     this.settingShark({ shark: true });
+  //   }
+  //   this.usingMinigame({ idx: e - 1 });
+  // };
+
+  clickSharkMiniGame = () => {
+    this.props.setShark()
+    this.usingMinigame({idx : 1})
   };
+
+  clickFisherMiniGame = () => {
+    this.props.setFisher()
+    this.usingMinigame({idx : 0})
+  }
 
   clickBtnGame = (e) => {
     console.log("clickBtnGame : " + e);
@@ -997,10 +1007,10 @@ class OpenViduComponent extends Component {
               ))}
             </div>
             <div className="d-flex flex-column justify-content-between">
-            <div className="mafiaButtons">
+              <div className="mafiaButtons">
                 <p className="icons-property"></p>
                 {this.props.gamerData.minigameList[0] === true ? (
-                  <button onClick={() => this.clickBtnMiniGame(1)} className="mafiaEventBtn">
+                  <button onClick={this.clickFisherMiniGame} className="mafiaEventBtn">
                     <img src="icons/icons8-spinner-lure-50.png" alt="lure event"/>
                   </button>
                 ) : (
@@ -1009,7 +1019,7 @@ class OpenViduComponent extends Component {
                   </button>
                 )}
                 {this.props.gamerData.minigameList[1] === true ? (
-                  <button onClick={() => this.clickBtnMiniGame(2)} className="mafiaEventBtn">
+                  <button onClick={this.clickSharkMiniGame} className="mafiaEventBtn">
                     <img src="icons/icons8-shark-50.png" alt="shark event"/>
                   </button>
                 ) : (
@@ -1657,11 +1667,11 @@ const mapDispatchToProps = (dispatch) => {
     setHasntSkill: (data) => {
       dispatch(hasntSkill(data));
     },
-    setShark: (data) => {
-      dispatch(setShark(data));
+    setShark: () => {
+      dispatch(setShark());
     },
-    setFisher: (data) => {
-      dispatch(setFisher(data));
+    setFisher: () => {
+      dispatch(setFisher());
     },
     useMinigame: (data) => {
       dispatch(useMinigame(data));
