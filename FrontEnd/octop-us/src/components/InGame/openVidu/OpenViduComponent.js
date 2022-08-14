@@ -1026,9 +1026,11 @@ class OpenViduComponent extends Component {
                     )}
                   </div>
                   <div>
-                    <button className="start__btn" onClick={this.clickBtn}>
-                      START
-                    </button>
+                    {this.props.waitData.roomChief === this.state.myUserName &&
+                      <button className="start__btn" onClick={this.clickBtn}>
+                        START
+                      </button>
+                    }
                   </div>
                 </div>
               </div>
