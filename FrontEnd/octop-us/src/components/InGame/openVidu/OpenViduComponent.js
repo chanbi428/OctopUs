@@ -489,9 +489,10 @@ class OpenViduComponent extends Component {
     //   this.props.onClickBtn();
     // }
     // 애니메이션 (밤) 주석하기 (다영)
+    // this.setState({ pickUser: "c5" }); // 투표 테스트용
     this.props.onClickBtn();
     // const startTimer = setTimeout(() => {
-    //   this.setState({ page: 4 });
+    //   this.setState({ page: 13 });
     // }, 2000); // 여기 수정 v
     // return () => clearTimeout(startTimer);
 
@@ -672,10 +673,23 @@ class OpenViduComponent extends Component {
   // 찬반 버튼 누르면 state.agree가 바뀜
 
   selectAgree = (e) => {
-    e.preventDefault();
-    this.setState({ agree: !this.state.agree });
-    console.log("찬성여부" + this.state.agree);
+    this.setState({ agree: true });
+    console.log("AGREE VOTE 찬성 여부 : " + this.state.agree);
+    // 다영 테스트 지워야함
+    // this.state.localUser.getStreamManager().stream.session.signal({
+    //   type: "agreeVoteEnd",
+    // });
   };
+  // 다영 수정
+  selectDisAgree = (e) => {
+    this.setState({ agree: false });
+    console.log("AGREE VOTE 찬성 여부 : " + this.state.agree);
+    // 다영 테스트 지워야함
+    // this.state.localUser.getStreamManager().stream.session.signal({
+    //   type: "agreeVoteEnd",
+    // });
+  };
+
   clickBtnAuto() {
     this.state.voteWaitPageStart = 1;
   }
@@ -827,7 +841,6 @@ class OpenViduComponent extends Component {
     }, 1000);
   };
 
-  // 다영 수정
   voteResult() {
     axios.get(`${BASE_URL}/votes/max/${this.props.gamerData.roomId}`).then((res) => {
       console.log("투표 결과 확인!", res.data);
@@ -846,6 +859,116 @@ class OpenViduComponent extends Component {
       });
     });
   }
+
+  // 다영 수정
+  updatePickUserAtAgreeVote = () => {
+    console.log("AGREE VOTE한 PICK USER 들어옴", this.state.pickUser);
+    const data = {
+      idx: 0,
+      roomId: 0,
+      userName: this.state.pickUser,
+      vote: 0,
+    };
+    if (this.state.agree) {
+      // 찬성
+      axios
+        .put(`${BASE_URL}/votes/agree`, JSON.stringify(data), {
+          headers: {
+            "Content-Type": `application/json`,
+          },
+        })
+        .then((res) => {
+          console.log(data);
+          console.log("처형 찬성!", data);
+        });
+    } else {
+      // 반대
+      axios
+        .put(`${BASE_URL}/votes/disagree`, JSON.stringify(data), {
+          headers: {
+            "Content-Type": `application/json`,
+          },
+        })
+        .then((res) => {
+          console.log("처형 반대!", data);
+        });
+    }
+    setTimeout(() => {
+      this.agreeVoteResult();
+    }, 1000);
+  };
+
+  agreeVoteResult = () => {
+    axios.get(`${BASE_URL}/votes/${this.state.pickUser}`).then((res) => {
+      console.log("투표 결과 확인!", res.data);
+
+      console.log("AGREE VOTE : SEND MESSAGE, NOTICE 감지");
+      console.log("AGREE VOTE RESULT : ", res.data.vote);
+
+      const data = {
+        votes: res.data,
+        nickname: "사회자",
+        streamId: this.state.localUser.getStreamManager().stream.streamId,
+      };
+      this.state.localUser.getStreamManager().stream.session.signal({
+        data: JSON.stringify(data),
+        type: "agreeVoteResult",
+      });
+    });
+  };
+
+  killPickUser = () => {
+    console.log("AGREE VOTE한 PICK USER : ", this.state.pickUser);
+    var pickUserJob = "";
+    this.props.gamerData.userList.map((user, i) => {
+      if (this.state.pickUser === user.userName) {
+        pickUserJob = user.gameJob;
+      }
+    });
+    console.log("AGREE VOTE , PICK USER's JOB : ", pickUserJob);
+    // 재간둥이 인 지 확인
+    if (pickUserJob === "재간둥이") {
+      axios.put(`${BASE_URL}/gamers/isvictory/userName/${this.state.pickUser}`).then((res) => {
+        console.log(res);
+        console.log("AGREE VOTE : 처형 => 재간둥이 O => 종료 페이지 GO");
+        console.log("AGREE VOTE : 재간둥이 승리!!");
+
+        // 게임 종료 부르기 ( 다영 수정)
+        this.state.localUser.getStreamManager().stream.session.signal({
+          type: "gameEnd",
+        });
+      });
+    } else {
+      console.log("AGREE VOTE : 처형 => 재간둥이 X => 처형 페이지 GO");
+      const data = {
+        idx: 0,
+        roomId: 0,
+        userName: this.state.pickUser,
+        vote: 0,
+      };
+
+      axios
+        .put(`${BASE_URL}/gamers/dead`, JSON.stringify(data), {
+          headers: {
+            "Content-Type": `application/json`,
+          },
+        })
+        .then((res) => {
+          console.log(data);
+          console.log("AGREE VOTE : 처형!!", data);
+
+          // 리덕스 죽음 처리
+          this.state.localUser.getStreamManager().stream.session.signal({
+            data: JSON.stringify(data),
+            type: "dead",
+          });
+          // 처형페이지 이동
+          this.state.localUser.getStreamManager().stream.session.signal({
+            type: "agreeVoteGo",
+          });
+        });
+    }
+  };
 
   render() {
     const mySessionId = this.props.sessionName; // !== undefined ? this.props.sessionName : "SessionA";
@@ -889,6 +1012,8 @@ class OpenViduComponent extends Component {
                       getHasSkill={this.getHasSkill}
                       updatePickUserAtVote={this.updatePickUserAtVote}
                       getGamerData={this.getGamerData}
+                      updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
+                      killPickUser={this.killPickUser}
                     />
                   </div>
                 )}
@@ -906,9 +1031,11 @@ class OpenViduComponent extends Component {
                     )}
                   </div>
                   <div>
-                    <button className="start__btn" onClick={this.clickBtn}>
-                      START
-                    </button>
+                    {this.props.waitData.roomChief === this.state.myUserName &&
+                      <button className="start__btn" onClick={this.clickBtn}>
+                        START
+                      </button>
+                    }
                   </div>
                 </div>
               </div>
@@ -972,6 +1099,8 @@ class OpenViduComponent extends Component {
                     resetPickUser={this.resetPickUser}
                     getHasSkill={this.getHasSkill}
                     getGamerData={this.getGamerData}
+                    updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
+                    killPickUser={this.killPickUser}
                   />
                 </div>
               </div>
@@ -1071,6 +1200,8 @@ class OpenViduComponent extends Component {
                     getHasSkill={this.getHasSkill}
                     updatePickUserAtVote={this.updatePickUserAtVote}
                     getGamerData={this.getGamerData}
+                    updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
+                    killPickUser={this.killPickUser}
                   />
                 </div>
               </div>
@@ -1176,6 +1307,8 @@ class OpenViduComponent extends Component {
                     getHasSkill={this.getHasSkill}
                     updatePickUserAtVote={this.updatePickUserAtVote}
                     getGamerData={this.getGamerData}
+                    updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
+                    killPickUser={this.killPickUser}
                   />
                 </div>
               </div>
@@ -1255,6 +1388,8 @@ class OpenViduComponent extends Component {
                   getHasSkill={this.getHasSkill}
                   updatePickUserAtVote={this.updatePickUserAtVote}
                   getGamerData={this.getGamerData}
+                  updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
+                  killPickUser={this.killPickUser}
                 />
               </div>
             </div>
@@ -1353,6 +1488,8 @@ class OpenViduComponent extends Component {
                   getHasSkill={this.getHasSkill}
                   updatePickUserAtVote={this.updatePickUserAtVote}
                   getGamerData={this.getGamerData}
+                  updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
+                  killPickUser={this.killPickUser}
                 />
               </div>
             </div>
@@ -1454,6 +1591,8 @@ class OpenViduComponent extends Component {
                   getHasSkill={this.getHasSkill}
                   updatePickUserAtVote={this.updatePickUserAtVote}
                   getGamerData={this.getGamerData}
+                  updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
+                  killPickUser={this.killPickUser}
                 />
               </div>
             </div>
@@ -1510,10 +1649,24 @@ class OpenViduComponent extends Component {
               <div id="layout" className="voted-bounds">
                 {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                   <div className="OT_root OT_publisher custom-class" id="localUser">
-                    <StreamComponent user={localUser} />
-                    {this.state.agree === true && (
-                      <ExecutionPage streamId={localUser.streamManager.stream.streamId} />
-                    )}
+                    {this.props.gamerData.userList.slice(0, 8).map((subGamer, i) => (
+                      <div>
+                        {subGamer.userName === this.state.pickUser ? (
+                          <StreamComponent
+                            user={
+                              subGamer.subIdx === undefined
+                                ? localUser
+                                : this.state.subscribers[subGamer.subIdx]
+                            }
+                          />
+                        ) : (
+                          <div></div>
+                        )}
+                        {this.state.agree === true && (
+                          <ExecutionPage streamId={localUser.streamManager.stream.streamId} />
+                        )}
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
@@ -1526,7 +1679,7 @@ class OpenViduComponent extends Component {
                   찬성
                 </button>
                 <button
-                  onClick={(e) => this.selectAgree(e)}
+                  onClick={(e) => this.selectDisAgree(e)}
                   disabled={this.state.agree === false ? true : false}
                   className="agree__btn"
                 >

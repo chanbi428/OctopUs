@@ -139,7 +139,7 @@ export const NightOctopi = () => {
                 className="octopus"
                 src="images/octopus/blue.gif"
                 alt="octopus7.gif"
-								id="#num_svn"
+								id="num_svn"
               />
             )}
           </div>

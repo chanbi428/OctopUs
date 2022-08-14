@@ -160,6 +160,29 @@ const gamerSlice = createSlice({
     setTurnCheck: (state) => {
       state.gameturn++;
     },
+    resetGamer: (state) => {
+      state.gameStatus = 0;
+      state.loading = false;
+      state.error = null;
+      state.roomId = null;
+      state.userName = null;
+      state.job = null;
+      state.hasSkill = true;
+      state.isDead = false;
+      state.host = "";
+      state.idx = 0;
+      state.minigameList = [true, true, true];
+      state.minigameResult =  false;
+      state.userList = null;
+      state.messageList = [];
+      state.subscribers = null;
+      state.shark = false;
+      state.fisher = false;
+      state.reporter = "가가";
+      state.localUser = null;
+      state.pickUser = "";
+      state.gameturn = 0;
+    },
   },
   extraReducers: {
     /*
@@ -274,6 +297,7 @@ export const {
   setLocalUser,
   setPickUser,
   setTurnCheck,
+  resetGamer,
 } = gamerSlice.actions;
 
 export default gamerSlice.reducer;
