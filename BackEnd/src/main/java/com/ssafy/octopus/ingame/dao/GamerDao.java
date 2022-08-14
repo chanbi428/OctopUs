@@ -70,6 +70,24 @@ public interface GamerDao extends JpaRepository<Gamer, Integer> {
     @Query(value = "SELECT count(*) FROM gamer WHERE is_dead = 0 AND room_id = ? AND game_team = ?", nativeQuery = true)
     public int countAlive(String roomId, String gameTeam);
 
+    /** @brief : countAliveAll, 살아있는 사람의 수
+     *  @date : 2022-08-14
+     *  @param : roomId, gameTeam
+     *  @return : int
+     *  @author : BCB
+     */
+    @Query(value = "SELECT count(*) FROM gamer WHERE is_dead = 0 AND room_id = ?", nativeQuery = true)
+    public int countAliveAll(String roomId);
+
+    /** @brief : isMayorAlive, 시장 살아있는지 죽었는지
+     *  @date : 2022-08-14
+     *  @param : roomId
+     *  @return : int
+     *  @author : BCB
+     */
+    @Query(value = "SELECT is_dead FROM gamer WHERE room_id = ? AND game_job = '시장'", nativeQuery = true)
+    public int isMayorAlive(String roomId);
+
 
     /** @brief : setDead, 죽었을 때 처리
      *  @date : 2022-08-01
