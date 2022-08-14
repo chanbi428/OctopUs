@@ -6,15 +6,17 @@ import { faAsterisk } from "@fortawesome/free-solid-svg-icons";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
 import "./DayToNightLoading.css";
 
-const DayToNightLoading = ({ page }) => {
+const DayToNightLoading = (props) => {
   const dispatch = useDispatch();
   const { gameturn } = useSelector((state) => state.gamer);
 
   useEffect(() => {
-    if (page === 2) {
+    if (props.page === 2) {
       dispatch(setTurnCheck());
+      // console.log("props", props);
+      props.checkGameTurn();
     }
-  }, [page]);
+  }, []);
   return (
     <div className="moon-page">
       <div className="wrap-moon">
