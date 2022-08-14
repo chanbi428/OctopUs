@@ -105,6 +105,7 @@ class OpenViduComponent extends Component {
     this.micStatusChanged = this.micStatusChanged.bind(this);
     this.toggleChat = this.toggleChat.bind(this);
     this.changePerson = this.changePerson.bind(this);
+    this.checkGameTurn = this.checkGameTurn.bind(this);
   }
 
   timer(time, user, page, flag, obj) {
@@ -1004,6 +1005,32 @@ class OpenViduComponent extends Component {
         });
     }
   };
+  // 15턴 게임횟수 세는 함수 (다영 수정)
+  checkGameTurn = () => {
+    console.log("현재 GAME TURN : ", this.props.gamerData.gameturn);
+
+    let pathName = document.location.pathname.replace("/", "");
+    let victoryUsers = [];
+
+    if (this.props.gamerData.gameturn === 15) {
+      if (this.props.gamerData.userName === this.props.waitData.roomChief) {
+        const gameTeam = "마피아";
+        axios
+          .put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${gameTeam}`)
+          .then((res) => {
+            axios
+              .get(`${BASE_URL}/gamers/winners`)
+              .then((res) => {
+                victoryUsers = res.data.map((row) => row.userName);
+                this.setVictoryUser(victoryUsers);
+                console.log("종료 페이지로 이동 !");
+              })
+              .catch((err) => console.log(err));
+          })
+          .catch((err) => console.log(err));
+      }
+    }
+  };
 
   render() {
     const mySessionId = this.props.sessionName; // !== undefined ? this.props.sessionName : "SessionA";
@@ -1090,7 +1117,8 @@ class OpenViduComponent extends Component {
         )}
         {this.state.page === 2 && ( // 밤 애니메이션
           <div>
-            <DayToNightLoading page={this.state.page} />
+            {/* 다영 수정 */}
+            <DayToNightLoading page={this.state.page} checkGameTurn={this.checkGameTurn} />
           </div>
         )}
         {/* 밤페이지 - 밤역할 수행 x (시장, 재간둥이, 능력 쓴 기자) */}
