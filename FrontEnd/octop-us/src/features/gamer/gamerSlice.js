@@ -142,7 +142,16 @@ const gamerSlice = createSlice({
       state.job = payload.job;
     },
     setMessageList: (state, { payload }) => {
-      state.messageList = [...state.messageList, payload.message];
+      //state.messageList = [...state.messageList, payload.message];
+      if (
+        state.messageList.length != 0 &&
+        state.messageList.at(-1).nickname == "사회자" &&
+        state.messageList.at(-1).job == state.job
+      ) {
+        console.log("추가하지않음");
+      } else {
+        state.messageList = [...state.messageList, payload.message];
+      }
     },
     setMessageListReset: (state) => {
       state.messageList = [];
