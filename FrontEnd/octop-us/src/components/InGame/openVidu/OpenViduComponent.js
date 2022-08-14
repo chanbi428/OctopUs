@@ -921,7 +921,11 @@ class OpenViduComponent extends Component {
           </div>
         )}
         {/* 밤페이지 - 밤역할 수행 x (시장, 재간둥이, 능력 쓴 기자) */}
-        {this.state.page === 3 && (
+        {this.state.page === 3 && 
+        this.props.gamerData.isDead === false &&
+        (this.props.gamerData.job === "시장" ||
+        this.props.gamerData.job === "재간둥이" ||
+        (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === false)) && (
           <div className="d-flex justify-content-between">
             <div>
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
@@ -973,15 +977,13 @@ class OpenViduComponent extends Component {
           </div>
         )}
         {/* 밤페이지 - 밤역할 수행 o (마피아) */}
-        {this.state.page === 4 && (
+        {this.state.page === 3 && this.props.gamerData.isDead === false && this.props.gamerData.job === "마피아" && (
           <div className="d-flex justify-content-between">
             <div>
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div
                   id="layout"
-                  className={
-                    this.state.speakingUsers[i] ? "ingame-bounds-speaking" : "ingame-bounds"
-                  }
+                  className={"ingame-bounds"}
                   onClick={(e) => this.selectPerson(subGamer, e)}
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
@@ -1056,9 +1058,7 @@ class OpenViduComponent extends Component {
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
                 <div
                   id="layout"
-                  className={
-                    this.state.speakingUsers[i + 4] ? "ingame-bounds-speaking" : "ingame-bounds"
-                  }
+                  className={"ingame-bounds"}
                   onClick={(e) => this.selectPerson(subGamer, e)}
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
@@ -1093,7 +1093,12 @@ class OpenViduComponent extends Component {
           </div>
         )}
         {/* 밤페이지 - 밤역할 수행 o 의사, 경찰, 능력있는 기자 */}
-        {this.state.page === 5 && (
+        {this.state.page === 3 && 
+        this.props.gamerData.isDead === false &&
+        (this.props.gamerData.job === "의사" ||
+        this.props.gamerData.job === "경찰" ||
+        this.props.gamerData.job === "크레이지경찰" ||
+        (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === true)) && (
           <div className="d-flex justify-content-between">
             {console.log("start police")}
             <div>
@@ -1190,7 +1195,7 @@ class OpenViduComponent extends Component {
           </div>
         )}
         {/* 밤페이지 - 밤역할 수행 x (죽은 사람) */}
-        {this.state.page === 6 && (
+        {this.state.page === 3 && this.props.gamerData.isDead === true && (
           <div className="d-flex justify-content-between">
             <div>
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
