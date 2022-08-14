@@ -94,6 +94,7 @@ class OpenViduComponent extends Component {
       speakingUsers: [0, 0, 0, 0, 0, 0, 0, 0],
       timer: 0,
       hasSkill: true,
+      killed: "없음",
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -771,16 +772,20 @@ class OpenViduComponent extends Component {
           //});
         }
       });
-    if (this.props.gamerData.job === "기자" && this.state.pickUser != "") {
-      console.log("기자가 리덕스에 값 저장");
-      this.props.setReporter({ reporter: this.state.pickUser });
-      this.setState({ hasSkill: false });
-    }
+    setTimeout(() => {
+      this.nightResult();
+    }, 1000);
   };
 
   nightResult() {
     axios.get(`${BASE_URL}/nights/result/${this.props.gamerData.roomId}`).then((res) => {
       console.log("밤 결과 확인!", res.data);
+      this.setState({ killed: res.data.userName });
+      console.log("killed  state에 잘 들어갔는지 확인!!", this.state.killed);
+      if (res.data.userName != "없음") {
+        console.log("누가 죽었니?", res.data.userName);
+        this.props.updateUserListforDead({ userName: res.data.userName });
+      }
     });
   }
 
@@ -1447,7 +1452,7 @@ class OpenViduComponent extends Component {
          */}
         {this.state.page === 8 && (
           <div>
-            <DeathResultComponent user={this.state.localUser} />
+            <DeathResultComponent user={this.state.localUser} killed={this.state.killed} />
           </div>
         )}
         {/* 기자 결과s
@@ -1911,6 +1916,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setReporter: (data) => {
       dispatch(setReporter(data));
+    },
+    updateUserListforDead: (data) => {
+      dispatch(updateUserListforDead(data));
     },
   };
 };

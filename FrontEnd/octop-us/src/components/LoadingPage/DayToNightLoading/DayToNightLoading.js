@@ -16,7 +16,7 @@ const DayToNightLoading = ({ page }) => {
     }
   }, [page]);
   return (
-    <div>
+    <div className="moon-page">
       <div className="wrap-moon">
         <div className="circle-moon">
           <div className="wave-one-moon"></div>
