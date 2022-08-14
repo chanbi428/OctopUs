@@ -559,7 +559,18 @@ class OpenViduComponent extends Component {
       }
 
       if (this.props.gamerData.job === "기자") {
-        this.settingHasntSkill();
+        if (this.state.hasSkill === true) {
+          if (gamer.userName === this.props.gamerData.userName) {
+            console.log("자기 자신은 선택 X");
+          } else if (this.state.pickUser === gamer.userName) {
+            this.setState({ pickUser: "" });
+            console.log("reporterpick 같은 유저 선택", this.state.pickUser)
+          } else if (gamer.isDead === false) {
+            // console.log(g)
+            this.setState({ pickUser: gamer.userName });
+            console.log("reporterpick 지금 기자가 밤에 찍은 사람 누구?", this.state.pickUser)
+          }
+        } 
         console.log(
           "기자 능력 확인 : ",
           this.props.gamerData.hasSkill === false ? "사용" : "미사용"
@@ -773,6 +784,8 @@ class OpenViduComponent extends Component {
             });
           });
           //});
+        } else if (this.props.gamerData.job === "기자" && this.state.pickUser !== "") {
+          this.settingHasntSkill();
         }
       });
     setTimeout(() => {
@@ -1191,8 +1204,9 @@ class OpenViduComponent extends Component {
                     className={"ingame-bounds"}
                     onClick={(e) => this.selectPerson(subGamer, e)}
                   >
-                    <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                      {subGamer.userName === this.state.pickUser && <p>투표</p>}
+                    <div key={i} 
+                    className={subGamer.userName === this.state.pickUser ? "OT_root OT_publisher custom-class ingame_picked_user":  "OT_root OT_publisher custom-class"}
+                    id="remoteUsers">
                       {subGamer.isDead === true ? (
                         <img src="images/deadOcto.png" width="200" />
                       ) : subGamer.gameJob !== "마피아" ? (
@@ -1272,8 +1286,10 @@ class OpenViduComponent extends Component {
                     className={"ingame-bounds"}
                     onClick={(e) => this.selectPerson(subGamer, e)}
                   >
-                    <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                      {subGamer.userName === this.state.pickUser && <p>투표</p>}
+                    <div key={i} 
+                    className={subGamer.userName === this.state.pickUser ? "OT_root OT_publisher custom-class ingame_picked_user":  "OT_root OT_publisher custom-class"}
+                    id="remoteUsers">
+
                       {subGamer.isDead === true ? (
                         <img src="images/deadOcto.png" width="200" />
                       ) : subGamer.gameJob !== "마피아" ? (
@@ -1319,8 +1335,9 @@ class OpenViduComponent extends Component {
                     className="ingame-bounds"
                     onClick={(e) => this.selectVoteAtNight(subGamer, e)}
                   >
-                    <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                      {subGamer.userName === this.state.pickUser && <p>투표</p>}
+                    <div key={i} 
+                    className={subGamer.userName === this.state.pickUser ? "OT_root OT_publisher custom-class ingame_picked_user":  "OT_root OT_publisher custom-class"}
+                    id="remoteUsers">
                       {subGamer.isDead === true ? (
                         <img src="images/deadOcto.png" width="200" />
                       ) : subGamer.userName !== this.props.gamerData.userName ? (
@@ -1348,6 +1365,10 @@ class OpenViduComponent extends Component {
               <div className="d-flex flex-column justify-content-between">
                 <div>
                   <NightOctopi />
+                </div>
+                <div>
+                  { this.state.hasSkill === true &&
+                  <p className="reporter-skill-button"><img src="icons/icons8-news-50.png"/> 기자 능력 사용 가능 </p>}
                 </div>
                 <div className="aaaaa" style={chatDisplay}>
                   <ChatComponent
@@ -1379,8 +1400,9 @@ class OpenViduComponent extends Component {
                     className="ingame-bounds"
                     onClick={(e) => this.selectVoteAtNight(subGamer, e)}
                   >
-                    <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                      {subGamer.userName === this.state.pickUser && <p>투표</p>}
+                    <div key={i} 
+                    className={subGamer.userName === this.state.pickUser ? "OT_root OT_publisher custom-class ingame_picked_user":  "OT_root OT_publisher custom-class"}
+                    id="remoteUsers">
                       {subGamer.isDead === true ? (
                         <img src="images/deadOcto.png" width="200" />
                       ) : subGamer.userName !== this.props.gamerData.userName ? (
