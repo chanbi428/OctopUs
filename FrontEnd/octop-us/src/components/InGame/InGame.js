@@ -10,11 +10,17 @@ import RoundComponent from "./components/JobComponents/RoundComponent";
 import exitRoom from "../../features/waiting/exitRoom";
 import ClickStart from "../../features/waiting/ClickStart";
 import { BASE_URL } from "../../api/BASE_URL";
-import { updateRoomId, updateUserList, updateRoomChief } from "../../features/waiting/waitSlice";
+import {
+  updateRoomId,
+  updateUserList,
+  updateRoomChief,
+} from "../../features/waiting/waitSlice";
 
 const InGame = () => {
   const [page, setPage] = useState(0);
-  const [sessionName, setSessionName] = useState(document.location.pathname.slice(1));
+  const [sessionName, setSessionName] = useState(
+    document.location.pathname.slice(1)
+  );
   const [roomName, setRoomName] = useState("RoomA");
   const [hostName, setHostName] = useState("HostA");
   const [gameNum, setGameNum] = useState(0);
@@ -27,7 +33,7 @@ const InGame = () => {
   const { personNum } = useSelector((state) => state.wait);
   const { roomPw } = useSelector((state) => state.wait);
   const { isPrivate } = useSelector((state) => state.wait);
-  const { gameTime }= useSelector((state) => state.wait);
+  const { gameTime } = useSelector((state) => state.wait);
 
   console.log("인게임 렌더링", roomId, userList);
 
@@ -35,7 +41,8 @@ const InGame = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const tmpSessions = location.pathname !== undefined ? location.pathname : "SessionA";
+    const tmpSessions =
+      location.pathname !== undefined ? location.pathname : "SessionA";
     getRoomName();
     console.log("tmpRoomName : " + roomName);
     console.log("tmpSessions : " + tmpSessions);
@@ -43,7 +50,9 @@ const InGame = () => {
   }, [location]);
 
   async function getRoomName() {
-    const { data } = await axios.get(`/rooms/detail/roomid${location.pathname}`);
+    const { data } = await axios.get(
+      `/rooms/detail/roomid${location.pathname}`
+    );
     console.log("parse Room data : " + JSON.stringify(data));
     setRoomName(data.roomName);
     setHostName(data.roomChief);
@@ -104,11 +113,11 @@ const InGame = () => {
   return (
     <div>
       <div id="parent-div">
-        <div 
-        // className="m-4"
-        className="mt-4"
+        <div
+          // className="m-4"
+          className="mt-4"
         >
-          <RoundComponent gameNum={gameNum} />
+          {/* <RoundComponent gameNum={gameNum} /> */}
           <OpenViduComponent
             onClickBtn={GameStartClickBtn}
             clickExitBtn={clickExitBtn}
@@ -117,7 +126,7 @@ const InGame = () => {
             roomName={roomName}
             ref={chatRef}
             host={hostName}
-            personNum={personNum} 
+            personNum={personNum}
             roomId={roomId}
             roomChief={roomChief}
             isPrivate={isPrivate}
