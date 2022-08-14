@@ -1,5 +1,3 @@
-VoteDoneAnimationComponent
-
 function VoteDoneAnimationComponent(props) {
   return (
     <div >
