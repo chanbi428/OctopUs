@@ -75,6 +75,9 @@ const FishingComponent = (props) => {
     agreeVoteGo: false, // 찬반투표결과(처형 할지 안할지)
   };
 
+  // gamestart -> gametutorial -> startcount(3, 2, 1, go! 뜨는 부분) -> fishingGame으로 넘어오는 구조입니다
+  // startcount -> fishinggame 변하는 부분으로 앞에 낚시게임 시작 애니메이션 - 튜토리얼 - 3, 2, 1, Go! 까지 15초
+  // 15초 후에 fishingGame을 띄우기 위해 사용했습니다.
   useEffect(() => {
     if (!startChange) {
       const startTimer = setTimeout(() => {
