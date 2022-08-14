@@ -183,15 +183,10 @@ class ChatComponent extends Component {
           this.props.setGameStatus({ gameStatus: 0 });
         }
         // 다영 추가
-        // if (data.page === 11) {
-        //   console.log("VOTE : pickUser 초기화");
-        //   this.props.resetPickUser();
-        //   axios
-        //     .put(`${BASE_URL}/vote/initialization/${this.props.gamerData.roomId}`)
-        //     .then((res) => {
-        //       console.log("HOST : VOTE TABLE에서 VOTE 초기화");
-        //     });
-        // }
+        if (data.page === 11) {
+          console.log("VOTE : pickUser 초기화");
+          this.props.resetPickUser();
+        }
         const obj = {
           minigameResult: this.props.getGamerData().minigameResult,
           job: this.props.gamerData.job,
@@ -201,7 +196,7 @@ class ChatComponent extends Component {
           fisher: this.props.getGamerData().fisher,
           reporter: this.props.gamerData.job === "기자" ? this.props.getPickUser() : "",
           roomChief: this.props.waitData.roomChief,
-          // vote: this.propss.getPickUser(), // 다영 추가
+          vote: this.props.getPickUser(), // 다영 추가
         };
         console.log("change repoter 값", this.props.gamerData.reporter);
         setTimeout(() => {
@@ -262,6 +257,26 @@ class ChatComponent extends Component {
           this.state.localUser.getStreamManager().stream.session.signal({
             type: "voteGo",
           });
+        }
+      });
+      // 다영 수정
+      this.props.user.getStreamManager().stream.session.on("signal:agreeVoteEnd", (event) => {
+        // 각자 DB에 업뎃하게 함
+        console.log("찬반 투표 (AGREE VOTE 끝남)");
+        console.log("HOST : 각자 AGREE VOTE 테이블에 투표 결과 UPDATE! ");
+        this.props.updatePickUserAtAgreeVote();
+      });
+      this.props.user.getStreamManager().stream.session.on("signal:agreeVoteResult", (event) => {
+        const data = JSON.parse(event.data);
+        console.log("AGREE VOTE : RECIEVE MESSAGE, VOTE notice받음");
+        console.log("RECEIVED VOTE : ", data.votes.vote);
+        if (data.votes.vote > 0) {
+          console.log("AGREE VOTE : 처형");
+          // 처형처리
+          this.props.killPickUser();
+        } else {
+          console.log("AGREE VOTE : 처형 X => 처형X 결과 페이지 GO");
+          // 페이지 이동 (페이지 수정 필요)
         }
       });
       this.props.user.getStreamManager().stream.session.on("signal:dead", (event) => {
