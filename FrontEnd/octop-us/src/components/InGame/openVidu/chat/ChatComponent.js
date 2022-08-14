@@ -69,7 +69,9 @@ class ChatComponent extends Component {
         }, 50);
         if (data.nickname === "사회자" && data.job === this.props.gamerData.job) {
           console.log("경찰 지목이 들어왔다고 알림", message);
-          this.props.setMessageList({ message: message });
+          setTimeout(() => {
+            this.props.setMessageList({ message: message });
+          }, 2000);
         } else {
           if (data.isDead === true && this.props.getGamerData().isDead === true) {
             // 유령
