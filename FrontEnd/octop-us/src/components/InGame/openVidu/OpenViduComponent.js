@@ -28,7 +28,7 @@ import ReporterCard from "../../LoadingPage/JobCard/ReporterCard/ReporterCard";
 import ShowRoom from "../components/WaitingRoomPage/ShowRoom";
 import WaitingRoomPage from "../components/WaitingRoomPage/WaitingRoomPage";
 import DayOctopi from "../components/octopi/DayOctopi";
-import NightOctopi from "../components/octopi/NightOctopi"
+import NightOctopi from "../components/octopi/NightOctopi";
 import MafiaNightOctopi from "../components/octopi/MafiaNightOctopi";
 import "./OpenViduComponent.css";
 
@@ -94,6 +94,7 @@ class OpenViduComponent extends Component {
       speakingUsers: [0, 0, 0, 0, 0, 0, 0, 0],
       timer: 0,
       hasSkill: true,
+      killed: "없음",
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -757,16 +758,20 @@ class OpenViduComponent extends Component {
           //});
         }
       });
-    if (this.props.gamerData.job === "기자" && this.state.pickUser != "") {
-      console.log("기자가 리덕스에 값 저장");
-      this.props.setReporter({ reporter: this.state.pickUser });
-      this.setState({ hasSkill: false });
-    }
+    setTimeout(() => {
+      this.nightResult();
+    }, 1000);
   };
 
   nightResult() {
     axios.get(`${BASE_URL}/nights/result/${this.props.gamerData.roomId}`).then((res) => {
       console.log("밤 결과 확인!", res.data);
+      this.setState({ killed: res.data.userName });
+      console.log("killed  state에 잘 들어갔는지 확인!!", this.state.killed);
+      if (res.data.userName != "없음") {
+        console.log("누가 죽었니?", res.data.userName);
+        this.props.updateUserListforDead({ userName: res.data.userName });
+      }
     });
   }
 
@@ -927,289 +932,291 @@ class OpenViduComponent extends Component {
           </div>
         )}
         {/* 밤페이지 - 밤역할 수행 x (시장, 재간둥이, 능력 쓴 기자) */}
-        {this.state.page === 3 && 
-        this.props.gamerData.isDead === false &&
-        (this.props.gamerData.job === "시장" ||
-        this.props.gamerData.job === "재간둥이" ||
-        (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === false)) && (
-          <div className="d-flex justify-content-between">
-            <div>
-              {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
-                <div id="layout" className="ingame-bounds">
-                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                    {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
-                    ) : (
-                      <img src="images/octoAtNight.png" width="200" />
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="d-flex flex-column justify-content-between">
+        {this.state.page === 3 &&
+          this.props.gamerData.isDead === false &&
+          (this.props.gamerData.job === "시장" ||
+            this.props.gamerData.job === "재간둥이" ||
+            (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === false)) && (
+            <div className="d-flex justify-content-between">
               <div>
-                <NightOctopi />
-              </div>
-              <div className="aaaaa" style={chatDisplay}>
-                <ChatComponent
-                  user={localUser}
-                  chatDisplay={this.state.chatDisplay}
-                  close={this.toggleChat}
-                  settingListForSub={this.settingListForSub}
-                  subscribers={this.state.subscribers}
-                  canSend="false"
-                  changeTime={this.changeTime}
-                  changePage={this.changePage}
-                  clickBtnGame={this.clickBtnGame}
-                  changePerson={this.changePerson}
-                  updatePickUser={this.updatePickUser}
-                  getPickUser={this.getPickUser}
-                  resetPickUser={this.resetPickUser}
-                  getHasSkill={this.getHasSkill}
-                  getGamerData={this.getGamerData}
-                />
-              </div>
-            </div>
-            <div>
-              {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
-                <div id="layout" className="ingame-bounds">
-                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                    {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
-                    ) : (
-                      <img src="images/octoAtNight.png" width="200" />
-                    )}
+                {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
+                  <div id="layout" className="ingame-bounds">
+                    <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
+                      {subGamer.isDead === true ? (
+                        <img src="images/deadOcto.png" width="200" />
+                      ) : (
+                        <img src="images/octoAtNight.png" width="200" />
+                      )}
+                    </div>
                   </div>
+                ))}
+              </div>
+              <div className="d-flex flex-column justify-content-between">
+                <div>
+                  <NightOctopi />
                 </div>
-              ))}
+                <div className="aaaaa" style={chatDisplay}>
+                  <ChatComponent
+                    user={localUser}
+                    chatDisplay={this.state.chatDisplay}
+                    close={this.toggleChat}
+                    settingListForSub={this.settingListForSub}
+                    subscribers={this.state.subscribers}
+                    canSend="false"
+                    changeTime={this.changeTime}
+                    changePage={this.changePage}
+                    clickBtnGame={this.clickBtnGame}
+                    changePerson={this.changePerson}
+                    updatePickUser={this.updatePickUser}
+                    getPickUser={this.getPickUser}
+                    resetPickUser={this.resetPickUser}
+                    getHasSkill={this.getHasSkill}
+                    getGamerData={this.getGamerData}
+                  />
+                </div>
+              </div>
+              <div>
+                {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
+                  <div id="layout" className="ingame-bounds">
+                    <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
+                      {subGamer.isDead === true ? (
+                        <img src="images/deadOcto.png" width="200" />
+                      ) : (
+                        <img src="images/octoAtNight.png" width="200" />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
         {/* 밤페이지 - 밤역할 수행 o (마피아) */}
-        {this.state.page === 3 && this.props.gamerData.isDead === false && this.props.gamerData.job === "마피아" && (
-          <div className="d-flex justify-content-between">
-            <div>
-              {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
-                <div
-                  id="layout"
-                  className={"ingame-bounds"}
-                  onClick={(e) => this.selectPerson(subGamer, e)}
-                >
-                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                    {subGamer.userName === this.state.pickUser && <p>투표</p>}
-                    {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
-                    ) : subGamer.gameJob !== "마피아" ? (
-                      <img src="images/octoAtNight.png" width="200" />
-                    ) : (
-                      <StreamComponent
-                        user={
-                          subGamer.subIdx === undefined
-                            ? localUser
-                            : this.state.subscribers[subGamer.subIdx]
-                        }
-                      />
-                    )}
-                    {subGamer.userName === this.state.myUserName && (
-                      <ToolbarComponent
-                        user={localUser}
-                        camStatusChanged={this.camStatusChanged}
-                        micStatusChanged={this.micStatusChanged}
-                      />
-                    )}
+        {this.state.page === 3 &&
+          this.props.gamerData.isDead === false &&
+          this.props.gamerData.job === "마피아" && (
+            <div className="d-flex justify-content-between">
+              <div>
+                {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
+                  <div
+                    id="layout"
+                    className={"ingame-bounds"}
+                    onClick={(e) => this.selectPerson(subGamer, e)}
+                  >
+                    <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
+                      {subGamer.userName === this.state.pickUser && <p>투표</p>}
+                      {subGamer.isDead === true ? (
+                        <img src="images/deadOcto.png" width="200" />
+                      ) : subGamer.gameJob !== "마피아" ? (
+                        <img src="images/octoAtNight.png" width="200" />
+                      ) : (
+                        <StreamComponent
+                          user={
+                            subGamer.subIdx === undefined
+                              ? localUser
+                              : this.state.subscribers[subGamer.subIdx]
+                          }
+                        />
+                      )}
+                      {subGamer.userName === this.state.myUserName && (
+                        <ToolbarComponent
+                          user={localUser}
+                          camStatusChanged={this.camStatusChanged}
+                          micStatusChanged={this.micStatusChanged}
+                        />
+                      )}
+                    </div>
                   </div>
+                ))}
+              </div>
+              <div className="d-flex flex-column justify-content-between">
+                <div className="mafiaButtons">
+                  <p className="icons-property"></p>
+                  {this.props.gamerData.minigameList[0] === true ? (
+                    <button onClick={this.clickFisherMiniGame} className="mafiaEventBtn">
+                      <img src="icons/icons8-spinner-lure-50.png" alt="lure event" />
+                    </button>
+                  ) : (
+                    <button className="usedEventBtn">
+                      <img src="icons/icons8-spinner-lure-50.png" alt="lure event" />
+                    </button>
+                  )}
+                  {this.props.gamerData.minigameList[1] === true ? (
+                    <button onClick={this.clickSharkMiniGame} className="mafiaEventBtn">
+                      <img src="icons/icons8-shark-50.png" alt="shark event" />
+                    </button>
+                  ) : (
+                    <button className="usedEventBtn">
+                      <img src="icons/icons8-shark-50.png" alt="shark event" />
+                    </button>
+                  )}
                 </div>
-              ))}
-            </div>
-            <div className="d-flex flex-column justify-content-between">
-              <div className="mafiaButtons">
-                <p className="icons-property"></p>
-                {this.props.gamerData.minigameList[0] === true ? (
-                  <button onClick={this.clickFisherMiniGame} className="mafiaEventBtn">
-                    <img src="icons/icons8-spinner-lure-50.png" alt="lure event" />
-                  </button>
-                ) : (
-                  <button className="usedEventBtn">
-                    <img src="icons/icons8-spinner-lure-50.png" alt="lure event" />
-                  </button>
-                )}
-                {this.props.gamerData.minigameList[1] === true ? (
-                  <button onClick={this.clickSharkMiniGame} className="mafiaEventBtn">
-                    <img src="icons/icons8-shark-50.png" alt="shark event" />
-                  </button>
-                ) : (
-                  <button className="usedEventBtn">
-                    <img src="icons/icons8-shark-50.png" alt="shark event" />
-                  </button>
-                )}
+                <div>
+                  <MafiaNightOctopi />
+                </div>
+                <div className="aaaaa" style={chatDisplay}>
+                  <ChatComponent
+                    user={localUser}
+                    chatDisplay={this.state.chatDisplay}
+                    close={this.toggleChat}
+                    settingListForSub={this.settingListForSub}
+                    subscribers={this.state.subscribers}
+                    canSend="true"
+                    changeTime={this.changeTime}
+                    changePage={this.changePage}
+                    clickBtnGame={this.clickBtnGame}
+                    changePerson={this.changePerson}
+                    updatePickUser={this.updatePickUser}
+                    getPickUser={this.getPickUser}
+                    resetPickUser={this.resetPickUser}
+                    getHasSkill={this.getHasSkill}
+                    updatePickUserAtVote={this.updatePickUserAtVote}
+                    getGamerData={this.getGamerData}
+                  />
+                </div>
               </div>
               <div>
-                <MafiaNightOctopi />
-              </div>
-              <div className="aaaaa" style={chatDisplay}>
-                <ChatComponent
-                  user={localUser}
-                  chatDisplay={this.state.chatDisplay}
-                  close={this.toggleChat}
-                  settingListForSub={this.settingListForSub}
-                  subscribers={this.state.subscribers}
-                  canSend="true"
-                  changeTime={this.changeTime}
-                  changePage={this.changePage}
-                  clickBtnGame={this.clickBtnGame}
-                  changePerson={this.changePerson}
-                  updatePickUser={this.updatePickUser}
-                  getPickUser={this.getPickUser}
-                  resetPickUser={this.resetPickUser}
-                  getHasSkill={this.getHasSkill}
-                  updatePickUserAtVote={this.updatePickUserAtVote}
-                  getGamerData={this.getGamerData}
-                />
+                {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
+                  <div
+                    id="layout"
+                    className={"ingame-bounds"}
+                    onClick={(e) => this.selectPerson(subGamer, e)}
+                  >
+                    <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
+                      {subGamer.userName === this.state.pickUser && <p>투표</p>}
+                      {subGamer.isDead === true ? (
+                        <img src="images/deadOcto.png" width="200" />
+                      ) : subGamer.gameJob !== "마피아" ? (
+                        <img src="images/octoAtNight.png" width="200" />
+                      ) : (
+                        <StreamComponent
+                          user={
+                            subGamer.subIdx === undefined
+                              ? localUser
+                              : this.state.subscribers[subGamer.subIdx]
+                          }
+                        />
+                      )}
+                      {subGamer.userName === this.state.myUserName && (
+                        <ToolbarComponent
+                          user={localUser}
+                          camStatusChanged={this.camStatusChanged}
+                          micStatusChanged={this.micStatusChanged}
+                        />
+                      )}
+                    </div>
+                    <div>
+                      <p>투표</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-            <div>
-              {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
-                <div
-                  id="layout"
-                  className={"ingame-bounds"}
-                  onClick={(e) => this.selectPerson(subGamer, e)}
-                >
-                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                    {subGamer.userName === this.state.pickUser && <p>투표</p>}
-                    {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
-                    ) : subGamer.gameJob !== "마피아" ? (
-                      <img src="images/octoAtNight.png" width="200" />
-                    ) : (
-                      <StreamComponent
-                        user={
-                          subGamer.subIdx === undefined
-                            ? localUser
-                            : this.state.subscribers[subGamer.subIdx]
-                        }
-                      />
-                    )}
-                    {subGamer.userName === this.state.myUserName && (
-                      <ToolbarComponent
-                        user={localUser}
-                        camStatusChanged={this.camStatusChanged}
-                        micStatusChanged={this.micStatusChanged}
-                      />
-                    )}
-                  </div>
-                  <div>
-                    <p>투표</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+          )}
         {/* 밤페이지 - 밤역할 수행 o 의사, 경찰, 능력있는 기자 */}
-        {this.state.page === 3 && 
-        this.props.gamerData.isDead === false &&
-        (this.props.gamerData.job === "의사" ||
-        this.props.gamerData.job === "경찰" ||
-        this.props.gamerData.job === "크레이지경찰" ||
-        (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === true)) && (
-          <div className="d-flex justify-content-between">
-            {console.log("start police")}
-            <div>
-              {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
-                <div
-                  id="layout"
-                  className="ingame-bounds"
-                  onClick={(e) => this.selectVoteAtNight(subGamer, e)}
-                >
-                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                    {subGamer.userName === this.state.pickUser && <p>투표</p>}
-                    {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
-                    ) : subGamer.userName !== this.props.gamerData.userName ? (
-                      <img src="images/octoAtNight.png" width="200" />
-                    ) : (
-                      <StreamComponent
-                        user={
-                          subGamer.subIdx === undefined
-                            ? localUser
-                            : this.state.subscribers[subGamer.subIdx]
-                        }
-                      />
-                    )}
-                    {subGamer.userName === this.state.myUserName && (
-                      <ToolbarComponent
-                        user={localUser}
-                        camStatusChanged={this.camStatusChanged}
-                        micStatusChanged={this.micStatusChanged}
-                      />
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="d-flex flex-column justify-content-between">
+        {this.state.page === 3 &&
+          this.props.gamerData.isDead === false &&
+          (this.props.gamerData.job === "의사" ||
+            this.props.gamerData.job === "경찰" ||
+            this.props.gamerData.job === "크레이지경찰" ||
+            (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === true)) && (
+            <div className="d-flex justify-content-between">
+              {console.log("start police")}
               <div>
-                <NightOctopi />
-              </div>
-              <div className="aaaaa" style={chatDisplay}>
-                <ChatComponent
-                  user={localUser}
-                  chatDisplay={this.state.chatDisplay}
-                  close={this.toggleChat}
-                  settingListForSub={this.settingListForSub}
-                  subscribers={this.state.subscribers}
-                  canSend="false"
-                  changeTime={this.changeTime}
-                  changePage={this.changePage}
-                  clickBtnGame={this.clickBtnGame}
-                  changePerson={this.changePerson}
-                  updatePickUser={this.updatePickUser}
-                  getPickUser={this.getPickUser}
-                  resetPickUser={this.resetPickUser}
-                  getHasSkill={this.getHasSkill}
-                  updatePickUserAtVote={this.updatePickUserAtVote}
-                  getGamerData={this.getGamerData}
-                />
-              </div>
-            </div>
-            <div>
-              {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
-                <div
-                  id="layout"
-                  className="ingame-bounds"
-                  onClick={(e) => this.selectVoteAtNight(subGamer, e)}
-                >
-                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                    {subGamer.userName === this.state.pickUser && <p>투표</p>}
-                    {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
-                    ) : subGamer.userName !== this.props.gamerData.userName ? (
-                      <img src="images/octoAtNight.png" width="200" />
-                    ) : (
-                      <StreamComponent
-                        user={
-                          subGamer.subIdx === undefined
-                            ? localUser
-                            : this.state.subscribers[subGamer.subIdx]
-                        }
-                      />
-                    )}
-                    {subGamer.userName === this.state.myUserName && (
-                      <ToolbarComponent
-                        user={localUser}
-                        camStatusChanged={this.camStatusChanged}
-                        micStatusChanged={this.micStatusChanged}
-                      />
-                    )}
+                {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
+                  <div
+                    id="layout"
+                    className="ingame-bounds"
+                    onClick={(e) => this.selectVoteAtNight(subGamer, e)}
+                  >
+                    <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
+                      {subGamer.userName === this.state.pickUser && <p>투표</p>}
+                      {subGamer.isDead === true ? (
+                        <img src="images/deadOcto.png" width="200" />
+                      ) : subGamer.userName !== this.props.gamerData.userName ? (
+                        <img src="images/octoAtNight.png" width="200" />
+                      ) : (
+                        <StreamComponent
+                          user={
+                            subGamer.subIdx === undefined
+                              ? localUser
+                              : this.state.subscribers[subGamer.subIdx]
+                          }
+                        />
+                      )}
+                      {subGamer.userName === this.state.myUserName && (
+                        <ToolbarComponent
+                          user={localUser}
+                          camStatusChanged={this.camStatusChanged}
+                          micStatusChanged={this.micStatusChanged}
+                        />
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <p>투표</p>
-                  </div>
+                ))}
+              </div>
+              <div className="d-flex flex-column justify-content-between">
+                <div>
+                  <NightOctopi />
                 </div>
-              ))}
+                <div className="aaaaa" style={chatDisplay}>
+                  <ChatComponent
+                    user={localUser}
+                    chatDisplay={this.state.chatDisplay}
+                    close={this.toggleChat}
+                    settingListForSub={this.settingListForSub}
+                    subscribers={this.state.subscribers}
+                    canSend="false"
+                    changeTime={this.changeTime}
+                    changePage={this.changePage}
+                    clickBtnGame={this.clickBtnGame}
+                    changePerson={this.changePerson}
+                    updatePickUser={this.updatePickUser}
+                    getPickUser={this.getPickUser}
+                    resetPickUser={this.resetPickUser}
+                    getHasSkill={this.getHasSkill}
+                    updatePickUserAtVote={this.updatePickUserAtVote}
+                    getGamerData={this.getGamerData}
+                  />
+                </div>
+              </div>
+              <div>
+                {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
+                  <div
+                    id="layout"
+                    className="ingame-bounds"
+                    onClick={(e) => this.selectVoteAtNight(subGamer, e)}
+                  >
+                    <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
+                      {subGamer.userName === this.state.pickUser && <p>투표</p>}
+                      {subGamer.isDead === true ? (
+                        <img src="images/deadOcto.png" width="200" />
+                      ) : subGamer.userName !== this.props.gamerData.userName ? (
+                        <img src="images/octoAtNight.png" width="200" />
+                      ) : (
+                        <StreamComponent
+                          user={
+                            subGamer.subIdx === undefined
+                              ? localUser
+                              : this.state.subscribers[subGamer.subIdx]
+                          }
+                        />
+                      )}
+                      {subGamer.userName === this.state.myUserName && (
+                        <ToolbarComponent
+                          user={localUser}
+                          camStatusChanged={this.camStatusChanged}
+                          micStatusChanged={this.micStatusChanged}
+                        />
+                      )}
+                    </div>
+                    <div>
+                      <p>투표</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
         {/* 밤페이지 - 밤역할 수행 x (죽은 사람) */}
         {this.state.page === 3 && this.props.gamerData.isDead === true && (
           <div className="d-flex justify-content-between">
@@ -1277,7 +1284,7 @@ class OpenViduComponent extends Component {
          */}
         {this.state.page === 8 && (
           <div>
-            <DeathResultComponent user={this.state.localUser} />
+            <DeathResultComponent user={this.state.localUser} killed={this.state.killed} />
           </div>
         )}
         {/* 기자 결과s
@@ -1723,6 +1730,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setReporter: (data) => {
       dispatch(setReporter(data));
+    },
+    updateUserListforDead: (data) => {
+      dispatch(updateUserListforDead(data));
     },
   };
 };

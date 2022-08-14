@@ -182,6 +182,9 @@ class ChatComponent extends Component {
           this.props.resetPickUser();
           this.props.setGameStatus({ gameStatus: 0 });
         }
+        if (data.page === 15 && this.props.gamerData.job === "크레이지경찰") {
+          this.settingGamerList({ roomId: this.props.gamerData.roomId });
+        }
         // 다영 추가
         // if (data.page === 11) {
         //   console.log("VOTE : pickUser 초기화");
