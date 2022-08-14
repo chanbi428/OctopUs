@@ -146,7 +146,8 @@ const gamerSlice = createSlice({
       if (
         state.messageList.length != 0 &&
         state.messageList.at(-1).nickname == "사회자" &&
-        state.messageList.at(-1).job == state.job
+        state.messageList.at(-1).job == state.job &&
+        state.messageList.at(-1).message == payload.message
       ) {
         console.log("추가하지않음");
       } else {
@@ -172,7 +173,7 @@ const gamerSlice = createSlice({
       state.host = "";
       state.idx = 0;
       state.minigameList = [true, true, true];
-      state.minigameResult =  false;
+      state.minigameResult = false;
       state.userList = null;
       state.messageList = [];
       state.subscribers = null;
