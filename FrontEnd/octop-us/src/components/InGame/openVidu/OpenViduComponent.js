@@ -10,6 +10,7 @@ import NightToDayLoading from "../../LoadingPage/NightToDayLoading/NightToDayLoa
 import DeathResultComponent from "../components/JobComponents/DeathResultComponent";
 import NewsResultComponent from "../components/JobComponents/NewsResultComponent";
 import VoteAnimationComponent from "../components/VotePage/VoteAnimationComponent";
+import VoteDoneAnimationComponent from "../components/VotePage/VoteDoneAnimationComponent";
 import AgreePage from "../components/VotePage/AgreePage";
 import VotePage from "../components/VotePage/VotePage";
 import VoteWaitPage from "../components/VotePage/VoteWaitPage";
@@ -971,7 +972,7 @@ class OpenViduComponent extends Component {
             data: JSON.stringify(data),
             type: "dead",
           });
-          
+
           let pathName = document.location.pathname.replace("/", "");
           let victoryUsers = [];
           axios
@@ -1694,11 +1695,18 @@ class OpenViduComponent extends Component {
             </div>
           </div>
         )}
-        {/* 투표 애니메이션
+        {/* 투표 집계 애니메이션
          */}
         {this.state.page === 12 && (
           <div>
             <VoteAnimationComponent />
+          </div>
+        )}
+        {/* 투표 결과 애니메이션
+         */}
+        {this.state.page === 16 && (
+          <div>
+            <VoteDoneAnimationComponent />
           </div>
         )}
         {/* 최후 변론 + 찬반페이지 */}
@@ -1747,6 +1755,20 @@ class OpenViduComponent extends Component {
                 </button>
               </div>
             </div>
+          </div>
+        )}
+        {/* 찬반투표 집계 애니메이션
+         */}
+        {this.state.page === 17 && (
+          <div>
+            <VoteAnimationComponent />
+          </div>
+        )}
+        {/* 찬반투표 결과 애니메이션
+         */}
+        {this.state.page === 18 && (
+          <div>
+            <VoteDoneAnimationComponent />
           </div>
         )}
         {/* 처형 애니메이션

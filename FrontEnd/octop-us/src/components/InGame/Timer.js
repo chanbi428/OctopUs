@@ -156,14 +156,20 @@ export const Timer = (time, user, page, flag, obj) => {
             initTime: 3,
           };
         }
-        // 투표 -> 투표 결과 애니메이션
+        // 투표 -> 투표 집계 애니메이션
       } else if (page == 11) {
         data2 = {
           page: 12,
           initTime: 3,
         };
-        // 투표결과 -> 최후변론 or 밤 애니메이션
+        // 투표 집계 애니메이션 => 투표 결과 애니메이션
       } else if (page == 12) {
+        data2 = {
+          page: 16,
+          initTime: 3,
+        };
+        // 투표결과 -> 최후변론 or 밤 애니메이션
+      } else if (page == 16) {
         // 투표결과 있어서 최후변론으로 감
         if (flag.voteGo) {
           data2 = {
@@ -177,9 +183,20 @@ export const Timer = (time, user, page, flag, obj) => {
             initTime: 3,
           };
         }
-        // 최후변론 + 찬반투표 -> 처형 or 밤 애니메이션
+        // 최후변론 + 찬반투표 -> 처형 집계 애니메이션
       } else if (page == 13) {
-        // 찬반 투표 결과 처형으로
+        data2 = {
+          page: 17,
+          initTime: 3,
+        };
+        // 처형 집계 애니메이션 -> 처형 결과 애니메이션
+      } else if (page == 17) {
+        data2 = {
+          page: 18,
+          initTime: 3,
+        };
+      } else if (page == 1) {
+         // 처형페이지로
         if (flag.agreeVoteGo) {
           data2 = {
             page: 14,
