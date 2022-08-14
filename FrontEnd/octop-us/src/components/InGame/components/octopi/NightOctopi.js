@@ -4,6 +4,7 @@ import "./NightOctopi.css"
 
 export const NightOctopi = () => {
     const { userList } = useSelector((state) => state.gamer )
+    const { userInfo } = useSelector((state) => state.user)
 
     return (
       <div className="col d-flex flex-column align-items-center mt-5">
@@ -12,19 +13,27 @@ export const NightOctopi = () => {
             <div className="nameBox">
               <span className="nameTag" >{userList[1].userName}</span>
             </div>
-            {userList[1].isDead === true ? (
+            {userList[1].isDead === true ? 
+            (
               <img 
 				        className="dead_octopus"
 				        src="images/dead_octo.gif"
 							  alt="deadOctopus1" 
 							/>
-            ) : (
-              <img
+            ) : 
+            (
+               userInfo.userName === userList[1].userName ?
+                (<img
                 className="octopus"
                 src="images/octopus/yellow.gif"
                 alt="octopus1.gif"
-								id="num_one"
-              />
+								id="num_one"/> )
+                : 
+                (<img 
+                className="sleep_octopus"
+                src="images/octopus/cave_yellow.png"
+                alt="sleep_octopus1"
+                />)
             )}
           </div>
 					<div className="container col" >
@@ -37,13 +46,20 @@ export const NightOctopi = () => {
 							src="images/dead_octo.gif"
 							alt="deadOctopus0" 
 							/>
-            ) : (
-              <img
-                className="octopus"
-                src="images/octopus/red.gif"
-                alt="octopus0.gif"
-								id="num_zero"
-              />
+            ) : 
+            (
+              userInfo.userName === userList[0].userName ?
+               (<img
+               className="octopus"
+               src="images/octopus/red.gif"
+               alt="octopus1.gif"
+               id="num_zero"/> )
+               : 
+               (<img 
+               className="sleep_octopus"
+               src="images/octopus/cave_red.png"
+               alt="sleep_octopus1"
+               />)
             )}
           </div>
 					<div className="container col">
@@ -56,13 +72,20 @@ export const NightOctopi = () => {
 							src="images/dead_octo.gif"
 							alt="deadOctopus4" 
 							/>
-            ) : (
-              <img
-                className="octopus"
-                src="images/octopus/purple.gif"
-                alt="octopus4.gif"
-								id="num_four"
-              />
+            ) : 
+            (
+              userInfo.userName === userList[4].userName ?
+               (<img
+               className="octopus"
+               src="images/octopus/purple.gif"
+               alt="octopus1.gif"
+               id="num_four"/> )
+               : 
+               (<img 
+               className="sleep_octopus"
+               src="images/octopus/cave_purple.png"
+               alt="sleep_octopus1"
+               />)
             )}
           </div>
 					<div className="container col">
@@ -75,13 +98,20 @@ export const NightOctopi = () => {
 								src="images/dead_octo.gif"
 								alt="deadOctopus5" 
 							/>
-            ) : (
-              <img
-                className="octopus"
-                src="images/octopus/babypink.gif"
-                alt="octopus5.gif"
-								id="num_five"
-              />
+            ) : 
+            (
+              userInfo.userName === userList[5].userName ?
+               (<img
+               className="octopus"
+               src="images/octopus/babypink.gif"
+               alt="octopus1.gif"
+               id="num_five"/> )
+               : 
+               (<img 
+               className="sleep_octopus"
+               src="images/octopus/cave_babypink.png"
+               alt="sleep_octopus1"
+               />)
             )}
           </div>
         </div>
@@ -96,13 +126,20 @@ export const NightOctopi = () => {
 								src="images/dead_octo.gif"
 								alt="deadOctopus2" 
 							/>
-            ) : (
-              <img
-                className="octopus"
-                src="images/octopus/green.gif"
-                alt="octopus2.gif"
-								id="num_two"
-              />
+            ) : 
+            (
+              userInfo.userName === userList[2].userName ?
+               (<img
+               className="octopus"
+               src="images/octopus/green.gif"
+               alt="octopus1.gif"
+               id="num_two"/> )
+               : 
+               (<img 
+               className="sleep_octopus"
+               src="images/octopus/cave_green.png"
+               alt="sleep_octopus1"
+               />)
             )}
           </div>
 					<div className="container col">
@@ -115,13 +152,20 @@ export const NightOctopi = () => {
 								src="images/dead_octo.gif"
 								alt="deadOctopus3" 
 							/>
-            ) : (
-              <img
-                className="octopus"
-                src="images/octopus/mint.gif"
-                alt="octopus3.gif"
-								id="num_thr"
-              />
+            ) : 
+            (
+              userInfo.userName === userList[3].userName ?
+               (<img
+               className="octopus"
+               src="images/octopus/mint.gif"
+               alt="octopus1.gif"
+               id="num_thr"/> )
+               : 
+               (<img 
+               className="sleep_octopus"
+               src="images/octopus/cave_mint.png"
+               alt="sleep_octopus1"
+               />)
             )}
           </div>
 					<div className="container col">
@@ -134,13 +178,20 @@ export const NightOctopi = () => {
 								src="images/dead_octo.gif"
 								alt="deadOctopus7" 
 							/>
-            ) : (
-              <img
-                className="octopus"
-                src="images/octopus/blue.gif"
-                alt="octopus7.gif"
-								id="num_svn"
-              />
+            ) : 
+            (
+              userInfo.userName === userList[7].userName ?
+               (<img
+               className="octopus"
+               src="images/octopus/blue.gif"
+               alt="octopus1.gif"
+               id="num_svn"/> )
+               : 
+               (<img 
+               className="sleep_octopus"
+               src="images/octopus/cave_blue.png"
+               alt="sleep_octopus1"
+               />)
             )}
           </div>
 					<div className="container col">
@@ -153,13 +204,20 @@ export const NightOctopi = () => {
 								src="images/dead_octo.gif"
 								alt="deadOctopus6" 
 							/>
-            ) : (
-              <img
-                className="octopus"
-                src="images/octopus/violet.gif" 
-                alt="octopus6.gif"
-								id="num_six"
-              />
+            ) : 
+            (
+              userInfo.userName === userList[6].userName ?
+               (<img
+               className="octopus"
+               src="images/octopus/violet.gif"
+               alt="octopus1.gif"
+               id="num_six"/> )
+               : 
+               (<img 
+               className="sleep_octopus"
+               src="images/octopus/cave_violet.png"
+               alt="sleep_octopus1"
+               />)
             )}
           </div>
         </div>
