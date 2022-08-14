@@ -93,9 +93,9 @@ const gamerSlice = createSlice({
       state.userList.forEach((user) => {
         var idx = 0;
         payload.subscribers.forEach((sub) => {
-          console.log(sub);
           if (user.userName === sub.nickname) {
-            user.sub = idx;
+            console.log("match name");
+            user.subIdx = idx;
           }
           idx++;
         });
