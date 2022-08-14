@@ -28,6 +28,9 @@ export const Timer = (time, user, page, flag, obj) => {
           page: 1,
           initTime: 5,
         };
+        if (flag.gameEnd) {
+          isChange = 1
+        }
         // 카드애니메이션 -> 밤 애니메이션
       } else if (page == 1) {
         data2 = {
