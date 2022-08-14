@@ -17,7 +17,6 @@ const NightToDayLoading = (props) => {
 
   useEffect(() => {
     console.log(userName, roomChief, "NightToDay Loading");
-    if (userName === roomChief) {
       axios
         .get(`${BASE_URL}/gamers/victory/team/${pathName}`)
         .then((res) => {
@@ -37,8 +36,7 @@ const NightToDayLoading = (props) => {
           }
         })
         .catch((err) => console.log(err));
-    }
-  }, []);
+    }, []);
 
   return (
     <div className="wrap-sun">

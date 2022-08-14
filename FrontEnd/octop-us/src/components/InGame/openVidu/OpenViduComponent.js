@@ -698,9 +698,11 @@ class OpenViduComponent extends Component {
   setVictoryUser = (data) => {
     this.setState({ victoryUsers: data });
     console.log("승리 유저 바뀜!");
-    this.state.localUser.getStreamManager().stream.session.signal({
-      type: "gameEnd",
-    });
+    if(this.props.waitData.roomChief === this.state.myUserName) {
+      this.state.localUser.getStreamManager().stream.session.signal({
+        type: "gameEnd",
+      });
+    }
   };
 
   // 다영 (리덕스 gamer : userList <-> subscribers 연결 하는 함수)
