@@ -82,7 +82,7 @@ export const NightOctopi = () => {
                id="num_four"/> )
                : 
                (<img 
-               className="sleep_octopus_left"
+               className="sleep_octopus_right"
                src="images/octopus/cave_purple.png"
                alt="sleep_octopus1"
                />)
@@ -108,7 +108,7 @@ export const NightOctopi = () => {
                id="num_five"/> )
                : 
                (<img 
-               className="sleep_octopus_left"
+               className="sleep_octopus_right"
                src="images/octopus/cave_babypink.png"
                alt="sleep_octopus1"
                />)
@@ -136,7 +136,7 @@ export const NightOctopi = () => {
                id="num_two"/> )
                : 
                (<img 
-               className="sleep_octopus_right"
+               className="sleep_octopus_left"
                src="images/octopus/cave_green.png"
                alt="sleep_octopus1"
                />)
@@ -162,7 +162,7 @@ export const NightOctopi = () => {
                id="num_thr"/> )
                : 
                (<img 
-               className="sleep_octopus_right"
+               className="sleep_octopus_left"
                src="images/octopus/cave_mint.png"
                alt="sleep_octopus1"
                />)
