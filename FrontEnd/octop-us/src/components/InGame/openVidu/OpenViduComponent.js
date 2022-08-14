@@ -27,6 +27,9 @@ import PoliceCard from "../../LoadingPage/JobCard/PoliceCard/PoliceCard";
 import ReporterCard from "../../LoadingPage/JobCard/ReporterCard/ReporterCard";
 import ShowRoom from "../components/WaitingRoomPage/ShowRoom";
 import WaitingRoomPage from "../components/WaitingRoomPage/WaitingRoomPage";
+import DayOctopi from "../components/octopi/DayOctopi";
+import NightOctopi from "../components/octopi/NightOctopi"
+import MafiaNightOctopi from "../components/octopi/MafiaNightOctopi";
 import "./OpenViduComponent.css";
 
 import OpenViduLayout from "../layout/openvidu-layout";
@@ -944,7 +947,9 @@ class OpenViduComponent extends Component {
               ))}
             </div>
             <div className="d-flex flex-column justify-content-between">
-              <div></div>
+              <div>
+                <NightOctopi />
+              </div>
               <div className="aaaaa" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
@@ -1037,6 +1042,9 @@ class OpenViduComponent extends Component {
                     <img src="icons/icons8-shark-50.png" alt="shark event" />
                   </button>
                 )}
+              </div>
+              <div>
+                <MafiaNightOctopi />
               </div>
               <div className="aaaaa" style={chatDisplay}>
                 <ChatComponent
@@ -1140,7 +1148,9 @@ class OpenViduComponent extends Component {
               ))}
             </div>
             <div className="d-flex flex-column justify-content-between">
-              <div>{this.state.speakingUsers}</div>
+              <div>
+                <NightOctopi />
+              </div>
               <div className="aaaaa" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
@@ -1217,7 +1227,9 @@ class OpenViduComponent extends Component {
               ))}
             </div>
             <div className="d-flex flex-column justify-content-between">
-              <div></div>
+              <div>
+                <NightOctopi />
+              </div>
               <div className="aaaaa" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
@@ -1311,7 +1323,9 @@ class OpenViduComponent extends Component {
               ))}
             </div>
             <div className="d-flex flex-column justify-content-between">
-              <div></div>
+              <div>
+                <DayOctopi />
+              </div>
               <div className="aaaaa" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
@@ -1411,6 +1425,7 @@ class OpenViduComponent extends Component {
                   ? <VoteWaitPage moveAgree={this.moveAgree} />
                   : <VotePage moveVoteWait={this.moveVoteWait} />
                 } */}
+                <DayOctopi />
               </div>
               <div className="aaaaa" style={chatDisplay}>
                 <ChatComponent
