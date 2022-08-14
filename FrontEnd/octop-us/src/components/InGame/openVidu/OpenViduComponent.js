@@ -488,7 +488,7 @@ class OpenViduComponent extends Component {
     //   this.props.onClickBtn();
     // }
     // 애니메이션 (밤) 주석하기 (다영)
-    // this.setState({ pickUser: "c5" }); // 투표 테스트용
+    // this.setState({ pickUser: "c1" }); // 투표 테스트용
     this.props.onClickBtn();
     // const startTimer = setTimeout(() => {
     //   this.setState({ page: 13 });
@@ -923,15 +923,21 @@ class OpenViduComponent extends Component {
     console.log("AGREE VOTE , PICK USER's JOB : ", pickUserJob);
     // 재간둥이 인 지 확인
     if (pickUserJob === "재간둥이") {
+      let victoryUsers = [];
+
       axios.put(`${BASE_URL}/gamers/isvictory/userName/${this.state.pickUser}`).then((res) => {
         console.log(res);
         console.log("AGREE VOTE : 처형 => 재간둥이 O => 종료 페이지 GO");
         console.log("AGREE VOTE : 재간둥이 승리!!");
 
-        // 게임 종료 부르기 ( 다영 수정)
-        this.state.localUser.getStreamManager().stream.session.signal({
-          type: "gameEnd",
-        });
+        axios
+          .get(`${BASE_URL}/gamers/winners`)
+          .then((res) => {
+            victoryUsers = res.data.map((row) => row.userName);
+            this.setVictoryUser(victoryUsers);
+            console.log("종료 페이지로 이동 ! ");
+          })
+          .catch((err) => console.log(err));
       });
     } else {
       console.log("AGREE VOTE : 처형 => 재간둥이 X => 처형 페이지 GO");
@@ -957,10 +963,37 @@ class OpenViduComponent extends Component {
             data: JSON.stringify(data),
             type: "dead",
           });
-          // 처형페이지 이동
-          this.state.localUser.getStreamManager().stream.session.signal({
-            type: "agreeVoteGo",
-          });
+
+          let pathName = document.location.pathname.replace("/", "");
+          let victoryUsers = [];
+
+          if (this.props.gamerData.userName === this.props.waitData.roomChief) {
+            axios
+              .get(`${BASE_URL}/gamers/victory/team/${pathName}`)
+              .then((res) => {
+                if (res.data.victory) {
+                  axios
+                    .put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${res.data.gameTeam}`)
+                    .then((res) => {
+                      axios
+                        .get(`${BASE_URL}/gamers/winners`)
+                        .then((res) => {
+                          victoryUsers = res.data.map((row) => row.userName);
+                          this.setVictoryUser(victoryUsers);
+                          console.log("종료 페이지로 이동 ! ");
+                        })
+                        .catch((err) => console.log(err));
+                    })
+                    .catch((err) => console.log(err));
+                } else {
+                  // 처형페이지 이동
+                  this.state.localUser.getStreamManager().stream.session.signal({
+                    type: "agreeVoteGo",
+                  });
+                }
+              })
+              .catch((err) => console.log(err));
+          }
         });
     }
   };
@@ -1026,11 +1059,11 @@ class OpenViduComponent extends Component {
                     )}
                   </div>
                   <div>
-                    {this.props.waitData.roomChief === this.state.myUserName &&
+                    {this.props.waitData.roomChief === this.state.myUserName && (
                       <button className="start__btn" onClick={this.clickBtn}>
                         START
                       </button>
-                    }
+                    )}
                   </div>
                 </div>
               </div>
@@ -1644,7 +1677,7 @@ class OpenViduComponent extends Component {
               <div id="layout" className="voted-bounds">
                 {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                   <div className="OT_root OT_publisher custom-class" id="localUser">
-                    {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
+                    {this.props.gamerData.userList.slice(0, 8).map((subGamer, i) => (
                       <div>
                         {subGamer.userName === this.state.pickUser ? (
                           <StreamComponent
