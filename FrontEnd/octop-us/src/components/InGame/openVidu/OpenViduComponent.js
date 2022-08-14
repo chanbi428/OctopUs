@@ -699,9 +699,11 @@ class OpenViduComponent extends Component {
   setVictoryUser = (data) => {
     this.setState({ victoryUsers: data });
     console.log("승리 유저 바뀜!");
-    this.state.localUser.getStreamManager().stream.session.signal({
-      type: "gameEnd",
-    });
+    if(this.props.waitData.roomChief === this.state.myUserName) {
+      this.state.localUser.getStreamManager().stream.session.signal({
+        type: "gameEnd",
+      });
+    }
   };
 
   // 다영 (리덕스 gamer : userList <-> subscribers 연결 하는 함수)
@@ -969,37 +971,34 @@ class OpenViduComponent extends Component {
             data: JSON.stringify(data),
             type: "dead",
           });
-
+          
           let pathName = document.location.pathname.replace("/", "");
           let victoryUsers = [];
-
-          if (this.props.gamerData.userName === this.props.waitData.roomChief) {
-            axios
-              .get(`${BASE_URL}/gamers/victory/team/${pathName}`)
-              .then((res) => {
-                if (res.data.victory) {
-                  axios
-                    .put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${res.data.gameTeam}`)
-                    .then((res) => {
-                      axios
-                        .get(`${BASE_URL}/gamers/winners`)
-                        .then((res) => {
-                          victoryUsers = res.data.map((row) => row.userName);
-                          this.setVictoryUser(victoryUsers);
-                          console.log("종료 페이지로 이동 ! ");
-                        })
-                        .catch((err) => console.log(err));
-                    })
-                    .catch((err) => console.log(err));
-                } else {
-                  // 처형페이지 이동
-                  this.state.localUser.getStreamManager().stream.session.signal({
-                    type: "agreeVoteGo",
-                  });
-                }
-              })
-              .catch((err) => console.log(err));
-          }
+          axios
+            .get(`${BASE_URL}/gamers/victory/team/${pathName}`)
+            .then((res) => {
+              if (res.data.victory) {
+                axios
+                  .put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${res.data.gameTeam}`)
+                  .then((res) => {
+                    axios
+                      .get(`${BASE_URL}/gamers/winners`)
+                      .then((res) => {
+                        victoryUsers = res.data.map((row) => row.userName);
+                        this.setVictoryUser(victoryUsers);
+                        console.log("종료 페이지로 이동 ! ");
+                      })
+                      .catch((err) => console.log(err));
+                  })
+                  .catch((err) => console.log(err));
+              } else {
+                // 처형페이지 이동
+                this.state.localUser.getStreamManager().stream.session.signal({
+                  type: "agreeVoteGo",
+                });
+              }
+            })
+            .catch((err) => console.log(err));
         });
     }
   };

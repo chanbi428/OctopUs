@@ -214,11 +214,11 @@ export const Timer = (time, user, page, flag, obj) => {
           initTime: 0,
         };
       } else if (page == 20){
+        isChange = 0
         data2 = {
           page: 10,
           initTime: 3,
         };
-        isChange = 0
       }
       if (isChange === 0 && obj.roomChief === user.nickname) {
         user.getStreamManager().stream.session.signal({
