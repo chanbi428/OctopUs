@@ -200,7 +200,6 @@ class OpenViduComponent extends Component {
             });
         }
       });
-
     }, 1000);
   }
 
@@ -637,14 +636,14 @@ class OpenViduComponent extends Component {
   // };
 
   clickSharkMiniGame = () => {
-    this.props.setShark()
-    this.usingMinigame({idx : 1})
+    this.props.setShark();
+    this.usingMinigame({ idx: 1 });
   };
 
   clickFisherMiniGame = () => {
-    this.props.setFisher()
-    this.usingMinigame({idx : 0})
-  }
+    this.props.setFisher();
+    this.usingMinigame({ idx: 0 });
+  };
 
   clickBtnGame = (e) => {
     console.log("clickBtnGame : " + e);
@@ -781,6 +780,9 @@ class OpenViduComponent extends Component {
     return this.state.hasSkill;
   };
 
+  getGamerData = () => {
+    return this.props.gamerData;
+  };
   // 다영 수정
   updatePickUserAtVote = () => {
     console.log("VOTE한 PICK USER 들어옴", this.state.pickUser);
@@ -848,9 +850,9 @@ class OpenViduComponent extends Component {
           <div>
             <WaitingRoomPage clickExitBtn={this.props.clickExitBtn} />
             <div className="d-flex">
-              <ShowRoom 
-                roomName={this.props.roomName} 
-                personNum={this.props.personNum} 
+              <ShowRoom
+                roomName={this.props.roomName}
+                personNum={this.props.personNum}
                 roomId={this.props.roomId}
                 roomChief={this.props.roomChief}
                 isPrivate={this.props.isPrivate}
@@ -878,6 +880,7 @@ class OpenViduComponent extends Component {
                       resetPickUser={this.resetPickUser}
                       getHasSkill={this.getHasSkill}
                       updatePickUserAtVote={this.updatePickUserAtVote}
+                      getGamerData={this.getGamerData}
                     />
                   </div>
                 )}
@@ -954,6 +957,7 @@ class OpenViduComponent extends Component {
                   getPickUser={this.getPickUser}
                   resetPickUser={this.resetPickUser}
                   getHasSkill={this.getHasSkill}
+                  getGamerData={this.getGamerData}
                 />
               </div>
             </div>
@@ -1015,7 +1019,7 @@ class OpenViduComponent extends Component {
                 <p className="icons-property"></p>
                 {this.props.gamerData.minigameList[0] === true ? (
                   <button onClick={this.clickFisherMiniGame} className="mafiaEventBtn">
-                    <img src="icons/icons8-spinner-lure-50.png" alt="lure event"/>
+                    <img src="icons/icons8-spinner-lure-50.png" alt="lure event" />
                   </button>
                 ) : (
                   <button className="usedEventBtn">
@@ -1024,7 +1028,7 @@ class OpenViduComponent extends Component {
                 )}
                 {this.props.gamerData.minigameList[1] === true ? (
                   <button onClick={this.clickSharkMiniGame} className="mafiaEventBtn">
-                    <img src="icons/icons8-shark-50.png" alt="shark event"/>
+                    <img src="icons/icons8-shark-50.png" alt="shark event" />
                   </button>
                 ) : (
                   <button className="usedEventBtn">
@@ -1049,6 +1053,7 @@ class OpenViduComponent extends Component {
                   resetPickUser={this.resetPickUser}
                   getHasSkill={this.getHasSkill}
                   updatePickUserAtVote={this.updatePickUserAtVote}
+                  getGamerData={this.getGamerData}
                 />
               </div>
             </div>
@@ -1148,6 +1153,7 @@ class OpenViduComponent extends Component {
                   resetPickUser={this.resetPickUser}
                   getHasSkill={this.getHasSkill}
                   updatePickUserAtVote={this.updatePickUserAtVote}
+                  getGamerData={this.getGamerData}
                 />
               </div>
             </div>
@@ -1224,6 +1230,7 @@ class OpenViduComponent extends Component {
                   resetPickUser={this.resetPickUser}
                   getHasSkill={this.getHasSkill}
                   updatePickUserAtVote={this.updatePickUserAtVote}
+                  getGamerData={this.getGamerData}
                 />
               </div>
             </div>
@@ -1319,6 +1326,7 @@ class OpenViduComponent extends Component {
                   resetPickUser={this.resetPickUser}
                   getHasSkill={this.getHasSkill}
                   updatePickUserAtVote={this.updatePickUserAtVote}
+                  getGamerData={this.getGamerData}
                 />
               </div>
             </div>
@@ -1418,6 +1426,7 @@ class OpenViduComponent extends Component {
                   resetPickUser={this.resetPickUser}
                   getHasSkill={this.getHasSkill}
                   updatePickUserAtVote={this.updatePickUserAtVote}
+                  getGamerData={this.getGamerData}
                 />
               </div>
             </div>

@@ -68,20 +68,21 @@ class ChatComponent extends Component {
           avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
         }, 50);
         if (data.nickname === "사회자" && data.job === this.props.gamerData.job) {
+          console.log("경찰 지목이 들어왔다고 알림", message);
           this.props.setMessageList({ message: message });
         } else {
-          if (data.isDead === true && this.props.gamerData.isDead === true) {
+          if (data.isDead === true && this.props.getGamerData().isDead === true) {
             // 유령
             this.props.setMessageList({ message: message });
             console.log("유령 대화에 들어옴 ", message);
           }
-          if (data.isDead === false && this.props.gamerData.gameStatus !== 1) {
+          if (data.isDead === false && this.props.getGamerData().gameStatus !== 1) {
             this.props.setMessageList({ message: message });
             console.log("살아있는 대화에 들어옴 ", message);
           } else if (
             this.props.gamerData.job === "마피아" &&
-            this.props.gamerData.gameStatus === 1 &&
-            this.props.gamerData.isDead === false &&
+            this.props.getGamerData().gameStatus === 1 &&
+            this.props.getGamerData().isDead === false &&
             data.job === "마피아" &&
             data.isDead === false
           ) {
@@ -124,12 +125,6 @@ class ChatComponent extends Component {
       });
       this.props.user.getStreamManager().stream.session.on("signal:change", (event) => {
         const data = JSON.parse(event.data);
-        console.log(
-          "리덕스 확인용 콘솔",
-          data.page,
-          this.props.gamerData.job,
-          this.props.gamerData
-        );
         if (data.page === 1) {
           this.props.setMessageListReset();
           console.log("1페이지다", this.props.gamerData.job);
@@ -198,12 +193,12 @@ class ChatComponent extends Component {
         //     });
         // }
         const obj = {
-          minigameResult: this.props.gamerData.minigameResult,
+          minigameResult: this.props.getGamerData().minigameResult,
           job: this.props.gamerData.job,
           hasSkill: this.props.getHasSkill(),
-          isDead: this.props.gamerData.isDead,
-          shark: this.props.gamerData.shark,
-          fisher: this.props.gamerData.fisher,
+          isDead: this.props.getGamerData().isDead,
+          shark: this.props.getGamerData().shark,
+          fisher: this.props.getGamerData().fisher,
           reporter: this.props.gamerData.job === "기자" ? this.props.getPickUser() : "",
           roomChief: this.props.waitData.roomChief,
           // vote: this.propss.getPickUser(), // 다영 추가
@@ -233,7 +228,7 @@ class ChatComponent extends Component {
         console.log("RECEIVED PICK USER : ", data.gamer);
         if (
           this.props.gamerData.job === "마피아" &&
-          this.props.gamerData.isDead === false &&
+          this.props.getGamerData().isDead === false &&
           this.props.gamerData.userName !== data.mafiaName
         ) {
           console.log("UPDATE PICK USER FROM RECEIVED MESSAGE1");
@@ -244,17 +239,6 @@ class ChatComponent extends Component {
         // 각자 DB에 업뎃하게 함
         console.log("night 끝났음");
         this.props.updatePickUser();
-        //console.log("getPickUser", this.props.getPickUser());
-        // setTimeout(() => {
-        //   this.props.setReporter({ reporter: this.props.reporter });
-        // }, 3000);
-
-        // axios.get(`${BASE_URL}/nights/reporter/${this.props.gamerData.roomId}`).then((res) => {
-        //   console.log("기자ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ", res);
-        //   this.props.setReporter({ reporter: res.data.nomineeName });
-        // });
-        //if (this.props.gamerData.host === this.props.gamerData.userName) {
-        //}
       });
       // 다영 수정
       this.props.user.getStreamManager().stream.session.on("signal:voteEnd", (event) => {
@@ -559,7 +543,10 @@ class ChatComponent extends Component {
                     </div>
                   );
                 }
-                if (data.isDead === false && data.gameStatus !== 1) {
+                if (
+                  (data.isDead === false && data.gameStatus !== 1) ||
+                  (data.nickname === "사회자" && data.job === this.props.gamerData.job)
+                ) {
                   // 살아있는 사람의 채팅은 모두에게 보인다.
                   return (
                     <div
