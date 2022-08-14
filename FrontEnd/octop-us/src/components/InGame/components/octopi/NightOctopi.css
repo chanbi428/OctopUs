@@ -27,9 +27,15 @@
     /* opacity: 0.8; */
 }
 
-.sleep_octopus {
+.sleep_octopus_left {
     width : 100px;
     height: auto;
+}
+
+.sleep_octopus_right {
+    width : 100px;
+    height: auto;
+    transform: scaleX(-1);
 }
 
 .nameBox {
