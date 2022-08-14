@@ -37,38 +37,11 @@ export const Timer = (time, user, page, flag, obj) => {
         console.log("제발,,,", user);
         // 밤 애니메이션 -> 밤
       } else if (page == 2) {
-        // 죽은 사람
-        if (obj.isDead) {
-          data2 = {
-            page: 6,
-            initTime: 3,
-          };
-          // 밤 역할 수행x(시장, 재간둥이, 능력 쓴 기자)
-        } else if (
-          obj.job === "시장" ||
-          obj.job === "재간둥이" ||
-          (obj.job === "기자" && obj.hasSkill === false)
-        ) {
-          data2 = {
-            page: 3,
-            initTime: 3,
-          };
-          // 밤 역할 수행o(마피아)
-        } else if (obj.job === "마피아") {
-          data2 = {
-            page: 4,
-            initTime: 3,
-          };
-          // 밤 역할 수행o(의사, 경찰, 기자, 크레이지)
-        } else {
-          data2 = {
-            page: 5,
-            initTime: 3,
-          };
-          // 죽은사람
-        }
-        // 밤 -> 낮 애니메이션
-      } else if (page == 3 || page == 4 || page == 5 || page == 6) {
+        data2 = {
+          page: 3,
+          initTime: 3,
+        };
+      } else if (page == 3) {
         data2 = {
           page: 7,
           initTime: 3,
