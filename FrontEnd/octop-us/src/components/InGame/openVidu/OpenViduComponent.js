@@ -1644,7 +1644,7 @@ class OpenViduComponent extends Component {
               <div id="layout" className="voted-bounds">
                 {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                   <div className="OT_root OT_publisher custom-class" id="localUser">
-                    {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
+                    {this.props.gamerData.userList.slice(0, 8).map((subGamer, i) => (
                       <div>
                         {subGamer.userName === this.state.pickUser ? (
                           <StreamComponent
