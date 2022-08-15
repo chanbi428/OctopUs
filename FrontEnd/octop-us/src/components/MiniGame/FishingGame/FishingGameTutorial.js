@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import FishingGameStart from "./FishingGameStart";
 
 const Container = styled.div`
   display: flex;
@@ -19,21 +20,34 @@ const Container = styled.div`
   padding: 10px;
 `;
 
-const FishGameTutorial = () => {
-  
+const FishingGameTutorial = () => {
+  const [eventChange, setEventChange] = useState(false);
+
+  useEffect(() => {
+    if (!eventChange) {
+      const eventTimer = setTimeout(() => {
+        setEventChange(true);
+      }, 4000);
+      return () => clearTimeout(eventTimer);
+    }
+  }, [eventChange]);
+
   return (
     <div>
-      <Container>
+      {!eventChange && <FishingGameStart />}
+      {eventChange && (
+        <Container>
           <h1>게임 설명</h1>
           <p>낚시꾼이 나타났어요!</p>
           <p>낚시줄에 끌려가지않게 도망쳐야 해요!</p>
           <p>30초 내에 클릭 버튼을</p>
           <p>최대한 많이 눌러주세요.</p>
-          <p>마피아팀이 더 많이 클릭한다면 마피아팀의 승리!</p>
-          <p>시민팀이 더 많이 클릭한다면 시민팀의 승리!</p>
+          <p>오징어팀이 더 많이 클릭한다면 오징어팀의 승리!</p>
+          <p>문어팀이 더 많이 클릭한다면 문어팀의 승리!</p>
         </Container>
+      )}
     </div>
   );
 };
 
-export default FishGameTutorial;
+export default FishingGameTutorial;

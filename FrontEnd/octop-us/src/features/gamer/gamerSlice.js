@@ -14,7 +14,7 @@ const initialState = {
   isDead: false,
   host: "",
   idx: 0,
-  minigameList: [true, true, true], // 미니게임1, 미니게임2, 미니게임3
+  minigameList: [true, true, true], // fish, shark, 미니게임3
   minigameResult: false, // true : Mafia , false : No Mafia
   userList: null,
   messageList: [], // 채팅내용 저장
@@ -62,7 +62,7 @@ const gamerSlice = createSlice({
       state.hasSkill = false;
     },
     // 미니 게임 사용했을 때 => 해당 idx = false  리듀서
-    useMinigame: (state, { payload }) => {
+    getMinigame: (state, { payload }) => {
       state.minigameList[payload.idx] = false;
     },
     // 미니 게임 마피아 승 => minigameResult = true 리듀서
@@ -123,6 +123,10 @@ const gamerSlice = createSlice({
       state.fisher = true;
     },
 
+    // reset shark
+    resetShark: (state) => {
+      state.shark = false;
+    },
     // updateUserListforSub: (state, { payload }) => {
     //   state.userList.forEach((user) => {
     //   })
@@ -192,7 +196,9 @@ const gamerSlice = createSlice({
     */
     // 디스패치를 통해 액션이 실행됐을 때 - 로딩 중..
     [gamerInit.pending]: (state) => {
-      console.log("features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer init!");
+      console.log(
+        "features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer init!"
+      );
       state.loading = true;
       state.error = null;
     },
@@ -256,7 +262,9 @@ const gamerSlice = createSlice({
     [gamerUserList.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-      console.error("features/gamer/gamerSliece :  get UserList 실패 rejected!");
+      console.error(
+        "features/gamer/gamerSliece :  get UserList 실패 rejected!"
+      );
       console.log(state.payload);
     },
 
@@ -264,7 +272,9 @@ const gamerSlice = createSlice({
     gamer Dead
     */
     [gamerDead.pending]: (state) => {
-      console.log("features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer dead!");
+      console.log(
+        "features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer dead!"
+      );
       state.loading = true;
       state.error = null;
     },
@@ -275,7 +285,9 @@ const gamerSlice = createSlice({
     [gamerDead.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-      console.error("features/gamer/gamerSliece : 게이머 dead 처리 실패 rejected!");
+      console.error(
+        "features/gamer/gamerSliece : 게이머 dead 처리 실패 rejected!"
+      );
     },
   },
 });
@@ -287,7 +299,7 @@ export const {
   setUserList,
   setGameStatus,
   hasntSkill,
-  useMinigame,
+  getMinigame,
   mafiaWinAtMinigame,
   mafiaLoseAtMinigame,
   updateUserList,
@@ -300,6 +312,7 @@ export const {
   setReporter,
   setShark,
   setFisher,
+  resetShark,
   setLocalUser,
   setPickUser,
   setTurnCheck,

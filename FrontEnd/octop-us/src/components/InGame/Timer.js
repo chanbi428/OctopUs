@@ -91,7 +91,7 @@ export const Timer = (time, user, page, flag, obj) => {
             // 낚시 미니게임 발생
           } else if (obj.fisher) {
             data2 = {
-              page: 20,
+              page: 30,
               initTime: 0,
               gameChoice: 1,
             };
