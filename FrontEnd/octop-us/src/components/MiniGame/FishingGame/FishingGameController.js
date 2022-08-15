@@ -11,6 +11,12 @@ import { BASE_URL, config } from "../../../api/BASE_URL";
 
 import "./FishingGameStart.css";
 
+import {
+  resetFisher,
+  mafiaWinAtMinigame,
+  mafiaLoseAtMinigame,
+} from "../../../features/gamer/gamerSlice";
+
 const FishingGameStart = (props) => {
   const [roomId, setRoomId] = useState(props.roomId);
   const [startAnimation, setStartAnimation] = useState(true);
@@ -19,6 +25,7 @@ const FishingGameStart = (props) => {
   const [startTutorial, setStartTutorial] = useState(false);
 
   // Redux store
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
   const { roomChief } = useSelector((state) => state.wait);
   const { localUser } = useSelector((state) => state.gamer);
@@ -78,20 +85,18 @@ const FishingGameStart = (props) => {
     // const roomId = props.roomId;
     await axios.delete(BASE_URL + `/games/mini/fish/delete/${roomId}`, config);
     console.log("endGame on Starter : " + e);
-    // dispatch();
-    // if (roomChief === userInfo.userName) {
-    //   Timer(0, localUser, 20, flag, obj);
-    // }
-    if(e){ // citizen win
 
+    if(e){ // citizen win
+      dispatch(mafiaLoseAtMinigame());
     }
     else{ // mafia win
-
+      dispatch(mafiaWinAtMinigame());
     }
-    /*
-    여기에 dispatch 사용해서 리덕스 값 갱신
-    
-    */
+    obj["fisher"] = false;
+    dispatch(resetFisher());
+    if (roomChief === userInfo.userName) {
+      Timer(0, localUser, 20, flag, obj);
+    }
   }
 
   return (

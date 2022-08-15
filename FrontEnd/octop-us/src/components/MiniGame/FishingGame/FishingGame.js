@@ -199,20 +199,32 @@ const FishingComponent = (props) => {
           </Card>
         </div>
       )}
-      {showMode && (
-        // {showMode && (
-        <Card id="mainComponent">
-          <div id="winMent">
-            <p>
-              {citizenPercent > mafiaPercent ? "문어" : "오징어"}팀의 승리!!
-            </p>
-            <img src="images/trophy.png" width={"500px"}></img>
-            <p id="winMentExplane">
-              {citizenPercent > mafiaPercent ? citizenWinMent : mafiaWinMent}
-            </p>
-          </div>
-        </Card>
-      )}
+      {showMode &&
+        (citizenPercent > mafiaPercent ? (
+          <Card className="team_squid_card" id="mainComponent">
+            <div id="winMent">
+              <p>
+                문어팀의 승리!!
+              </p>
+              <img src="images/octopus_signiture.png" alt="team_octopus" />
+              <p id="winMentExplane">
+                {citizenWinMent}
+              </p>
+            </div>
+          </Card>
+        ) : (
+          <Card className="team_octopus_card" id="mainComponent">
+            <div id="winMent">
+              <p>
+                오징어팀의 승리!!
+              </p>
+              <img src="images/squid_std.png" alt="team_squid" />
+              <p id="winMentExplane">
+                {mafiaWinMent}
+              </p>
+            </div>
+          </Card>
+        ))}
     </div>
   );
 };

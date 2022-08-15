@@ -19,7 +19,7 @@ import VoteWaitPage from "../components/VotePage/VoteWaitPage";
 import ExecutionPage from "../components/VotePage/ExecutionPage";
 import GameAnimation from "../../MiniGame/LoadingAnimation/AnimationRouter";
 import SharkGameResult from "../../MiniGame/SharkGame/SharkGameResult";
-import FishingGame from "../../MiniGame/FishingGame/FishingGame";
+import FishingGame from "../../MiniGame/FishingGame/FishingGameController";
 import GameResultPage from "../components/JobComponents/GameResultPage";
 import CrazyCard from "../../LoadingPage/JobCard/CrazyCard/CrazyCard";
 import DoctorCard from "../../LoadingPage/JobCard/DoctorCard/DoctorCard";
@@ -2007,7 +2007,7 @@ class OpenViduComponent extends Component {
             </div>
           </div>
         )}
-        {this.state.page === 30 && <FishingGame gameNum={this.state.gameNum} />}
+        {this.state.page === 30 && <FishingGame roomId={this.state.mySessionId} />}
         {/*
           최종 게임 결과 
         */}
