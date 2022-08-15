@@ -1,0 +1,10 @@
+.Shark-game__end-cell {
+  background-color: #13293d !important;
+}
+
+.Shark-game__correct {
+  background-color: #00afb9 !important;
+}
+.Shark-game__incorrect {
+  background-color: rgb(240, 113, 103) !important;
+}

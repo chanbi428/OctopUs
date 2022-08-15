@@ -8,6 +8,8 @@ import { faCloud } from "@fortawesome/free-solid-svg-icons";
 import "./NightToDayLoading.css";
 import { useSelector } from "react-redux";
 
+import MP_Morning from "../../../effect/MP_Morning.mp3";
+
 const NightToDayLoading = (props) => {
   // 승리 유저 조회 후 업데이트 하고 리스트 넘김
   let pathName = document.location.pathname.replace("/", "");
@@ -16,27 +18,31 @@ const NightToDayLoading = (props) => {
   const { roomChief } = useSelector((state) => state.wait);
 
   useEffect(() => {
+    var audio = new Audio(MP_Morning);
+    audio.play();
+    setTimeout(() => audio.pause(), 3000);
+
     console.log(userName, roomChief, "NightToDay Loading");
-      axios
-        .get(`${BASE_URL}/gamers/victory/team/${pathName}`)
-        .then((res) => {
-          if (res.data.victory) {
-            axios
-              .put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${res.data.gameTeam}`)
-              .then((res) => {
-                axios
-                  .get(`${BASE_URL}/gamers/winners`)
-                  .then((res) => {
-                    victoryUsers = res.data.map((row) => row.userName);
-                    props.setVictoryUser(victoryUsers);
-                  })
-                  .catch((err) => console.log(err));
-              })
-              .catch((err) => console.log(err));
-          }
-        })
-        .catch((err) => console.log(err));
-    }, []);
+    axios
+      .get(`${BASE_URL}/gamers/victory/team/${pathName}`)
+      .then((res) => {
+        if (res.data.victory) {
+          axios
+            .put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${res.data.gameTeam}`)
+            .then((res) => {
+              axios
+                .get(`${BASE_URL}/gamers/winners`)
+                .then((res) => {
+                  victoryUsers = res.data.map((row) => row.userName);
+                  props.setVictoryUser(victoryUsers);
+                })
+                .catch((err) => console.log(err));
+            })
+            .catch((err) => console.log(err));
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div className="sun-page">

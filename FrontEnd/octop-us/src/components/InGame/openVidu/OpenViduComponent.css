@@ -29,7 +29,7 @@
 }
 
 .mafiaEventBtn {
-  all : unset;
+  all: unset;
 }
 
 .mafiaEventBtn:hover {
@@ -37,7 +37,7 @@
 }
 
 .usedEventBtn {
-  all : unset;
+  all: unset;
   opacity: 0.5;
 }
 
@@ -57,7 +57,7 @@
   padding: 0;
   /* margin: 20px; */
   border-style: groove;
-  border-color: #FA8072;
+  border-color: #fa8072;
   border-width: 5px;
   border-radius: 10px;
 }
@@ -68,7 +68,7 @@
   flex-direction: row;
   justify-items: end;
   border-radius: 15px;
-  color : white;
+  color: white;
   text-shadow: -2px -1px black, 1px 2px black, 1px 2px black, -1px -2px black;
   /* text-shadow: -1px 0px black, 0px 1px black, 1px 0px black, 0px -1px black; */
   /* background-color: #FF7F50; */
@@ -88,7 +88,6 @@
 
 .day-to-night-sky {
   margin: auto;
-
 }
 
 .report-result {
@@ -98,3 +97,31 @@
   font-size: 24px;
   text-align: center;
 }
+
+.timer {
+  text-align: center;
+  color: white;
+  text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+}
+
+.timer_night {
+  text-align: center;
+  color: white;
+  text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+  margin-left: 48%;
+}
+
+.agree__btn {
+  font-family: GmarketSansMedium;
+  font-size: large;
+}
+
+.timer_bar{
+  display: flex;
+  justify-content: space-between;
+}
+
+.pick-for-vote {
+  cursor: pointer;
+}
+

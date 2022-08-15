@@ -7,21 +7,33 @@ import axios from "axios";
 
 const Container = styled.div`
   margin-top: 30px;
-  width: 100px;
+  margin-bottom: 10px;
+  width: 300px;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #13293d;
+  & .redTime {
+    color: rgb(240, 113, 103);
+  }
 `;
 
-const Front = styled.div`
+const Timer = styled.div`
   text-align: right;
+  font-family: BMJUA;
+`;
+
+const MyRecord = styled.div`
+  font-family: BMJUA;
 `;
 
 function SharkGameTimer({ isFinish }) {
   const [timeElapsed, setTimeElapsed] = useState(30); // 30초 제한
   const [playTime, setPlayTime] = useState(0); // 1초씩 줄어들기
+  const [finishRecord, setFinishRecord] = useState(null); // 내 플레이타임 기록
 
   const { userInfo } = useSelector((state) => state.user);
   const { userList } = useSelector((state) => state.gamer);
@@ -42,10 +54,9 @@ function SharkGameTimer({ isFinish }) {
   // 보드판 위에 뜨는 타이머
   useEffect(() => {
     const timer = setInterval(() => {
-      if (timeElapsed > 0) {
+      if (timeElapsed > 0 && !isFinish) {
         setTimeElapsed((timeElapsed) => timeElapsed - 1);
-      }
-      if (timeElapsed === 0) {
+      } else {
         clearInterval(timer);
       }
     }, 1000);
@@ -70,6 +81,7 @@ function SharkGameTimer({ isFinish }) {
     if (isFinish) {
       const myTime = playTime / 1000;
       console.log(`게임 끝! 내 기록: ${myTime}`);
+      setFinishRecord(myTime);
       axios.post(
         BASE_URL + "/games/mini/shark",
         {
@@ -86,7 +98,13 @@ function SharkGameTimer({ isFinish }) {
 
   return (
     <Container>
-      <Front>{timeElapsed}</Front>
+      {!finishRecord ? (
+        <Timer className={timeElapsed < 6 ? "redTime" : null}>
+          {timeElapsed}
+        </Timer>
+      ) : (
+        <MyRecord>내 기록 : {finishRecord}초</MyRecord>
+      )}
     </Container>
   );
 }

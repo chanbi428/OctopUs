@@ -6,15 +6,22 @@ import { faAsterisk } from "@fortawesome/free-solid-svg-icons";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
 import "./DayToNightLoading.css";
 
+import MP_Thunder from "../../../effect/MP_Thunder.mp3";
+
 const DayToNightLoading = (props) => {
   const dispatch = useDispatch();
   const { gameturn } = useSelector((state) => state.gamer);
 
   useEffect(() => {
     if (props.page === 2) {
+      console.log("night animation");
       dispatch(setTurnCheck());
       // console.log("props", props);
       props.checkGameTurn();
+
+      var audio = new Audio(MP_Thunder);
+      audio.play();
+      setTimeout(() => audio.pause(), 3000);
     }
   }, []);
   return (

@@ -6,6 +6,8 @@ import "./RoomListItem.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 
+import MP_btn1 from "../../effect/MP_btn1.mp3";
+
 function RoomListItem({ item }) {
   const { userInfo } = useSelector((state) => state.user);
   const [roomPwIn, setRoomPwIn] = useState("");
@@ -13,6 +15,8 @@ function RoomListItem({ item }) {
     setRoomPwIn(e.target.value);
   };
   const onClickEnterRoom = (e) => {
+    var audio = new Audio(MP_btn1);
+    audio.play();
     e.preventDefault();
 
     if (item.gameStatus === "true") {
@@ -56,24 +60,16 @@ function RoomListItem({ item }) {
   return (
     <div className="col room-list__btn">
       <div
-        className={
-          item.gameStatus ? "room-list__container" : "room-list__container"
-        }
+        className={item.gameStatus ? "room-list__container" : "room-list__container"}
         style={{ backgroundColor: item.gameStatus ? "#13293d" : "#00afb9" }}
       >
         <div className="room-list__left">
-          <div
-            className={
-              item.gameStatus ? "room-list__idx-1" : "room-list__idx-2"
-            }
-          >
+          <div className={item.gameStatus ? "room-list__idx-1" : "room-list__idx-2"}>
             {item.idx}
           </div>
           <FontAwesomeIcon
             icon={faLock}
-            className={
-              item.private ? "room-list__locked" : "room-list__unlocked"
-            }
+            className={item.private ? "room-list__locked" : "room-list__unlocked"}
           />
         </div>
         <div className="room-list__middle">
@@ -84,11 +80,7 @@ function RoomListItem({ item }) {
               name="room_pw_in"
               value={roomPwIn}
               onChange={handleRoomPwIn}
-              className={
-                item.private
-                  ? "room-list__password"
-                  : "room-list__password-opacity"
-              }
+              className={item.private ? "room-list__password" : "room-list__password-opacity"}
             />
           </div>
         </div>
@@ -104,11 +96,8 @@ function RoomListItem({ item }) {
               게임중
             </button>
           ) : (
-            <button
-              className="main-page__room-list-btn"
-              onClick={onClickEnterRoom}
-            >
-              게임시작
+            <button className="main-page__room-list-btn" onClick={onClickEnterRoom}>
+              게임입장
             </button>
           )}
         </div>

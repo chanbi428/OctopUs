@@ -6,6 +6,8 @@ import "./RegisterModal.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { userRegister } from "../../features/user/userActions";
 
+import MP_btn1 from "../../effect/MP_btn1.mp3";
+
 const RegisterModal = (props) => {
   const dispatch = useDispatch();
   const { open, close } = props;
@@ -31,6 +33,8 @@ const RegisterModal = (props) => {
 
   // 제출 클릭 시 axios로 유저 정보 전송
   const onRegisterSubmitHandler = (e) => {
+    var audio = new Audio(MP_btn1);
+    audio.play();
     e.preventDefault();
 
     if (register.userPW !== register.confirmUserPW) {
@@ -44,6 +48,8 @@ const RegisterModal = (props) => {
 
   // 닉네임 중복 확인
   const onUserNameCheckHandler = (e) => {
+    var audio = new Audio(MP_btn1);
+    audio.play();
     axios.get(`${BASE_URL}/user/existName/${register.userName}`).then((res) => {
       if (res.data !== true) {
         alert("중복 확인이 완료되었습니다.");
@@ -62,8 +68,7 @@ const RegisterModal = (props) => {
             <h1>&nbsp;SIGN UP</h1>
             <div className="register-modal__inputcontainer">
               <div className="register-modal__inputbox">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;닉네임
-                :&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;닉네임 :&nbsp;
                 <input
                   className="register-modal__input"
                   name="userName"
@@ -105,11 +110,7 @@ const RegisterModal = (props) => {
               </div>
             </div>
             <div>
-              <button
-                type="submit"
-                className="register-modal__btn"
-                disabled={!isChecked}
-              >
+              <button type="submit" className="register-modal__btn" disabled={!isChecked}>
                 회원가입
               </button>
               <button className="register-modal__btn" onClick={close}>
