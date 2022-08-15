@@ -5,11 +5,7 @@ import "./LandingPage.css";
 const LandingPage = (props) => {
   return (
     <div>
-      <img
-        className="landing-page__bg-img"
-        src="/images/landingimage.jpg"
-        alt=""
-      />
+      <img className="landing-page__bg-img" src="/images/landingimage.jpg" alt="" />
       <div className="landing-page__img-container">
         <img src="images/logo.png" alt="" />
       </div>

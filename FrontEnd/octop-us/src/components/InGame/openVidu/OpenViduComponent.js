@@ -31,6 +31,8 @@ import WaitingRoomPage from "../components/WaitingRoomPage/WaitingRoomPage";
 import DayOctopi from "../components/octopi/DayOctopi";
 import NightOctopi from "../components/octopi/NightOctopi";
 import MafiaNightOctopi from "../components/octopi/MafiaNightOctopi";
+import NightComponent from "../components/MusicComponents/NightComponent";
+import DayComponent from "../components/MusicComponents/DayComponent";
 import "./OpenViduComponent.css";
 
 import OpenViduLayout from "../layout/openvidu-layout";
@@ -53,6 +55,11 @@ import {
 import Timer from "../Timer";
 import { BASE_URL } from "../../../api/BASE_URL";
 
+import MP_btn1 from "../../../effect/MP_btn1.mp3";
+import MP_btn2 from "../../../effect/MP_btn2.mp3";
+import MP_bgm1 from "../../../effect/MP_bgm1.mp3";
+import VoteAgreeComponent from "../components/MusicComponents/VoteAgreeComponent";
+
 var localUser = new UserModel();
 
 class OpenViduComponent extends Component {
@@ -67,6 +74,7 @@ class OpenViduComponent extends Component {
     let hostName = this.props.host ? this.props.host : "HostA";
     let sessionName = this.props.sessionName ? this.props.sessionName : "SessionA";
     let userName = localStorage.getItem("userName");
+    let bgmAudio = new Audio(MP_bgm1);
     this.remotes = [];
     this.localUserAccessAllowed = false;
     // 상위 컴포넌트에서 하위 함수 호출 위한 부분
@@ -97,6 +105,7 @@ class OpenViduComponent extends Component {
       hasSkill: true,
       killed: "없음",
       voteName: "",
+      bgmAudio: bgmAudio,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -147,6 +156,8 @@ class OpenViduComponent extends Component {
     window.addEventListener("beforeunload", this.onbeforeunload);
     window.addEventListener("resize", this.updateLayout);
     this.joinSession();
+
+    this.state.bgmAudio.play();
   }
 
   componentWillUnmount() {
@@ -487,6 +498,10 @@ class OpenViduComponent extends Component {
   }
   // 임시로 만들어놓은 대기실에서 이동하는 버튼 함수
   clickBtn = () => {
+    var audio = new Audio(MP_btn1);
+    audio.play();
+    this.state.bgmAudio.pause();
+    setTimeout(() => audio.pause(), 3000);
     // if(this.props.host === myUserName){ // host일 경우에만 게임 시작 가능
     //   this.setState({ page: 1 });
     //   this.props.onClickBtn();
@@ -535,8 +550,12 @@ class OpenViduComponent extends Component {
   selectVote = (gamer, e) => {
     e.preventDefault();
     if (this.state.pickUser === gamer.userName) {
+      var audio = new Audio(MP_btn2);
+      audio.play();
       this.setState({ pickUser: "" });
     } else if (gamer.isDead === false) {
+      var audio = new Audio(MP_btn2);
+      audio.play();
       this.setState({ pickUser: gamer.userName });
     }
     console.log("선택한 유저" + this.state.pickUser);
@@ -547,16 +566,24 @@ class OpenViduComponent extends Component {
     e.preventDefault();
     if (this.props.gamerData.job === "의사") {
       if (this.state.pickUser === gamer.userName) {
+        var audio = new Audio(MP_btn2);
+        audio.play();
         this.setState({ pickUser: "" });
       } else if (gamer.isDead === false) {
+        var audio = new Audio(MP_btn2);
+        audio.play();
         this.setState({ pickUser: gamer.userName });
       }
     } else {
       if (gamer.userName === this.props.gamerData.userName) {
         console.log("자기 자신은 선택 X");
       } else if (this.state.pickUser === gamer.userName) {
+        var audio = new Audio(MP_btn2);
+        audio.play();
         this.setState({ pickUser: "" });
       } else if (gamer.isDead === false) {
+        var audio = new Audio(MP_btn2);
+        audio.play();
         this.setState({ pickUser: gamer.userName });
       }
 
@@ -565,9 +592,13 @@ class OpenViduComponent extends Component {
           if (gamer.userName === this.props.gamerData.userName) {
             console.log("자기 자신은 선택 X");
           } else if (this.state.pickUser === gamer.userName) {
+            var audio = new Audio(MP_btn2);
+            audio.play();
             this.setState({ pickUser: "" });
             console.log("reporterpick 같은 유저 선택", this.state.pickUser);
           } else if (gamer.isDead === false) {
+            var audio = new Audio(MP_btn2);
+            audio.play();
             // console.log(g)
             this.setState({ pickUser: gamer.userName });
             console.log("reporterpick 지금 기자가 밤에 찍은 사람 누구?", this.state.pickUser);
@@ -586,6 +617,8 @@ class OpenViduComponent extends Component {
   selectPerson = (gamer, e) => {
     e.preventDefault();
     if (gamer.isDead === false && gamer.gameJob !== "마피아") {
+      var audio = new Audio(MP_btn2);
+      audio.play();
       if (this.state.pickUser === gamer.userName) {
         this.setState({ pickUser: "" });
         console.log("선택한 유저" + this.state.pickUser);
@@ -603,6 +636,9 @@ class OpenViduComponent extends Component {
   // PICKUSER 변경하는 함수
   changePerson = (pickUser) => {
     console.log("UPDATE PICK USER FROM RECEIVED MESSAGE2 (changePerson 수행)");
+    // 다영 이부분은 고민 중
+    var audio = new Audio(MP_btn2);
+    audio.play();
     if (this.state.pickUser === pickUser) {
       this.setState({ pickUser: "" });
     } else {
@@ -655,16 +691,22 @@ class OpenViduComponent extends Component {
   // };
 
   clickSharkMiniGame = () => {
+    var audio = new Audio(MP_btn1);
+    audio.play();
     this.props.setShark();
     this.usingMinigame({ idx: 1 });
   };
 
   clickFisherMiniGame = () => {
+    var audio = new Audio(MP_btn1);
+    audio.play();
     this.props.setFisher();
     this.usingMinigame({ idx: 0 });
   };
 
   clickBtnGame = (e) => {
+    var audio = new Audio(MP_btn2);
+    audio.play();
     console.log("clickBtnGame : " + e);
     // this.setState({ page: 2 });
     // if (e === 1) {
@@ -687,6 +729,8 @@ class OpenViduComponent extends Component {
   // 찬반 버튼 누르면 state.agree가 바뀜
 
   selectAgree = (e) => {
+    var audio = new Audio(MP_btn2);
+    audio.play();
     this.setState({ agree: true });
     console.log("AGREE VOTE 찬성 여부 : " + this.state.agree);
     // 다영 테스트 지워야함
@@ -696,6 +740,8 @@ class OpenViduComponent extends Component {
   };
   // 다영 수정
   selectDisAgree = (e) => {
+    var audio = new Audio(MP_btn2);
+    audio.play();
     this.setState({ agree: false });
     console.log("AGREE VOTE 찬성 여부 : " + this.state.agree);
     // 다영 테스트 지워야함
@@ -1142,6 +1188,7 @@ class OpenViduComponent extends Component {
             this.props.gamerData.job === "재간둥이" ||
             (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === false)) && (
             <div className="d-flex justify-content-between">
+              <NightComponent />
               <div>
                 {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                   <div id="layout" className="ingame-bounds">
@@ -1201,6 +1248,7 @@ class OpenViduComponent extends Component {
           this.props.gamerData.isDead === false &&
           this.props.gamerData.job === "마피아" && (
             <div className="d-flex justify-content-between">
+              <NightComponent />
               <div>
                 {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                   <div
@@ -1348,6 +1396,7 @@ class OpenViduComponent extends Component {
             this.props.gamerData.job === "크레이지경찰" ||
             (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === true)) && (
             <div className="d-flex justify-content-between">
+              <NightComponent />
               {console.log("start police")}
               <div>
                 {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
@@ -1477,6 +1526,7 @@ class OpenViduComponent extends Component {
         {/* 밤페이지 - 밤역할 수행 x (죽은 사람) */}
         {this.state.page === 3 && this.props.gamerData.isDead === true && (
           <div className="d-flex justify-content-between">
+            <NightComponent />
             <div>
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div id="layout" className="ingame-bounds">
@@ -1557,6 +1607,7 @@ class OpenViduComponent extends Component {
          */}
         {this.state.page === 10 && (
           <div className="d-flex justify-content-between">
+            <DayComponent />
             <div>
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div
@@ -1658,6 +1709,7 @@ class OpenViduComponent extends Component {
          */}
         {this.state.page === 11 && (
           <div className="d-flex justify-content-between">
+            <DayComponent />
             <div>
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div
@@ -1783,6 +1835,7 @@ class OpenViduComponent extends Component {
         {/* 최후 변론 + 찬반페이지 */}
         {this.state.page === 13 && (
           <div className="d-flex justify-content-center">
+            <VoteAgreeComponent />
             <div className="d-flex flex-column justify-content-between">
               <h2>최후변론</h2>
               <div id="layout" className="voted-bounds">
