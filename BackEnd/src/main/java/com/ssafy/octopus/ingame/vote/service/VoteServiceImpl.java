@@ -1,5 +1,6 @@
 package com.ssafy.octopus.ingame.vote.service;
 
+import com.ssafy.octopus.ingame.dao.GamerDao;
 import com.ssafy.octopus.ingame.vote.dao.VoteDao;
 import com.ssafy.octopus.ingame.vote.entity.Vote;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class VoteServiceImpl implements VoteService {
 
     @Autowired
     VoteDao dao;
+    @Autowired
+    GamerDao gamerDao;
 
     // 낮 투표 시장 제외 (1표 -> 10표)
     @Override
@@ -54,7 +57,9 @@ public class VoteServiceImpl implements VoteService {
     @Override
     @Transactional
     public Vote findMaxVote(String roomId1, String roomId2) {
-        int skip = dao.selectSkip(roomId1);  // skip 수
+        int count = gamerDao.countAliveAll(roomId1);
+        int mayor = gamerDao.isMayorAlive(roomId1) == 0 ? 5 : 0;
+        int skip = (count*10+mayor)-dao.countVote(roomId1);  // skip 수
         Vote vote = new Vote("skip", roomId1, 0);  // 기본을 skip으로 설정한다.
         List<Vote> list = dao.findMaxVote(roomId1, roomId2);
 
@@ -63,5 +68,16 @@ public class VoteServiceImpl implements VoteService {
         }
         dao.resetVote(vote.getRoomId());
         return vote;
+    }
+
+    /** @brief : updateVote, roomId의 해당하는 vote의 vote 초기화
+     *  @date : 2022-08-13
+     *  @param : roomId
+     *  @return : int
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @Override
+    public int updateByRoomIdForInitialization(String roomId) {
+        return dao.updateByRoomIdForInitialization(roomId);
     }
 }

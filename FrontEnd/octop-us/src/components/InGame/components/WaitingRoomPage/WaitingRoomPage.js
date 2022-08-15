@@ -13,6 +13,7 @@ import {
   updateGameTime
 } from "../../../../features/waiting/waitSlice";
 import { BASE_URL } from "../../../../api/BASE_URL";
+import { resetGamer } from "../../../../features/gamer/gamerSlice";
 
 export default function WaitingRoomPage(props) {
   const [roomInfo, setRoomInfo] = useState({
@@ -56,6 +57,7 @@ export default function WaitingRoomPage(props) {
 
   // 방 입장 시 데이터 받아옴
   useEffect(() => {
+    dispatch(resetGamer())
     let pathName = document.location.pathname.replace("/", "");
     console.log(pathName);
     axios

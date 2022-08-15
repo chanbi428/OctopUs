@@ -6,6 +6,12 @@
   color: rgba(255, 255, 255, 0.6);
 } */
 
+.moon-page {
+  position: absolute;
+  top: 100px;
+  left: 35%;
+}
+
 .wrap-moon {
   width: 500px;
   height: 500px;
@@ -178,4 +184,12 @@
     transform: scale(1);
     opacity: 1;
   }
+}
+
+.day-to-night__text {
+  font-family: BMJUA;
+  font-size: 30px;
+  color: white;
+  /* margin-left: 15vw; */
+  text-align:center;
 }

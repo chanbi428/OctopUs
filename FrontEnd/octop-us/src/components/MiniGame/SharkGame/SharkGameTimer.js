@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-// import { BASE_URL, config } from "../../../api/BASE_URL";
-// import axios from "axios";
+
+import { BASE_URL, config } from "../../../api/BASE_URL";
+import axios from "axios";
 
 const Container = styled.div`
   margin-top: 30px;
@@ -20,7 +22,20 @@ const Front = styled.div`
 function SharkGameTimer({ isFinish }) {
   const [timeElapsed, setTimeElapsed] = useState(30); // 30초 제한
   const [playTime, setPlayTime] = useState(0); // 1초씩 줄어들기
-  // const { userInfo } = useSelector((state) => state.user);
+
+  const { userInfo } = useSelector((state) => state.user);
+  const { userList } = useSelector((state) => state.gamer);
+  const { roomId } = useSelector((state) => state.wait);
+
+  const userName = userInfo.userName;
+  let gameTeam = "";
+  for (let i = 0; i < 8; i++) {
+    if (userList[i]["userName"] === userName) {
+      gameTeam = userList[i]["gameTeam"];
+      break;
+    }
+  }
+
   const record = useRef();
   record.current = playTime;
 
@@ -53,10 +68,19 @@ function SharkGameTimer({ isFinish }) {
   // 게임 끝났을 때 내 기록 보내기
   useEffect(() => {
     if (isFinish) {
-      const time = playTime / 1000;
-      console.log(`게임 끝! 내 기록: ${time}`);
-      // const user_name = userInfo.userName;
-      // axios.put(BASE_URL + "games/mini/shark", { user_name, time }, config);
+      const myTime = playTime / 1000;
+      console.log(`게임 끝! 내 기록: ${myTime}`);
+      axios.post(
+        BASE_URL + "/games/mini/shark",
+        {
+          userName: userName,
+          roomId: roomId,
+          gameTeam: gameTeam,
+          time: myTime,
+        },
+        config
+      );
+      console.log("상어 잘 보내졌나");
     }
   }, [isFinish]);
 

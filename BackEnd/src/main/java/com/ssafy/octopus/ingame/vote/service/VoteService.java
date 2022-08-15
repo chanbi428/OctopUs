@@ -13,4 +13,6 @@ public interface VoteService {
     public Vote findByUserName(String userName); // 투표 조회 (찬반 결과 조회)
     public Vote findMaxVote(String roomId1, String roomId2); // 투표 조회 (낮 투표 결과 조회)
 
+    int updateByRoomIdForInitialization(String roomId); // roomId에 해당되는 night 테이블 초기화
+
 }

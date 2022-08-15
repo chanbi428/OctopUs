@@ -2,7 +2,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 1vh 1vw 1vh 1vw;
+  margin: 1vh 1vw 0 1vw;
 }
 
 nav > p {
