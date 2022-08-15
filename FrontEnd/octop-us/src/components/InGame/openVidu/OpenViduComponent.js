@@ -1499,7 +1499,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    this.state.speakingUsers[i] ? "ingame-bounds-speaking" : "ingame-bounds"
+                    (this.state.speakingUsers[i] && subGamer.isDead === false) ? "ingame-bounds-speaking" : "ingame-bounds"
                   }
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
@@ -1559,7 +1559,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    this.state.speakingUsers[i + 4] ? "ingame-bounds-speaking" : "ingame-bounds"
+                    (this.state.speakingUsers[i+4] && subGamer.isDead === false) ? "ingame-bounds-speaking" : "ingame-bounds"
                   }
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
@@ -1596,7 +1596,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    this.state.speakingUsers[i] ? "ingame-bounds-speaking" : "ingame-bounds"
+                    (this.state.speakingUsers[i] && subGamer.isDead === false) ? "ingame-bounds-speaking" : "ingame-bounds"
                   }
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
@@ -1662,7 +1662,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    this.state.speakingUsers[i + 4] ? "ingame-bounds-speaking" : "ingame-bounds"
+                    (this.state.speakingUsers[i+4] && subGamer.isDead === false) ? "ingame-bounds-speaking" : "ingame-bounds"
                   }
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
