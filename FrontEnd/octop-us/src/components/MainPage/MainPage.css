@@ -3,6 +3,15 @@
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-page__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .main-page__logo {
@@ -15,7 +24,7 @@
   align-items: center;
   justify-content: space-between;
   /* margin-top: 20px; */
-  margin-bottom: 2vh;
+  margin-bottom: 5%;
   font-size: 20px;
   font-weight: bold;
 }

@@ -46,6 +46,10 @@ const SharkGameResult = () => {
         axios
           .get(`${BASE_URL}/games/mini/shark/result/${roomId}`)
           .then((res) => {
+            console.log(
+              res.data.gameTeam === "마피아",
+              "데이터 확인!!!!!!!!!!!!!!!!!!!!!!"
+            );
             if (res.data.gameTeam === "마피아") {
               dispatch(mafiaWinAtMinigame());
               setGetWin("마피아");
@@ -72,20 +76,20 @@ const SharkGameResult = () => {
   return (
     <div>
       {!resultChange && <SharkGame />}
-      {resultChange && (
-         getWin === "마피아" ? 
-        <Card className="team_squid_card">
-          <img src="images/squid_std.png" alt="team_squid" />
-          <h2>오징어 팀의 승리!</h2>
-          <p>오늘 낮 투표를 진행하지 않습니다.</p>
-        </Card>
-        : 
-        <Card className="team_octopus_card">
-          <img src="images/octopus_signiture.png" alt="team_octopus"/>
-          <h2>문어 팀의 승리!</h2>
-          <p>오늘 낮 투표가 정상적으로 진행됩니다.</p>
-        </Card> 
-      )}
+      {resultChange &&
+        (getWin === "마피아" ? (
+          <Card className="team_squid_card">
+            <img src="images/squid_std.png" alt="team_squid" />
+            <h2>오징어 팀의 승리!</h2>
+            <p>오늘 낮 투표를 진행하지 않습니다.</p>
+          </Card>
+        ) : (
+          <Card className="team_octopus_card">
+            <img src="images/octopus_signiture.png" alt="team_octopus" />
+            <h2>문어 팀의 승리!</h2>
+            <p>오늘 낮 투표가 정상적으로 진행됩니다.</p>
+          </Card>
+        ))}
     </div>
   );
 };

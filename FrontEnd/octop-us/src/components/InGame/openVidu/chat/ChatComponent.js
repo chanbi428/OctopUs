@@ -141,6 +141,13 @@ class ChatComponent extends Component {
           agreeVoteGo: true,
         };
       });
+      this.props.user.getStreamManager().stream.session.on("signal:resetFlag", (event) => {
+        flag = {
+          gameEnd: false,
+          voteGo: false,
+          agreeVoteGo: false,
+        };
+      });
       this.props.user
         .getStreamManager()
         .stream.session.on("signal:agreeVoteGoAndGameEnd", (event) => {
@@ -197,12 +204,16 @@ class ChatComponent extends Component {
           this.props.resetPickUser();
           this.props.setGameStatus({ gameStatus: 1 });
           this.props.setmafiaLoseAtMinigame();
+          
+          this.props.user.getStreamManager().stream.session.signal({
+            type: "resetFlag",
+          });
           if (this.props.waitData.roomChief === this.props.gamerData.userName) {
-            axios
-              .put(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
-              .then((res) => {
-                console.log("host가 밤 초기화");
-              });
+          axios
+            .put(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
+            .then((res) => {
+              console.log("host가 밤 초기화");
+            });
           }
         }
         if (data.page === 10) {
@@ -284,8 +295,9 @@ class ChatComponent extends Component {
         if (data.votes.userName === "skip") {
           // 그냥 페이지 테스트용
           console.log("NO MAX VOTES => 찬반 페이지 PASS");
-          // this.props.resetPickUser(); // pickUser reset
-          // this.props.changePage(data.page, data.gameChoice);
+          this.props.user.getStreamManager().stream.session.signal({
+            type: "resetFlag",
+          });
         } else {
           console.log("MAX VOTES => 찬반 페이지 GO");
           this.props.user.getStreamManager().stream.session.signal({
@@ -313,6 +325,9 @@ class ChatComponent extends Component {
           console.log("AGREE VOTE : 처형 X => 처형X 결과 페이지 GO");
           this.props.setVoteName("skip");
           // 페이지 이동 (페이지 수정 필요)
+          this.props.user.getStreamManager().stream.session.signal({
+            type: "resetFlag",
+          });
         }
       });
       this.props.user.getStreamManager().stream.session.on("signal:dead", (event) => {
