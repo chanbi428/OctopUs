@@ -6,7 +6,7 @@ export const MafiaNightOctopi = () => {
     const { userList } = useSelector((state) => state.gamer )
 
     return (
-      <div className="col d-flex flex-column align-items-center">
+      <div className="col d-flex flex-column align-items-center mt-5">
         <div className="row">
           <div className="container col" >
             <div className="nameBox">

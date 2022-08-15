@@ -52,7 +52,7 @@ const InGame = () => {
     try {
       await console.log("clickBtn : " + sessionName);
       await setSessionName(sessionName);
-      // await ClickStart(roomId, userList, userInfo.userName);
+      await ClickStart(roomId, userList, userInfo.userName);
       await chatRef.current.ovref.current.gameNotice();
       await setPage(1);
     } catch (error) {

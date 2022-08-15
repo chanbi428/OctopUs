@@ -1233,6 +1233,9 @@ class OpenViduComponent extends Component {
                 ))}
               </div>
               <div className="d-flex flex-column justify-content-between">
+                <div>
+                  <MafiaNightOctopi />
+                </div>
                 <div className="mafiaButtons">
                   <p className="icons-property"></p>
                   {this.props.gamerData.minigameList[0] === true ? (
@@ -1253,9 +1256,6 @@ class OpenViduComponent extends Component {
                       <img src="icons/icons8-shark-50.png" alt="shark event" />
                     </button>
                   )}
-                </div>
-                <div>
-                  <MafiaNightOctopi />
                 </div>
                 <div className="aaaaa" style={chatDisplay}>
                   <ChatComponent
@@ -1368,7 +1368,7 @@ class OpenViduComponent extends Component {
                   <NightOctopi />
                 </div>
                 <div>
-                  { this.state.hasSkill === true &&
+                  { this.state.hasSkill === true && this.props.gamerData.job === "기자" &&
                   <p className="reporter-skill-button"><img src="icons/icons8-news-50.png"/> 기자 능력 사용 가능 </p>}
                 </div>
                 <div className="aaaaa" style={chatDisplay}>
