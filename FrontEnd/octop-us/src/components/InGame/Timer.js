@@ -23,13 +23,13 @@ export const Timer = (time, user, page, flag, obj) => {
     if (tmp == -1) {
       // 대기실 -> 직업 카드 애니메이션
       if (page == 0) {
-        console.log("타이머 작동했나 확인, 직업 카드 애니메이션")
+        console.log("타이머 작동했나 확인, 직업 카드 애니메이션");
         data2 = {
           page: 1,
           initTime: 5,
         };
         if (flag.gameEnd) {
-          isChange = 1
+          isChange = 1;
         }
         // 카드애니메이션 -> 밤 애니메이션
       } else if (page == 1) {
@@ -44,7 +44,7 @@ export const Timer = (time, user, page, flag, obj) => {
           page: 3,
           initTime: 3,
         };
-       // 밤 -> 낮 애니메이션
+        // 밤 -> 낮 애니메이션
       } else if (page == 3) {
         data2 = {
           page: 7,
@@ -158,12 +158,19 @@ export const Timer = (time, user, page, flag, obj) => {
         }
         // 투표 -> 투표 집계 애니메이션
       } else if (page == 11) {
+        console.log("Timer : VOTE");
         data2 = {
           page: 12,
           initTime: 3,
         };
+        user.getStreamManager().stream.session.signal({
+          data: JSON.stringify(data2),
+          type: "voteEnd",
+        });
+        console.log("VOTE SEND SIGNAL : voteEnd");
         // 투표 집계 애니메이션 => 투표 결과 애니메이션
       } else if (page == 12) {
+        console.log("Timer : VOTE RESULT ANIMATION");
         data2 = {
           page: 16,
           initTime: 3,
@@ -189,6 +196,12 @@ export const Timer = (time, user, page, flag, obj) => {
           page: 17,
           initTime: 3,
         };
+        console.log("Timer : VOTE AGREE");
+        user.getStreamManager().stream.session.signal({
+          data: JSON.stringify(data2),
+          type: "agreeVoteEnd",
+        });
+        console.log("VOTE SEND SIGNAL : agreeVoteEnd");
         // 처형 집계 애니메이션 -> 처형 결과 애니메이션
       } else if (page == 17) {
         data2 = {
@@ -196,7 +209,14 @@ export const Timer = (time, user, page, flag, obj) => {
           initTime: 3,
         };
       } else if (page == 18) {
-         // 처형페이지로
+        // 재간둥이는 게임 종료
+        // if (flag.gameEnd) {
+        //   data2 = {
+        //     page: 15,
+        //     initTime: 3,
+        //   };
+        // }
+        // 처형페이지로
         if (flag.agreeVoteGo) {
           data2 = {
             page: 14,
@@ -211,6 +231,7 @@ export const Timer = (time, user, page, flag, obj) => {
         }
         // 처형 -> 밤 애니메이션 or 최종결과창
       } else if (page == 14) {
+        console.log("VOTE : 처형 PAGE");
         // 처형 후 게임 종료
         if (flag.gameEnd) {
           data2 = {
@@ -230,8 +251,8 @@ export const Timer = (time, user, page, flag, obj) => {
           page: 0,
           initTime: 0,
         };
-      } else if (page == 20){
-        isChange = 0
+      } else if (page == 20) {
+        isChange = 0;
         data2 = {
           page: 10,
           initTime: 3,
