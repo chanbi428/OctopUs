@@ -124,7 +124,7 @@ const FishingComponent = (props) => {
     console.log("update : " + count);
     let citizen = 0;
     let mafia = 0;
-    if (jobs === "citizen") {
+    if (jobs === "시민" || jobs === "중립") {
       citizen = count;
       mafia = 0;
     } else {
@@ -182,7 +182,7 @@ const FishingComponent = (props) => {
                 </div>
                 <div className="col-4" id="buttonCenter">
                   <button className="btn btn-primary" onClick={countFun}>
-                    {jobs === 'mafia'? '방해하기' : '도망치기'}
+                    {jobs === '마피아'? '방해하기' : '도망치기'}
                   </button>
                 </div>
                 <div className="col-4" id="mafiaPercent">
