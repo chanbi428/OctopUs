@@ -6,30 +6,30 @@ $blue: #008080;
 // 	margin: 0;
 // }
 .container_vote {
-	position: relative;
-	margin: 15vh auto;
-	background-color: $blue;
-	width: 800px;
-	height: 600px;
+  position: relative;
+  margin: 15vh auto;
+  background-color: $blue;
+  width: 800px;
+  height: 600px;
 }
 .base_vote {
-	position: absolute;
-	width: 300px;
-	height: 250px;
-	background-color: $primary;
-	bottom: 0;
-	left: 50%;
-	transform: translateX(-50%);
-	z-index: 10;
+  position: absolute;
+  width: 300px;
+  height: 250px;
+  background-color: $primary;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
 }
 .top-front_vote {
-	width: 360px;
-	height: 50px;
-	background-color: $primary;
-	position: absolute;
-	top: 0;
-	left: 50%;
-	transform: translateX(-50%);
+  width: 360px;
+  height: 50px;
+  background-color: $primary;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 // .top-top {
 // 	position: absolute;
@@ -44,35 +44,34 @@ $blue: #008080;
 // }
 $borderAmt: 13px;
 .top-top2_vote {
-	position: absolute;
-	border-bottom: 35px solid $secondary;
-	border-left: $borderAmt solid transparent;
-	border-right: $borderAmt solid transparent;
-	height: 0;
-	width: 334px;
-	bottom: 250px;
-	left: 50%;
-	transform: translateX(-50%);
-	z-index: 10;
+  position: absolute;
+  border-bottom: 35px solid $secondary;
+  border-left: $borderAmt solid transparent;
+  border-right: $borderAmt solid transparent;
+  height: 0;
+  width: 334px;
+  bottom: 250px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
 }
 .top-top3_vote {
-	position: absolute;
-	border-bottom: 35px solid $secondary;
-	border-left: $borderAmt solid transparent;
-	border-right: $borderAmt solid transparent;
-	height: 0;
-	width: 308px;
-	bottom: 285px;
-	left: 50%;
-	transform: translateX(-50%);
-
+  position: absolute;
+  border-bottom: 35px solid $secondary;
+  border-left: $borderAmt solid transparent;
+  border-right: $borderAmt solid transparent;
+  height: 0;
+  width: 308px;
+  bottom: 285px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .shadow_vote {
-	position: absolute;
-	top: 50px;
-	height: 10px;
-	width: 300px;
-	background-color: hsla(0, 0, 0, 0.45);
+  position: absolute;
+  top: 50px;
+  height: 10px;
+  width: 300px;
+  background-color: hsla(0, 0, 0, 0.45);
 }
 // .slot {
 // 	height: 10px;
@@ -85,68 +84,112 @@ $borderAmt: 13px;
 // 	border-radius: 6px;
 // }
 .slot2_vote {
-	height: 5px;
-	width: 150px;
-	position: absolute;
-	background-color: hsla(0, 0, 0, 0.4);
-	left: 50%;
-	top: 30px;
-	transform: translateX(-50%);
-	border-radius: 6px 6px 0 0;
-	z-index: 6;
+  height: 5px;
+  width: 150px;
+  position: absolute;
+  background-color: hsla(0, 0, 0, 0.4);
+  left: 50%;
+  top: 30px;
+  transform: translateX(-50%);
+  border-radius: 6px 6px 0 0;
+  z-index: 6;
 }
 .slot3_vote {
-	height: 5px;
-	width: 150px;
-	position: absolute;
-	background-color: hsla(0, 0, 0, 0.4);
-	left: 50%;
-	top: 0px;
-	transform: translateX(-50%);
-	border-radius: 0 0 6px 6px;
-	z-index: 8;
+  height: 5px;
+  width: 150px;
+  position: absolute;
+  background-color: hsla(0, 0, 0, 0.4);
+  left: 50%;
+  top: 0px;
+  transform: translateX(-50%);
+  border-radius: 0 0 6px 6px;
+  z-index: 8;
 }
 .text_vote {
-	text-transform: uppercase;
-	position: absolute;
-	transform: translateX(-50%);
-	left: 50%;
-	line-height: 300px;
-	font-family: "Open Sans", sans-serif;
-	font-size: 4rem;
-	color: #6f9dce;
+  text-transform: uppercase;
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  line-height: 300px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 4rem;
+  color: #6f9dce;
 }
 .ballot_vote {
-	position: absolute;
-	width: 140px;
-	height: 200px;
-	background-color: white;
-	left: 50%;
-	transform: translateX(-50%);
-	top: 40px;
-	border-radius: 3px;
-	animation-name: vote;
-	animation-duration: 2s;
-	animation-iteration-count: infinite;
-	animation-timing-function: ease-out;
-	z-index: 1;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
+  position: absolute;
+  width: 140px;
+  height: 200px;
+  background-color: white;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 40px;
+  border-radius: 3px;
+  animation-name: vote;
+  animation-duration: 2.7s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 @keyframes vote {
-	0% {
-		top: 40px;
-	}
-	100% {
-		top: 200px;
-	}
+  0% {
+    top: 40px;
+  }
+  100% {
+    top: 350px;
+  }
+}
+
+@keyframes result {
+  0% {
+    top: 350px;
+  }
+  100% {
+    top: 40px;
+  }
 }
 
 .fa-check-square {
-	height: 20px;
-	width: auto;
-	margin-top: 4px;
-	margin-left: 6px;
+  height: 20px;
+  width: auto;
+  margin-top: 4px;
+  margin-left: 6px;
+}
+
+.ballot_vote_up {
+  position: absolute;
+  width: 140px;
+  height: 200px;
+  background-color: white;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 40px;
+  border-radius: 3px;
+  animation-name: result;
+  animation-duration: 3s;
+  //animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vote_result_page {
+  font-family: BMJUA;
+  margin-top: 20%;
+}
+
+.result_title {
+  text-align: center;
+  font-size: 25px;
+}
+.result_name {
+  text-align: center;
+  margin-top: 30%;
+  font-size: 30px;
+  color: #f11414;
 }

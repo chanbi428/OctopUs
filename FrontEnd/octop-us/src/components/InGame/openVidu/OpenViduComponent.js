@@ -98,6 +98,7 @@ class OpenViduComponent extends Component {
       timer: 0,
       hasSkill: true,
       killed: "없음",
+      voteName: "skipppppp",
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -901,23 +902,21 @@ class OpenViduComponent extends Component {
   };
 
   voteResult() {
-    axios
-      .get(`${BASE_URL}/votes/max/${this.props.gamerData.roomId}`)
-      .then((res) => {
-        console.log("투표 결과 확인!", res.data);
+    axios.get(`${BASE_URL}/votes/max/${this.props.gamerData.roomId}`).then((res) => {
+      console.log("투표 결과 확인!", res.data);
+      this.setState({ voteName: res.data.userName });
 
-        console.log("VOTE : SEND MESSAGE, NOTICE 감지");
-        console.log("MOST VOTES : ", res.data.userName);
-        this.setState({ pickUser: res.data.userName });
-        const data = {
-          votes: res.data,
-          nickname: "사회자",
-          streamId: this.state.localUser.getStreamManager().stream.streamId,
-        };
-        this.state.localUser.getStreamManager().stream.session.signal({
-          data: JSON.stringify(data),
-          type: "voteResult",
-        });
+      console.log("VOTE : SEND MESSAGE, NOTICE 감지");
+      console.log("MOST VOTES : ", res.data.userName);
+      this.setState({ pickUser: res.data.userName });
+      const data = {
+        votes: res.data,
+        nickname: "사회자",
+        streamId: this.state.localUser.getStreamManager().stream.streamId,
+      };
+      this.state.localUser.getStreamManager().stream.session.signal({
+        data: JSON.stringify(data),
+        type: "voteResult",
       });
   }
 
@@ -961,6 +960,7 @@ class OpenViduComponent extends Component {
   };
 
   agreeVoteResult = () => {
+    this.setState({ voteName: "skip" });
     axios.get(`${BASE_URL}/votes/${this.state.pickUser}`).then((res) => {
       console.log("투표 결과 확인!", res.data);
 
@@ -981,6 +981,8 @@ class OpenViduComponent extends Component {
 
   killPickUser = () => {
     console.log("AGREE VOTE한 PICK USER : ", this.state.pickUser);
+    this.setState({ voteName: "처형" });
+
     if (this.state.pickUser === this.props.gamerData.sjh) {
       let victoryUsers = [];
 
@@ -1909,7 +1911,7 @@ class OpenViduComponent extends Component {
          */}
         {this.state.page === 16 && (
           <div>
-            <VoteDoneAnimationComponent />
+            <VoteDoneAnimationComponent voteName={this.state.voteName} />
           </div>
         )}
         {/* 최후 변론 + 찬반페이지 */}
@@ -1981,7 +1983,7 @@ class OpenViduComponent extends Component {
          */}
         {this.state.page === 18 && (
           <div>
-            <VoteDoneAnimationComponent />
+            <VoteDoneAnimationComponent voteName={this.state.voteName} />
           </div>
         )}
         {/* 처형 애니메이션
