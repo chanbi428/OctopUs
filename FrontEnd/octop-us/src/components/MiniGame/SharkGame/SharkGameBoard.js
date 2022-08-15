@@ -5,9 +5,11 @@ import SharkGameCell from "./SharkGameCell";
 const Container = styled.div`
   width: 400px;
   height: 400px;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 1px;
+  grid-row-gap: 1px;
   grid-template-rows: repeat(4, 1fr);
 `;
 

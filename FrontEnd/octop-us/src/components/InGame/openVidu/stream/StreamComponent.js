@@ -14,7 +14,7 @@ export default class StreamComponent extends Component {
         this.state = { nickname: this.props.user.getNickname(), mutedSound: false};
         this.toggleSound = this.toggleSound.bind(this);
     }
-
+    
     toggleSound() {
         this.setState({ mutedSound: !this.state.mutedSound });
     }
@@ -24,7 +24,10 @@ export default class StreamComponent extends Component {
             <div className="OT_widget-container">
                 <div className="pointer nickname">
                     <div>
-                        <span id="nickname">{this.props.user.getNickname()}</span>
+                        {this.props.user.getNickname() === this.props.picked ? 
+                         <span id="nickname">✔️ {this.props.user.getNickname()}</span>
+                         : <span id="nickname">{this.props.user.getNickname()}</span>}
+                        
                     </div>
                 </div>
 

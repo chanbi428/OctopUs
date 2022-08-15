@@ -30,7 +30,7 @@ function GameResultComponent(props) {
       .catch((err) => console.log(err));
   });
 
-  return <div>{winTeam} 승리!</div>;
+  return <div className="winner-text">{winTeam}팀 승리!</div>;
 }
 
 export default GameResultComponent;

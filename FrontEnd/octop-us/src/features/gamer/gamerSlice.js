@@ -127,6 +127,11 @@ const gamerSlice = createSlice({
     resetShark: (state) => {
       state.shark = false;
     },
+
+    //reset fisher
+    resetFisher: (state) => {
+      state.fisher = false;
+    },
     // updateUserListforSub: (state, { payload }) => {
     //   state.userList.forEach((user) => {
     //   })
@@ -313,6 +318,7 @@ export const {
   setShark,
   setFisher,
   resetShark,
+  resetFisher,
   setLocalUser,
   setPickUser,
   setTurnCheck,
