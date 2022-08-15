@@ -30,7 +30,7 @@ function MainPage() {
   const bgmAudio = new Audio(MP_bgm1);
 
   const onClickLogout = () => {
-    bgmAudio.pause();
+    bgmAudio.pause(); // 이거 왜 안되는지 모르겠음
     var audio = new Audio(MP_btn1);
     audio.play();
     dispatch(logout());
