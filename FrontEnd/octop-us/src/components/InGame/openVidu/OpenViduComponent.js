@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import StreamComponent from "./stream/StreamComponent";
 import ChatComponent from "./chat/ChatComponent";
 import RoundComponent from "../components/JobComponents/RoundComponent";
@@ -1682,8 +1684,9 @@ class OpenViduComponent extends Component {
                   }
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
-                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                    {subGamer.userName === this.state.pickUser && <p>투표</p>}
+                  <div key={i} 
+                  className="OT_root OT_publisher custom-class pick-for-vote"
+                  id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.png" width="200" />
                     ) : (
@@ -1693,6 +1696,7 @@ class OpenViduComponent extends Component {
                             ? localUser
                             : this.state.subscribers[subGamer.subIdx]
                         }
+                        picked={this.state.pickUser}
                       />
                     )}
                     {subGamer.userName === this.state.myUserName && (
@@ -1751,8 +1755,9 @@ class OpenViduComponent extends Component {
                   }
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
-                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                    {subGamer.userName === this.state.pickUser && <p>투표</p>}
+                  <div key={i} 
+                  className="OT_root OT_publisher custom-class pick-for-vote"
+                  id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.png" width="200" />
                     ) : (
@@ -1761,7 +1766,9 @@ class OpenViduComponent extends Component {
                           subGamer.subIdx === undefined
                             ? localUser
                             : this.state.subscribers[subGamer.subIdx]
+                            
                         }
+                        picked={this.state.pickUser}
                       />
                     )}
                     {subGamer.userName === this.state.myUserName && (
@@ -1875,16 +1882,16 @@ class OpenViduComponent extends Component {
         {this.state.page === 15 && (
           <div className="d-flex flex-column justify-content-center">
             {/* 승자들 */}
+            <div>
+              <GameResultPage />
+            </div>
             <div className="d-flex justify-content-around winner-box">
-              <div>
-                {" "}
-                <GameResultPage />{" "}
-              </div>
               {this.props.gamerData.userList
                 .filter((sub) => this.state.victoryUsers.includes(sub.userName))
                 .map((subGamer, i) => (
                   <div className="d-flex justify-content-center flex-column">
-                    <div id="layout" className="ingame-bounds">
+                    <FontAwesomeIcon icon={faCrown} className="crown winner-crown"/>
+                    <div id="layout" className="winner-bounds">
                       {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                         <div key={i} className="OT_root OT_publisher custom-class" id="localUser">
                           <StreamComponent
@@ -1902,12 +1909,12 @@ class OpenViduComponent extends Component {
                 ))}
             </div>
             {/* 패자들 */}
-            <div className="d-flex justify-content-around">
+            <div className="d-flex justify-content-center">
               {this.props.gamerData.userList
                 .filter((sub) => this.state.victoryUsers.includes(sub.userName) === false)
                 .map((subGamer, i) => (
                   <div>
-                    <div id="layout" className="ingame-bounds col">
+                    <div id="layout" className="loser-bounds col">
                       {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                         <div key={i} className="OT_root OT_publisher custom-class" id="localUser">
                           <StreamComponent

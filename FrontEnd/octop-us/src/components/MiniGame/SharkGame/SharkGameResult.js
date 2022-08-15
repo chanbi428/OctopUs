@@ -73,11 +73,18 @@ const SharkGameResult = () => {
     <div>
       {!resultChange && <SharkGame />}
       {resultChange && (
-        <Card className="container">
-          {getWin === "마피아"
-            ? "오징어 팀의 승리로 오늘 투표를 진행하지 않습니다."
-            : "문어 팀의 승리! 투표로 넘어갑니다."}
+         getWin === "마피아" ? 
+        <Card className="team_squid_card">
+          <img src="images/squid_std.png" alt="team_squid" />
+          <h2>오징어 팀의 승리!</h2>
+          <p>오늘 낮 투표를 진행하지 않습니다.</p>
         </Card>
+        : 
+        <Card className="team_octopus_card">
+          <img src="images/octopus_signiture.png" alt="team_octopus"/>
+          <h2>문어 팀의 승리!</h2>
+          <p>오늘 낮 투표가 정상적으로 진행됩니다.</p>
+        </Card> 
       )}
     </div>
   );

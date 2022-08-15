@@ -120,3 +120,8 @@
   display: flex;
   justify-content: space-between;
 }
+
+.pick-for-vote {
+  cursor: pointer;
+}
+
