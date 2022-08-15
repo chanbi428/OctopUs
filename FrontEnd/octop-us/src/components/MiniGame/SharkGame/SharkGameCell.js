@@ -1,29 +1,31 @@
 import React from "react";
 import styled from "styled-components";
+import "./SharkGameCell.css";
 
 const Container = styled.div`
-  border: 1px solid red;
+  border: 2px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
+  font-size: 35px;
   border-radius: 10px;
   animation-name: cellColor;
-  color: white;
+  color: black;
+  background-color: #f4d35e;
+  font-family: BMJUA;
 
-  /* @keyframes cellColor {
-    0% {
-      background: rgb(random(0, 255), random(0, 255), random(0, 255));
-    }
-  } */
+  &:hover {
+    cursor: pointer;
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
 `;
 
 function SharkGameCell({ num, handleClick }) {
-  // const cellColor = ["#fdfcdc", "#f4d35e", "#00afb9", "#0081a7", "#13293d"];
-  // const randomColor = cellColor[Math.floor(Math.random() * cellColor.length)];
-  // console.log(randomColor);
   return (
-    <Container onClick={() => handleClick(num)}>
+    <Container
+      onClick={handleClick}
+      className={num !== 0 ? null : "Shark-game__end-cell"}
+    >
       {num !== 0 ? num : null}
     </Container>
   );

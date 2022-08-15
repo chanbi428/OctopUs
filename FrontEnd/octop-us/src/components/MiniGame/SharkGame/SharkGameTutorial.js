@@ -37,15 +37,7 @@ const SharkGameTutorial = () => {
     <div>
       {!eventChange && <SharkGameStart />}
       {eventChange && (
-        <Container>
-          <h1>게임 설명</h1>
-          <p>상어가 나타났어요!</p>
-          <p>비밀번호를 치고 집으로 숨어야 해요!</p>
-          <p>30초 내에 화면에 나오는 모든 숫자 버튼을</p>
-          <p>1부터 차례로 눌러주세요.</p>
-          <p>오징어팀이 더 빨리 끝낸다면 오징어팀의 승리!</p>
-          <p>문어팀이 더 빨리 끝낸다면 문어팀의 승리!</p>
-        </Container>
+        <img src="images/minigame/sharktutorial.png" alt="상어튜토리얼" />
       )}
     </div>
   );

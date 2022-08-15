@@ -6,7 +6,7 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import MainPage from "./components/MainPage/MainPage";
 import InGame from "./components/InGame/InGame";
 import { login } from "./features/user/userSlice";
-import SharkGameResult from "./components/MiniGame/SharkGame/SharkGameResult";
+import SharkGame from "./components/MiniGame/SharkGame/SharkGame";
 import FishingGame from "./components/MiniGame/FishingGame/FishingGame";
 import NightToDayLoading from "./components/LoadingPage/NightToDayLoading/NightToDayLoading";
 import DayToNightLoading from "./components/LoadingPage/DayToNightLoading/DayToNightLoading";
@@ -47,7 +47,7 @@ function App() {
         <Route path="/" exact element={<LandingPage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/:roomId" element={<InGame />} />
-        <Route path="/SharkGame" element={<SharkGameResult />} />
+        <Route path="/SharkGame" element={<SharkGame />} />
         <Route path="/FishingGame" element={<FishingGame />} />
         <Route path="/DayToNightLoading" element={<DayToNightLoading />} />
         <Route path="/NightToDayLoading" element={<NightToDayLoading />} />

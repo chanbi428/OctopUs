@@ -1,23 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import { BASE_URL, config } from "../../../api/BASE_URL";
-import axios from "axios";
-
-import styled from "styled-components";
 import SharkGameBoard from "./SharkGameBoard";
 import SharkGameTimer from "./SharkGameTimer";
 import SharkGameStartCount from "./SharkGameStartCount";
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 600px;
-  height: 600px;
-  border: 1px solid black;
-  flex-direction: column;
-`;
+import "./SharkGame.css";
 
 // 16칸 배열 생성
 let array = [];
@@ -30,7 +17,7 @@ function SharkGame(props) {
   const [gameflag, setGameFlag] = useState(false);
   const [isFinish, setIsFinish] = useState(false);
   const [current, setCurrent] = useState(1); // 게임 진행 시 클릭 할 숫자. 1 ~ 25
-  const [startChange, setStartChange] = useState(false);
+  const [startChange, setStartChange] = useState(false); // 앞에 애니메이션 -> 상어게임 연결 부분
 
   useEffect(() => {
     if (!startChange) {
@@ -47,8 +34,28 @@ function SharkGame(props) {
     }
   }, [startChange]);
 
-  const onClickHandler = (num) => {
+  const onClickHandler = (e) => {
+    const num = parseInt(e.target.innerText);
+    const isCorrect = async () => {
+      const tmp = e.target.className;
+      e.target.className = tmp + " Shark-game__correct";
+      setTimeout(() => {
+        e.target.className = tmp;
+      }, 300);
+    };
+    const isIncorrect = async () => {
+      const tmp = e.target.className;
+      e.target.className = tmp + " Shark-game__incorrect";
+      setTimeout(() => {
+        e.target.className = tmp;
+      }, 300);
+    };
+    const isEnd = () => {
+      e.target.className = "Shark-game__end-cell";
+    };
     if (num === current) {
+      if (num <= 16) isCorrect();
+      else isEnd();
       if (num === 32) {
         endGame();
       }
@@ -59,6 +66,8 @@ function SharkGame(props) {
         ...numbers.slice(index + 1),
       ]);
       setCurrent((current) => current + 1);
+    } else {
+      isIncorrect();
     }
   };
 
@@ -81,13 +90,13 @@ function SharkGame(props) {
     <div>
       {!startChange && <SharkGameStartCount />}
       {startChange && (
-        <Container>
+        <div className="shark-game__board">
           <SharkGameTimer isFinish={isFinish} />
           <SharkGameBoard
             numbers={numbers}
             handleClick={onClickHandler}
           ></SharkGameBoard>
-        </Container>
+        </div>
       )}
     </div>
   );

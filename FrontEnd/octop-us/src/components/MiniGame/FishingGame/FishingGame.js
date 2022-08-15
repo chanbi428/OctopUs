@@ -1,13 +1,20 @@
 import { React, useState, useEffect, useRef } from "react";
-import Card from "../../Card/Card";
-import axios from "axios";
-import "./FishingGame.css";
+import { useSelector, useDispatch } from "react-redux";
+
 import FishingGameStartCount from "./FishingGameStartCount";
+import {
+  resetFisher,
+  mafiaWinAtMinigame,
+  mafiaLoseAtMinigame,
+} from "../../../features/gamer/gamerSlice";
+
 import { BASE_URL, config } from "../../../api/BASE_URL";
+import axios from "axios";
 
+import "./FishingGame.css";
 import Timer from "../../InGame/Timer";
-import { useSelector } from "react-redux";
 
+import Card from "../../Card/Card";
 import {
   CircularProgress,
   LinearProgress,
@@ -33,7 +40,9 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const FishingComponent = (props) => {
+const FishingGame = (props) => {
+  const dispatch = useDispatch();
+
   const [user, setUser] = useState("");
   const [jobs, setJobs] = useState("mafia");
   const [roomId, setRoomId] = useState("1234");
@@ -41,8 +50,8 @@ const FishingComponent = (props) => {
   const [citizenPercent, setCitizenPercent] = useState(50);
   const [mafiaPercent, setMafiaPercent] = useState(50);
   const [showMode, setShowMode] = useState(false);
+  const [startChange, setStartChange] = useState(false);
   const [existMode, setExistMode] = useState(true);
-  const [startChange, setStartChange] = useState(true);
 
   const [time, setTime] = useState(45);
   const classes = useStyles();
@@ -130,6 +139,8 @@ const FishingComponent = (props) => {
 
     const startTimer = setTimeout(() => {
       // 타이머로 이동
+      obj["fisher"] = false; // fisher게임 끝났다
+      dispatch(resetFisher()); // true로 되어 있던 fisher false로 초기화
       if (roomChief === userInfo.userName) {
         Timer(0, localUser, 20, flag, obj);
       }
@@ -172,8 +183,8 @@ const FishingComponent = (props) => {
 
   return (
     <div>
-      {!startChange && showMode === false && <FishingGameStartCount />}
-      {showMode === false && (
+      {!startChange && !showMode && <FishingGameStartCount />}
+      {startChange && !showMode && (
         <div id="mainComponent">
           <p id="Clock">{time}</p>
           <Card>
@@ -210,7 +221,6 @@ const FishingComponent = (props) => {
         </div>
       )}
       {startChange && showMode && (
-        // {showMode && (
         <Card id="mainComponent">
           <div id="winMent">
             <p>
@@ -227,4 +237,4 @@ const FishingComponent = (props) => {
   );
 };
 
-export default FishingComponent;
+export default FishingGame;
