@@ -29,6 +29,7 @@
     width : auto;
     gap : 0.5rem;
     text-align: center;
+    margin-bottom: -1rem;
 }
 
 .nameTag {
@@ -39,77 +40,64 @@
 }
 
 #num_zero {
-    /* margin-top : 1rem; */
+    margin-top : -1.3rem;
     margin-bottom: 3rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    animation: motion 0.3s linear 0s infinite alternate; 
-    margin-top: 0;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
 }
 
 #num_one {
-    /* margin-top : 1rem; */
+    margin-top : 0.7rem;
     margin-bottom: 3rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    animation: motion 0.3s linear 0s infinite alternate; 
-    margin-top: 0;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
 }
 
 #num_two {
-    margin-top: 4rem;
+    margin-top: -2.3rem;
     margin-bottom: 2rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    animation: motion 0.3s linear 0s infinite alternate; 
-    margin-top: 0;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
 }
 
 #num_thr {
-    margin-top: 4rem;
+    margin-top: 0.5rem;
     margin-bottom: 2rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    animation: motion 0.3s linear 0s infinite alternate; 
-    margin-top: 0;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
 }
 
 #num_four {
-    margin-top: 4rem;
+    margin-top: -1.3rem;
     margin-bottom: 2rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    animation: motion 0.3s linear 0s infinite alternate; 
-    margin-top: 0;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
 }
 
 #num_five {
-    margin-top: 4rem;
+    margin-top: 0.7rem;
     margin-bottom: 2rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    animation: motion 0.3s linear 0s infinite alternate; 
-    margin-top: 0;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
 }
 
 #num_six {
-    /* margin-top : 1rem; */
+    margin-top : -2.3rem;
     margin-bottom: 3rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    animation: motion 0.3s linear 0s infinite alternate; 
-    margin-top: 0;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
 }
 
 #num_svn {
-    /* margin-top : 1rem; */
+    margin-top : 0.5rem;
     margin-bottom: 3rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    animation: motion 0.3s linear 0s infinite alternate; 
-    margin-top: 0;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
 }
 
+#move_octo {
+    animation: motion 0.3s linear 0s infinite alternate; 
+}
 @keyframes motion {
 	/* 0% {margin-top: 0px;}
 	100% {margin-top: 10px;} */
