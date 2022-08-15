@@ -565,13 +565,13 @@ class OpenViduComponent extends Component {
             console.log("자기 자신은 선택 X");
           } else if (this.state.pickUser === gamer.userName) {
             this.setState({ pickUser: "" });
-            console.log("reporterpick 같은 유저 선택", this.state.pickUser)
+            console.log("reporterpick 같은 유저 선택", this.state.pickUser);
           } else if (gamer.isDead === false) {
             // console.log(g)
             this.setState({ pickUser: gamer.userName });
-            console.log("reporterpick 지금 기자가 밤에 찍은 사람 누구?", this.state.pickUser)
+            console.log("reporterpick 지금 기자가 밤에 찍은 사람 누구?", this.state.pickUser);
           }
-        } 
+        }
         console.log(
           "기자 능력 확인 : ",
           this.props.gamerData.hasSkill === false ? "사용" : "미사용"
@@ -880,7 +880,7 @@ class OpenViduComponent extends Component {
   // 다영 수정
   updatePickUserAtAgreeVote = () => {
     console.log("AGREE VOTE한 PICK USER 들어옴", this.state.pickUser);
-    // this.setState({ pickUser: "c3" }); // 테스트용 지워야함 다영
+    // this.setState({ pickUser: "c4" }); // 테스트용 지워야함 다영
     const data = {
       idx: 0,
       roomId: 0,
@@ -1205,9 +1205,15 @@ class OpenViduComponent extends Component {
                     className={"ingame-bounds"}
                     onClick={(e) => this.selectPerson(subGamer, e)}
                   >
-                    <div key={i} 
-                    className={subGamer.userName === this.state.pickUser ? "OT_root OT_publisher custom-class ingame_picked_user":  "OT_root OT_publisher custom-class"}
-                    id="remoteUsers">
+                    <div
+                      key={i}
+                      className={
+                        subGamer.userName === this.state.pickUser
+                          ? "OT_root OT_publisher custom-class ingame_picked_user"
+                          : "OT_root OT_publisher custom-class"
+                      }
+                      id="remoteUsers"
+                    >
                       {subGamer.isDead === true ? (
                         <img src="images/deadOcto.png" width="200" />
                       ) : subGamer.gameJob !== "마피아" ? (
@@ -1287,10 +1293,15 @@ class OpenViduComponent extends Component {
                     className={"ingame-bounds"}
                     onClick={(e) => this.selectPerson(subGamer, e)}
                   >
-                    <div key={i} 
-                    className={subGamer.userName === this.state.pickUser ? "OT_root OT_publisher custom-class ingame_picked_user":  "OT_root OT_publisher custom-class"}
-                    id="remoteUsers">
-
+                    <div
+                      key={i}
+                      className={
+                        subGamer.userName === this.state.pickUser
+                          ? "OT_root OT_publisher custom-class ingame_picked_user"
+                          : "OT_root OT_publisher custom-class"
+                      }
+                      id="remoteUsers"
+                    >
                       {subGamer.isDead === true ? (
                         <img src="images/deadOcto.png" width="200" />
                       ) : subGamer.gameJob !== "마피아" ? (
@@ -1336,9 +1347,15 @@ class OpenViduComponent extends Component {
                     className="ingame-bounds"
                     onClick={(e) => this.selectVoteAtNight(subGamer, e)}
                   >
-                    <div key={i} 
-                    className={subGamer.userName === this.state.pickUser ? "OT_root OT_publisher custom-class ingame_picked_user":  "OT_root OT_publisher custom-class"}
-                    id="remoteUsers">
+                    <div
+                      key={i}
+                      className={
+                        subGamer.userName === this.state.pickUser
+                          ? "OT_root OT_publisher custom-class ingame_picked_user"
+                          : "OT_root OT_publisher custom-class"
+                      }
+                      id="remoteUsers"
+                    >
                       {subGamer.isDead === true ? (
                         <img src="images/deadOcto.png" width="200" />
                       ) : subGamer.userName !== this.props.gamerData.userName ? (
@@ -1368,8 +1385,11 @@ class OpenViduComponent extends Component {
                   <NightOctopi />
                 </div>
                 <div>
-                  { this.state.hasSkill === true && this.props.gamerData.job === "기자" &&
-                  <p className="reporter-skill-button"><img src="icons/icons8-news-50.png"/> 기자 능력 사용 가능 </p>}
+                  {this.state.hasSkill === true && this.props.gamerData.job === "기자" && (
+                    <p className="reporter-skill-button">
+                      <img src="icons/icons8-news-50.png" /> 기자 능력 사용 가능{" "}
+                    </p>
+                  )}
                 </div>
                 <div className="aaaaa" style={chatDisplay}>
                   <ChatComponent
@@ -1401,9 +1421,15 @@ class OpenViduComponent extends Component {
                     className="ingame-bounds"
                     onClick={(e) => this.selectVoteAtNight(subGamer, e)}
                   >
-                    <div key={i} 
-                    className={subGamer.userName === this.state.pickUser ? "OT_root OT_publisher custom-class ingame_picked_user":  "OT_root OT_publisher custom-class"}
-                    id="remoteUsers">
+                    <div
+                      key={i}
+                      className={
+                        subGamer.userName === this.state.pickUser
+                          ? "OT_root OT_publisher custom-class ingame_picked_user"
+                          : "OT_root OT_publisher custom-class"
+                      }
+                      id="remoteUsers"
+                    >
                       {subGamer.isDead === true ? (
                         <img src="images/deadOcto.png" width="200" />
                       ) : subGamer.userName !== this.props.gamerData.userName ? (
@@ -1521,7 +1547,9 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    (this.state.speakingUsers[i] && subGamer.isDead === false) ? "ingame-bounds-speaking" : "ingame-bounds"
+                    this.state.speakingUsers[i] && subGamer.isDead === false
+                      ? "ingame-bounds-speaking"
+                      : "ingame-bounds"
                   }
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
@@ -1581,7 +1609,9 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    (this.state.speakingUsers[i+4] && subGamer.isDead === false) ? "ingame-bounds-speaking" : "ingame-bounds"
+                    this.state.speakingUsers[i + 4] && subGamer.isDead === false
+                      ? "ingame-bounds-speaking"
+                      : "ingame-bounds"
                   }
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
@@ -1618,7 +1648,9 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    (this.state.speakingUsers[i] && subGamer.isDead === false) ? "ingame-bounds-speaking" : "ingame-bounds"
+                    this.state.speakingUsers[i] && subGamer.isDead === false
+                      ? "ingame-bounds-speaking"
+                      : "ingame-bounds"
                   }
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
@@ -1684,7 +1716,9 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    (this.state.speakingUsers[i+4] && subGamer.isDead === false) ? "ingame-bounds-speaking" : "ingame-bounds"
+                    this.state.speakingUsers[i + 4] && subGamer.isDead === false
+                      ? "ingame-bounds-speaking"
+                      : "ingame-bounds"
                   }
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
