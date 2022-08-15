@@ -25,6 +25,7 @@ const initialState = {
   localUser: null,
   pickUser: "",
   gameturn: 0,
+  sjh: "",
 };
 
 const gamerSlice = createSlice({
@@ -241,6 +242,10 @@ const gamerSlice = createSlice({
             subIdx: undefined,
             // subIdx: i, //임시 테스트용
           });
+        }
+
+        if (user.gameJob === "재간둥이") {
+          state.sjh = user.userName;
         }
       });
 

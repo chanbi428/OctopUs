@@ -10,6 +10,7 @@ import NightToDayLoading from "../../LoadingPage/NightToDayLoading/NightToDayLoa
 import DeathResultComponent from "../components/JobComponents/DeathResultComponent";
 import NewsResultComponent from "../components/JobComponents/NewsResultComponent";
 import VoteAnimationComponent from "../components/VotePage/VoteAnimationComponent";
+import VoteDoneAnimationComponent from "../components/VotePage/VoteDoneAnimationComponent";
 import AgreePage from "../components/VotePage/AgreePage";
 import VotePage from "../components/VotePage/VotePage";
 import VoteWaitPage from "../components/VotePage/VoteWaitPage";
@@ -710,7 +711,7 @@ class OpenViduComponent extends Component {
   setVictoryUser = (data) => {
     this.setState({ victoryUsers: data });
     console.log("승리 유저 바뀜!");
-    if(this.props.waitData.roomChief === this.state.myUserName) {
+    if (this.props.waitData.roomChief === this.state.myUserName) {
       this.state.localUser.getStreamManager().stream.session.signal({
         type: "gameEnd",
       });
@@ -879,6 +880,7 @@ class OpenViduComponent extends Component {
   // 다영 수정
   updatePickUserAtAgreeVote = () => {
     console.log("AGREE VOTE한 PICK USER 들어옴", this.state.pickUser);
+    // this.setState({ pickUser: "c3" }); // 테스트용 지워야함 다영
     const data = {
       idx: 0,
       roomId: 0,
@@ -935,15 +937,8 @@ class OpenViduComponent extends Component {
 
   killPickUser = () => {
     console.log("AGREE VOTE한 PICK USER : ", this.state.pickUser);
-    var pickUserJob = "";
-    this.props.gamerData.userList.map((user, i) => {
-      if (this.state.pickUser === user.userName) {
-        pickUserJob = user.gameJob;
-      }
-    });
-    console.log("AGREE VOTE , PICK USER's JOB : ", pickUserJob);
-    // 재간둥이 인 지 확인
-    if (pickUserJob === "재간둥이") {
+
+    if (this.state.pickUser === this.props.gamerData.sjh) {
       let victoryUsers = [];
 
       axios.put(`${BASE_URL}/gamers/isvictory/userName/${this.state.pickUser}`).then((res) => {
@@ -956,7 +951,10 @@ class OpenViduComponent extends Component {
           .then((res) => {
             victoryUsers = res.data.map((row) => row.userName);
             this.setVictoryUser(victoryUsers);
-            console.log("종료 페이지로 이동 ! ");
+            this.state.localUser.getStreamManager().stream.session.signal({
+              type: "agreeVoteGoAndGameEnd",
+            });
+            console.log("처형 페이지로 이동 후 종료! ");
           })
           .catch((err) => console.log(err));
       });
@@ -984,7 +982,7 @@ class OpenViduComponent extends Component {
             data: JSON.stringify(data),
             type: "dead",
           });
-          
+
           let pathName = document.location.pathname.replace("/", "");
           let victoryUsers = [];
           axios
@@ -999,7 +997,10 @@ class OpenViduComponent extends Component {
                       .then((res) => {
                         victoryUsers = res.data.map((row) => row.userName);
                         this.setVictoryUser(victoryUsers);
-                        console.log("종료 페이지로 이동 ! ");
+                        this.state.localUser.getStreamManager().stream.session.signal({
+                          type: "agreeVoteGoAndGameEnd",
+                        });
+                        console.log("처형 페이지로 이동후 종료 페이지로 이동 ! ");
                       })
                       .catch((err) => console.log(err));
                   })
@@ -1520,7 +1521,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    this.state.speakingUsers[i] ? "ingame-bounds-speaking" : "ingame-bounds"
+                    (this.state.speakingUsers[i] && subGamer.isDead === false) ? "ingame-bounds-speaking" : "ingame-bounds"
                   }
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
@@ -1580,7 +1581,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    this.state.speakingUsers[i + 4] ? "ingame-bounds-speaking" : "ingame-bounds"
+                    (this.state.speakingUsers[i+4] && subGamer.isDead === false) ? "ingame-bounds-speaking" : "ingame-bounds"
                   }
                 >
                   <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
@@ -1617,7 +1618,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    this.state.speakingUsers[i] ? "ingame-bounds-speaking" : "ingame-bounds"
+                    (this.state.speakingUsers[i] && subGamer.isDead === false) ? "ingame-bounds-speaking" : "ingame-bounds"
                   }
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
@@ -1683,7 +1684,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    this.state.speakingUsers[i + 4] ? "ingame-bounds-speaking" : "ingame-bounds"
+                    (this.state.speakingUsers[i+4] && subGamer.isDead === false) ? "ingame-bounds-speaking" : "ingame-bounds"
                   }
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
@@ -1716,11 +1717,18 @@ class OpenViduComponent extends Component {
             </div>
           </div>
         )}
-        {/* 투표 애니메이션
+        {/* 투표 집계 애니메이션
          */}
         {this.state.page === 12 && (
           <div>
             <VoteAnimationComponent />
+          </div>
+        )}
+        {/* 투표 결과 애니메이션
+         */}
+        {this.state.page === 16 && (
+          <div>
+            <VoteDoneAnimationComponent />
           </div>
         )}
         {/* 최후 변론 + 찬반페이지 */}
@@ -1769,6 +1777,20 @@ class OpenViduComponent extends Component {
                 </button>
               </div>
             </div>
+          </div>
+        )}
+        {/* 찬반투표 집계 애니메이션
+         */}
+        {this.state.page === 17 && (
+          <div>
+            <VoteAnimationComponent />
+          </div>
+        )}
+        {/* 찬반투표 결과 애니메이션
+         */}
+        {this.state.page === 18 && (
+          <div>
+            <VoteDoneAnimationComponent />
           </div>
         )}
         {/* 처형 애니메이션

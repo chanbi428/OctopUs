@@ -112,6 +112,7 @@ class ChatComponent extends Component {
         };
       });
       this.props.user.getStreamManager().stream.session.on("signal:voteGo", (event) => {
+        console.log("VOTE : VOTEGO STATUS CHANGE");
         flag = {
           gameEnd: false,
           voteGo: true,
@@ -125,6 +126,15 @@ class ChatComponent extends Component {
           agreeVoteGo: true,
         };
       });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:agreeVoteGoAndGameEnd", (event) => {
+          flag = {
+            gameEnd: true,
+            voteGo: false,
+            agreeVoteGo: true,
+          };
+        });
       this.props.user.getStreamManager().stream.session.on("signal:change", (event) => {
         const data = JSON.parse(event.data);
         if (data.page === 1) {
@@ -188,10 +198,10 @@ class ChatComponent extends Component {
           this.settingGamerList({ roomId: this.props.gamerData.roomId });
         }
         // 다영 추가
-        if (data.page === 11) {
-          console.log("VOTE : pickUser 초기화");
-          this.props.resetPickUser();
-        }
+        // if (data.page === 11) {
+        //   console.log("VOTE : pickUser 초기화");
+        //   this.props.resetPickUser();
+        // }
         const obj = {
           minigameResult: this.props.getGamerData().minigameResult,
           job: this.props.gamerData.job,
@@ -252,14 +262,14 @@ class ChatComponent extends Component {
         const data = JSON.parse(event.data);
         console.log("VOTE : RECIEVE MESSAGE, MAX VOTES notice받음");
         console.log("RECEIVED MAX VOTES : ", data.votes.userName);
-        if (data.votes.userName !== "skip") {
+        if (data.votes.userName === "skip") {
           // 그냥 페이지 테스트용
           console.log("NO MAX VOTES => 찬반 페이지 PASS");
-          this.props.resetPickUser(); // pickUser reset
+          // this.props.resetPickUser(); // pickUser reset
           // this.props.changePage(data.page, data.gameChoice);
         } else {
           console.log("MAX VOTES => 찬반 페이지 GO");
-          this.state.localUser.getStreamManager().stream.session.signal({
+          this.props.user.getStreamManager().stream.session.signal({
             type: "voteGo",
           });
         }
