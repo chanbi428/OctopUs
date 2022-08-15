@@ -9,6 +9,7 @@ const Container = styled.div`
   font-size: 30px;
   border-radius: 10px;
   animation-name: cellColor;
+  color: white;
 
   /* @keyframes cellColor {
     0% {

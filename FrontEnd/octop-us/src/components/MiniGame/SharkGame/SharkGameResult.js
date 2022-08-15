@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Card from "../../Card/Card";
 import SharkGame from "./SharkGame";
 import Timer from "../../InGame/Timer";
 
 import {
+  resetShark,
   mafiaWinAtMinigame,
   mafiaLoseAtMinigame,
 } from "../../../features/gamer/gamerSlice";
-import { BASE_URL, config } from "../../../api/BASE_URL";
+import { BASE_URL } from "../../../api/BASE_URL";
 import axios from "axios";
 
 const SharkGameResult = () => {
   const [resultChange, setresultChange] = useState(false);
   const [getWin, setGetWin] = useState("시민");
   const { userInfo } = useSelector((state) => state.user);
-  const { gamerInfo } = useSelector((state) => state.gamer);
-  const { roomChief, roomId } = useSelector((state) => state.wait);
+  const { roomId } = useSelector((state) => state.wait);
+  const { roomChief } = useSelector((state) => state.wait);
   const { localUser } = useSelector((state) => state.gamer);
   const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } =
     useSelector((state) => state.gamer);
+
+  const dispatch = useDispatch();
   const obj = {
     roomChief: roomChief,
     minigameResult: minigameResult,
@@ -39,24 +42,26 @@ const SharkGameResult = () => {
   useEffect(() => {
     if (!resultChange) {
       const startTimer = setTimeout(() => {
-        obj.shark = false; // shark 게임 끝났다
         // 결과 받아오기
-        const { data } = axios.get(
-          `${BASE_URL}/games/mini/shark/result/${roomId}`
-        );
-
-        if (data.game_team === "마피아") {
-          mafiaWinAtMinigame();
-          setGetWin("마피아");
-        } else {
-          mafiaLoseAtMinigame();
-        }
-        setresultChange(true); // result 띄워 줘라
+        axios
+          .get(`${BASE_URL}/games/mini/shark/result/${roomId}`)
+          .then((res) => {
+            if (res.data.gameTeam === "마피아") {
+              dispatch(mafiaWinAtMinigame());
+              setGetWin("마피아");
+              setresultChange(true); // result 띄워 줘라
+            } else {
+              dispatch(mafiaLoseAtMinigame());
+              setresultChange(true); // result 띄워 줘라
+            }
+          });
       }, 45000); // 여기 수정 v
       return () => {
         clearTimeout(startTimer);
+        obj["shark"] = false; // shark 게임 끝났다
+        dispatch(resetShark()); // true로 되어 있던 shark false로 초기화
+        console.log("상어 게임 끝 obj:shark false로 변경", obj["shark"]);
         // 타이머로 이동
-        console.log(localUser);
         if (roomChief === userInfo.userName) {
           Timer(0, localUser, 20, flag, obj);
         }
@@ -69,11 +74,9 @@ const SharkGameResult = () => {
       {!resultChange && <SharkGame />}
       {resultChange && (
         <Card className="container">
-          {/* 되는 코드 지우지 말 것 */}
-          {{ getWin } === "마피아"
+          {getWin === "마피아"
             ? "오징어 팀의 승리로 오늘 투표를 진행하지 않습니다."
             : "문어 팀의 승리! 투표로 넘어갑니다."}
-          {/* 오징어 팀의 승리로 투표를 진행하지 않습니다. */}
         </Card>
       )}
     </div>

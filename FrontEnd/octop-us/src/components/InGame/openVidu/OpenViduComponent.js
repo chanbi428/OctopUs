@@ -45,7 +45,7 @@ import {
   setShark,
   setFisher,
   setPickUser,
-  useMinigame,
+  getMinigame,
   setReporter,
 } from "../../../features/gamer/gamerSlice";
 
@@ -754,7 +754,7 @@ class OpenViduComponent extends Component {
     this.props.setFisher(data);
   };
   usingMinigame = (data) => {
-    this.props.useMinigame(data);
+    this.props.getMinigame(data);
   };
 
   updatePickUser = () => {
@@ -2043,8 +2043,8 @@ const mapDispatchToProps = (dispatch) => {
     setFisher: () => {
       dispatch(setFisher());
     },
-    useMinigame: (data) => {
-      dispatch(useMinigame(data));
+    getMinigame: (data) => {
+      dispatch(getMinigame(data));
     },
     setReporter: (data) => {
       dispatch(setReporter(data));
