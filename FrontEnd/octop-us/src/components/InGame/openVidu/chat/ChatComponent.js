@@ -204,16 +204,17 @@ class ChatComponent extends Component {
           this.props.resetPickUser();
           this.props.setGameStatus({ gameStatus: 1 });
           this.props.setmafiaLoseAtMinigame();
+          
           this.props.user.getStreamManager().stream.session.signal({
             type: "resetFlag",
           });
-          //if (this.props.gamerData.host === this.props.gamerData.userName) {
+          if (this.props.waitData.roomChief === this.props.gamerData.userName) {
           axios
             .put(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
             .then((res) => {
               console.log("host가 밤 초기화");
             });
-          //}
+          }
         }
         if (data.page === 10) {
           console.log("pickUser 초기화");
@@ -244,7 +245,9 @@ class ChatComponent extends Component {
           console.log("page 변환!", data.page);
           this.props.changeTime(data.initTime);
           this.props.changePage(data.page);
-          Timer(data.initTime, this.props.user, data.page, flag, obj);
+          if (this.props.waitData.roomChief === this.props.gamerData.userName) {
+            Timer(data.initTime, this.props.user, data.page, flag, obj);
+          }
         }, 1000);
       });
 
@@ -288,6 +291,7 @@ class ChatComponent extends Component {
         const data = JSON.parse(event.data);
         console.log("VOTE : RECIEVE MESSAGE, MAX VOTES notice받음");
         console.log("RECEIVED MAX VOTES : ", data.votes.userName);
+        this.props.setVoteName(data.votes.userName);
         if (data.votes.userName === "skip") {
           // 그냥 페이지 테스트용
           console.log("NO MAX VOTES => 찬반 페이지 PASS");
@@ -314,10 +318,12 @@ class ChatComponent extends Component {
         console.log("RECEIVED VOTE : ", data.votes.vote);
         if (data.votes.vote > 0) {
           console.log("AGREE VOTE : 처형");
+          this.props.setVoteName("처형");
           // 처형처리
           this.props.killPickUser();
         } else {
           console.log("AGREE VOTE : 처형 X => 처형X 결과 페이지 GO");
+          this.props.setVoteName("skip");
           // 페이지 이동 (페이지 수정 필요)
           this.props.user.getStreamManager().stream.session.signal({
             type: "resetFlag",
