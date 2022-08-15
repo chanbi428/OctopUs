@@ -35,18 +35,18 @@ function SharkGameTimer({ isFinish }) {
   const [playTime, setPlayTime] = useState(0); // 1초씩 줄어들기
   const [finishRecord, setFinishRecord] = useState(null); // 내 플레이타임 기록
 
-  // const { userInfo } = useSelector((state) => state.user);
-  // const { userList } = useSelector((state) => state.gamer);
-  // const { roomId } = useSelector((state) => state.wait);
+  const { userInfo } = useSelector((state) => state.user);
+  const { userList } = useSelector((state) => state.gamer);
+  const { roomId } = useSelector((state) => state.wait);
 
-  // const userName = userInfo.userName;
-  // let gameTeam = "";
-  // for (let i = 0; i < 8; i++) {
-  //   if (userList[i]["userName"] === userName) {
-  //     gameTeam = userList[i]["gameTeam"];
-  //     break;
-  //   }
-  // }
+  const userName = userInfo.userName;
+  let gameTeam = "";
+  for (let i = 0; i < 8; i++) {
+    if (userList[i]["userName"] === userName) {
+      gameTeam = userList[i]["gameTeam"];
+      break;
+    }
+  }
 
   const record = useRef();
   record.current = playTime;
@@ -82,16 +82,16 @@ function SharkGameTimer({ isFinish }) {
       const myTime = playTime / 1000;
       console.log(`게임 끝! 내 기록: ${myTime}`);
       setFinishRecord(myTime);
-      // axios.post(
-      //   BASE_URL + "/games/mini/shark",
-      //   {
-      //     userName: userName,
-      //     roomId: roomId,
-      //     gameTeam: gameTeam,
-      //     time: myTime,
-      //   },
-      //   config
-      // );
+      axios.post(
+        BASE_URL + "/games/mini/shark",
+        {
+          userName: userName,
+          roomId: roomId,
+          gameTeam: gameTeam,
+          time: myTime,
+        },
+        config
+      );
       console.log("상어 잘 보내졌나");
     }
   }, [isFinish]);

@@ -18,7 +18,7 @@ import VotePage from "../components/VotePage/VotePage";
 import VoteWaitPage from "../components/VotePage/VoteWaitPage";
 import ExecutionPage from "../components/VotePage/ExecutionPage";
 import GameAnimation from "../../MiniGame/LoadingAnimation/AnimationRouter";
-import SharkGame from "../../MiniGame/SharkGame/SharkGameResult";
+import SharkGameResult from "../../MiniGame/SharkGame/SharkGameResult";
 import FishingGame from "../../MiniGame/FishingGame/FishingGame";
 import GameResultPage from "../components/JobComponents/GameResultPage";
 import CrazyCard from "../../LoadingPage/JobCard/CrazyCard/CrazyCard";
@@ -2117,7 +2117,7 @@ class OpenViduComponent extends Component {
               className="d-flex flex-column justify-content-between align-items-center"
               style={{ width: "100%" }}
             >
-              <SharkGame gameNum={this.state.gameNum} />
+              <SharkGameResult gameNum={this.state.gameNum} />
             </div>
             <div>
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
