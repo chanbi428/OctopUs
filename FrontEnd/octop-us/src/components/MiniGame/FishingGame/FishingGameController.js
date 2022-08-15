@@ -125,9 +125,10 @@ const FishingGameStart = (props) => {
         </div>
       )}
       {startGame && (
-        <div className="fish-game__board">
-          <FishGame endGame={endGame} roomId={roomId} job={obj.job} />
-        </div>
+        <FishGame endGame={endGame} roomId={roomId} job={obj.job} />
+        // <div className="fish-game__board">
+        //   <FishGame endGame={endGame} roomId={roomId} job={obj.job} />
+        // </div>
       )}
     </div>
   );
