@@ -1532,21 +1532,21 @@ class OpenViduComponent extends Component {
         {/* 밤 => 낮 애니메이션
          */}
         {this.state.page === 7 && (
-          <div>
+          <div className="day-to-night-sky">
             <NightToDayLoading setVictoryUser={this.setVictoryUser} />
           </div>
         )}
         {/* 죽음 결과
          */}
         {this.state.page === 8 && (
-          <div>
-            <DeathResultComponent user={this.state.localUser} killed={this.state.killed} />
-          </div>
+            <div className="night-result">
+              <DeathResultComponent user={this.state.localUser} killed={this.state.killed} />
+            </div>
         )}
         {/* 기자 결과s
          */}
         {this.state.page === 9 && (
-          <div>
+          <div className="report-result">
             <NewsResultComponent />
           </div>
         )}

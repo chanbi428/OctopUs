@@ -76,3 +76,25 @@
   margin-bottom: -1rem;
   padding: 0.5rem;
 }
+
+.night-result {
+  margin: 5rem auto;
+  width: 500px;
+  height: auto;
+  font-family: "GmarketSansMedium";
+  font-size: 24px;
+  text-align: center;
+}
+
+.day-to-night-sky {
+  margin: auto;
+
+}
+
+.report-result {
+  margin: 3rem auto;
+  width: 500px;
+  font-family: "GmarketSansMedium";
+  font-size: 24px;
+  text-align: center;
+}
