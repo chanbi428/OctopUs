@@ -9,3 +9,44 @@
   overflow: hidden;
   border: 3px solid black;
 }
+
+.mafia_cardbox_not {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  margin: 0 auto;
+  border-radius: 20px;
+  background-color: #e0ffff;
+  overflow: hidden;
+  border: 5px solid black;
+  padding: 2rem;
+  gap : 1rem;
+  /* font-family: "BMJUA"; */
+}
+
+.mafia_cardbox {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  margin: 0 auto;
+  border-radius: 20px;
+  background-color: black;
+  overflow: hidden;
+  border: 5px solid white;
+  padding: 2rem;
+  color: red;
+  gap : 2rem;
+}
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  margin: 0 auto;
+  border-radius: 20px;
+  background-color: #fdfcdc;
+  overflow: hidden;
+  border: 5px solid black;
+  padding: 2rem;
+  gap : 1rem;
+}

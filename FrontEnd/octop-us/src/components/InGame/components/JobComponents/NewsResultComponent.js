@@ -26,11 +26,12 @@ function NewsResultComponent(props) {
 
   return (
     <div className="reportBox">
-      <Card >
+      <Card className="news-card">
         <h2>Mooner's News</h2>
-        <h3>속보!</h3>
+        {/* <h3>속보!</h3> */}
         <img src="images/temp_news.png" alt="reporter's news.png" className="newspaper" width="400px" height="400px"/>
-        <p>{ unveiled.userName } 은/는 { unveiled.gameJob}임이 밝혀졌습니다!</p>
+        <p>{ unveiled.userName } 은/는</p>
+        <p>{ unveiled.gameJob}임이 밝혀졌습니다!</p>
       </Card>
     </div>
   )

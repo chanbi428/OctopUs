@@ -6,6 +6,12 @@
   color: rgba(255, 255, 255, 0.6);
 } */
 
+.sun-page {
+  position: absolute;
+  top: 100px;
+  left: 35%;
+}
+
 .wrap-sun {
   width: 500px;
   height: 500px;

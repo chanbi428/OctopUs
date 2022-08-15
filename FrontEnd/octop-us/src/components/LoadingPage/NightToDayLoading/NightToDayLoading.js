@@ -39,22 +39,24 @@ const NightToDayLoading = (props) => {
     }, []);
 
   return (
-    <div className="wrap-sun">
-      <div className="circle-sun">
-        <div className="wave-one-sun"></div>
-        <div className="wave-two-sun"></div>
-        <div className="wave-three-sun"></div>
-        <div className="wave-four-sun"></div>
+    <div className="sun-page">
+      <div className="wrap-sun">
+        <div className="circle-sun">
+          <div className="wave-one-sun"></div>
+          <div className="wave-two-sun"></div>
+          <div className="wave-three-sun"></div>
+          <div className="wave-four-sun"></div>
 
-        <FontAwesomeIcon icon={faSun} />
-        <FontAwesomeIcon icon={faSun} className="blur-sun" />
+          <FontAwesomeIcon icon={faSun} />
+          <FontAwesomeIcon icon={faSun} className="blur-sun" />
 
-        <div className="cloud">
-          <FontAwesomeIcon icon={faCloud} className="cloud1" />
-          <FontAwesomeIcon icon={faCloud} className="cloud2" />
-          <FontAwesomeIcon icon={faCloud} className="cloud3" />
-          <FontAwesomeIcon icon={faCloud} className="cloud4" />
-          <FontAwesomeIcon icon={faCloud} className="cloud5" />
+          <div className="cloud">
+            <FontAwesomeIcon icon={faCloud} className="cloud1" />
+            <FontAwesomeIcon icon={faCloud} className="cloud2" />
+            <FontAwesomeIcon icon={faCloud} className="cloud3" />
+            <FontAwesomeIcon icon={faCloud} className="cloud4" />
+            <FontAwesomeIcon icon={faCloud} className="cloud5" />
+          </div>
         </div>
       </div>
     </div>
