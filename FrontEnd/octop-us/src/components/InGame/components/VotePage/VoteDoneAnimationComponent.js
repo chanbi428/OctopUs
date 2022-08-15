@@ -1,6 +1,20 @@
+import { React, useEffect } from "react";
 import "./VoteAnimationComponent.scss";
 
+import MP_Bubbles from "../../../../effect/MP_Bubbles.mp3";
+import MP_VoteResult from "../../../../effect/MP_VoteResult.mp3";
+
 function VoteDoneAnimationComponent(props) {
+  useEffect(() => {
+    var audio = new Audio(MP_Bubbles);
+    var audio2 = new Audio(MP_VoteResult);
+    audio.play();
+    setTimeout(() => {
+      audio.pause();
+      audio2.play();
+    }, 2000);
+  }, []);
+
   return (
     <div>
       <div class="container_vote">

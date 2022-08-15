@@ -17,6 +17,9 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { faOctopusDeploy } from "@fortawesome/free-brands-svg-icons";
 
+import MP_btn1 from "../../effect/MP_btn1.mp3";
+import MP_bgm1 from "../../effect/MP_bgm1.mp3";
+
 function MainPage() {
   const [roomInfo, setRoomInfo] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -24,15 +27,20 @@ function MainPage() {
   const navigate = useNavigate();
   console.log("MainPage");
   const { userInfo } = useSelector((state) => state.user);
+  const bgmAudio = new Audio(MP_bgm1);
 
   const onClickLogout = () => {
+    bgmAudio.pause();
+    var audio = new Audio(MP_btn1);
+    audio.play();
     dispatch(logout());
     navigate("/");
   };
 
   useEffect(() => {
-    axios
+    bgmAudio.play();
 
+    axios
       .get(`${BASE_URL}/rooms`)
       .then((res) => {
         setRoomInfo(res.data);
@@ -50,6 +58,8 @@ function MainPage() {
   };
 
   const onClickSearch = (e) => {
+    var audio = new Audio(MP_btn1);
+    audio.play();
     e.preventDefault();
     if (search == "") {
       onClickSearchReset(e);
@@ -58,6 +68,7 @@ function MainPage() {
       axios
         .get(`${BASE_URL}/rooms/detail/roomnamelike/${search}`)
         .then((res) => {
+          bgmAudio.pause();
           setRoomInfo(res.data);
           setLoading(true);
         })
@@ -66,6 +77,8 @@ function MainPage() {
   };
 
   const onClickSearchReset = (e) => {
+    var audio = new Audio(MP_btn1);
+    audio.play();
     e.preventDefault();
     setLoading(false);
     axios
@@ -81,6 +94,8 @@ function MainPage() {
   };
 
   const onClickFastStart = (e) => {
+    var audio = new Audio(MP_btn1);
+    audio.play();
     e.preventDefault();
     axios
       .get(`${BASE_URL}/rooms/find/faststart`)
@@ -112,6 +127,7 @@ function MainPage() {
                 },
               })
               .then((res) => {
+                bgmAudio.pause();
                 console.log(res);
                 navigate(`/${item.data.roomId}`);
               })
@@ -123,11 +139,15 @@ function MainPage() {
   };
   const onKeyPress = (e) => {
     if (e.key == "Enter") {
+      var audio = new Audio(MP_btn1);
+      audio.play();
       onClickSearch(e);
     }
   };
 
   const onClickRefresh = () => {
+    var audio = new Audio(MP_btn1);
+    audio.play();
     window.location.reload();
   };
 
@@ -146,10 +166,7 @@ function MainPage() {
                   <ExitToAppIcon style={{ fontSize: "2rem" }} />
                 </div>
                 <div className="main-page__userinfo">
-                  <FontAwesomeIcon
-                    icon={faOctopusDeploy}
-                    className="main-page__user-image"
-                  />
+                  <FontAwesomeIcon icon={faOctopusDeploy} className="main-page__user-image" />
                   <div className="main-page__username">{userInfo.userName}</div>
                 </div>
               </div>
@@ -180,10 +197,7 @@ function MainPage() {
             />
           </div>
           <div className="main-page__btn-set">
-            <button
-              className="main-page__quickstart"
-              onClick={onClickFastStart}
-            >
+            <button className="main-page__quickstart" onClick={onClickFastStart}>
               <FontAwesomeIcon icon={faPlay} />
               &nbsp;빠른시작
             </button>
@@ -195,11 +209,7 @@ function MainPage() {
         </div>
         <div className="main-page__main">
           <MakeRoom />
-          {loading ? (
-            <RoomList roomInfo={roomInfo} loading={loading} />
-          ) : (
-            <LoadingSpanner />
-          )}
+          {loading ? <RoomList roomInfo={roomInfo} loading={loading} /> : <LoadingSpanner />}
         </div>
       </div>
     </div>

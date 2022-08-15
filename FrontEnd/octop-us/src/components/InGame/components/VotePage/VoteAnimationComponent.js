@@ -1,8 +1,16 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import "./VoteAnimationComponent.scss";
 import Card from "../../../Card/Card";
 
+import MP_Bubbles from "../../../../effect/MP_Bubbles.mp3";
+
 function VoteAnimationComponent(props) {
+  useEffect(() => {
+    var audio = new Audio(MP_Bubbles);
+    audio.play();
+    setTimeout(() => audio.pause(), 3000);
+  }, []);
+
   return (
     <div class="container_vote">
       <div class="base_vote">

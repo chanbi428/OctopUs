@@ -30,6 +30,7 @@ import {
 } from "../../../../features/gamer/gamerSlice";
 import { BASE_URL } from "../../../../api/BASE_URL";
 import Timer from "../../Timer";
+import MP_Pling from "../../../../effect/MP_Pling.mp3";
 
 class ChatComponent extends Component {
   constructor(props) {
@@ -69,17 +70,29 @@ class ChatComponent extends Component {
           avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
         }, 50);
         if (data.nickname === "사회자" && data.job === this.props.gamerData.job) {
+
+          var audio = new Audio(MP_Pling);
+          audio.play();
+
           console.log("경찰 지목이 들어왔다고 알림", message);
           setTimeout(() => {
             this.props.setMessageList({ message: message });
           }, 2000);
         } else {
           if (data.isDead === true && this.props.getGamerData().isDead === true) {
+
+            var audio = new Audio(MP_Pling);
+            audio.play();
+
             // 유령
             this.props.setMessageList({ message: message });
             console.log("유령 대화에 들어옴 ", message);
           }
           if (data.isDead === false && this.props.getGamerData().gameStatus !== 1) {
+
+            var audio = new Audio(MP_Pling);
+            audio.play();
+
             this.props.setMessageList({ message: message });
             console.log("살아있는 대화에 들어옴 ", message);
           } else if (
@@ -89,6 +102,10 @@ class ChatComponent extends Component {
             data.job === "마피아" &&
             data.isDead === false
           ) {
+
+            var audio = new Audio(MP_Pling);
+            audio.play();
+
             this.props.setMessageList({ message: message });
             console.log("마피아 대화에 들어옴 ", message);
           }
@@ -97,7 +114,10 @@ class ChatComponent extends Component {
       this.props.user.getStreamManager().stream.session.on("signal:timer", (event) => {
         console.log("timer다 1초씩 줄어들면 됨!");
         const data = JSON.parse(event.data);
-        this.props.changeTime(data.second);
+
+        const second = data.second;
+        this.props.changeTime(second);
+
       });
       var flag = {
         gameEnd: false, // 게임종료여부,
