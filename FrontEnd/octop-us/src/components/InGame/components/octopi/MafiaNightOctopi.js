@@ -8,7 +8,7 @@ export const MafiaNightOctopi = () => {
     return (
       <div className="col d-flex flex-column align-items-center mt-5">
         <div className="row">
-          <div className="container col" >
+          <div className="container col" id="num_one">
             <div className="nameBox">
               <span className="nameTag" >{userList[1].userName}</span>
             </div>
@@ -26,7 +26,8 @@ export const MafiaNightOctopi = () => {
                 className="octopus"
                 src="images/octopus/yellow.gif"
                 alt="octopus1.gif"
-								id="num_one"/> )
+                id="move_octo"
+								/> )
                 : 
                 (<img 
                 className="sleep_octopus_left"
@@ -35,7 +36,7 @@ export const MafiaNightOctopi = () => {
                 />)
             )}
           </div>
-					<div className="container col" >
+					<div className="container col" id="num_zero">
             <div className="nameBox">
               <span className="nameTag" >{userList[0].userName}</span>
             </div>
@@ -52,7 +53,8 @@ export const MafiaNightOctopi = () => {
                className="octopus"
                src="images/octopus/red.gif"
                alt="octopus1.gif"
-               id="num_zero"/> )
+               id="move_octo"
+               /> )
                : 
                (<img 
                className="sleep_octopus_left"
@@ -61,7 +63,7 @@ export const MafiaNightOctopi = () => {
                />)
             )}
           </div>
-					<div className="container col">
+					<div className="container col" id="num_four">
             <div className="nameBox">
               <span className="nameTag">{userList[4].userName}</span>
             </div>
@@ -78,7 +80,8 @@ export const MafiaNightOctopi = () => {
                className="octopus"
                src="images/octopus/purple.gif"
                alt="octopus1.gif"
-               id="num_four"/> )
+               id="move_octo"
+               /> )
                : 
                (<img 
                className="sleep_octopus_right"
@@ -87,7 +90,7 @@ export const MafiaNightOctopi = () => {
                />)
             )}
           </div>
-					<div className="container col">
+					<div className="container col" id="num_five">
             <div className="nameBox">
               <span className="nameTag">{userList[5].userName}</span>
             </div>
@@ -104,7 +107,8 @@ export const MafiaNightOctopi = () => {
                className="octopus"
                src="images/octopus/babypink.gif"
                alt="octopus1.gif"
-               id="num_five"/> )
+               id="move_octo"
+               /> )
                : 
                (<img 
                className="sleep_octopus_right"
@@ -115,7 +119,7 @@ export const MafiaNightOctopi = () => {
           </div>
         </div>
 				<div className="row">
-          <div className="container col">
+          <div className="container col" id="num_two">
             <div className="nameBox">
               <span className="nameTag">{userList[2].userName}</span>
             </div>
@@ -132,7 +136,8 @@ export const MafiaNightOctopi = () => {
                className="octopus"
                src="images/octopus/green.gif"
                alt="octopus1.gif"
-               id="num_two"/> )
+               id="move_octo"
+               /> )
                : 
                (<img 
                className="sleep_octopus_left"
@@ -141,7 +146,7 @@ export const MafiaNightOctopi = () => {
                />)
             )}
           </div>
-					<div className="container col">
+					<div className="container col" id="num_thr">
             <div className="nameBox">
               <span className="nameTag">{userList[3].userName}</span>
             </div>
@@ -158,7 +163,8 @@ export const MafiaNightOctopi = () => {
                className="octopus"
                src="images/octopus/mint.gif"
                alt="octopus1.gif"
-               id="num_thr"/> )
+               id="move_octo"
+               /> )
                : 
                (<img 
                className="sleep_octopus_left"
@@ -167,7 +173,7 @@ export const MafiaNightOctopi = () => {
                />)
             )}
           </div>
-					<div className="container col">
+					<div className="container col" id="num_svn">
             <div className="nameBox">
               <span className="nameTag">{userList[7].userName}</span>
             </div>
@@ -184,7 +190,8 @@ export const MafiaNightOctopi = () => {
                className="octopus"
                src="images/octopus/blue.gif"
                alt="octopus1.gif"
-               id="num_svn"/> )
+               id="move_octo"
+               /> )
                : 
                (<img 
                className="sleep_octopus_right"
@@ -193,7 +200,7 @@ export const MafiaNightOctopi = () => {
                />)
             )}
           </div>
-					<div className="container col">
+					<div className="container col" id="num_six">
             <div className="nameBox">
               <span className="nameTag">{userList[6].userName}</span>
             </div>
@@ -202,6 +209,7 @@ export const MafiaNightOctopi = () => {
 								className="dead_octopus"
 								src="images/dead_octo.gif"
 								alt="deadOctopus6" 
+                id="move_octo"
 							/>
             ) : 
             (
@@ -210,7 +218,7 @@ export const MafiaNightOctopi = () => {
                className="octopus"
                src="images/octopus/violet.gif"
                alt="octopus1.gif"
-               id="num_six"/> )
+               /> )
                : 
                (<img 
                className="sleep_octopus_right"
