@@ -23,13 +23,13 @@ export const Timer = (time, user, page, flag, obj) => {
     if (tmp == -1) {
       // 대기실 -> 직업 카드 애니메이션
       if (page == 0) {
-        console.log("타이머 작동했나 확인, 직업 카드 애니메이션")
+        console.log("타이머 작동했나 확인, 직업 카드 애니메이션");
         data2 = {
           page: 1,
           initTime: 5,
         };
         if (flag.gameEnd) {
-          isChange = 1
+          isChange = 1;
         }
         // 카드애니메이션 -> 밤 애니메이션
       } else if (page == 1) {
@@ -44,7 +44,7 @@ export const Timer = (time, user, page, flag, obj) => {
           page: 3,
           initTime: 3,
         };
-       // 밤 -> 낮 애니메이션
+        // 밤 -> 낮 애니메이션
       } else if (page == 3) {
         data2 = {
           page: 7,
@@ -91,7 +91,7 @@ export const Timer = (time, user, page, flag, obj) => {
             // 낚시 미니게임 발생
           } else if (obj.fisher) {
             data2 = {
-              page: 20,
+              page: 30,
               initTime: 0,
               gameChoice: 1,
             };
@@ -213,12 +213,12 @@ export const Timer = (time, user, page, flag, obj) => {
           page: 0,
           initTime: 0,
         };
-      } else if (page == 20){
+      } else if (page == 20) {
         data2 = {
           page: 10,
           initTime: 3,
         };
-        isChange = 0
+        isChange = 0;
       }
       if (isChange === 0 && obj.roomChief === user.nickname) {
         user.getStreamManager().stream.session.signal({
