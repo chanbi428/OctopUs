@@ -153,7 +153,7 @@ function MainPage() {
 
   return (
     <div id="main-page">
-      <div className="container">
+      <div className="container main-page__container">
         <div className="main-page__top">
           <div>
             <img src="images/logo.png" alt="" className="main-page__logo" />
@@ -166,7 +166,10 @@ function MainPage() {
                   <ExitToAppIcon style={{ fontSize: "2rem" }} />
                 </div>
                 <div className="main-page__userinfo">
-                  <FontAwesomeIcon icon={faOctopusDeploy} className="main-page__user-image" />
+                  <FontAwesomeIcon
+                    icon={faOctopusDeploy}
+                    className="main-page__user-image"
+                  />
                   <div className="main-page__username">{userInfo.userName}</div>
                 </div>
               </div>
@@ -197,7 +200,10 @@ function MainPage() {
             />
           </div>
           <div className="main-page__btn-set">
-            <button className="main-page__quickstart" onClick={onClickFastStart}>
+            <button
+              className="main-page__quickstart"
+              onClick={onClickFastStart}
+            >
               <FontAwesomeIcon icon={faPlay} />
               &nbsp;빠른시작
             </button>
@@ -209,7 +215,11 @@ function MainPage() {
         </div>
         <div className="main-page__main">
           <MakeRoom />
-          {loading ? <RoomList roomInfo={roomInfo} loading={loading} /> : <LoadingSpanner />}
+          {loading ? (
+            <RoomList roomInfo={roomInfo} loading={loading} />
+          ) : (
+            <LoadingSpanner />
+          )}
         </div>
       </div>
     </div>

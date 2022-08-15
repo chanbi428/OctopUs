@@ -82,16 +82,16 @@ function SharkGameTimer({ isFinish }) {
       const myTime = playTime / 1000;
       console.log(`게임 끝! 내 기록: ${myTime}`);
       setFinishRecord(myTime);
-      axios.post(
-        BASE_URL + "/games/mini/shark",
-        {
-          userName: userName,
-          roomId: roomId,
-          gameTeam: gameTeam,
-          time: myTime,
-        },
-        config
-      );
+      // axios.post(
+      //   BASE_URL + "/games/mini/shark",
+      //   {
+      //     userName: userName,
+      //     roomId: roomId,
+      //     gameTeam: gameTeam,
+      //     time: myTime,
+      //   },
+      //   config
+      // );
       console.log("상어 잘 보내졌나");
     }
   }, [isFinish]);
