@@ -117,7 +117,7 @@ class OpenViduComponent extends Component {
   }
 
   changeTime = (second) => {
-    this.setState({ time: second });
+    this.setState({ timer: second });
   };
 
   changePage = (pageNum, gameChoice) => {
@@ -1161,6 +1161,7 @@ class OpenViduComponent extends Component {
                 <div>
                   <NightOctopi />
                 </div>
+                <h1 className="timer">{this.state.timer}</h1>
                 <div className="chating-box" style={chatDisplay}>
                   <ChatComponent
                     user={localUser}
@@ -1250,6 +1251,8 @@ class OpenViduComponent extends Component {
                 <div>
                   <MafiaNightOctopi />
                 </div>
+                <div className="timer_bar">
+                <h1 className="timer_night">{this.state.timer}</h1>
                 <div className="mafiaButtons">
                   <p className="icons-property"></p>
                   {this.props.gamerData.minigameList[0] === true ? (
@@ -1271,6 +1274,8 @@ class OpenViduComponent extends Component {
                     </button>
                   )}
                 </div>
+                </div>
+                
                 <div className="chating-box" style={chatDisplay}>
                   <ChatComponent
                     user={localUser}
@@ -1400,11 +1405,17 @@ class OpenViduComponent extends Component {
                 </div>
                 <div>
                   {this.state.hasSkill === true && this.props.gamerData.job === "기자" && (
+                    <div className="timer_bar">
+                    <h1 className="timer_night">{this.state.timer}</h1>
                     <p className="reporter-skill-button">
                       <img src="icons/icons8-news-50.png" /> 기자 능력 사용 가능{" "}
                     </p>
+                    </div>
                   )}
                 </div>
+                {this.props.gamerData.job != "기자" && (
+                  <h1 className="timer">{this.state.timer}</h1>
+                )}
                 <div className="chating-box" style={chatDisplay}>
                   <ChatComponent
                     user={localUser}
@@ -1496,6 +1507,7 @@ class OpenViduComponent extends Component {
               <div>
                 <NightOctopi />
               </div>
+              <h1 className="timer">{this.state.timer}</h1>
               <div className="chating-box" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
@@ -1596,6 +1608,7 @@ class OpenViduComponent extends Component {
               <div>
                 <DayOctopi />
               </div>
+              <h1 className="timer">{this.state.timer}</h1>
               <div className="chating-box" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
@@ -1705,6 +1718,7 @@ class OpenViduComponent extends Component {
                 } */}
                 <DayOctopi />
               </div>
+              <h1 className="timer">{this.state.timer}</h1>
               <div className="chating-box" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
@@ -1791,7 +1805,7 @@ class OpenViduComponent extends Component {
         {this.state.page === 13 && (
           <div className="d-flex justify-content-center">
             <div className="d-flex flex-column justify-content-between">
-              <h2>최후변론</h2>
+              <h1 className="timer">{this.state.timer}</h1>
               <div id="layout" className="voted-bounds">
                 {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                   <div className="OT_root OT_publisher custom-class" id="localUser">
