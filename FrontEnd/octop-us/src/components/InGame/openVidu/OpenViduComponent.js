@@ -1670,7 +1670,7 @@ class OpenViduComponent extends Component {
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
                   <div key={i} 
-                  className="OT_root OT_publisher custom-class"
+                  className="OT_root OT_publisher custom-class pick-for-vote"
                   id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.png" width="200" />
@@ -1740,7 +1740,7 @@ class OpenViduComponent extends Component {
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
                   <div key={i} 
-                  className="OT_root OT_publisher custom-class"
+                  className="OT_root OT_publisher custom-class pick-for-vote"
                   id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.png" width="200" />
