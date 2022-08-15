@@ -124,12 +124,13 @@ const FishingComponent = (props) => {
     console.log("update : " + count);
     let citizen = 0;
     let mafia = 0;
-    if (jobs === "시민" || jobs === "중립") {
-      citizen = count;
-      mafia = 0;
-    } else {
+    console.log("update : " + jobs);
+    if (jobs === "마피아") {
       citizen = 0;
       mafia = count;
+    } else {
+      citizen = count;
+      mafia = 0;
     }
 
     let sendData = { roomId, citizen, mafia };
