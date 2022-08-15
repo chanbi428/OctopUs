@@ -700,7 +700,7 @@ class OpenViduComponent extends Component {
   setVictoryUser = (data) => {
     this.setState({ victoryUsers: data });
     console.log("승리 유저 바뀜!");
-    if(this.props.waitData.roomChief === this.state.myUserName) {
+    if (this.props.waitData.roomChief === this.state.myUserName) {
       this.state.localUser.getStreamManager().stream.session.signal({
         type: "gameEnd",
       });
@@ -867,6 +867,7 @@ class OpenViduComponent extends Component {
   // 다영 수정
   updatePickUserAtAgreeVote = () => {
     console.log("AGREE VOTE한 PICK USER 들어옴", this.state.pickUser);
+    // this.setState({ pickUser: "c3" }); // 테스트용 지워야함 다영
     const data = {
       idx: 0,
       roomId: 0,
@@ -923,15 +924,8 @@ class OpenViduComponent extends Component {
 
   killPickUser = () => {
     console.log("AGREE VOTE한 PICK USER : ", this.state.pickUser);
-    var pickUserJob = "";
-    this.props.gamerData.userList.map((user, i) => {
-      if (this.state.pickUser === user.userName) {
-        pickUserJob = user.gameJob;
-      }
-    });
-    console.log("AGREE VOTE , PICK USER's JOB : ", pickUserJob);
-    // 재간둥이 인 지 확인
-    if (pickUserJob === "재간둥이") {
+
+    if (this.state.pickUser === this.props.gamerData.sjh) {
       let victoryUsers = [];
 
       axios.put(`${BASE_URL}/gamers/isvictory/userName/${this.state.pickUser}`).then((res) => {
@@ -944,7 +938,10 @@ class OpenViduComponent extends Component {
           .then((res) => {
             victoryUsers = res.data.map((row) => row.userName);
             this.setVictoryUser(victoryUsers);
-            console.log("종료 페이지로 이동 ! ");
+            this.state.localUser.getStreamManager().stream.session.signal({
+              type: "agreeVoteGoAndGameEnd",
+            });
+            console.log("처형 페이지로 이동 후 종료! ");
           })
           .catch((err) => console.log(err));
       });
@@ -987,7 +984,10 @@ class OpenViduComponent extends Component {
                       .then((res) => {
                         victoryUsers = res.data.map((row) => row.userName);
                         this.setVictoryUser(victoryUsers);
-                        console.log("종료 페이지로 이동 ! ");
+                        this.state.localUser.getStreamManager().stream.session.signal({
+                          type: "agreeVoteGoAndGameEnd",
+                        });
+                        console.log("처형 페이지로 이동후 종료 페이지로 이동 ! ");
                       })
                       .catch((err) => console.log(err));
                   })
