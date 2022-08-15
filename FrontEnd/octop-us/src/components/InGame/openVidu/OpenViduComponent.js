@@ -1065,7 +1065,7 @@ class OpenViduComponent extends Component {
               />
               <div className="d-flex justify-content-between">
                 {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                  <div className="aaaaa" style={chatDisplay}>
+                  <div className="chating-box" style={chatDisplay}>
                     <ChatComponent
                       user={localUser}
                       chatDisplay={this.state.chatDisplay}
@@ -1156,7 +1156,7 @@ class OpenViduComponent extends Component {
                 <div>
                   <NightOctopi />
                 </div>
-                <div className="aaaaa" style={chatDisplay}>
+                <div className="chating-box" style={chatDisplay}>
                   <ChatComponent
                     user={localUser}
                     chatDisplay={this.state.chatDisplay}
@@ -1211,7 +1211,10 @@ class OpenViduComponent extends Component {
                       {subGamer.isDead === true ? (
                         <img src="images/deadOcto.png" width="200" />
                       ) : subGamer.gameJob !== "마피아" ? (
-                        <img src="images/octoAtNight.png" width="200" />
+                        <div className="octo-night-box">
+                          <img src="images/octoAtNight.png" width="200" />
+                          <p className="gamer-nickname">{subGamer.userName}</p>
+                        </div>
                       ) : (
                         <StreamComponent
                           user={
@@ -1257,7 +1260,7 @@ class OpenViduComponent extends Component {
                     </button>
                   )}
                 </div>
-                <div className="aaaaa" style={chatDisplay}>
+                <div className="chating-box" style={chatDisplay}>
                   <ChatComponent
                     user={localUser}
                     chatDisplay={this.state.chatDisplay}
@@ -1294,7 +1297,10 @@ class OpenViduComponent extends Component {
                       {subGamer.isDead === true ? (
                         <img src="images/deadOcto.png" width="200" />
                       ) : subGamer.gameJob !== "마피아" ? (
-                        <img src="images/octoAtNight.png" width="200" />
+                        <div className="octo-night-box">
+                          <img src="images/octoAtNight.png" width="200" />
+                          <p className="gamer-nickname">{subGamer.userName}</p>
+                        </div>
                       ) : (
                         <StreamComponent
                           user={
@@ -1342,7 +1348,10 @@ class OpenViduComponent extends Component {
                       {subGamer.isDead === true ? (
                         <img src="images/deadOcto.png" width="200" />
                       ) : subGamer.userName !== this.props.gamerData.userName ? (
-                        <img src="images/octoAtNight.png" width="200" />
+                        <div className="octo-night-box">
+                          <img src="images/octoAtNight.png" width="200" />
+                          <p className="gamer-nickname">{subGamer.userName}</p>
+                        </div>
                       ) : (
                         <StreamComponent
                           user={
@@ -1371,7 +1380,7 @@ class OpenViduComponent extends Component {
                   { this.state.hasSkill === true && this.props.gamerData.job === "기자" &&
                   <p className="reporter-skill-button"><img src="icons/icons8-news-50.png"/> 기자 능력 사용 가능 </p>}
                 </div>
-                <div className="aaaaa" style={chatDisplay}>
+                <div className="chating-box" style={chatDisplay}>
                   <ChatComponent
                     user={localUser}
                     chatDisplay={this.state.chatDisplay}
@@ -1407,7 +1416,10 @@ class OpenViduComponent extends Component {
                       {subGamer.isDead === true ? (
                         <img src="images/deadOcto.png" width="200" />
                       ) : subGamer.userName !== this.props.gamerData.userName ? (
-                        <img src="images/octoAtNight.png" width="200" />
+                        <div className="octo-night-box">
+                          <img src="images/octoAtNight.png" width="200" />
+                          <p className="gamer-nickname">{subGamer.userName}</p>
+                        </div>
                       ) : (
                         <StreamComponent
                           user={
@@ -1453,7 +1465,7 @@ class OpenViduComponent extends Component {
               <div>
                 <NightOctopi />
               </div>
-              <div className="aaaaa" style={chatDisplay}>
+              <div className="chating-box" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
                   chatDisplay={this.state.chatDisplay}
@@ -1551,7 +1563,7 @@ class OpenViduComponent extends Component {
               <div>
                 <DayOctopi />
               </div>
-              <div className="aaaaa" style={chatDisplay}>
+              <div className="chating-box" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
                   chatDisplay={this.state.chatDisplay}
@@ -1654,7 +1666,7 @@ class OpenViduComponent extends Component {
                 } */}
                 <DayOctopi />
               </div>
-              <div className="aaaaa" style={chatDisplay}>
+              <div className="chating-box" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
                   chatDisplay={this.state.chatDisplay}
