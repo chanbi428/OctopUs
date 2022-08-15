@@ -190,5 +190,6 @@
   font-family: BMJUA;
   font-size: 30px;
   color: white;
-  margin-left: 15vw;
+  /* margin-left: 15vw; */
+  text-align:center;
 }

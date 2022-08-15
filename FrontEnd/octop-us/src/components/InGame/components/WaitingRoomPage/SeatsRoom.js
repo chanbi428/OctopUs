@@ -54,17 +54,17 @@ export default function SeatsRoom(props) {
           </div>
           <img className="octopus" src="images/octopus/mint.gif" alt="octopus3.gif"/>
         </div>
-        <div className="container col" style={{ opacity: seatInfo[6].opa }} id="num_six">
-          <div className="nameBox" >
-            <span className="nameTag">{seatInfo[6].nickname}</span>
-            {throneInfo[6].crown === 1 && <FontAwesomeIcon icon={faCrown} className="crown"/> }
-          </div>
-          <img className="octopus" src="images/octopus/blue.gif" alt="octopus6.gif"/>
-        </div>
-        <div className="container col" style={{ opacity: seatInfo[7].opa }} id="num_svn"> 
+        <div className="container col" style={{ opacity: seatInfo[7].opa }} id="num_six">
           <div className="nameBox" >
             <span className="nameTag">{seatInfo[7].nickname}</span>
             {throneInfo[7].crown === 1 && <FontAwesomeIcon icon={faCrown} className="crown"/> }
+          </div>
+          <img className="octopus" src="images/octopus/blue.gif" alt="octopus6.gif"/>
+        </div>
+        <div className="container col" style={{ opacity: seatInfo[6].opa }} id="num_svn"> 
+          <div className="nameBox" >
+            <span className="nameTag">{seatInfo[6].nickname}</span>
+            {throneInfo[6].crown === 1 && <FontAwesomeIcon icon={faCrown} className="crown"/> }
           </div>
           <img className="octopus" src="images/octopus/violet.gif" alt="octopus7.gif"/>
         </div>

@@ -10,6 +10,7 @@ import NightToDayLoading from "../../LoadingPage/NightToDayLoading/NightToDayLoa
 import DeathResultComponent from "../components/JobComponents/DeathResultComponent";
 import NewsResultComponent from "../components/JobComponents/NewsResultComponent";
 import VoteAnimationComponent from "../components/VotePage/VoteAnimationComponent";
+import VoteDoneAnimationComponent from "../components/VotePage/VoteDoneAnimationComponent";
 import AgreePage from "../components/VotePage/AgreePage";
 import VotePage from "../components/VotePage/VotePage";
 import VoteWaitPage from "../components/VotePage/VoteWaitPage";
@@ -96,6 +97,7 @@ class OpenViduComponent extends Component {
       speakingUsers: [0, 0, 0, 0, 0, 0, 0, 0],
       timer: 0,
       hasSkill: true,
+      killed: "없음",
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -106,6 +108,7 @@ class OpenViduComponent extends Component {
     this.micStatusChanged = this.micStatusChanged.bind(this);
     this.toggleChat = this.toggleChat.bind(this);
     this.changePerson = this.changePerson.bind(this);
+    this.checkGameTurn = this.checkGameTurn.bind(this);
   }
 
   timer(time, user, page, flag, obj) {
@@ -518,7 +521,7 @@ class OpenViduComponent extends Component {
     //   this.props.onClickBtn();
     // }
     // 애니메이션 (밤) 주석하기 (다영)
-    // this.setState({ pickUser: "c5" }); // 투표 테스트용
+    // this.setState({ pickUser: "c1" }); // 투표 테스트용
     this.props.onClickBtn();
     // const startTimer = setTimeout(() => {
     //   this.setState({ page: 13 });
@@ -587,7 +590,21 @@ class OpenViduComponent extends Component {
       }
 
       if (this.props.gamerData.job === "기자") {
-        this.settingHasntSkill();
+        if (this.state.hasSkill === true) {
+          if (gamer.userName === this.props.gamerData.userName) {
+            console.log("자기 자신은 선택 X");
+          } else if (this.state.pickUser === gamer.userName) {
+            this.setState({ pickUser: "" });
+            console.log("reporterpick 같은 유저 선택", this.state.pickUser);
+          } else if (gamer.isDead === false) {
+            // console.log(g)
+            this.setState({ pickUser: gamer.userName });
+            console.log(
+              "reporterpick 지금 기자가 밤에 찍은 사람 누구?",
+              this.state.pickUser
+            );
+          }
+        }
         console.log(
           "기자 능력 확인 : ",
           this.props.gamerData.hasSkill === false ? "사용" : "미사용"
@@ -727,9 +744,11 @@ class OpenViduComponent extends Component {
   setVictoryUser = (data) => {
     this.setState({ victoryUsers: data });
     console.log("승리 유저 바뀜!");
-    this.state.localUser.getStreamManager().stream.session.signal({
-      type: "gameEnd",
-    });
+    if (this.props.waitData.roomChief === this.state.myUserName) {
+      this.state.localUser.getStreamManager().stream.session.signal({
+        type: "gameEnd",
+      });
+    }
   };
 
   // 다영 (리덕스 gamer : userList <-> subscribers 연결 하는 함수)
@@ -803,13 +822,16 @@ class OpenViduComponent extends Component {
             });
           });
           //});
+        } else if (
+          this.props.gamerData.job === "기자" &&
+          this.state.pickUser !== ""
+        ) {
+          this.settingHasntSkill();
         }
       });
-    if (this.props.gamerData.job === "기자" && this.state.pickUser != "") {
-      console.log("기자가 리덕스에 값 저장");
-      this.props.setReporter({ reporter: this.state.pickUser });
-      this.setState({ hasSkill: false });
-    }
+    setTimeout(() => {
+      this.nightResult();
+    }, 1000);
   };
 
   nightResult() {
@@ -817,6 +839,12 @@ class OpenViduComponent extends Component {
       .get(`${BASE_URL}/nights/result/${this.props.gamerData.roomId}`)
       .then((res) => {
         console.log("밤 결과 확인!", res.data);
+        this.setState({ killed: res.data.userName });
+        console.log("killed  state에 잘 들어갔는지 확인!!", this.state.killed);
+        if (res.data.userName != "없음") {
+          console.log("누가 죽었니?", res.data.userName);
+          this.props.updateUserListforDead({ userName: res.data.userName });
+        }
       });
   }
 
@@ -896,6 +924,7 @@ class OpenViduComponent extends Component {
   // 다영 수정
   updatePickUserAtAgreeVote = () => {
     console.log("AGREE VOTE한 PICK USER 들어옴", this.state.pickUser);
+    // this.setState({ pickUser: "c4" }); // 테스트용 지워야함 다영
     const data = {
       idx: 0,
       roomId: 0,
@@ -952,15 +981,9 @@ class OpenViduComponent extends Component {
 
   killPickUser = () => {
     console.log("AGREE VOTE한 PICK USER : ", this.state.pickUser);
-    var pickUserJob = "";
-    this.props.gamerData.userList.map((user, i) => {
-      if (this.state.pickUser === user.userName) {
-        pickUserJob = user.gameJob;
-      }
-    });
-    console.log("AGREE VOTE , PICK USER's JOB : ", pickUserJob);
-    // 재간둥이 인 지 확인
-    if (pickUserJob === "재간둥이") {
+    if (this.state.pickUser === this.props.gamerData.sjh) {
+      let victoryUsers = [];
+
       axios
         .put(`${BASE_URL}/gamers/isvictory/userName/${this.state.pickUser}`)
         .then((res) => {
@@ -968,10 +991,17 @@ class OpenViduComponent extends Component {
           console.log("AGREE VOTE : 처형 => 재간둥이 O => 종료 페이지 GO");
           console.log("AGREE VOTE : 재간둥이 승리!!");
 
-          // 게임 종료 부르기 ( 다영 수정)
-          this.state.localUser.getStreamManager().stream.session.signal({
-            type: "gameEnd",
-          });
+          axios
+            .get(`${BASE_URL}/gamers/winners`)
+            .then((res) => {
+              victoryUsers = res.data.map((row) => row.userName);
+              this.setVictoryUser(victoryUsers);
+              this.state.localUser.getStreamManager().stream.session.signal({
+                type: "agreeVoteGoAndGameEnd",
+              });
+              console.log("처형 페이지로 이동 후 종료! ");
+            })
+            .catch((err) => console.log(err));
         });
     } else {
       console.log("AGREE VOTE : 처형 => 재간둥이 X => 처형 페이지 GO");
@@ -997,11 +1027,70 @@ class OpenViduComponent extends Component {
             data: JSON.stringify(data),
             type: "dead",
           });
-          // 처형페이지 이동
-          this.state.localUser.getStreamManager().stream.session.signal({
-            type: "agreeVoteGo",
-          });
+
+          let pathName = document.location.pathname.replace("/", "");
+          let victoryUsers = [];
+          axios
+            .get(`${BASE_URL}/gamers/victory/team/${pathName}`)
+            .then((res) => {
+              if (res.data.victory) {
+                axios
+                  .put(
+                    `${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${res.data.gameTeam}`
+                  )
+                  .then((res) => {
+                    axios
+                      .get(`${BASE_URL}/gamers/winners`)
+                      .then((res) => {
+                        victoryUsers = res.data.map((row) => row.userName);
+                        this.setVictoryUser(victoryUsers);
+                        this.state.localUser
+                          .getStreamManager()
+                          .stream.session.signal({
+                            type: "agreeVoteGoAndGameEnd",
+                          });
+                        console.log(
+                          "처형 페이지로 이동후 종료 페이지로 이동 ! "
+                        );
+                      })
+                      .catch((err) => console.log(err));
+                  })
+                  .catch((err) => console.log(err));
+              } else {
+                // 처형페이지 이동
+                this.state.localUser.getStreamManager().stream.session.signal({
+                  type: "agreeVoteGo",
+                });
+              }
+            })
+            .catch((err) => console.log(err));
         });
+    }
+  };
+  // 15턴 게임횟수 세는 함수 (다영 수정)
+  checkGameTurn = () => {
+    console.log("현재 GAME TURN : ", this.props.gamerData.gameturn);
+
+    let pathName = document.location.pathname.replace("/", "");
+    let victoryUsers = [];
+
+    if (this.props.gamerData.gameturn === 15) {
+      if (this.props.gamerData.userName === this.props.waitData.roomChief) {
+        const gameTeam = "마피아";
+        axios
+          .put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${gameTeam}`)
+          .then((res) => {
+            axios
+              .get(`${BASE_URL}/gamers/winners`)
+              .then((res) => {
+                victoryUsers = res.data.map((row) => row.userName);
+                this.setVictoryUser(victoryUsers);
+                console.log("종료 페이지로 이동 !");
+              })
+              .catch((err) => console.log(err));
+          })
+          .catch((err) => console.log(err));
+      }
     }
   };
 
@@ -1028,7 +1117,7 @@ class OpenViduComponent extends Component {
               <div className="d-flex justify-content-between">
                 {localUser !== undefined &&
                   localUser.getStreamManager() !== undefined && (
-                    <div className="aaaaa" style={chatDisplay}>
+                    <div className="chating-box" style={chatDisplay}>
                       <ChatComponent
                         user={localUser}
                         chatDisplay={this.state.chatDisplay}
@@ -1098,7 +1187,11 @@ class OpenViduComponent extends Component {
         )}
         {this.state.page === 2 && ( // 밤 애니메이션
           <div>
-            <DayToNightLoading page={this.state.page} />
+            {/* 다영 수정 */}
+            <DayToNightLoading
+              page={this.state.page}
+              checkGameTurn={this.checkGameTurn}
+            />
           </div>
         )}
         {/* 밤페이지 - 밤역할 수행 x (시장, 재간둥이, 능력 쓴 기자) */}
@@ -1132,7 +1225,7 @@ class OpenViduComponent extends Component {
                 <div>
                   <NightOctopi />
                 </div>
-                <div className="aaaaa" style={chatDisplay}>
+                <div className="chating-box" style={chatDisplay}>
                   <ChatComponent
                     user={localUser}
                     chatDisplay={this.state.chatDisplay}
@@ -1191,16 +1284,22 @@ class OpenViduComponent extends Component {
                     >
                       <div
                         key={i}
-                        className="OT_root OT_publisher custom-class"
+                        className={
+                          subGamer.userName === this.state.pickUser
+                            ? "OT_root OT_publisher custom-class ingame_picked_user"
+                            : "OT_root OT_publisher custom-class"
+                        }
                         id="remoteUsers"
                       >
-                        {subGamer.userName === this.state.pickUser && (
-                          <p>투표</p>
-                        )}
                         {subGamer.isDead === true ? (
                           <img src="images/deadOcto.png" width="200" />
                         ) : subGamer.gameJob !== "마피아" ? (
-                          <img src="images/octoAtNight.png" width="200" />
+                          <div className="octo-night-box">
+                            <img src="images/octoAtNight.png" width="200" />
+                            <p className="gamer-nickname">
+                              {subGamer.userName}
+                            </p>
+                          </div>
                         ) : (
                           <StreamComponent
                             user={
@@ -1222,6 +1321,9 @@ class OpenViduComponent extends Component {
                   ))}
               </div>
               <div className="d-flex flex-column justify-content-between">
+                <div>
+                  <MafiaNightOctopi />
+                </div>
                 <div className="mafiaButtons">
                   <p className="icons-property"></p>
                   {this.props.gamerData.minigameList[0] === true ? (
@@ -1255,10 +1357,7 @@ class OpenViduComponent extends Component {
                     </button>
                   )}
                 </div>
-                <div>
-                  <MafiaNightOctopi />
-                </div>
-                <div className="aaaaa" style={chatDisplay}>
+                <div className="chating-box" style={chatDisplay}>
                   <ChatComponent
                     user={localUser}
                     chatDisplay={this.state.chatDisplay}
@@ -1292,16 +1391,22 @@ class OpenViduComponent extends Component {
                     >
                       <div
                         key={i}
-                        className="OT_root OT_publisher custom-class"
+                        className={
+                          subGamer.userName === this.state.pickUser
+                            ? "OT_root OT_publisher custom-class ingame_picked_user"
+                            : "OT_root OT_publisher custom-class"
+                        }
                         id="remoteUsers"
                       >
-                        {subGamer.userName === this.state.pickUser && (
-                          <p>투표</p>
-                        )}
                         {subGamer.isDead === true ? (
                           <img src="images/deadOcto.png" width="200" />
                         ) : subGamer.gameJob !== "마피아" ? (
-                          <img src="images/octoAtNight.png" width="200" />
+                          <div className="octo-night-box">
+                            <img src="images/octoAtNight.png" width="200" />
+                            <p className="gamer-nickname">
+                              {subGamer.userName}
+                            </p>
+                          </div>
                         ) : (
                           <StreamComponent
                             user={
@@ -1348,17 +1453,23 @@ class OpenViduComponent extends Component {
                     >
                       <div
                         key={i}
-                        className="OT_root OT_publisher custom-class"
+                        className={
+                          subGamer.userName === this.state.pickUser
+                            ? "OT_root OT_publisher custom-class ingame_picked_user"
+                            : "OT_root OT_publisher custom-class"
+                        }
                         id="remoteUsers"
                       >
-                        {subGamer.userName === this.state.pickUser && (
-                          <p>투표</p>
-                        )}
                         {subGamer.isDead === true ? (
                           <img src="images/deadOcto.png" width="200" />
                         ) : subGamer.userName !==
                           this.props.gamerData.userName ? (
-                          <img src="images/octoAtNight.png" width="200" />
+                          <div className="octo-night-box">
+                            <img src="images/octoAtNight.png" width="200" />
+                            <p className="gamer-nickname">
+                              {subGamer.userName}
+                            </p>
+                          </div>
                         ) : (
                           <StreamComponent
                             user={
@@ -1383,7 +1494,16 @@ class OpenViduComponent extends Component {
                 <div>
                   <NightOctopi />
                 </div>
-                <div className="aaaaa" style={chatDisplay}>
+                <div>
+                  {this.state.hasSkill === true &&
+                    this.props.gamerData.job === "기자" && (
+                      <p className="reporter-skill-button">
+                        <img src="icons/icons8-news-50.png" /> 기자 능력 사용
+                        가능{" "}
+                      </p>
+                    )}
+                </div>
+                <div className="chating-box" style={chatDisplay}>
                   <ChatComponent
                     user={localUser}
                     chatDisplay={this.state.chatDisplay}
@@ -1417,17 +1537,23 @@ class OpenViduComponent extends Component {
                     >
                       <div
                         key={i}
-                        className="OT_root OT_publisher custom-class"
+                        className={
+                          subGamer.userName === this.state.pickUser
+                            ? "OT_root OT_publisher custom-class ingame_picked_user"
+                            : "OT_root OT_publisher custom-class"
+                        }
                         id="remoteUsers"
                       >
-                        {subGamer.userName === this.state.pickUser && (
-                          <p>투표</p>
-                        )}
                         {subGamer.isDead === true ? (
                           <img src="images/deadOcto.png" width="200" />
                         ) : subGamer.userName !==
                           this.props.gamerData.userName ? (
-                          <img src="images/octoAtNight.png" width="200" />
+                          <div className="octo-night-box">
+                            <img src="images/octoAtNight.png" width="200" />
+                            <p className="gamer-nickname">
+                              {subGamer.userName}
+                            </p>
+                          </div>
                         ) : (
                           <StreamComponent
                             user={
@@ -1477,7 +1603,7 @@ class OpenViduComponent extends Component {
               <div>
                 <NightOctopi />
               </div>
-              <div className="aaaaa" style={chatDisplay}>
+              <div className="chating-box" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
                   chatDisplay={this.state.chatDisplay}
@@ -1522,21 +1648,24 @@ class OpenViduComponent extends Component {
         {/* 밤 => 낮 애니메이션
          */}
         {this.state.page === 7 && (
-          <div>
+          <div className="day-to-night-sky">
             <NightToDayLoading setVictoryUser={this.setVictoryUser} />
           </div>
         )}
         {/* 죽음 결과
          */}
         {this.state.page === 8 && (
-          <div>
-            <DeathResultComponent user={this.state.localUser} />
+          <div className="night-result">
+            <DeathResultComponent
+              user={this.state.localUser}
+              killed={this.state.killed}
+            />
           </div>
         )}
         {/* 기자 결과s
          */}
         {this.state.page === 9 && (
-          <div>
+          <div className="report-result">
             <NewsResultComponent />
           </div>
         )}
@@ -1549,7 +1678,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    this.state.speakingUsers[i]
+                    this.state.speakingUsers[i] && subGamer.isDead === false
                       ? "ingame-bounds-speaking"
                       : "ingame-bounds"
                   }
@@ -1585,7 +1714,7 @@ class OpenViduComponent extends Component {
               <div>
                 <DayOctopi />
               </div>
-              <div className="aaaaa" style={chatDisplay}>
+              <div className="chating-box" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
                   chatDisplay={this.state.chatDisplay}
@@ -1615,7 +1744,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    this.state.speakingUsers[i + 4]
+                    this.state.speakingUsers[i + 4] && subGamer.isDead === false
                       ? "ingame-bounds-speaking"
                       : "ingame-bounds"
                   }
@@ -1658,7 +1787,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    this.state.speakingUsers[i]
+                    this.state.speakingUsers[i] && subGamer.isDead === false
                       ? "ingame-bounds-speaking"
                       : "ingame-bounds"
                   }
@@ -1700,7 +1829,7 @@ class OpenViduComponent extends Component {
                 } */}
                 <DayOctopi />
               </div>
-              <div className="aaaaa" style={chatDisplay}>
+              <div className="chating-box" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
                   chatDisplay={this.state.chatDisplay}
@@ -1730,7 +1859,7 @@ class OpenViduComponent extends Component {
                 <div
                   id="layout"
                   className={
-                    this.state.speakingUsers[i + 4]
+                    this.state.speakingUsers[i + 4] && subGamer.isDead === false
                       ? "ingame-bounds-speaking"
                       : "ingame-bounds"
                   }
@@ -1769,11 +1898,18 @@ class OpenViduComponent extends Component {
             </div>
           </div>
         )}
-        {/* 투표 애니메이션
+        {/* 투표 집계 애니메이션
          */}
         {this.state.page === 12 && (
           <div>
             <VoteAnimationComponent />
+          </div>
+        )}
+        {/* 투표 결과 애니메이션
+         */}
+        {this.state.page === 16 && (
+          <div>
+            <VoteDoneAnimationComponent />
           </div>
         )}
         {/* 최후 변론 + 찬반페이지 */}
@@ -1834,6 +1970,20 @@ class OpenViduComponent extends Component {
             </div>
           </div>
         )}
+        {/* 찬반투표 집계 애니메이션
+         */}
+        {this.state.page === 17 && (
+          <div>
+            <VoteAnimationComponent />
+          </div>
+        )}
+        {/* 찬반투표 결과 애니메이션
+         */}
+        {this.state.page === 18 && (
+          <div>
+            <VoteDoneAnimationComponent />
+          </div>
+        )}
         {/* 처형 애니메이션
          */}
         {this.state.page === 14 && (
@@ -1843,7 +1993,7 @@ class OpenViduComponent extends Component {
         )}
 
         {/*
-          상어 / 낚시 미니게임 
+          상어 / 낚시 미니게임
         */}
         {this.state.page === 30 && <FishingGame gameNum={this.state.gameNum} />}
         {this.state.page === 20 && <SharkGame gameNum={this.state.gameNum} />}
@@ -2048,6 +2198,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setReporter: (data) => {
       dispatch(setReporter(data));
+    },
+    updateUserListforDead: (data) => {
+      dispatch(updateUserListforDead(data));
     },
   };
 };

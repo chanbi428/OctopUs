@@ -77,7 +77,9 @@ class ChatComponent extends Component {
             data.job === this.props.gamerData.job
           ) {
             console.log("경찰 지목이 들어왔다고 알림", message);
-            this.props.setMessageList({ message: message });
+            setTimeout(() => {
+              this.props.setMessageList({ message: message });
+            }, 2000);
           } else {
             if (
               data.isDead === true &&
@@ -130,6 +132,7 @@ class ChatComponent extends Component {
       this.props.user
         .getStreamManager()
         .stream.session.on("signal:voteGo", (event) => {
+          console.log("VOTE : VOTEGO STATUS CHANGE");
           flag = {
             gameEnd: false,
             voteGo: true,
@@ -141,6 +144,15 @@ class ChatComponent extends Component {
         .stream.session.on("signal:agreeVoteGo", (event) => {
           flag = {
             gameEnd: false,
+            voteGo: false,
+            agreeVoteGo: true,
+          };
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:agreeVoteGoAndGameEnd", (event) => {
+          flag = {
+            gameEnd: true,
             voteGo: false,
             agreeVoteGo: true,
           };
@@ -224,11 +236,14 @@ class ChatComponent extends Component {
             this.props.resetPickUser();
             this.props.setGameStatus({ gameStatus: 0 });
           }
-          // 다영 추가
-          if (data.page === 11) {
-            console.log("VOTE : pickUser 초기화");
-            this.props.resetPickUser();
+          if (data.page === 15 && this.props.gamerData.job === "크레이지경찰") {
+            this.settingGamerList({ roomId: this.props.gamerData.roomId });
           }
+          // 다영 추가
+          // if (data.page === 11) {
+          //   console.log("VOTE : pickUser 초기화");
+          //   this.props.resetPickUser();
+          // }
           const obj = {
             minigameResult: this.props.getGamerData().minigameResult,
             job: this.props.gamerData.job,
@@ -302,14 +317,14 @@ class ChatComponent extends Component {
           const data = JSON.parse(event.data);
           console.log("VOTE : RECIEVE MESSAGE, MAX VOTES notice받음");
           console.log("RECEIVED MAX VOTES : ", data.votes.userName);
-          if (data.votes.userName !== "skip") {
+          if (data.votes.userName === "skip") {
             // 그냥 페이지 테스트용
             console.log("NO MAX VOTES => 찬반 페이지 PASS");
-            this.props.resetPickUser(); // pickUser reset
+            // this.props.resetPickUser(); // pickUser reset
             // this.props.changePage(data.page, data.gameChoice);
           } else {
             console.log("MAX VOTES => 찬반 페이지 GO");
-            this.state.localUser.getStreamManager().stream.session.signal({
+            this.props.user.getStreamManager().stream.session.signal({
               type: "voteGo",
             });
           }
@@ -545,10 +560,14 @@ class ChatComponent extends Component {
           console.warn("REDUX : GAMER INIT2 : USERLIST");
           console.log("업데이트 게이머 유저리스트 확인", this.props.gamerData);
 
-          this.props.settingListForSub({ subscribers: this.props.subscribers });
-          console.warn("REDUX : GAMER INIT3 : SUB");
-          console.log("업데이트 SUBSCRIBERS 확인", this.props.subscribers);
-          console.log("업데이트 게이머 확인", this.props.gamerData);
+          setTimeout(() => {
+            this.props.settingListForSub({
+              subscribers: this.props.subscribers,
+            });
+            console.warn("REDUX : GAMER INIT3 : SUB");
+            console.log("업데이트 SUBSCRIBERS 확인", this.props.subscribers);
+            console.log("업데이트 게이머 확인", this.props.gamerData);
+          }, 1000);
 
           this.settingUserList(roomNum);
 

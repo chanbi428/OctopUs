@@ -54,8 +54,8 @@ public interface VoteDao extends JpaRepository<Vote, Integer> {
     public int resetVote(String roomId);
 
     // skip 표 세기
-    @Query(value = "SELECT (count(vote)*10+5)-sum(vote) FROM vote WHERE room_id = ?", nativeQuery = true)
-    public int selectSkip(String roomId);
+    @Query(value = "SELECT sum(vote) FROM vote WHERE room_id = ?", nativeQuery = true)
+    public int countVote(String roomId);
 
     /** @brief : deleteByRoomId, 해당 roomId가진 night 삭제 (게임 종료시 사용)
      *  @date : 2022-08-02
