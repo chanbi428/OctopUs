@@ -16,4 +16,7 @@ public interface FishingRepository extends JpaRepository<MiniGame, Integer> {
     int update(int citizen, int mafia, String roomId);
     MiniGame findByRoomId(String roomId);
     MiniGame save(MiniGame miniGame);
+
+    @Transactional
+    void deleteByRoomId(String roomId);
 }

@@ -15,6 +15,7 @@ public class MiniGameServiceImpl implements MiniGameService{
 
     @Override
     public int save(MiniGame miniGame) {
+        System.out.println("MiniGameServiceImpl : " + miniGame);
         return repository.update(miniGame.getCitizen(), miniGame.getMafia(), miniGame.getRoomId());
     }
 
@@ -32,5 +33,10 @@ public class MiniGameServiceImpl implements MiniGameService{
         MiniGame game = repository.save(miniGame);
         if(game != null) return 1;
         else return 0;
+    }
+
+    @Override
+    public void deleteByroomId(String roomId) {
+        repository.deleteByRoomId(roomId);
     }
 }
