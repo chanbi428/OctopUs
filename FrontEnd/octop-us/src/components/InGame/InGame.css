@@ -1060,3 +1060,10 @@
   margin-bottom: -1.7rem;
   font-size: xx-large;
 }
+
+.agree-non-pickuser{
+  z-index: -9999999;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
