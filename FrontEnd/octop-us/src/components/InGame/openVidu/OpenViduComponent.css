@@ -104,7 +104,19 @@
   text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
 }
 
+.timer_night {
+  text-align: center;
+  color: white;
+  text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+  margin-left: 48%;
+}
+
 .agree__btn {
   font-family: GmarketSansMedium;
   font-size: large;
+}
+
+.timer_bar{
+  display: flex;
+  justify-content: space-between;
 }
