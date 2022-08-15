@@ -1669,8 +1669,9 @@ class OpenViduComponent extends Component {
                   }
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
-                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                    {subGamer.userName === this.state.pickUser && <p>투표</p>}
+                  <div key={i} 
+                  className="OT_root OT_publisher custom-class"
+                  id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.png" width="200" />
                     ) : (
@@ -1680,6 +1681,7 @@ class OpenViduComponent extends Component {
                             ? localUser
                             : this.state.subscribers[subGamer.subIdx]
                         }
+                        picked={this.state.pickUser}
                       />
                     )}
                     {subGamer.userName === this.state.myUserName && (
@@ -1737,8 +1739,9 @@ class OpenViduComponent extends Component {
                   }
                   onClick={(e) => this.selectVote(subGamer, e)}
                 >
-                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
-                    {subGamer.userName === this.state.pickUser && <p>투표</p>}
+                  <div key={i} 
+                  className="OT_root OT_publisher custom-class"
+                  id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.png" width="200" />
                     ) : (
@@ -1747,7 +1750,9 @@ class OpenViduComponent extends Component {
                           subGamer.subIdx === undefined
                             ? localUser
                             : this.state.subscribers[subGamer.subIdx]
+                            
                         }
+                        picked={this.state.pickUser}
                       />
                     )}
                     {subGamer.userName === this.state.myUserName && (
