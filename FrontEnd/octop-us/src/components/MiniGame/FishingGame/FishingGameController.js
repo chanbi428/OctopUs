@@ -30,7 +30,7 @@ const FishingGameStart = (props) => {
   const { roomChief } = useSelector((state) => state.wait);
   const { localUser } = useSelector((state) => state.gamer);
   const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } =
-  useSelector((state) => state.gamer);
+    useSelector((state) => state.gamer);
   const obj = {
     roomChief: roomChief,
     minigameResult: minigameResult,
@@ -52,13 +52,16 @@ const FishingGameStart = (props) => {
     console.log("state.roomId : " + roomId);
     makeDB();
 
-    const timerForAnimation = setTimeout(() => { //stop animation start Tutorial
+    const timerForAnimation = setTimeout(() => {
+      //stop animation start Tutorial
       setStartAnimation(false);
       setStartTutorial(true);
-      const timerForTutorial = setTimeout(() => { //stop Tutorial start Count
+      const timerForTutorial = setTimeout(() => {
+        //stop Tutorial start Count
         setStartTutorial(false);
         setStartCount(true);
-        const timerForGame = setTimeout(() => { //stop Count start Game
+        const timerForGame = setTimeout(() => {
+          //stop Count start Game
           setStartCount(false);
           setStartGame(true);
           clearTimeout(timerForGame);
@@ -71,25 +74,26 @@ const FishingGameStart = (props) => {
 
   async function makeDB() {
     // const roomId = props.roomId;
-    let sendData = {roomId};
+    let sendData = { roomId };
     console.log("sendData make : " + JSON.stringify(sendData));
     const result = await axios.post(
       BASE_URL + "/games/mini/fish/make",
-       sendData,
+      sendData,
       config
     );
     console.log("makeDB running... : " + result);
   }
 
-  async function endGame(e){
+  async function endGame(e) {
     // const roomId = props.roomId;
     await axios.delete(BASE_URL + `/games/mini/fish/delete/${roomId}`, config);
     console.log("endGame on Starter : " + e);
 
-    if(e){ // citizen win
+    if (e) {
+      // citizen win
       dispatch(mafiaLoseAtMinigame());
-    }
-    else{ // mafia win
+    } else {
+      // mafia win
       dispatch(mafiaWinAtMinigame());
     }
     obj["fisher"] = false;
@@ -110,9 +114,21 @@ const FishingGameStart = (props) => {
           />
         </div>
       )}
-      {startTutorial && <FishGameTutorial />}
-      {startCount && <FishGameCount />}
-      {startGame && <FishGame endGame={endGame} roomId={roomId} job={obj.job}/>}
+      {startTutorial && (
+        <div className="fish-game__board">
+          <FishGameTutorial />
+        </div>
+      )}
+      {startCount && (
+        <div className="fish-game__board">
+          <FishGameCount />
+        </div>
+      )}
+      {startGame && (
+        <div className="fish-game__board">
+          <FishGame endGame={endGame} roomId={roomId} job={obj.job} />
+        </div>
+      )}
     </div>
   );
 };

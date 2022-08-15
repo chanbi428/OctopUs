@@ -91,3 +91,16 @@
 #winMentExplane {
   font-size: 35px;
 }
+.fish-game__board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 12px;
+  margin: 0 auto;
+  padding-bottom: 6vh;
+  border-radius: 10px;
+  background-color: transparent;
+  overflow: hidden;
+  width: 500px;
+}
