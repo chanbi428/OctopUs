@@ -481,11 +481,13 @@ class ChatComponent extends Component {
           this.settingGamerList(res.data.roomId);
           console.warn("REDUX : GAMER INIT2 : USERLIST");
           console.log("업데이트 게이머 유저리스트 확인", this.props.gamerData);
-
-          this.props.settingListForSub({ subscribers: this.props.subscribers });
-          console.warn("REDUX : GAMER INIT3 : SUB");
-          console.log("업데이트 SUBSCRIBERS 확인", this.props.subscribers);
-          console.log("업데이트 게이머 확인", this.props.gamerData);
+          
+          setTimeout(() => {
+            this.props.settingListForSub({ subscribers: this.props.subscribers });
+            console.warn("REDUX : GAMER INIT3 : SUB");
+            console.log("업데이트 SUBSCRIBERS 확인", this.props.subscribers);
+            console.log("업데이트 게이머 확인", this.props.gamerData);
+          }, 1000);
 
           this.settingUserList(roomNum);
 
