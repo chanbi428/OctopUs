@@ -277,21 +277,20 @@ class ChatComponent extends Component {
       });
 
       this.props.user.getStreamManager().stream.session.on("signal:voteResult", (event) => {
-        if (this.props.waitData.roomChief === this.props.gamerData.userName) {
-          const data = JSON.parse(event.data);
-          console.log("VOTE : RECIEVE MESSAGE, MAX VOTES notice받음");
-          console.log("RECEIVED MAX VOTES : ", data.votes.userName);
-          if (data.votes.userName === "skip") {
-            // 그냥 페이지 테스트용
-            console.log("NO MAX VOTES => 찬반 페이지 PASS");
-            // this.props.resetPickUser(); // pickUser reset
-            // this.props.changePage(data.page, data.gameChoice);
-          } else {
-            console.log("MAX VOTES => 찬반 페이지 GO");
-            this.props.user.getStreamManager().stream.session.signal({
-              type: "voteGo",
-            });
-          }
+        const data = JSON.parse(event.data);
+        console.log("VOTE : RECIEVE MESSAGE, MAX VOTES notice받음");
+        console.log("RECEIVED MAX VOTES : ", data.votes.userName);
+        this.props.setVoteName(data.votes.userName);
+        if (data.votes.userName === "skip") {
+          // 그냥 페이지 테스트용
+          console.log("NO MAX VOTES => 찬반 페이지 PASS");
+          // this.props.resetPickUser(); // pickUser reset
+          // this.props.changePage(data.page, data.gameChoice);
+        } else {
+          console.log("MAX VOTES => 찬반 페이지 GO");
+          this.props.user.getStreamManager().stream.session.signal({
+            type: "voteGo",
+          });
         }
       });
       // 다영 수정
@@ -302,18 +301,18 @@ class ChatComponent extends Component {
         this.props.updatePickUserAtAgreeVote();
       });
       this.props.user.getStreamManager().stream.session.on("signal:agreeVoteResult", (event) => {
-        if (this.props.waitData.roomChief === this.props.gamerData.userName) {
-          const data = JSON.parse(event.data);
-          console.log("AGREE VOTE : RECIEVE MESSAGE, VOTE notice받음");
-          console.log("RECEIVED VOTE : ", data.votes.vote);
-          if (data.votes.vote > 0) {
-            console.log("AGREE VOTE : 처형");
-            // 처형처리
-            this.props.killPickUser();
-          } else {
-            console.log("AGREE VOTE : 처형 X => 처형X 결과 페이지 GO");
-            // 페이지 이동 (페이지 수정 필요)
-          }
+        const data = JSON.parse(event.data);
+        console.log("AGREE VOTE : RECIEVE MESSAGE, VOTE notice받음");
+        console.log("RECEIVED VOTE : ", data.votes.vote);
+        if (data.votes.vote > 0) {
+          console.log("AGREE VOTE : 처형");
+          this.props.setVoteName("처형");
+          // 처형처리
+          this.props.killPickUser();
+        } else {
+          console.log("AGREE VOTE : 처형 X => 처형X 결과 페이지 GO");
+          this.props.setVoteName("skip");
+          // 페이지 이동 (페이지 수정 필요)
         }
       });
       this.props.user.getStreamManager().stream.session.on("signal:dead", (event) => {

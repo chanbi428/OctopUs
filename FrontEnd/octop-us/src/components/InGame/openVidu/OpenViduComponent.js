@@ -548,6 +548,10 @@ class OpenViduComponent extends Component {
   // 찬반 투표로 넘어가는 버튼
   moveAgree = () => this.setState({ agreePageStart: 1 });
 
+  setVoteName = (data) => {
+    this.setState({ voteName: data });
+  };
+
   // 유저를 선택하는 함수 (state의 pickUser가 선택한 userName으로 넘어감)
   selectVote = (gamer, e) => {
     e.preventDefault();
@@ -1143,6 +1147,7 @@ class OpenViduComponent extends Component {
                       getGamerData={this.getGamerData}
                       updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                       killPickUser={this.killPickUser}
+                      setVoteName={this.setVoteName}
                     />
                   </div>
                 )}
@@ -1233,6 +1238,7 @@ class OpenViduComponent extends Component {
                     getGamerData={this.getGamerData}
                     updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                     killPickUser={this.killPickUser}
+                    setVoteName={this.setVoteName}
                   />
                 </div>
               </div>
@@ -1349,6 +1355,7 @@ class OpenViduComponent extends Component {
                     getGamerData={this.getGamerData}
                     updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                     killPickUser={this.killPickUser}
+                    setVoteName={this.setVoteName}
                   />
                 </div>
               </div>
@@ -1490,6 +1497,7 @@ class OpenViduComponent extends Component {
                     getGamerData={this.getGamerData}
                     updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                     killPickUser={this.killPickUser}
+                    setVoteName={this.setVoteName}
                   />
                 </div>
               </div>
@@ -1583,6 +1591,7 @@ class OpenViduComponent extends Component {
                   getGamerData={this.getGamerData}
                   updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                   killPickUser={this.killPickUser}
+                  setVoteName={this.setVoteName}
                 />
               </div>
             </div>
@@ -1687,6 +1696,7 @@ class OpenViduComponent extends Component {
                   getGamerData={this.getGamerData}
                   updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                   killPickUser={this.killPickUser}
+                  setVoteName={this.setVoteName}
                 />
               </div>
             </div>
@@ -1800,6 +1810,7 @@ class OpenViduComponent extends Component {
                   getGamerData={this.getGamerData}
                   updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                   killPickUser={this.killPickUser}
+                  setVoteName={this.setVoteName}
                 />
               </div>
             </div>
