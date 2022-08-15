@@ -210,18 +210,30 @@ const FishingComponent = (props) => {
         </div>
       )}
       {startChange && showMode && (
-        // {showMode && (
-        <Card id="mainComponent">
-          <div id="winMent">
-            <p>
-              {citizenPercent > mafiaPercent ? "문어" : "오징어"}팀의 승리!!
-            </p>
-            <img src="images/trophy.png" width={"500px"}></img>
-            <p id="winMentExplane">
-              {citizenPercent > mafiaPercent ? citizenWinMent : mafiaWinMent}
-            </p>
-          </div>
+        citizenPercent > mafiaPercent ?
+        <Card className="team_octopus_card">
+          <img src="images/octopus_signiture.png" alt="team_octopus"/>
+          <h2>문어 팀의 승리!</h2>
+          <p>오늘 낮 투표가 정상적으로 진행됩니다.</p>
         </Card>
+        : 
+        <Card className="team_squid_card">
+          <img src="images/squid_std.png" alt="team_squid" />
+          <h2>오징어 팀의 승리!</h2>
+          <p>오늘 낮 투표를 진행하지 않습니다.</p>
+        </Card>
+        // {showMode && (
+        // <Card id="mainComponent">
+        //   <div id="winMent">
+        //     <p>
+        //       {citizenPercent > mafiaPercent ? "문어" : "오징어"}팀의 승리!!
+        //     </p>
+        //     <img src="images/trophy.png" width={"500px"}></img>
+        //     <p id="winMentExplane">
+        //       {citizenPercent > mafiaPercent ? citizenWinMent : mafiaWinMent}
+        //     </p>
+        //   </div>
+        // </Card>
       )}
     </div>
   );
