@@ -908,23 +908,25 @@ class OpenViduComponent extends Component {
   };
 
   voteResult() {
-    axios.get(`${BASE_URL}/votes/max/${this.props.gamerData.roomId}`).then((res) => {
-      console.log("투표 결과 확인!", res.data);
-      this.setState({ voteName: res.data.userName });
+    if (this.props.waitData.roomChief === this.props.gamerData.userName) {
+      axios.get(`${BASE_URL}/votes/max/${this.props.gamerData.roomId}`).then((res) => {
+        console.log("투표 결과 확인!", res.data);
+        this.setState({ voteName: res.data.userName });
 
-      console.log("VOTE : SEND MESSAGE, NOTICE 감지");
-      console.log("MOST VOTES : ", res.data.userName);
-      this.setState({ pickUser: res.data.userName });
-      const data = {
-        votes: res.data,
-        nickname: "사회자",
-        streamId: this.state.localUser.getStreamManager().stream.streamId,
-      };
-      this.state.localUser.getStreamManager().stream.session.signal({
-        data: JSON.stringify(data),
-        type: "voteResult",
+        console.log("VOTE : SEND MESSAGE, NOTICE 감지");
+        console.log("MOST VOTES : ", res.data.userName);
+        this.setState({ pickUser: res.data.userName });
+        const data = {
+          votes: res.data,
+          nickname: "사회자",
+          streamId: this.state.localUser.getStreamManager().stream.streamId,
+        };
+        this.state.localUser.getStreamManager().stream.session.signal({
+          data: JSON.stringify(data),
+          type: "voteResult",
+        });
       });
-    });
+    }
   }
 
   // 다영 수정
@@ -968,22 +970,24 @@ class OpenViduComponent extends Component {
 
   agreeVoteResult = () => {
     this.setState({ voteName: "skip" });
-    axios.get(`${BASE_URL}/votes/${this.state.pickUser}`).then((res) => {
-      console.log("투표 결과 확인!", res.data);
+    if (this.props.waitData.roomChief === this.props.gamerData.userName) {
+      axios.get(`${BASE_URL}/votes/${this.state.pickUser}`).then((res) => {
+        console.log("투표 결과 확인!", res.data);
 
-      console.log("AGREE VOTE : SEND MESSAGE, NOTICE 감지");
-      console.log("AGREE VOTE RESULT : ", res.data.vote);
+        console.log("AGREE VOTE : SEND MESSAGE, NOTICE 감지");
+        console.log("AGREE VOTE RESULT : ", res.data.vote);
 
-      const data = {
-        votes: res.data,
-        nickname: "사회자",
-        streamId: this.state.localUser.getStreamManager().stream.streamId,
-      };
-      this.state.localUser.getStreamManager().stream.session.signal({
-        data: JSON.stringify(data),
-        type: "agreeVoteResult",
+        const data = {
+          votes: res.data,
+          nickname: "사회자",
+          streamId: this.state.localUser.getStreamManager().stream.streamId,
+        };
+        this.state.localUser.getStreamManager().stream.session.signal({
+          data: JSON.stringify(data),
+          type: "agreeVoteResult",
+        });
       });
-    });
+    }
   };
 
   killPickUser = () => {
