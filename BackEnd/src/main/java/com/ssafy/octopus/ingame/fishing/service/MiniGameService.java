@@ -6,4 +6,5 @@ public interface MiniGameService {
     public int save(MiniGame miniGame);
     public MiniGame getResult(String roomId);
     public int save(String roomId);
+    public void deleteByroomId(String roomId);
 }

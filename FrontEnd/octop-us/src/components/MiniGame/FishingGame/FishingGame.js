@@ -2,18 +2,12 @@ import { React, useState, useEffect, useRef } from "react";
 import Card from "../../Card/Card";
 import axios from "axios";
 import "./FishingGame.css";
-import FishingGameStartCount from "./FishingGameStartCount";
 import { BASE_URL, config } from "../../../api/BASE_URL";
 
 import Timer from "../../InGame/Timer";
 import { useSelector } from "react-redux";
 
-import {
-  CircularProgress,
-  LinearProgress,
-  makeStyles,
-  createStyles,
-} from "@material-ui/core";
+import { LinearProgress, makeStyles, createStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -34,17 +28,14 @@ const useStyles = makeStyles((theme) =>
 );
 
 const FishingComponent = (props) => {
-  const [user, setUser] = useState("");
-  const [jobs, setJobs] = useState("mafia");
-  const [roomId, setRoomId] = useState("1234");
+  const [jobs, setJobs] = useState(props.job);
+  const [roomId, setRoomId] = useState(props.roomId);
   const [count, setCount] = useState(0);
   const [citizenPercent, setCitizenPercent] = useState(50);
   const [mafiaPercent, setMafiaPercent] = useState(50);
   const [showMode, setShowMode] = useState(false);
-  const [existMode, setExistMode] = useState(true);
-  const [startChange, setStartChange] = useState(true);
 
-  const [time, setTime] = useState(45);
+  const [time, setTime] = useState(30);
   const classes = useStyles();
 
   const mafiaWinMent = "오징어 팀의 승리로 오늘 투표를 진행하지 않습니다.";
@@ -75,38 +66,27 @@ const FishingComponent = (props) => {
     agreeVoteGo: false, // 찬반투표결과(처형 할지 안할지)
   };
 
-  // gamestart -> gametutorial -> startcount(3, 2, 1, go! 뜨는 부분) -> fishingGame으로 넘어오는 구조입니다
-  // startcount -> fishinggame 변하는 부분으로 앞에 낚시게임 시작 애니메이션 - 튜토리얼 - 3, 2, 1, Go! 까지 15초
-  // 15초 후에 fishingGame을 띄우기 위해 사용했습니다.
   useEffect(() => {
-    if (!startChange) {
-      const startTimer = setTimeout(() => {
-        setStartChange(true);
-      }, 15000); // 여기 수정 v
-      return () => clearTimeout(startTimer);
-    }
-  }, [startChange]);
-
-  useEffect(() => {
-    if (startChange) {
-      let time = 0;
-      const updater = setInterval(() => {
-        console.log("useEffect : " + count + " timer : " + time);
-        updateCount(spaceCount.current);
-        setCount(0);
-        spaceCount.current = 0;
-        time++;
-        if (time >= 3) {
-          return () => {
-            console.log("timer 2 : " + time);
-            clearInterval(updater);
-          };
-        }
-      }, 10000); // 1000 -> 1 second / update percent time
-      return () => {
-        clearInterval(updater);
-      };
-    }
+    // let time = 0;
+    //   const updater = setInterval(() => {
+    //     console.log("useEffect : " + count + " timer : " + time);
+    //     updateCount(spaceCount.current);
+    //     setCount(0);
+    //     spaceCount.current = 0;
+    //     time++;
+    //     if (time >= 3) {
+    //       return () => {
+    //         console.log("timer 2 : " + time);
+    //         clearInterval(updater);
+    //       };
+    //     }
+    //   }, 1000); // 1000 -> 1 second / update percent time
+    //   return () => {
+    //     clearInterval(updater);
+    //   };
+    updateCount(spaceCount.current);
+    setCount(0);
+    spaceCount.current = 0;
   }, [count]);
 
   useEffect(() => {
@@ -114,7 +94,7 @@ const FishingComponent = (props) => {
       console.log("timer : " + time);
       if (time > 0) setTime((time) => time - 1);
       if (time === 0) {
-        console.log("timer end");
+        console.log("FishGame end");
         clearInterval(timer);
         endGame();
       }
@@ -133,7 +113,8 @@ const FishingComponent = (props) => {
       if (roomChief === userInfo.userName) {
         Timer(0, localUser, 20, flag, obj);
       }
-      props.stateVisible(citizenPercent > mafiaPercent ? true : false);
+      let data = citizenPercent > mafiaPercent ? true : false; // 게임 결과
+      props.endGame(data);
     }, 3000);
 
     return () => clearTimeout(startTimer);
@@ -165,15 +146,24 @@ const FishingComponent = (props) => {
     );
 
     console.log("data : " + data);
-
-    setCitizenPercent((data.citizen / (data.citizen + data.mafia)) * 100);
-    setMafiaPercent((data.mafia / (data.citizen + data.mafia)) * 100);
+    let citizenData = data.citizen;
+    let mafiaData = data.mafia;
+    let citizenPercent = (citizenData / (citizenData + mafiaData)) * 100;
+    let mafiaPercent = (mafiaData / (citizenData + mafiaData)) * 100;
+    if (citizenData === 0) {
+      citizenPercent = 0;
+    }
+    if (mafiaData === 0) {
+      mafiaPercent = 0;
+    }
+    setCitizenPercent(citizenPercent);
+    setMafiaPercent(mafiaPercent);
   }
 
   return (
     <div>
-      {!startChange && showMode === false && <FishingGameStartCount />}
-      {showMode === false && (
+      {/* {!startChange && showMode === false && <FishingGameStartCount />} */}
+      {!showMode && (
         <div id="mainComponent">
           <p id="Clock">{time}</p>
           <Card>
@@ -209,7 +199,7 @@ const FishingComponent = (props) => {
           </Card>
         </div>
       )}
-      {startChange && showMode && (
+      {showMode && (
         // {showMode && (
         <Card id="mainComponent">
           <div id="winMent">
