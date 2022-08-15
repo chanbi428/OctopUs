@@ -7,14 +7,22 @@ import "./RoundComponent.css";
 import { updateUserListforDead } from "../../../../features/gamer/gamerSlice";
 
 import MP_Scary from "../../../../effect/MP_Scary.mp3";
+import MP_noEvent from "../../../../effect/MP_noEvent.mp3";
 // import MP_Cannon from "../../../../effect/MP_Cannon.mp3";
 
 function DeathResultComponent(props) {
   useEffect(() => {
-    var audio = new Audio(MP_Scary);
-    audio.play();
+    if (props.killed !== "없음") {
+      var audio = new Audio(MP_Scary);
+      audio.play();
 
-    setTimeout(() => audio.pause(), 3000);
+      setTimeout(() => audio.pause(), 3000);
+    } else {
+      var audio = new Audio(MP_noEvent);
+      audio.play();
+
+      setTimeout(() => audio.pause(), 3000);
+    }
   }, []);
 
   return (
