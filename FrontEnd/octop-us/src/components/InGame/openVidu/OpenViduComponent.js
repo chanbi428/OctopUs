@@ -3,6 +3,9 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import NightsStayIcon from '@material-ui/icons/NightsStay';
+import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import StreamComponent from "./stream/StreamComponent";
 import ChatComponent from "./chat/ChatComponent";
 import RoundComponent from "../components/JobComponents/RoundComponent";
@@ -1224,7 +1227,6 @@ class OpenViduComponent extends Component {
               this.props.gamerData.hasSkill === true) ||
             (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === false)) && (
             <div className="d-flex justify-content-between">
-              <NightComponent />
               <div>
                 {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                   <div id="layout" className="ingame-bounds">
@@ -1241,8 +1243,12 @@ class OpenViduComponent extends Component {
               <div className="d-flex flex-column justify-content-between">
                 <div>
                   <NightOctopi />
+                  <NightComponent />
                 </div>
-                <h1 className="timer">{this.state.timer}</h1>
+                <div className="d-flex justify-content-center">
+                  <NightsStayIcon className="mini-moon" />
+                  <h1 className="timer">{this.state.timer}</h1>
+                </div>
                 <div className="chating-box" style={chatDisplay}>
                   <ChatComponent
                     user={localUser}
@@ -1286,7 +1292,6 @@ class OpenViduComponent extends Component {
           this.props.gamerData.isDead === false &&
           this.props.gamerData.job === "마피아" && (
             <div className="d-flex justify-content-between">
-              <NightComponent />
               <div>
                 {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                   <div
@@ -1333,9 +1338,13 @@ class OpenViduComponent extends Component {
               <div className="d-flex flex-column justify-content-between">
                 <div>
                   <MafiaNightOctopi />
+                  <NightComponent />
                 </div>
                 <div className="timer_bar">
-                  <h1 className="timer_night">{this.state.timer}</h1>
+                <div className="d-flex justify-content-center">
+                  <NightsStayIcon className="mini-moon" />
+                  <h1 className="timer">{this.state.timer}</h1>
+                </div>
                   <div className="mafiaButtons">
                     <p className="icons-property"></p>
                     {this.props.gamerData.minigameList[0] === true ? (
@@ -1441,7 +1450,6 @@ class OpenViduComponent extends Component {
               this.props.gamerData.hasSkill === true &&
               this.props.gamerData.gameturn > 1)) && (
             <div className="d-flex justify-content-between">
-              <NightComponent />
               {console.log("start police")}
               <div>
                 {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
@@ -1489,11 +1497,15 @@ class OpenViduComponent extends Component {
               <div className="d-flex flex-column justify-content-between">
                 <div>
                   <NightOctopi />
+                  <NightComponent />
                 </div>
                 <div>
                   {this.state.hasSkill === true && this.props.gamerData.job === "기자" && (
                     <div className="timer_bar">
-                      <h1 className="timer_night">{this.state.timer}</h1>
+                      <div className="d-flex justify-content-center">
+                        <NightsStayIcon className="mini-moon" />
+                        <h1 className="timer">{this.state.timer}</h1>
+                      </div>
                       <p className="reporter-skill-button">
                         <img src="icons/icons8-news-50.png" /> 기자 능력 사용 가능{" "}
                       </p>
@@ -1501,7 +1513,10 @@ class OpenViduComponent extends Component {
                   )}
                 </div>
                 {this.props.gamerData.job != "기자" && (
-                  <h1 className="timer">{this.state.timer}</h1>
+                  <div className="d-flex justify-content-center">
+                    <NightsStayIcon className="mini-moon" />
+                    <h1 className="timer">{this.state.timer}</h1>
+                  </div>
                 )}
                 <div className="chating-box" style={chatDisplay}>
                   <ChatComponent
@@ -1578,7 +1593,6 @@ class OpenViduComponent extends Component {
         {/* 밤페이지 - 밤역할 수행 x (죽은 사람) */}
         {this.state.page === 3 && this.props.gamerData.isDead === true && (
           <div className="d-flex justify-content-between">
-            <NightComponent />
             <div>
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div id="layout" className="ingame-bounds">
@@ -1595,8 +1609,12 @@ class OpenViduComponent extends Component {
             <div className="d-flex flex-column justify-content-between">
               <div>
                 <NightOctopi />
+                <NightComponent />
               </div>
-              <h1 className="timer">{this.state.timer}</h1>
+              <div className="d-flex justify-content-center">
+                <NightsStayIcon className="mini-moon" />
+                <h1 className="timer">{this.state.timer}</h1>
+              </div>
               <div className="chating-box" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
@@ -1699,7 +1717,10 @@ class OpenViduComponent extends Component {
               <div>
                 <DayOctopi />
               </div>
-              <h1 className="timer">{this.state.timer}</h1>
+              <div className="d-flex justify-content-center">
+                <Brightness7Icon className="mini-sun"/>
+                <h1 className="timer">{this.state.timer}</h1>
+              </div>
               <div className="chating-box" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
@@ -1765,7 +1786,6 @@ class OpenViduComponent extends Component {
          */}
         {this.state.page === 11 && (
           <div className="d-flex justify-content-between">
-            <DayComponent />
             <div>
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div
@@ -1812,8 +1832,12 @@ class OpenViduComponent extends Component {
                   : <VotePage moveVoteWait={this.moveVoteWait} />
                 } */}
                 <DayOctopi />
+                <DayComponent />
               </div>
-              <h1 className="timer">{this.state.timer}</h1>
+              <div className="d-flex justify-content-center">
+                <HowToVoteIcon className="mini-vote" />
+                <h1 className="timer">{this.state.timer}</h1>
+              </div>
               <div className="chating-box" style={chatDisplay}>
                 <ChatComponent
                   user={localUser}
@@ -1900,25 +1924,17 @@ class OpenViduComponent extends Component {
         )}
         {/* 최후 변론 + 찬반페이지 */}
         {this.state.page === 13 && (
-          <div className="d-flex justify-content-center">
+          <div>
             <VoteAgreeComponent />
-            <div className="d-flex flex-column justify-content-between">
-              <h1 className="timer">{this.state.timer}</h1>
-              <div id="layout" className="voted-bounds">
-                {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                  <div className="OT_root OT_publisher custom-class" id="localUser">
-                    {this.props.gamerData.userList.slice(0, 8).map((subGamer, i) => (
-                      <div>
-                        {subGamer.userName === this.state.pickUser ? (
-                          <StreamComponent
-                            user={
-                              subGamer.subIdx === undefined
-                                ? localUser
-                                : this.state.subscribers[subGamer.subIdx]
-                            }
-                          />
-                        ) : (
-                          <div className="agree-non-pickuser">
+            <div className="d-flex justify-content-center">
+              <div className="d-flex flex-column justify-content-between">
+                <h1 className="timer">{this.state.timer}</h1>
+                <div id="layout" className="voted-bounds">
+                  {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                    <div className="OT_root OT_publisher custom-class" id="localUser">
+                      {this.props.gamerData.userList.slice(0, 8).map((subGamer, i) => (
+                        <div>
+                          {subGamer.userName === this.state.pickUser ? (
                             <StreamComponent
                               user={
                                 subGamer.subIdx === undefined
@@ -1926,28 +1942,38 @@ class OpenViduComponent extends Component {
                                   : this.state.subscribers[subGamer.subIdx]
                               }
                             />
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div className="d-flex justify-content-around agree-box">
-                <button
-                  onClick={(e) => this.selectAgree(e)}
-                  disabled={this.state.agree === true ? true : false}
-                  className="agree__btn"
-                >
-                  찬성
-                </button>
-                <button
-                  onClick={(e) => this.selectDisAgree(e)}
-                  disabled={this.state.agree === false ? true : false}
-                  className="agree__btn"
-                >
-                  반대
-                </button>
+                          ) : (
+                            <div className="agree-non-pickuser">
+                              <StreamComponent
+                                user={
+                                  subGamer.subIdx === undefined
+                                    ? localUser
+                                    : this.state.subscribers[subGamer.subIdx]
+                                }
+                              />
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div className="d-flex justify-content-around agree-box">
+                  <button
+                    onClick={(e) => this.selectAgree(e)}
+                    disabled={this.state.agree === true ? true : false}
+                    className="agree__btn"
+                  >
+                    찬성
+                  </button>
+                  <button
+                    onClick={(e) => this.selectDisAgree(e)}
+                    disabled={this.state.agree === false ? true : false}
+                    className="agree__btn"
+                  >
+                    반대
+                  </button>
+                </div>
               </div>
             </div>
           </div>

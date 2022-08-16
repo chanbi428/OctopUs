@@ -167,7 +167,7 @@ const FishingComponent = (props) => {
           <Card>
             <div id="mainComponent">
               <div id="centerPlace">
-                <img src="images/minigame/fishbg.jpg"></img>
+                <img src="images/minigame/fishbg.gif"></img>
                 <LinearProgress
                   id="progressPercent"
                   variant="determinate"
