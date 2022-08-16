@@ -11,6 +11,7 @@ import {
 } from "../../../features/gamer/gamerSlice";
 import { BASE_URL } from "../../../api/BASE_URL";
 import axios from "axios";
+import MP_MiniResult from "../../../effect/MP_MiniResult.mp3";
 
 const SharkGameResult = () => {
   const [resultChange, setresultChange] = useState(false);
@@ -42,22 +43,17 @@ const SharkGameResult = () => {
     if (!resultChange) {
       const startTimer = setTimeout(() => {
         // 결과 받아오기
-        axios
-          .get(`${BASE_URL}/games/mini/shark/result/${roomId}`)
-          .then((res) => {
-            console.log(
-              res.data.gameTeam === "마피아",
-              "데이터 확인!!!!!!!!!!!!!!!!!!!!!!"
-            );
-            if (res.data.gameTeam === "마피아") {
-              dispatch(mafiaWinAtMinigame());
-              setGetWin("마피아");
-              setresultChange(true); // result 띄워 줘라
-            } else {
-              dispatch(mafiaLoseAtMinigame());
-              setresultChange(true); // result 띄워 줘라
-            }
-          });
+        axios.get(`${BASE_URL}/games/mini/shark/result/${roomId}`).then((res) => {
+          console.log(res.data.gameTeam === "마피아", "데이터 확인!!!!!!!!!!!!!!!!!!!!!!");
+          if (res.data.gameTeam === "마피아") {
+            dispatch(mafiaWinAtMinigame());
+            setGetWin("마피아");
+            setresultChange(true); // result 띄워 줘라
+          } else {
+            dispatch(mafiaLoseAtMinigame());
+            setresultChange(true); // result 띄워 줘라
+          }
+        });
       }, 45000); // 여기 수정 v
       return () => {
         clearTimeout(startTimer);
@@ -71,6 +67,12 @@ const SharkGameResult = () => {
       };
     }
   }, [resultChange]);
+
+  // 다영 추가
+  useEffect(() => {
+    var resultAudio = new Audio(MP_MiniResult);
+    resultAudio.play();
+  }, []);
 
   return (
     <div>
