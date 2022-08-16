@@ -34,8 +34,8 @@ export const Timer = (time, user, page, flag, obj) => {
         // 카드애니메이션 -> 밤 애니메이션
       } else if (page == 1) {
         data2 = {
-          page: 2,
-          initTime: 3,
+          page: 7,
+          initTime: 10000,
         };
         console.log("제발,,,", user);
         // 밤 애니메이션 -> 밤
