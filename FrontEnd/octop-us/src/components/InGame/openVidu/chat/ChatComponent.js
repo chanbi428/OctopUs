@@ -249,6 +249,7 @@ class ChatComponent extends Component {
           reporter: this.props.getGamerData().reporter,
           roomChief: this.props.waitData.roomChief,
           vote: this.props.getPickUser(), // 다영 추가
+          gameTime: this.props.waitData.gameTime,
         };
         console.log("change repoter 값", this.props.gamerData.reporter);
         setTimeout(() => {

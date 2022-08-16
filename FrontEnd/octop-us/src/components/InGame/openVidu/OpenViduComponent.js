@@ -564,6 +564,7 @@ class OpenViduComponent extends Component {
       fisher: this.props.gamerData.fisher,
       reporter: this.props.gamerData.reporter,
       roomChief: this.props.waitData.roomChief,
+      gameTime: this.props.waitData.gameTime,
     };
 
     this.settingLocalUser({ localUser: this.state.localUser });
