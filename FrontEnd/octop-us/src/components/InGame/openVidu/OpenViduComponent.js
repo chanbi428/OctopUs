@@ -1438,7 +1438,7 @@ class OpenViduComponent extends Component {
                   <NightComponent />
                 </div>
                 <div className="timer_bar">
-                  <div className="d-flex justify-content-center">
+                  <div className="d-flex justify-content-center night">
                     <NightsStayIcon className="mini-moon" />
                     <h1 className="timer">{this.state.timer}</h1>
                   </div>
@@ -1629,7 +1629,7 @@ class OpenViduComponent extends Component {
                   {this.state.hasSkill === true &&
                     this.props.gamerData.job === "기자" && (
                       <div className="timer_bar">
-                        <div className="d-flex justify-content-center">
+                        <div className="d-flex justify-content-center night">
                           <NightsStayIcon className="mini-moon" />
                           <h1 className="timer">{this.state.timer}</h1>
                         </div>
