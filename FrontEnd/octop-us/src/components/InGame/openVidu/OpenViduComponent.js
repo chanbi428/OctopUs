@@ -1926,7 +1926,7 @@ class OpenViduComponent extends Component {
                       ? "ingame-bounds-speaking"
                       : "ingame-bounds"
                   }
-                  onClick={(e) => this.selectVote(subGamer, e)}
+                  onClick={this.props.gamerData.isDead === false ? (e) => this.selectVote(subGamer, e) : undefined}
                 >
                   <div
                     key={i}
@@ -2004,7 +2004,7 @@ class OpenViduComponent extends Component {
                       ? "ingame-bounds-speaking"
                       : "ingame-bounds"
                   }
-                  onClick={(e) => this.selectVote(subGamer, e)}
+                  onClick={this.props.gamerData.isDead === false ? (e) => this.selectVote(subGamer, e) : undefined}
                 >
                   <div
                     key={i}
@@ -2092,14 +2092,14 @@ class OpenViduComponent extends Component {
                 <div className="d-flex justify-content-around agree-box">
                   <button
                     onClick={(e) => this.selectAgree(e)}
-                    disabled={this.state.agree === true ? true : false}
+                    disabled={this.state.agree === true || this.props.gamerData.isDead === true ? true : false}
                     className="agree__btn"
                   >
                     찬성
                   </button>
                   <button
                     onClick={(e) => this.selectDisAgree(e)}
-                    disabled={this.state.agree === false ? true : false}
+                    disabled={this.state.agree === false || this.props.gamerData.isDead === true ? true : false}
                     className="agree__btn"
                   >
                     반대
