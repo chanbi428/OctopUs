@@ -19,7 +19,7 @@ import VoteWaitPage from "../components/VotePage/VoteWaitPage";
 import ExecutionPage from "../components/VotePage/ExecutionPage";
 import GameAnimation from "../../MiniGame/LoadingAnimation/AnimationRouter";
 import SharkGameResult from "../../MiniGame/SharkGame/SharkGameResult";
-import FishingGame from "../../MiniGame/FishingGame/FishingGame";
+import FishingGame from "../../MiniGame/FishingGame/FishingGameController";
 import GameResultPage from "../components/JobComponents/GameResultPage";
 import CrazyCard from "../../LoadingPage/JobCard/CrazyCard/CrazyCard";
 import DoctorCard from "../../LoadingPage/JobCard/DoctorCard/DoctorCard";
@@ -548,6 +548,10 @@ class OpenViduComponent extends Component {
   // 찬반 투표로 넘어가는 버튼
   moveAgree = () => this.setState({ agreePageStart: 1 });
 
+  setVoteName = (data) => {
+    this.setState({ voteName: data });
+  };
+
   // 유저를 선택하는 함수 (state의 pickUser가 선택한 userName으로 넘어감)
   selectVote = (gamer, e) => {
     e.preventDefault();
@@ -908,23 +912,25 @@ class OpenViduComponent extends Component {
   };
 
   voteResult() {
-    axios.get(`${BASE_URL}/votes/max/${this.props.gamerData.roomId}`).then((res) => {
-      console.log("투표 결과 확인!", res.data);
-      this.setState({ voteName: res.data.userName });
+    if (this.props.waitData.roomChief === this.props.gamerData.userName) {
+      axios.get(`${BASE_URL}/votes/max/${this.props.gamerData.roomId}`).then((res) => {
+        console.log("투표 결과 확인!", res.data);
+        this.setState({ voteName: res.data.userName });
 
-      console.log("VOTE : SEND MESSAGE, NOTICE 감지");
-      console.log("MOST VOTES : ", res.data.userName);
-      this.setState({ pickUser: res.data.userName });
-      const data = {
-        votes: res.data,
-        nickname: "사회자",
-        streamId: this.state.localUser.getStreamManager().stream.streamId,
-      };
-      this.state.localUser.getStreamManager().stream.session.signal({
-        data: JSON.stringify(data),
-        type: "voteResult",
+        console.log("VOTE : SEND MESSAGE, NOTICE 감지");
+        console.log("MOST VOTES : ", res.data.userName);
+        this.setState({ pickUser: res.data.userName });
+        const data = {
+          votes: res.data,
+          nickname: "사회자",
+          streamId: this.state.localUser.getStreamManager().stream.streamId,
+        };
+        this.state.localUser.getStreamManager().stream.session.signal({
+          data: JSON.stringify(data),
+          type: "voteResult",
+        });
       });
-    });
+    }
   }
 
   // 다영 수정
@@ -968,22 +974,24 @@ class OpenViduComponent extends Component {
 
   agreeVoteResult = () => {
     this.setState({ voteName: "skip" });
-    axios.get(`${BASE_URL}/votes/${this.state.pickUser}`).then((res) => {
-      console.log("투표 결과 확인!", res.data);
+    if (this.props.waitData.roomChief === this.props.gamerData.userName) {
+      axios.get(`${BASE_URL}/votes/${this.state.pickUser}`).then((res) => {
+        console.log("투표 결과 확인!", res.data);
 
-      console.log("AGREE VOTE : SEND MESSAGE, NOTICE 감지");
-      console.log("AGREE VOTE RESULT : ", res.data.vote);
+        console.log("AGREE VOTE : SEND MESSAGE, NOTICE 감지");
+        console.log("AGREE VOTE RESULT : ", res.data.vote);
 
-      const data = {
-        votes: res.data,
-        nickname: "사회자",
-        streamId: this.state.localUser.getStreamManager().stream.streamId,
-      };
-      this.state.localUser.getStreamManager().stream.session.signal({
-        data: JSON.stringify(data),
-        type: "agreeVoteResult",
+        const data = {
+          votes: res.data,
+          nickname: "사회자",
+          streamId: this.state.localUser.getStreamManager().stream.streamId,
+        };
+        this.state.localUser.getStreamManager().stream.session.signal({
+          data: JSON.stringify(data),
+          type: "agreeVoteResult",
+        });
       });
-    });
+    }
   };
 
   killPickUser = () => {
@@ -1139,6 +1147,7 @@ class OpenViduComponent extends Component {
                       getGamerData={this.getGamerData}
                       updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                       killPickUser={this.killPickUser}
+                      setVoteName={this.setVoteName}
                     />
                   </div>
                 )}
@@ -1189,7 +1198,9 @@ class OpenViduComponent extends Component {
           this.props.gamerData.isDead === false &&
           (this.props.gamerData.job === "시장" ||
             this.props.gamerData.job === "재간둥이" ||
-            (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === false)) && (
+            (this.props.gamerData.job === "기자" && this.props.gamerData.gameturn === 1 && this.props.gamerData.hasSkill === true) ||
+            (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === false)
+            ) && (
             <div className="d-flex justify-content-between">
               <NightComponent />
               <div>
@@ -1229,6 +1240,7 @@ class OpenViduComponent extends Component {
                     getGamerData={this.getGamerData}
                     updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                     killPickUser={this.killPickUser}
+                    setVoteName={this.setVoteName}
                   />
                 </div>
               </div>
@@ -1345,6 +1357,7 @@ class OpenViduComponent extends Component {
                     getGamerData={this.getGamerData}
                     updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                     killPickUser={this.killPickUser}
+                    setVoteName={this.setVoteName}
                   />
                 </div>
               </div>
@@ -1402,7 +1415,7 @@ class OpenViduComponent extends Component {
           (this.props.gamerData.job === "의사" ||
             this.props.gamerData.job === "경찰" ||
             this.props.gamerData.job === "크레이지경찰" ||
-            (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === true)) && (
+            (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === true && this.props.gamerData.gameturn > 1)) && (
             <div className="d-flex justify-content-between">
               <NightComponent />
               {console.log("start police")}
@@ -1486,6 +1499,7 @@ class OpenViduComponent extends Component {
                     getGamerData={this.getGamerData}
                     updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                     killPickUser={this.killPickUser}
+                    setVoteName={this.setVoteName}
                   />
                 </div>
               </div>
@@ -1579,6 +1593,7 @@ class OpenViduComponent extends Component {
                   getGamerData={this.getGamerData}
                   updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                   killPickUser={this.killPickUser}
+                  setVoteName={this.setVoteName}
                 />
               </div>
             </div>
@@ -1683,6 +1698,7 @@ class OpenViduComponent extends Component {
                   getGamerData={this.getGamerData}
                   updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                   killPickUser={this.killPickUser}
+                  setVoteName={this.setVoteName}
                 />
               </div>
             </div>
@@ -1796,6 +1812,7 @@ class OpenViduComponent extends Component {
                   getGamerData={this.getGamerData}
                   updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
                   killPickUser={this.killPickUser}
+                  setVoteName={this.setVoteName}
                 />
               </div>
             </div>
@@ -2052,7 +2069,7 @@ class OpenViduComponent extends Component {
             </div>
           </div>
         )}
-        {this.state.page === 30 && <FishingGame gameNum={this.state.gameNum} />}
+        {this.state.page === 30 && <FishingGame roomId={this.state.mySessionId} />}
         {/*
           최종 게임 결과 
         */}

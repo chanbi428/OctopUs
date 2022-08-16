@@ -70,7 +70,6 @@ class ChatComponent extends Component {
           avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
         }, 50);
         if (data.nickname === "사회자" && data.job === this.props.gamerData.job) {
-
           var audio = new Audio(MP_Pling);
           audio.play();
 
@@ -80,7 +79,6 @@ class ChatComponent extends Component {
           }, 2000);
         } else {
           if (data.isDead === true && this.props.getGamerData().isDead === true) {
-
             var audio = new Audio(MP_Pling);
             audio.play();
 
@@ -89,7 +87,6 @@ class ChatComponent extends Component {
             console.log("유령 대화에 들어옴 ", message);
           }
           if (data.isDead === false && this.props.getGamerData().gameStatus !== 1) {
-
             var audio = new Audio(MP_Pling);
             audio.play();
 
@@ -102,7 +99,6 @@ class ChatComponent extends Component {
             data.job === "마피아" &&
             data.isDead === false
           ) {
-
             var audio = new Audio(MP_Pling);
             audio.play();
 
@@ -117,7 +113,6 @@ class ChatComponent extends Component {
 
         const second = data.second;
         this.props.changeTime(second);
-
       });
       var flag = {
         gameEnd: false, // 게임종료여부,
@@ -144,6 +139,13 @@ class ChatComponent extends Component {
           gameEnd: false,
           voteGo: false,
           agreeVoteGo: true,
+        };
+      });
+      this.props.user.getStreamManager().stream.session.on("signal:resetFlag", (event) => {
+        flag = {
+          gameEnd: false,
+          voteGo: false,
+          agreeVoteGo: false,
         };
       });
       this.props.user
@@ -202,13 +204,17 @@ class ChatComponent extends Component {
           this.props.resetPickUser();
           this.props.setGameStatus({ gameStatus: 1 });
           this.props.setmafiaLoseAtMinigame();
-          //if (this.props.gamerData.host === this.props.gamerData.userName) {
+          
+          this.props.user.getStreamManager().stream.session.signal({
+            type: "resetFlag",
+          });
+          if (this.props.waitData.roomChief === this.props.gamerData.userName) {
           axios
             .put(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
             .then((res) => {
               console.log("host가 밤 초기화");
             });
-          //}
+          }
         }
         if (data.page === 10) {
           console.log("pickUser 초기화");
@@ -239,7 +245,9 @@ class ChatComponent extends Component {
           console.log("page 변환!", data.page);
           this.props.changeTime(data.initTime);
           this.props.changePage(data.page);
-          Timer(data.initTime, this.props.user, data.page, flag, obj);
+          if (this.props.waitData.roomChief === this.props.gamerData.userName) {
+            Timer(data.initTime, this.props.user, data.page, flag, obj);
+          }
         }, 1000);
       });
 
@@ -283,11 +291,13 @@ class ChatComponent extends Component {
         const data = JSON.parse(event.data);
         console.log("VOTE : RECIEVE MESSAGE, MAX VOTES notice받음");
         console.log("RECEIVED MAX VOTES : ", data.votes.userName);
+        this.props.setVoteName(data.votes.userName);
         if (data.votes.userName === "skip") {
           // 그냥 페이지 테스트용
           console.log("NO MAX VOTES => 찬반 페이지 PASS");
-          // this.props.resetPickUser(); // pickUser reset
-          // this.props.changePage(data.page, data.gameChoice);
+          this.props.user.getStreamManager().stream.session.signal({
+            type: "resetFlag",
+          });
         } else {
           console.log("MAX VOTES => 찬반 페이지 GO");
           this.props.user.getStreamManager().stream.session.signal({
@@ -308,11 +318,16 @@ class ChatComponent extends Component {
         console.log("RECEIVED VOTE : ", data.votes.vote);
         if (data.votes.vote > 0) {
           console.log("AGREE VOTE : 처형");
+          this.props.setVoteName("처형");
           // 처형처리
           this.props.killPickUser();
         } else {
           console.log("AGREE VOTE : 처형 X => 처형X 결과 페이지 GO");
+          this.props.setVoteName("skip");
           // 페이지 이동 (페이지 수정 필요)
+          this.props.user.getStreamManager().stream.session.signal({
+            type: "resetFlag",
+          });
         }
       });
       this.props.user.getStreamManager().stream.session.on("signal:dead", (event) => {

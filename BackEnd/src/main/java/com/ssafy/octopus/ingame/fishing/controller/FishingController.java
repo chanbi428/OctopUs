@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @CrossOrigin(origins = "*")
 @RestController
 public class FishingController {
@@ -17,9 +19,9 @@ public class FishingController {
 
     @PostMapping(value = "/games/mini/fish")
     public ResponseEntity<MiniGame> fishing(@RequestBody MiniGame game){
-        int result = service.save(game);
+        System.out.println("fish result : " + game);
         MiniGame miniGame = null;
-        System.out.println("fish result : " + result + " game : " + game);
+        int result = service.save(game);
         if(result == 1){
             miniGame = service.getResult(game.getRoomId());
             return new ResponseEntity<>(miniGame, HttpStatus.OK);
@@ -29,14 +31,22 @@ public class FishingController {
         }
     }
 
-    @GetMapping(value = "/games/mini/fish/make")
-    public ResponseEntity<Integer> makeDB(@RequestBody String roomId){
-        int result = service.save(roomId);
+    @PostMapping(value = "/games/mini/fish/make")
+    public ResponseEntity<Integer> makeDB(@RequestBody Map<String, String> roomId){
+        System.out.println("make fish db : " + roomId.get("roomId"));
+        int result = service.save(roomId.get("roomId"));
+
         if(result == 1){
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
         else{
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @DeleteMapping(value = "/games/mini/fish/delete/{roomId}")
+    public ResponseEntity<Void> deleteDB(@PathVariable String roomId){
+        service.deleteByroomId(roomId);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

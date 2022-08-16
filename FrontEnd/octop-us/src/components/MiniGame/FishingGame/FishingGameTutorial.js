@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import FishingGameStart from "./FishingGameStart";
 
 const Container = styled.div`
   display: flex;
@@ -21,23 +20,9 @@ const Container = styled.div`
 `;
 
 const FishingGameTutorial = () => {
-  const [eventChange, setEventChange] = useState(false);
-
-  useEffect(() => {
-    if (!eventChange) {
-      const eventTimer = setTimeout(() => {
-        setEventChange(true);
-      }, 4000);
-      return () => clearTimeout(eventTimer);
-    }
-  }, [eventChange]);
-
   return (
     <div>
-      {!eventChange && <FishingGameStart />}
-      {eventChange && (
-        <img src="images/minigame/fishingtutorial.png" alt="낚시꾼튜토리얼" />
-      )}
+      <img src="images/minigame/fishingtutorial.png" alt="낚시튜토리얼" />
     </div>
   );
 };
