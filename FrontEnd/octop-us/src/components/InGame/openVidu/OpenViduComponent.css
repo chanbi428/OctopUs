@@ -150,3 +150,8 @@
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
   color: rgb(240, 113, 103);
 }
+
+.wait-floor {
+  margin-top: 5rem;
+  margin-left: 0.5rem;
+}

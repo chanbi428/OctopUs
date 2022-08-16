@@ -21,7 +21,7 @@ export const NeutralCard= () => {
             <div className="card_neu front_neu"></div>
             <div className="card_neu back_neu"></div>
           </div>
-          <audio src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/945546/%E7%BF%BB%E7%89%8C%E9%9F%B3%E6%95%88.m4a" id="audioHint"></audio>
+          <audio volume="0.5" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/945546/%E7%BF%BB%E7%89%8C%E9%9F%B3%E6%95%88.m4a" id="audioHint"></audio>
         </div>
         <div className="guide_neu">카드를 눌러 직업을 확인하세요!</div>
       </div>
