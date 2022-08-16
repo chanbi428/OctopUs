@@ -52,6 +52,7 @@ class ChatComponent extends Component {
     this.enterNotice = this.enterNotice.bind(this);
     this.exitNotice = this.exitNotice.bind(this);
     this.gameNotice = this.gameNotice.bind(this);
+    this.voteNotice = this.voteNotice.bind(this);
   }
 
   componentDidMount() {
@@ -469,6 +470,19 @@ class ChatComponent extends Component {
       data: JSON.stringify(data),
       type: "chat",
     });
+  }
+
+  voteNotice() {
+    console.log("투표 시작 알림");
+    const data = {
+      message: `[투표] 투표가 시작되었습니다. 오징어라고 생각되는 사람에게 투표하세요.`,
+      nickname: "사회자",
+      streamId: this.props.user.getStreamManager().stream.streamId,
+      job: "",
+      gameStatus: 0,
+      isDead: false,
+    };
+    this.props.setMessageList({ message: data });
   }
 
   // cancelNotice() {
