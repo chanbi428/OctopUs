@@ -27,6 +27,9 @@ import {
   setGameStatus,
   updateUserListforDead,
   mafiaLoseAtMinigame,
+  setFisher,
+  setShark,
+  getMinigame,
 } from "../../../../features/gamer/gamerSlice";
 import { BASE_URL } from "../../../../api/BASE_URL";
 import Timer from "../../Timer";
@@ -343,6 +346,16 @@ class ChatComponent extends Component {
       this.props.user.getStreamManager().stream.session.on("signal:reporter", (event) => {
         const data = JSON.parse(event.data);
         this.props.setReporter({ reporter: data.reporter });
+      });
+      this.props.user.getStreamManager().stream.session.on("signal:shark", (event) => {
+        this.props.setShark();
+      });
+      this.props.user.getStreamManager().stream.session.on("signal:fisher", (event) => {
+        this.props.setFisher();
+      });
+      this.props.user.getStreamManager().stream.session.on("signal:miniGame", (event) => {
+        const data = JSON.parse(event.data);
+        this.props.getMinigame({ idx: data.idx });
       });
     }
     this.scrollToBottom();
@@ -752,6 +765,15 @@ const mapDispatchToProps = (dispatch) => {
     },
     setmafiaLoseAtMinigame: () => {
       dispatch(mafiaLoseAtMinigame());
+    },
+    setShark: () => {
+      dispatch(setShark());
+    },
+    setFisher: () => {
+      dispatch(setFisher());
+    },
+    getMinigame: (data) => {
+      dispatch(getMinigame(data));
     },
   };
 };

@@ -699,15 +699,29 @@ class OpenViduComponent extends Component {
   clickSharkMiniGame = () => {
     var audio = new Audio(MP_btn1);
     audio.play();
-    this.props.setShark();
-    this.usingMinigame({ idx: 1 });
+    // this.props.setShark();
+    // this.usingMinigame({ idx: 1 });
+    this.state.localUser.getStreamManager().stream.session.signal({
+      type: "shark",
+    });
+    this.state.localUser.getStreamManager().stream.session.signal({
+      data: JSON.stringify({ idx: 1 }),
+      type: "miniGame",
+    });
   };
 
   clickFisherMiniGame = () => {
     var audio = new Audio(MP_btn1);
     audio.play();
-    this.props.setFisher();
-    this.usingMinigame({ idx: 0 });
+    // this.props.setFisher();
+    // this.usingMinigame({ idx: 0 });
+    this.state.localUser.getStreamManager().stream.session.signal({
+      type: "fisher",
+    });
+    this.state.localUser.getStreamManager().stream.session.signal({
+      data: JSON.stringify({ idx: 0 }),
+      type: "miniGame",
+    });
   };
 
   clickBtnGame = (e) => {
