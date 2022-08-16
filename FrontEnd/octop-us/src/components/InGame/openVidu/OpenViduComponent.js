@@ -839,6 +839,13 @@ class OpenViduComponent extends Component {
           });
           //});
         } else if (this.props.gamerData.job === "기자" && this.state.pickUser !== "") {
+          const data = {
+            reporter: this.state.pickUser,
+          };
+          this.state.localUser.getStreamManager().stream.session.signal({
+            data: JSON.stringify(data),
+            type: "reporter",
+          });
           this.settingHasntSkill();
         }
       });
@@ -1198,9 +1205,10 @@ class OpenViduComponent extends Component {
           this.props.gamerData.isDead === false &&
           (this.props.gamerData.job === "시장" ||
             this.props.gamerData.job === "재간둥이" ||
-            (this.props.gamerData.job === "기자" && this.props.gamerData.gameturn === 1 && this.props.gamerData.hasSkill === true) ||
-            (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === false)
-            ) && (
+            (this.props.gamerData.job === "기자" &&
+              this.props.gamerData.gameturn === 1 &&
+              this.props.gamerData.hasSkill === true) ||
+            (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === false)) && (
             <div className="d-flex justify-content-between">
               <NightComponent />
               <div>
@@ -1415,7 +1423,9 @@ class OpenViduComponent extends Component {
           (this.props.gamerData.job === "의사" ||
             this.props.gamerData.job === "경찰" ||
             this.props.gamerData.job === "크레이지경찰" ||
-            (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === true && this.props.gamerData.gameturn > 1)) && (
+            (this.props.gamerData.job === "기자" &&
+              this.props.gamerData.hasSkill === true &&
+              this.props.gamerData.gameturn > 1)) && (
             <div className="d-flex justify-content-between">
               <NightComponent />
               {console.log("start police")}
@@ -1881,39 +1891,33 @@ class OpenViduComponent extends Component {
             <div className="d-flex flex-column justify-content-between">
               <h1 className="timer">{this.state.timer}</h1>
               <div id="layout" className="voted-bounds">
-                {localUser !== undefined &&
-                  localUser.getStreamManager() !== undefined && (
-                    <div
-                      className="OT_root OT_publisher custom-class"
-                      id="localUser"
-                    >
-                      {this.props.gamerData.userList
-                        .slice(0, 8)
-                        .map((subGamer, i) => (
-                          <div>
-                            {subGamer.userName === this.state.pickUser ? (
-                              <StreamComponent
-                                user={
-                                  subGamer.subIdx === undefined
-                                    ? localUser
-                                    : this.state.subscribers[subGamer.subIdx]
-                                }
-                              />
-                            ) : (
-                              <div className="agree-non-pickuser">
-                                <StreamComponent
-                                  user={
-                                    subGamer.subIdx === undefined
-                                      ? localUser
-                                      : this.state.subscribers[subGamer.subIdx]
-                                  }
-                                />
-                              </div>
-                            )}
+                {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                  <div className="OT_root OT_publisher custom-class" id="localUser">
+                    {this.props.gamerData.userList.slice(0, 8).map((subGamer, i) => (
+                      <div>
+                        {subGamer.userName === this.state.pickUser ? (
+                          <StreamComponent
+                            user={
+                              subGamer.subIdx === undefined
+                                ? localUser
+                                : this.state.subscribers[subGamer.subIdx]
+                            }
+                          />
+                        ) : (
+                          <div className="agree-non-pickuser">
+                            <StreamComponent
+                              user={
+                                subGamer.subIdx === undefined
+                                  ? localUser
+                                  : this.state.subscribers[subGamer.subIdx]
+                              }
+                            />
                           </div>
-                        ))}
-                    </div>
-                  )}
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="d-flex justify-content-around agree-box">
                 <button
@@ -1955,36 +1959,26 @@ class OpenViduComponent extends Component {
             <div className="d-flex flex-column justify-content-between">
               <h1 className="timer">{this.state.timer}</h1>
               <div id="layout" className="voted-bounds">
-                {localUser !== undefined &&
-                  localUser.getStreamManager() !== undefined && (
-                    <div
-                      className="OT_root OT_publisher custom-class"
-                      id="localUser"
-                    >
-                      {this.props.gamerData.userList
-                        .slice(0, 8)
-                        .map((subGamer, i) => (
-                          <div>
-                            {subGamer.userName === this.state.pickUser ? (
-                              <StreamComponent
-                                user={
-                                  subGamer.subIdx === undefined
-                                    ? localUser
-                                    : this.state.subscribers[subGamer.subIdx]
-                                }
-                              />
-                            ) : (
-                              <div></div>
-                            )}
-                            <ExecutionPage
-                              streamId={
-                                localUser.streamManager.stream.streamId
-                              }
-                            />
-                          </div>
-                        ))}
-                    </div>
-                  )}
+                {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                  <div className="OT_root OT_publisher custom-class" id="localUser">
+                    {this.props.gamerData.userList.slice(0, 8).map((subGamer, i) => (
+                      <div>
+                        {subGamer.userName === this.state.pickUser ? (
+                          <StreamComponent
+                            user={
+                              subGamer.subIdx === undefined
+                                ? localUser
+                                : this.state.subscribers[subGamer.subIdx]
+                            }
+                          />
+                        ) : (
+                          <div></div>
+                        )}
+                        <ExecutionPage streamId={localUser.streamManager.stream.streamId} />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
