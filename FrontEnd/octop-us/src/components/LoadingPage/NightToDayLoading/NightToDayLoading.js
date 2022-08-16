@@ -53,7 +53,7 @@ const NightToDayLoading = (props) => {
   }, []);
 
   return (
-    <div className="sun-page">
+    <div id="sun-page">
       <div className="wrap-sun">
         <div className="circle-sun">
           <div className="wave-one-sun"></div>

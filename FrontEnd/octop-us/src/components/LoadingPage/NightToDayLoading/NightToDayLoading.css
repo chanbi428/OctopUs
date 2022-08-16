@@ -6,7 +6,7 @@
   color: rgba(255, 255, 255, 0.6);
 } */
 
-.sun-page {
+#sun-page {
   position: absolute;
   width: 100%;
   height: 100%;
