@@ -179,7 +179,7 @@ const FishingComponent = (props) => {
 
   // timer로 돌아가기
   const { userInfo } = useSelector((state) => state.user);
-  const { roomChief } = useSelector((state) => state.wait);
+  const { roomChief, gameTime } = useSelector((state) => state.wait);
   const { localUser } = useSelector((state) => state.gamer);
   const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } = useSelector(
     (state) => state.gamer
@@ -193,6 +193,7 @@ const FishingComponent = (props) => {
     shark: shark,
     fisher: fisher,
     reporter: reporter,
+    gameTime: gameTime,
   };
   var flag = {
     gameEnd: false, // 게임종료여부,

@@ -17,12 +17,9 @@ const SharkGameResult = () => {
   const [resultChange, setresultChange] = useState(false);
   const [getWin, setGetWin] = useState("시민");
   const { userInfo } = useSelector((state) => state.user);
-  const { roomId } = useSelector((state) => state.wait);
-  const { roomChief } = useSelector((state) => state.wait);
-  const { localUser } = useSelector((state) => state.gamer);
-  const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } = useSelector(
-    (state) => state.gamer
-  );
+  const { roomChief, gameTime, roomId } = useSelector((state) => state.wait);
+  const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter, localUser } =
+    useSelector((state) => state.gamer);
 
   const dispatch = useDispatch();
   const obj = {
@@ -34,6 +31,7 @@ const SharkGameResult = () => {
     shark: shark,
     fisher: fisher,
     reporter: reporter,
+    gameTime: gameTime,
   };
   var flag = {
     gameEnd: false, // 게임종료여부,
