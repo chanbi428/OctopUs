@@ -63,6 +63,7 @@
 }
 
 .reporter-skill-button {
+  cursor: pointer;
   font-family: "GmarketSansBold";
   display: inline-block;
   flex-direction: row;

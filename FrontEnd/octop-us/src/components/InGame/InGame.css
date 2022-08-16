@@ -1067,3 +1067,26 @@
   height: 0;
   position: absolute;
 }
+
+.mini-sun{
+  position: static;
+  font-size: 2.5rem !important;
+  margin: 7px 20px 0 20px;
+  color: rgba(255, 204, 51);
+  animation: sun-rotation 4s infinite linear;
+}
+
+.mini-moon{
+  position: static;
+  font-size: 2.5rem !important;
+  margin: 7px 20px 0 20px;
+  color: rgba(255, 255, 255);
+  animation: moon-rotation 4s infinite linear;
+}
+
+.mini-vote{
+  position: static;
+  font-size: 2.5rem !important;
+  margin: 7px 20px 0 20px;
+  color: rgba(255, 255, 255);
+}
