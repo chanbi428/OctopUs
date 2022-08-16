@@ -530,7 +530,7 @@ class ChatComponent extends Component {
             this.settingUserList(users);
             console.log("업데이트 리스트 확인", this.props.waitData);
             this.settingRoomChief({ roomChief: chief });
-            this.settingPersonNum({ personNum : people });
+            this.settingPersonNum({ personNum: people });
             console.log("업데이트 호스트 확인", this.props.waitData);
             const lst = {
               connectionId: this.props.user.getStreamManager().stream.streamId,
@@ -631,11 +631,10 @@ class ChatComponent extends Component {
                       className={
                         "message" +
                         (data.connectionId !== this.props.user.getConnectionId()
-                          ? " left"
-                          : " right" + " ghostColor")
+                          ? " left ghostColor"
+                          : " right ghostColor")
                       }
                     >
-                      <canvas id={"userImg-" + i} width="60" height="60" className="user-img" />
                       <div className="msg-detail">
                         <div className="msg-info">
                           <p> {data.nickname}</p>
@@ -664,7 +663,6 @@ class ChatComponent extends Component {
                           : " right" + " alive")
                       }
                     >
-                      <canvas id={"userImg-" + i} width="60" height="60" className="user-img" />
                       <div className="msg-detail">
                         <div className="msg-info">
                           <p> {data.nickname}</p>
@@ -692,18 +690,17 @@ class ChatComponent extends Component {
                       className={
                         "message" +
                         (data.connectionId !== this.props.user.getConnectionId()
-                          ? " left"
-                          : " right" + " mafiaColor")
+                          ? " left mafiaColor"
+                          : " right mafiaColor")
                       }
                     >
-                      <canvas id={"userImg-" + i} width="60" height="60" className="user-img" />
                       <div className="msg-detail">
                         <div className="msg-info">
                           <p> {data.nickname}</p>
                         </div>
                         <div className="msg-content">
                           <span className="triangle" />
-                          <p className="mafia">{data.message}</p>
+                          <p className="text">{data.message}</p>
                         </div>
                       </div>
                     </div>
@@ -792,8 +789,8 @@ const mapDispatchToProps = (dispatch) => {
     getMinigame: (data) => {
       dispatch(getMinigame(data));
     },
-    setPersonNum : (data) => {
-      dispatch(updatePersonNum(data))
+    setPersonNum: (data) => {
+      dispatch(updatePersonNum(data));
     },
   };
 };
