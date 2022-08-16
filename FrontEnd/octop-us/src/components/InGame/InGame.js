@@ -94,8 +94,8 @@ const InGame = () => {
     audio.play();
     await console.log(roomId);
     await console.log("방 나가기 버튼 누르고 절차 시작"); //
-    await chatRef.current.ovref.current.exitNotice();
     await exitRoom(roomId, userInfo.userName);
+    await chatRef.current.ovref.current.exitNotice();
     await chatRef.current.leaveSession();
     await console.log("leave session 성공");
     await navigate("/main");

@@ -17,6 +17,7 @@ import {
   updateRoomId,
   updateUserList,
   updateRoomChief,
+  updatePersonNum,
 } from "../../../../features/waiting/waitSlice";
 import { gamerUserList } from "../../../../features/gamer/gamerActions";
 import {
@@ -503,6 +504,10 @@ class ChatComponent extends Component {
     this.props.setGamerList(data);
   };
 
+  settingPersonNum = (data) => {
+    this.props.setPersonNum(data);
+  };
+
   componentDidUpdate(prevState) {
     this.scrollToBottom();
     if (this.props.gamerData.messageList.length !== 0) {
@@ -516,6 +521,7 @@ class ChatComponent extends Component {
           // console.log("문어자리 업데이트용-chatcompo", res.data)
           const roomNum = res.data.roomId;
           const chief = res.data.roomChief;
+          const people = res.data.personNum;
           const users = res.data.userList.split(",");
           console.log("유저 비교!!!", users, this.props.waitData.userList);
           if (this.props.waitData.userList !== users || this.props.waitData.roomId !== roomNum) {
@@ -524,6 +530,7 @@ class ChatComponent extends Component {
             this.settingUserList(users);
             console.log("업데이트 리스트 확인", this.props.waitData);
             this.settingRoomChief({ roomChief: chief });
+            this.settingPersonNum({ personNum : people });
             console.log("업데이트 호스트 확인", this.props.waitData);
             const lst = {
               connectionId: this.props.user.getStreamManager().stream.streamId,
@@ -784,6 +791,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getMinigame: (data) => {
       dispatch(getMinigame(data));
+    },
+    setPersonNum : (data) => {
+      dispatch(updatePersonNum(data))
     },
   };
 };
