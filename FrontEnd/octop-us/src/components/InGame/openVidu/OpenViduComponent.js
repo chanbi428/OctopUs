@@ -1196,7 +1196,7 @@ class OpenViduComponent extends Component {
     const localUser = this.state.localUser;
     var chatDisplay = { display: this.state.chatDisplay };
     return (
-      <div className="screen" id="screen-div">
+      <div>
         {this.state.page === 0 && ( // 대기실
           <div>
             <WaitingComponent setPlayTrue={this.setPlayTrue} />
@@ -1289,13 +1289,10 @@ class OpenViduComponent extends Component {
           </div>
         )}
         {this.state.page === 2 && ( // 밤 애니메이션
-          <div>
-            {/* 다영 수정 */}
-            <DayToNightLoading
-              page={this.state.page}
-              checkGameTurn={this.checkGameTurn}
-            />
-          </div>
+          <DayToNightLoading
+            page={this.state.page}
+            checkGameTurn={this.checkGameTurn}
+          />
         )}
         {/* 밤페이지 - 밤역할 수행 x (시장, 재간둥이, 능력 쓴 기자) */}
         {this.state.page === 3 &&
