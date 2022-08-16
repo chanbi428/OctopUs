@@ -1607,7 +1607,6 @@ class OpenViduComponent extends Component {
                   <NightComponent />
                 </div>
                 <div>
-<<<<<<< HEAD
                   {this.state.hasSkill === true && this.props.gamerData.job === "기자" && (
                     <div className="timer_bar">
                       <div className="d-flex justify-content-center">
@@ -1619,18 +1618,6 @@ class OpenViduComponent extends Component {
                       </p>
                     </div>
                   )}
-=======
-                  {this.state.hasSkill === true &&
-                    this.props.gamerData.job === "기자" && (
-                      <div className="timer_bar">
-                        <h1 className="timer_night">{this.state.timer}</h1>
-                        <p className="reporter-skill-button">
-                          <img src="icons/icons8-news-50.png" /> 기자 능력 사용
-                          가능{" "}
-                        </p>
-                      </div>
-                    )}
->>>>>>> daee00313ef47470944b22fc47759a3f68604228
                 </div>
                 {this.props.gamerData.job != "기자" && (
                   <div className="d-flex justify-content-center">
