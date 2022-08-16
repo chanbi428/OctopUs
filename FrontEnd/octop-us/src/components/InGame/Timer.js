@@ -155,6 +155,10 @@ export const Timer = (time, user, page, flag, obj) => {
             page: 11,
             initTime: 3,
           };
+          user.getStreamManager().stream.session.signal({
+            data: JSON.stringify(data2),
+            type: "voteStart",
+          });
         }
         // 투표 -> 투표 집계 애니메이션
       } else if (page == 11) {
