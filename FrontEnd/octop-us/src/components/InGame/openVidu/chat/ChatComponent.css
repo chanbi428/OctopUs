@@ -106,7 +106,7 @@ span.triangle {
 .ghost {
   word-break: break-all;
   font-size: 12px;
-  color: #747474;
+  color: white;
 }
 
 /* Start message from other user */
@@ -135,6 +135,28 @@ span.triangle {
   left: -5px;
 }
 
+.message.left.mafiaColor .msg-detail .msg-content {
+  background-color: darksalmon;
+  float: left;
+}
+.message.left.mafiaColor .msg-detail .msg-content span.triangle {
+  background-color: darksalmon;
+  border-bottom-width: 0;
+  border-left-width: 0;
+  right: -5px;
+}
+
+.message.left.ghostColor .msg-detail .msg-content {
+  background-color: #696969;
+  float: left;
+}
+.message.left.ghostColor .msg-detail .msg-content span.triangle {
+  background-color: #696969;
+  border-bottom-width: 0;
+  border-left-width: 0;
+  right: -5px;
+}
+
 /* End message from other user */
 
 /* Start my messages */
@@ -153,6 +175,28 @@ span.triangle {
 }
 .message.right .msg-detail .msg-content span.triangle {
   background-color: #c8ffe8;
+  border-bottom-width: 0;
+  border-left-width: 0;
+  right: -5px;
+}
+
+.message.right.mafiaColor .msg-detail .msg-content {
+  background-color: darksalmon;
+  float: right;
+}
+.message.right.mafiaColor .msg-detail .msg-content span.triangle {
+  background-color: darksalmon;
+  border-bottom-width: 0;
+  border-left-width: 0;
+  right: -5px;
+}
+
+.message.right.ghostColor .msg-detail .msg-content {
+  background-color: #696969;
+  float: right;
+}
+.message.right.ghostColor .msg-detail .msg-content span.triangle {
+  background-color: #696969;
   border-bottom-width: 0;
   border-left-width: 0;
   right: -5px;

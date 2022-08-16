@@ -16,6 +16,7 @@ const NightToDayLoading = (props) => {
   let victoryUsers = [];
   const { userName } = useSelector((state) => state.gamer);
   const { roomChief } = useSelector((state) => state.wait);
+  const { gameturn } = useSelector((state) => state.gamer);
 
   useEffect(() => {
     var audio = new Audio(MP_Morning);
@@ -27,16 +28,18 @@ const NightToDayLoading = (props) => {
       axios
         .get(`${BASE_URL}/gamers/victory/team/${pathName}`)
         .then((res) => {
-          console.log("종료1", res.data)
+          console.log("종료1", res.data);
           if (res.data.victory) {
             axios
-              .put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${res.data.gameTeam}`)
+              .put(
+                `${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${res.data.gameTeam}`
+              )
               .then((res) => {
-                console.log("종료2", res.data)
+                console.log("종료2", res.data);
                 axios
                   .get(`${BASE_URL}/gamers/winners`)
                   .then((res) => {
-                    console.log("종료3", res.data)
+                    console.log("종료3", res.data);
                     victoryUsers = res.data.map((row) => row.userName);
                     props.setVictoryUser(victoryUsers);
                   })
@@ -50,7 +53,7 @@ const NightToDayLoading = (props) => {
   }, []);
 
   return (
-    <div className="sun-page">
+    <div id="sun-page">
       <div className="wrap-sun">
         <div className="circle-sun">
           <div className="wave-one-sun"></div>
@@ -69,6 +72,7 @@ const NightToDayLoading = (props) => {
             <FontAwesomeIcon icon={faCloud} className="cloud5" />
           </div>
         </div>
+        <div className="day-to-night__text">{gameturn}번째 낮</div>
       </div>
     </div>
   );

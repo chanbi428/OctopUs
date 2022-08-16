@@ -25,7 +25,7 @@ const DayToNightLoading = (props) => {
     }
   }, []);
   return (
-    <div className="moon-page">
+    <div id="moon-page">
       <div className="wrap-moon">
         <div className="circle-moon">
           <div className="wave-one-moon"></div>
@@ -44,8 +44,8 @@ const DayToNightLoading = (props) => {
             <FontAwesomeIcon icon={faAsterisk} className="star5" />
           </div>
         </div>
+        <div className="day-to-night__text">{gameturn}번째 밤</div>
       </div>
-      <div className="day-to-night__text">{gameturn}번째 밤</div>
     </div>
   );
 };

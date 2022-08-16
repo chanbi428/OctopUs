@@ -17,6 +17,7 @@ import {
   updateRoomId,
   updateUserList,
   updateRoomChief,
+  updatePersonNum,
 } from "../../../../features/waiting/waitSlice";
 import { gamerUserList } from "../../../../features/gamer/gamerActions";
 import {
@@ -51,6 +52,7 @@ class ChatComponent extends Component {
     this.enterNotice = this.enterNotice.bind(this);
     this.exitNotice = this.exitNotice.bind(this);
     this.gameNotice = this.gameNotice.bind(this);
+    this.voteNotice = this.voteNotice.bind(this);
   }
 
   componentDidMount() {
@@ -128,6 +130,10 @@ class ChatComponent extends Component {
           voteGo: false,
           agreeVoteGo: false,
         };
+        if (this.props.gamerData.job === "크레이지경찰") {
+          console.log("크레이지 경찰 직업 다시 돌려놓기", this.props.gamerData.roomId);
+          this.settingGamerList(this.props.gamerData.roomId);
+        }
       });
       this.props.user.getStreamManager().stream.session.on("signal:voteGo", (event) => {
         console.log("VOTE : VOTEGO STATUS CHANGE");
@@ -225,9 +231,9 @@ class ChatComponent extends Component {
           this.props.resetPickUser();
           this.props.setGameStatus({ gameStatus: 0 });
         }
-        if (data.page === 15 && this.props.gamerData.job === "크레이지경찰") {
-          this.settingGamerList({ roomId: this.props.gamerData.roomId });
-        }
+        // if (data.page === 15 && this.props.gamerData.job === "크레이지경찰") {
+        //   this.settingGamerList({ roomId: this.props.gamerData.roomId });
+        // }
         // 다영 추가
         // if (data.page === 11) {
         //   console.log("VOTE : pickUser 초기화");
@@ -466,6 +472,19 @@ class ChatComponent extends Component {
     });
   }
 
+  voteNotice() {
+    console.log("투표 시작 알림");
+    const data = {
+      message: `[투표] 투표가 시작되었습니다. 오징어라고 생각되는 사람에게 투표하세요.`,
+      nickname: "사회자",
+      streamId: this.props.user.getStreamManager().stream.streamId,
+      job: "",
+      gameStatus: 0,
+      isDead: false,
+    };
+    this.props.setMessageList({ message: data });
+  }
+
   // cancelNotice() {
   //   console.log("notice 감지 후 동작, 그 후 messageList 초기화 위함");
   //   const data = {
@@ -499,6 +518,10 @@ class ChatComponent extends Component {
     this.props.setGamerList(data);
   };
 
+  settingPersonNum = (data) => {
+    this.props.setPersonNum(data);
+  };
+
   componentDidUpdate(prevState) {
     this.scrollToBottom();
     if (this.props.gamerData.messageList.length !== 0) {
@@ -512,6 +535,7 @@ class ChatComponent extends Component {
           // console.log("문어자리 업데이트용-chatcompo", res.data)
           const roomNum = res.data.roomId;
           const chief = res.data.roomChief;
+          const people = res.data.personNum;
           const users = res.data.userList.split(",");
           console.log("유저 비교!!!", users, this.props.waitData.userList);
           if (this.props.waitData.userList !== users || this.props.waitData.roomId !== roomNum) {
@@ -520,6 +544,7 @@ class ChatComponent extends Component {
             this.settingUserList(users);
             console.log("업데이트 리스트 확인", this.props.waitData);
             this.settingRoomChief({ roomChief: chief });
+            this.settingPersonNum({ personNum: people });
             console.log("업데이트 호스트 확인", this.props.waitData);
             const lst = {
               connectionId: this.props.user.getStreamManager().stream.streamId,
@@ -620,11 +645,10 @@ class ChatComponent extends Component {
                       className={
                         "message" +
                         (data.connectionId !== this.props.user.getConnectionId()
-                          ? " left"
-                          : " right" + " ghostColor")
+                          ? " left ghostColor"
+                          : " right ghostColor")
                       }
                     >
-                      <canvas id={"userImg-" + i} width="60" height="60" className="user-img" />
                       <div className="msg-detail">
                         <div className="msg-info">
                           <p> {data.nickname}</p>
@@ -653,7 +677,6 @@ class ChatComponent extends Component {
                           : " right" + " alive")
                       }
                     >
-                      <canvas id={"userImg-" + i} width="60" height="60" className="user-img" />
                       <div className="msg-detail">
                         <div className="msg-info">
                           <p> {data.nickname}</p>
@@ -681,18 +704,17 @@ class ChatComponent extends Component {
                       className={
                         "message" +
                         (data.connectionId !== this.props.user.getConnectionId()
-                          ? " left"
-                          : " right" + " mafiaColor")
+                          ? " left mafiaColor"
+                          : " right mafiaColor")
                       }
                     >
-                      <canvas id={"userImg-" + i} width="60" height="60" className="user-img" />
                       <div className="msg-detail">
                         <div className="msg-info">
                           <p> {data.nickname}</p>
                         </div>
                         <div className="msg-content">
                           <span className="triangle" />
-                          <p className="mafia">{data.message}</p>
+                          <p className="text">{data.message}</p>
                         </div>
                       </div>
                     </div>
@@ -780,6 +802,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getMinigame: (data) => {
       dispatch(getMinigame(data));
+    },
+    setPersonNum: (data) => {
+      dispatch(updatePersonNum(data));
     },
   };
 };

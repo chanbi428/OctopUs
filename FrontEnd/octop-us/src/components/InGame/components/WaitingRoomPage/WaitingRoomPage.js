@@ -179,7 +179,7 @@ export default function WaitingRoomPage(props) {
   return (
     <div>
       <nav>
-        <p className="waitingroom_title">{roomInfo.roomName}</p>
+        <div className="waitingroom_title">{roomInfo.roomName}</div>
         <button onClick={exitRoom} className="waiting-page__exit-btn">
           방 나가기
         </button>
