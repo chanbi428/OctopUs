@@ -19,6 +19,7 @@ import { faOctopusDeploy } from "@fortawesome/free-brands-svg-icons";
 
 import MP_btn1 from "../../effect/MP_btn1.mp3";
 import MP_bgm1 from "../../effect/MP_bgm1.mp3";
+import Swal from "sweetalert2";
 
 function MainPage() {
   const [roomInfo, setRoomInfo] = useState([]);
@@ -33,8 +34,27 @@ function MainPage() {
     bgmAudio.pause(); // 이거 왜 안되는지 모르겠음
     var audio = new Audio(MP_btn1);
     audio.play();
-    dispatch(logout());
-    navigate("/");
+    Swal.fire({
+      icon: "question",
+      text: "로그아웃 하시겠습니까?",
+      background: "#fdfcdc",
+      showCancelButton: true,
+      confirmButtonColor: "#f4d35e",
+      cancelButtonColor: "#f4d35e",
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      color: "black",
+      customClass: {
+        confirmButton: "swalBtnColor",
+        cancelButton: "swalBtnColor",
+        popup: "popUp",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(logout());
+        navigate("/");
+      }
+    });
   };
 
   useEffect(() => {
@@ -166,10 +186,7 @@ function MainPage() {
                   <ExitToAppIcon style={{ fontSize: "2rem" }} />
                 </div>
                 <div className="main-page__userinfo">
-                  <FontAwesomeIcon
-                    icon={faOctopusDeploy}
-                    className="main-page__user-image"
-                  />
+                  <FontAwesomeIcon icon={faOctopusDeploy} className="main-page__user-image" />
                   <div className="main-page__username">{userInfo.userName}</div>
                 </div>
               </div>
@@ -200,10 +217,7 @@ function MainPage() {
             />
           </div>
           <div className="main-page__btn-set">
-            <button
-              className="main-page__quickstart"
-              onClick={onClickFastStart}
-            >
+            <button className="main-page__quickstart" onClick={onClickFastStart}>
               <FontAwesomeIcon icon={faPlay} />
               &nbsp;빠른시작
             </button>
@@ -215,11 +229,7 @@ function MainPage() {
         </div>
         <div className="main-page__main">
           <MakeRoom />
-          {loading ? (
-            <RoomList roomInfo={roomInfo} loading={loading} />
-          ) : (
-            <LoadingSpanner />
-          )}
+          {loading ? <RoomList roomInfo={roomInfo} loading={loading} /> : <LoadingSpanner />}
         </div>
       </div>
     </div>

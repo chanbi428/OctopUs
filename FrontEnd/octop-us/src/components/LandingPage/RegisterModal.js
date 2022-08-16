@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { userRegister } from "../../features/user/userActions";
 
 import MP_btn1 from "../../effect/MP_btn1.mp3";
+import Swal from "sweetalert2";
 
 const RegisterModal = (props) => {
   const dispatch = useDispatch();
@@ -38,9 +39,33 @@ const RegisterModal = (props) => {
     e.preventDefault();
 
     if (register.userPW !== register.confirmUserPW) {
-      alert("비밀번호가 일치하지 않습니다.");
+      Swal.fire({
+        icon: "error",
+        title: "회원 가입 실패",
+        text: "비밀번호가 일치하지 않습니다.",
+        background: "#fdfcdc",
+        confirmButtonColor: "#f4d35e",
+        color: "black",
+        customClass: {
+          confirmButton: "swalBtnColor",
+          popup: "popUp",
+        },
+      });
+      // alert("비밀번호가 일치하지 않습니다.");
     } else {
-      alert("회원가입 성공입니다. 로그인 해주시길 바랍니다.");
+      Swal.fire({
+        icon: "success",
+        title: "회원 가입 성공",
+        text: "로그인 해주시길 바랍니다.",
+        background: "#fdfcdc",
+        confirmButtonColor: "#f4d35e",
+        color: "black",
+        customClass: {
+          confirmButton: "swalBtnColor",
+          popup: "popUp",
+        },
+      });
+      //alert("회원가입 성공입니다. 로그인 해주시길 바랍니다.");
       dispatch(userRegister(register));
       close();
     }
@@ -52,10 +77,33 @@ const RegisterModal = (props) => {
     audio.play();
     axios.get(`${BASE_URL}/user/existName/${register.userName}`).then((res) => {
       if (res.data !== true) {
-        alert("중복 확인이 완료되었습니다.");
+        //alert("중복 확인이 완료되었습니다.");
+        Swal.fire({
+          icon: "success",
+          title: "중복 확인 성공",
+          text: "중복 확인이 완료되었습니다.",
+          background: "#fdfcdc",
+          confirmButtonColor: "#f4d35e",
+          color: "black",
+          customClass: {
+            confirmButton: "swalBtnColor",
+            popup: "popUp",
+          },
+        });
         setIsChecked(true);
       } else {
-        alert("이미 존재하는 아이디입니다.");
+        Swal.fire({
+          icon: "warning",
+          title: "중복 확인 실패",
+          text: "이미 존재하는 아이디입니다.",
+          background: "#fdfcdc",
+          confirmButtonColor: "#f4d35e",
+          color: "black",
+          customClass: {
+            confirmButton: "swalBtnColor",
+            popup: "popUp",
+          },
+        });
       }
     });
   };

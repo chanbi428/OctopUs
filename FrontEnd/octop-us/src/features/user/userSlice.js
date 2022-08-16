@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userLogin } from "./userActions";
+import Swal from "sweetalert2";
 
 // 로컬 스토리지 유저토큰
-const userToken = localStorage.getItem("userToken")
-  ? localStorage.getItem("userToken")
-  : null;
+const userToken = localStorage.getItem("userToken") ? localStorage.getItem("userToken") : null;
 
 const initialState = {
   loading: false,
@@ -55,7 +54,20 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = payload;
       console.log("features/user/userSliece : 유저 로그인 실패 login rejected!");
-      alert("닉네임과 비밀번호를 확인해주세요.");
+
+      Swal.fire({
+        icon: "error",
+        title: "로그인 실패",
+        text: "닉네임과 비밀번호를 확인해주세요.",
+        background: "#fdfcdc",
+        confirmButtonColor: "#f4d35e",
+        color: "black",
+        customClass: {
+          confirmButton: "swalBtnColor",
+          popup: "popUp",
+        },
+      });
+      //alert("닉네임과 비밀번호를 확인해주세요.");
       console.log(state.payload);
     },
   },
