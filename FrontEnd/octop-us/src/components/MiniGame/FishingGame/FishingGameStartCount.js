@@ -1,40 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
-import FishingGameTutorial from "./FishingGameTutorial";
 
 const FishingGameStartCount = () => {
   // 3, 2, 1, 0 초에 각각 다른 이미지 보여줄 것
-  const [count, setCount] = useState(14);
-  const [eventChange, setEventChange] = useState(false);
+  const [count, setCount] = useState(4);
   const spaceCount = useRef();
   spaceCount.current = count;
 
   useEffect(() => {
-    const startcount = setInterval(() => {
+    const timer = setTimeout(() => {
       console.log("startcount" + count);
       if (count > 0) setCount((count) => count - 1);
       if (count === 0) {
-        clearInterval(startcount);
+        clearTimeout(timer);
       }
-    }, 1000);
+    },1000);
     return () => {
-      clearInterval(startcount);
+      clearTimeout(timer);
     };
   }, [count]);
 
-  useEffect(() => {
-    if (!eventChange) {
-      const eventTimer = setTimeout(() => {
-        setEventChange(true);
-      }, 9500);
-      return () => clearTimeout(eventTimer);
-    }
-  }, [eventChange]);
   return (
     <div>
-      {!eventChange && <FishingGameTutorial />}
-      {eventChange && (
         <div className="shark-game-count__container">
-          {(count === 4 || count === 5) && (
+          {(count === 4) && (
             <img
               src="images/minigame/3.png"
               alt="3"
@@ -63,7 +51,6 @@ const FishingGameStartCount = () => {
             />
           )}
         </div>
-      )}
     </div>
   );
 };

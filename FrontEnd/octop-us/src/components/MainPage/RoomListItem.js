@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 
 import MP_btn1 from "../../effect/MP_btn1.mp3";
+import Swal from "sweetalert2";
 
 function RoomListItem({ item, pauseBgmAudio }) {
   const { userInfo } = useSelector((state) => state.user);
@@ -20,11 +21,47 @@ function RoomListItem({ item, pauseBgmAudio }) {
     e.preventDefault();
 
     if (item.gameStatus === "true") {
-      alert("이미 게임중입니다!");
+      Swal.fire({
+        icon: "warning",
+        title: "입장 실패",
+        text: "이미 게임중입니다.",
+        background: "#fdfcdc",
+        confirmButtonColor: "#f4d35e",
+        color: "black",
+        customClass: {
+          confirmButton: "swalBtnColor",
+          popup: "popUp",
+        },
+      });
+      //alert("이미 게임중입니다!");
     } else if (item.personNum >= item.personLimit) {
-      alert("방 인원이 꽉 찼습니다.");
+      Swal.fire({
+        icon: "warning",
+        title: "입장 실패",
+        text: "방 인원이 꽉 찼습니다.",
+        background: "#fdfcdc",
+        confirmButtonColor: "#f4d35e",
+        color: "black",
+        customClass: {
+          confirmButton: "swalBtnColor",
+          popup: "popUp",
+        },
+      });
+      //alert("방 인원이 꽉 찼습니다.");
     } else if (item.private && item.roomPw !== roomPwIn) {
-      alert("비밀번호를 정확히 입력해주세요.");
+      Swal.fire({
+        icon: "warning",
+        title: "입장 실패",
+        text: "비밀번호를 정확히 입력해주세요.",
+        background: "#fdfcdc",
+        confirmButtonColor: "#f4d35e",
+        color: "black",
+        customClass: {
+          confirmButton: "swalBtnColor",
+          popup: "popUp",
+        },
+      });
+      //alert("비밀번호를 정확히 입력해주세요.");
     } else {
       let userList = item.userList.split(",");
       console.log(userList);

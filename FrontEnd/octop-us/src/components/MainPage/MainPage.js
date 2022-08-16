@@ -19,6 +19,7 @@ import { faOctopusDeploy } from "@fortawesome/free-brands-svg-icons";
 
 import MP_btn1 from "../../effect/MP_btn1.mp3";
 import MP_bgm2 from "../../effect/MP_bgm2.mp3";
+import Swal from "sweetalert2";
 
 function MainPage() {
   const [roomInfo, setRoomInfo] = useState([]);
@@ -33,9 +34,28 @@ function MainPage() {
     // bgmAudio.muted = true;
     var audio = new Audio(MP_btn1);
     audio.play();
-    dispatch(logout());
-    // pauseBgmAudio(); // 이거 안되는거 에러 문제임!
-    navigate("/");
+    Swal.fire({
+      icon: "question",
+      text: "로그아웃 하시겠습니까?",
+      background: "#fdfcdc",
+      showCancelButton: true,
+      confirmButtonColor: "#f4d35e",
+      cancelButtonColor: "#f4d35e",
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      color: "black",
+      customClass: {
+        confirmButton: "swalBtnColor",
+        cancelButton: "swalBtnColor",
+        popup: "popUp",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        pauseBgmAudio(); //이거 왜 안되는지 모르겠음
+        dispatch(logout());
+        navigate("/");
+      }
+    });
   };
 
   useEffect(() => {
@@ -69,7 +89,6 @@ function MainPage() {
       axios
         .get(`${BASE_URL}/rooms/detail/roomnamelike/${search}`)
         .then((res) => {
-          // bgmAudio.pause();
           setRoomInfo(res.data);
           setLoading(true);
         })

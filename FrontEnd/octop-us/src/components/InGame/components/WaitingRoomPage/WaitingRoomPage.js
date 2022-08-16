@@ -10,10 +10,11 @@ import {
   updatePersonNum,
   updateIsPrivate,
   updateRoomPw,
-  updateGameTime
+  updateGameTime,
 } from "../../../../features/waiting/waitSlice";
 import { BASE_URL } from "../../../../api/BASE_URL";
 import { resetGamer } from "../../../../features/gamer/gamerSlice";
+import Swal from "sweetalert2";
 
 export default function WaitingRoomPage(props) {
   const [roomInfo, setRoomInfo] = useState({
@@ -53,11 +54,11 @@ export default function WaitingRoomPage(props) {
   const { userList } = useSelector((state) => state.wait);
   const { roomChief } = useSelector((state) => state.wait);
   const dispatch = useDispatch();
-  console.log(roomChief)
+  console.log(roomChief);
 
   // 방 입장 시 데이터 받아옴
   useEffect(() => {
-    dispatch(resetGamer())
+    dispatch(resetGamer());
     let pathName = document.location.pathname.replace("/", "");
     console.log(pathName);
     axios
@@ -67,7 +68,7 @@ export default function WaitingRoomPage(props) {
         console.log("room data", room);
         const tmp = room.userList.split(",");
         room.userList = tmp;
-        console.log("tmp로 유저리스트 교체", room)
+        console.log("tmp로 유저리스트 교체", room);
         setRoomInfo(room);
         console.log("set roomInfo", roomInfo);
         updateRoomInfo(room);
@@ -75,11 +76,11 @@ export default function WaitingRoomPage(props) {
         dispatch(updateRoomId({ roomId: room.roomId }));
         console.log(room.userList);
         dispatch(updateUserList(room.userList));
-        dispatch(updateRoomChief({ roomChief : room.roomChief }))
-        dispatch(updatePersonNum({ personNum : room.personNum}))
-        dispatch(updateIsPrivate({ isPrivate : room.private }))
-        dispatch(updateRoomPw({ roomPw : room.roomPw }))
-        dispatch(updateGameTime({ gameTime : room.gameTime }))
+        dispatch(updateRoomChief({ roomChief: room.roomChief }));
+        dispatch(updatePersonNum({ personNum: room.personNum }));
+        dispatch(updateIsPrivate({ isPrivate: room.private }));
+        dispatch(updateRoomPw({ roomPw: room.roomPw }));
+        dispatch(updateGameTime({ gameTime: room.gameTime }));
       })
       .catch((error) => console.log(error));
   }, []);
@@ -102,13 +103,13 @@ export default function WaitingRoomPage(props) {
 
   // 유저 목록이 변경되면 문어 자리 다시 앉히고 다시 왕관 배정
   useEffect(() => {
-    console.log("대기실에서 유저 목록 변경됨 감지!", seats, throne)
+    console.log("대기실에서 유저 목록 변경됨 감지!", seats, throne);
     if (roomInfo.userList !== ["", "", "", "", "", "", "", ""]) {
       sitRoom(seats);
       getCrown(throne);
     }
-    console.log("유저 목록 변경 후 자리 배치 다시 하기!", seats, throne)
-    console.log(seats, throne)
+    console.log("유저 목록 변경 후 자리 배치 다시 하기!", seats, throne);
+    console.log(seats, throne);
   }, [userList, roomChief]);
 
   const sitRoom = (seats) => {
@@ -137,7 +138,7 @@ export default function WaitingRoomPage(props) {
     console.log("throne", throne);
     let crown = throne;
     for (let j = 0; j < 8; j++) {
-      console.log("방장 누구냐!!!!!", roomChief)
+      console.log("방장 누구냐!!!!!", roomChief);
       if (userList[j] === roomChief) {
         crown[j] = {
           crown: 1,
@@ -151,11 +152,35 @@ export default function WaitingRoomPage(props) {
     setThrone(crown);
   };
 
+  const exitRoom = () => {
+    Swal.fire({
+      icon: "question",
+      text: "방에서 나가시겠습니까?",
+      background: "#fdfcdc",
+      showCancelButton: true,
+      confirmButtonColor: "#f4d35e",
+      cancelButtonColor: "#f4d35e",
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      color: "black",
+      customClass: {
+        confirmButton: "swalBtnColor",
+        cancelButton: "swalBtnColor",
+        popup: "popUp",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        props.setPlayFalse();
+        props.clickExitBtn();
+      }
+    });
+  };
+
   return (
     <div>
       <nav>
         <p className="waitingroom_title">{roomInfo.roomName}</p>
-        <button onClick={props.clickExitBtn} className="waiting-page__exit-btn">
+        <button onClick={exitRoom} className="waiting-page__exit-btn">
           방 나가기
         </button>
       </nav>

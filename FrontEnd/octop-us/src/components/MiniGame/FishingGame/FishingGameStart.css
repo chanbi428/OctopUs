@@ -1,10 +1,10 @@
-.fish-game__container {
+/* .fish-game__container {
   height: 100vh;
   width: 100vw;
   position: absolute;
   overflow: hidden;
   margin-left: 0;
-}
+} */
 
 .fish-game__img {
   animation: move_fish 1 4s;

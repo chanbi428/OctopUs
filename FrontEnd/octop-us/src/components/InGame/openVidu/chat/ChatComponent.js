@@ -27,6 +27,9 @@ import {
   setGameStatus,
   updateUserListforDead,
   mafiaLoseAtMinigame,
+  setFisher,
+  setShark,
+  getMinigame,
 } from "../../../../features/gamer/gamerSlice";
 import { BASE_URL } from "../../../../api/BASE_URL";
 import Timer from "../../Timer";
@@ -204,16 +207,17 @@ class ChatComponent extends Component {
           this.props.resetPickUser();
           this.props.setGameStatus({ gameStatus: 1 });
           this.props.setmafiaLoseAtMinigame();
-          
+          this.props.setReporter({ reporter: "" });
+
           this.props.user.getStreamManager().stream.session.signal({
             type: "resetFlag",
           });
           if (this.props.waitData.roomChief === this.props.gamerData.userName) {
-          axios
-            .put(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
-            .then((res) => {
-              console.log("host가 밤 초기화");
-            });
+            axios
+              .put(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
+              .then((res) => {
+                console.log("host가 밤 초기화");
+              });
           }
         }
         if (data.page === 10) {
@@ -236,7 +240,7 @@ class ChatComponent extends Component {
           isDead: this.props.getGamerData().isDead,
           shark: this.props.getGamerData().shark,
           fisher: this.props.getGamerData().fisher,
-          reporter: this.props.gamerData.job === "기자" ? this.props.getPickUser() : "",
+          reporter: this.props.getGamerData().reporter,
           roomChief: this.props.waitData.roomChief,
           vote: this.props.getPickUser(), // 다영 추가
         };
@@ -338,6 +342,26 @@ class ChatComponent extends Component {
         setTimeout(() => {
           console.log("죽음처리됐는지 확인", this.props.gamerData.userList);
         }, 1000);
+      });
+      this.props.user.getStreamManager().stream.session.on("signal:reporter", (event) => {
+        const data = JSON.parse(event.data);
+        this.props.setReporter({ reporter: data.reporter });
+      });
+      this.props.user.getStreamManager().stream.session.on("signal:shark", (event) => {
+        this.props.setShark();
+      });
+      this.props.user.getStreamManager().stream.session.on("signal:fisher", (event) => {
+        this.props.setFisher();
+      });
+      this.props.user.getStreamManager().stream.session.on("signal:miniGame", (event) => {
+        const data = JSON.parse(event.data);
+        this.props.getMinigame({ idx: data.idx });
+      });
+      this.props.user.getStreamManager().stream.session.on("signal:pauseBgmAudio", (event) => {
+        this.props.setPlayFalse();
+      });
+      this.props.user.getStreamManager().stream.session.on("signal:playBgmAudio", (event) => {
+        this.props.setPlayTrue();
       });
     }
     this.scrollToBottom();
@@ -747,6 +771,15 @@ const mapDispatchToProps = (dispatch) => {
     },
     setmafiaLoseAtMinigame: () => {
       dispatch(mafiaLoseAtMinigame());
+    },
+    setShark: () => {
+      dispatch(setShark());
+    },
+    setFisher: () => {
+      dispatch(setFisher());
+    },
+    getMinigame: (data) => {
+      dispatch(getMinigame(data));
     },
   };
 };
