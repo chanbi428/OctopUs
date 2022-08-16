@@ -878,7 +878,7 @@ class OpenViduComponent extends Component {
       console.log("밤 결과 확인!", res.data);
       this.setState({ killed: res.data.userName });
       console.log("killed  state에 잘 들어갔는지 확인!!", this.state.killed);
-      if (res.data.userName != "없음") {
+      if (res.data.userName != "없음" && res.data.userName != "") {
         console.log("누가 죽었니?", res.data.userName);
         this.props.updateUserListforDead({ userName: res.data.userName });
       }

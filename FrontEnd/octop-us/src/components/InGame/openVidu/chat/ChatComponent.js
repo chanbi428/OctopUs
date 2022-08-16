@@ -128,6 +128,10 @@ class ChatComponent extends Component {
           voteGo: false,
           agreeVoteGo: false,
         };
+        if (this.props.gamerData.job === "크레이지경찰") {
+          console.log("크레이지 경찰 직업 다시 돌려놓기", this.props.gamerData.roomId);
+          this.settingGamerList(this.props.gamerData.roomId);
+        }
       });
       this.props.user.getStreamManager().stream.session.on("signal:voteGo", (event) => {
         console.log("VOTE : VOTEGO STATUS CHANGE");
@@ -225,9 +229,9 @@ class ChatComponent extends Component {
           this.props.resetPickUser();
           this.props.setGameStatus({ gameStatus: 0 });
         }
-        if (data.page === 15 && this.props.gamerData.job === "크레이지경찰") {
-          this.settingGamerList({ roomId: this.props.gamerData.roomId });
-        }
+        // if (data.page === 15 && this.props.gamerData.job === "크레이지경찰") {
+        //   this.settingGamerList({ roomId: this.props.gamerData.roomId });
+        // }
         // 다영 추가
         // if (data.page === 11) {
         //   console.log("VOTE : pickUser 초기화");
