@@ -5,6 +5,10 @@ import SharkGameBoard from "./SharkGameBoard";
 import SharkGameTimer from "./SharkGameTimer";
 import SharkGameStartCount from "./SharkGameStartCount";
 import "./SharkGame.css";
+import MP_MiniAni from "../../../effect/MP_MiniAni.mp3";
+import MP_MiniGame from "../../../effect/MP_MiniGame.mp3";
+import MP_btn3 from "../../../effect/MP_btn3.mp3";
+import MP_MiniResult from "../../../effect/MP_Pling.mp3";
 
 // 16칸 배열 생성
 let array = [];
@@ -33,8 +37,25 @@ function SharkGame(props) {
       setCurrent(1);
     }
   }, [startChange]);
+  // 다영 추가
+  useEffect(() => {
+    var aniAudio = new Audio(MP_MiniAni);
+    aniAudio.loop = true;
+    aniAudio.volume = 0.5;
+    aniAudio.play();
+    setTimeout(() => aniAudio.pause(), 9000);
+    var gameAudio = new Audio(MP_MiniGame);
+    setTimeout(() => {
+      gameAudio.loop = true;
+      gameAudio.volume = 0.4;
+      gameAudio.play();
+    }, 15500);
+    setTimeout(() => gameAudio.pause(), 45000); // 테스트용
+  }, []);
 
   const onClickHandler = (e) => {
+    var audio = new Audio(MP_btn3);
+    audio.play();
     const num = parseInt(e.target.innerText);
     const isCorrect = async () => {
       const tmp = e.target.className;
@@ -73,6 +94,8 @@ function SharkGame(props) {
 
   // 게임 종료
   const endGame = () => {
+    // var resultAudio = new Audio(MP_MiniResult);
+    // resultAudio.play();
     setIsFinish(true);
     setGameFlag(false);
   };
@@ -92,10 +115,7 @@ function SharkGame(props) {
       {startChange && (
         <div className="shark-game__board">
           <SharkGameTimer isFinish={isFinish} />
-          <SharkGameBoard
-            numbers={numbers}
-            handleClick={onClickHandler}
-          ></SharkGameBoard>
+          <SharkGameBoard numbers={numbers} handleClick={onClickHandler}></SharkGameBoard>
         </div>
       )}
     </div>
