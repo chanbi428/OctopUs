@@ -80,3 +80,7 @@
   overflow: hidden;
   width: 500px;
 }
+
+.fishing-game__img {
+  width: 25vw;
+}

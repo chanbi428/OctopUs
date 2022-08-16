@@ -8,9 +8,21 @@ import { BASE_URL, config } from "../../../api/BASE_URL";
 import Timer from "../../InGame/Timer";
 import { useSelector } from "react-redux";
 
-import { CircularProgress, LinearProgress, makeStyles, createStyles } from "@material-ui/core";
+import {
+  CircularProgress,
+  LinearProgress,
+  makeStyles,
+  createStyles,
+} from "@material-ui/core";
+import { lightBlue } from "@mui/material/colors";
+
+// import LinearProgress, {
+//   linearProgressClasses,
+// } from "@mui/material/LinearProgress";
 
 import styled from "styled-components";
+
+const barColor = lightBlue[800];
 
 const FishingDivComponent = styled.div`
   position: relative; /* 상대위치 지정 */
@@ -45,27 +57,123 @@ const useStyles = makeStyles((theme) =>
     root: {
       display: "flex",
       flexDirection: "column",
-      // height: "100vh",
+      // height: "10vh",
       alignItems: "center",
       justifyContent: "center",
     },
     margin: {
-      // margin: theme.spacing(3),
+      margin: theme.spacing(1),
     },
     linearProgress: {
-      // width: theme.spacing(30),
+      variant: "buffer",
+      height: "20px",
+      borderRadius: "10px",
+      backgroundColor: theme.palette.mode === "light" ? "#f4d35e" : "#f4d35e",
     },
   })
 );
 const FishingBottom = styled.div`
-  border: 1px solid black;
+  /* border: 1px solid black; */
   width: 100%;
+  height: 20vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  background-color: rgba(0, 129, 167, 0.7);
+  border-radius: 20px;
+
+  & .octo-score {
+    display: flex;
+    margin-left: 10px;
+    font-size: 25px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: rgb(245, 0, 87);
+    width: 15vw;
+  }
+
+  & .squid-score {
+    display: flex;
+    margin-right: 10px;
+    font-size: 25px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: #f4d35e;
+    width: 15vw;
+  }
+
+  & .octo-img {
+    width: 5vw;
+  }
+
+  & .squid-img {
+    width: 4vw;
+  }
+
+  & .octo-textbox {
+    width: 9vw;
+  }
+
+  & .squid-textbox {
+    width: 10vw;
+  }
+
+  & .octo-text {
+    font-size: 20px;
+    color: black;
+  }
+
+  & .squid-text {
+    font-size: 20px;
+    color: black;
+  }
+
+  & .fishing-game__btn {
+    width: 9vw;
+    height: 6vh;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    background-color: #f4d35e;
+    border-radius: 5px;
+    font-size: 20px;
+    letter-spacing: 2px;
+
+    & .clicked {
+      width: 9vw;
+      height: 6vh;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      background-color: #f4d35e;
+      border-radius: 5px;
+      font-size: 20px;
+      letter-spacing: 2px;
+      border: 3px solid rgba(0, 0, 0, 0.21);
+      border-bottom: 4px solid rgba(0, 0, 0, 0.21);
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  & .fishing-game__btn:hover {
+    width: 9vw;
+    height: 6vh;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    background-color: #f4d35e;
+    border-radius: 5px;
+    font-size: 20px;
+    letter-spacing: 2px;
+    border: 3px solid rgba(0, 0, 0, 0.21);
+    border-bottom: 4px solid rgba(0, 0, 0, 0.21);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  }
 `;
 
 const FishingScore = styled.div`
   font-family: BMJUA;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px;
 `;
 
 const FishingComponent = (props) => {
@@ -76,7 +184,7 @@ const FishingComponent = (props) => {
   const [mafiaPercent, setMafiaPercent] = useState(50);
   const [showMode, setShowMode] = useState(false);
 
-  const [time, setTime] = useState(30);
+  const [time, setTime] = useState(100000);
   const classes = useStyles();
 
   const spaceCount = useRef;
@@ -143,7 +251,7 @@ const FishingComponent = (props) => {
   }, [time]);
 
   function endGame() {
-    // setShowMode(true);
+    setShowMode(true);
     console.log("endGame : " + showMode);
 
     const startTimer = setTimeout(() => {
@@ -209,30 +317,50 @@ const FishingComponent = (props) => {
           </FishingTimer>
           {/* <div id="mainComponent"> */}
           {/* <div id="centerPlace"> */}
-          <img src="images/minigame/fishbg.gif"></img>
+          <img
+            src="images/minigame/fishbg.gif"
+            className="fishing-game__img"
+          ></img>
           <FishingBottom>
             <LinearProgress
               variant="determinate"
               value={citizenPercent}
               className={[classes.linearProgress, classes.margin]}
+              color="secondary"
             />
             {/* <div className="row justify-content-between" id="centerPlace"> */}
             <FishingScore>
-              <div className="col-4" id="citizenPercent">
-                <span id="citizenPercent">
-                  문어 : {citizenPercent.toFixed(1)}%
-                </span>
+              {/* <div className="col-4" id="citizenPercent"> */}
+              <div className="octo-score">
+                <img
+                  src="images/minigame/octo.png"
+                  alt=""
+                  className="octo-img"
+                />
+                <div className="octo-textbox">
+                  <div className="octo-text">문어</div>
+                  <div>{citizenPercent.toFixed(1)}%</div>
+                </div>
               </div>
-              <div className="col-4" id="buttonCenter">
-                <button className="btn btn-primary" onClick={countFun}>
-                  {jobs === "마피아" ? "방해하기" : "도망치기"}
-                </button>
+              {/* </div> */}
+              {/* <div className="col-4" id="buttonCenter"> */}
+              <button className="fishing-game__btn active" onClick={countFun}>
+                {jobs === "마피아" ? "방해하기" : "도망치기"}
+              </button>
+              {/* </div> */}
+              {/* <div className="col-4" id="mafiaPercent"> */}
+              <div className="squid-score">
+                <div className="squid-textbox">
+                  <div className="squid-text">오징어</div>
+                  <div>{mafiaPercent.toFixed(1)}%</div>
+                </div>
+                <img
+                  src="images/minigame/squid.png"
+                  alt=""
+                  className="squid-img"
+                />
               </div>
-              <div className="col-4" id="mafiaPercent">
-                <span id="mafiaPercent">
-                  오징어 : {mafiaPercent.toFixed(1)}%
-                </span>
-              </div>
+              {/* </div> */}
             </FishingScore>
             {/* </div> */}
           </FishingBottom>
