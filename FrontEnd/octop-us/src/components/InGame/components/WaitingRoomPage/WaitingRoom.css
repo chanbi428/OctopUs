@@ -2,7 +2,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 1vh 1vw 0 1vw;
+  margin: 5vh 1vw 0 2vw;
 }
 
 nav > p {
@@ -11,13 +11,34 @@ nav > p {
 }
 
 .waiting-page__exit-btn {
-  text-align: center;
-  width: 7vw;
+  width: 9vw;
   height: 5vh;
-  border-radius: 5px;
-  margin-top: 0;
-  background-color: #f4d35e;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  background-color: #f4d35e;
+  border-radius: 5px;
+  font-size: 20px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  text-align: center;
+  text-justify: center;
+  font-family: BMJUA;
+  margin-right: 2vw;
+}
+
+.waiting-page__exit-btn:hover {
+  width: 9vw;
+  height: 5vh;
+  background-color: #f4d35e;
+  border-bottom: 4px solid rgba(0, 0, 0, 0.21);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  border: 3px solid rgba(0, 0, 0, 0.21);
+  border-radius: 5px;
+  font-size: 20px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  font-family: BMJUA;
+  margin-right: 2vw;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 }
 
 section {
@@ -49,8 +70,19 @@ section {
 }
 
 .waitingroom_title {
-  padding-top: 5px;
   font-family: BMJUA;
   font-size: 30px;
+  text-align: center;
+  text-justify: center;
+  color: black;
+  border: 1px solid #fdfcdc;
+  width: 15vw;
+  height: 6vh;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: #fdfcdc;
+  margin-top: 2px;
   margin-left: 1rem;
 }
