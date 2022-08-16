@@ -22,26 +22,31 @@ const NightToDayLoading = (props) => {
     audio.play();
     setTimeout(() => audio.pause(), 3000);
 
-    console.log(userName, roomChief, "NightToDay Loading");
-    axios
-      .get(`${BASE_URL}/gamers/victory/team/${pathName}`)
-      .then((res) => {
-        if (res.data.victory) {
-          axios
-            .put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${res.data.gameTeam}`)
-            .then((res) => {
-              axios
-                .get(`${BASE_URL}/gamers/winners`)
-                .then((res) => {
-                  victoryUsers = res.data.map((row) => row.userName);
-                  props.setVictoryUser(victoryUsers);
-                })
-                .catch((err) => console.log(err));
-            })
-            .catch((err) => console.log(err));
-        }
-      })
-      .catch((err) => console.log(err));
+    console.log(userName, roomChief, "NightToDay Loading 종료");
+    setTimeout(() => {
+      axios
+        .get(`${BASE_URL}/gamers/victory/team/${pathName}`)
+        .then((res) => {
+          console.log("종료1", res.data)
+          if (res.data.victory) {
+            axios
+              .put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${res.data.gameTeam}`)
+              .then((res) => {
+                console.log("종료2", res.data)
+                axios
+                  .get(`${BASE_URL}/gamers/winners`)
+                  .then((res) => {
+                    console.log("종료3", res.data)
+                    victoryUsers = res.data.map((row) => row.userName);
+                    props.setVictoryUser(victoryUsers);
+                  })
+                  .catch((err) => console.log(err));
+              })
+              .catch((err) => console.log(err));
+          }
+        })
+        .catch((err) => console.log(err));
+    }, 1000);
   }, []);
 
   return (
