@@ -8,7 +8,16 @@ import { BASE_URL, config } from "../../../api/BASE_URL";
 import Timer from "../../InGame/Timer";
 import { useSelector } from "react-redux";
 
-import { CircularProgress, LinearProgress, makeStyles, createStyles } from "@material-ui/core";
+import {
+  CircularProgress,
+  LinearProgress,
+  makeStyles,
+  createStyles,
+} from "@material-ui/core";
+
+import LinearProgress, {
+  linearProgressClasses,
+} from "@mui/material/LinearProgress";
 
 import styled from "styled-components";
 
@@ -50,10 +59,10 @@ const useStyles = makeStyles((theme) =>
       justifyContent: "center",
     },
     margin: {
-      // margin: theme.spacing(3),
+      margin: theme.spacing(3),
     },
     linearProgress: {
-      // width: theme.spacing(30),
+      variant: "buffer",
     },
   })
 );
@@ -76,7 +85,7 @@ const FishingComponent = (props) => {
   const [mafiaPercent, setMafiaPercent] = useState(50);
   const [showMode, setShowMode] = useState(false);
 
-  const [time, setTime] = useState(30);
+  const [time, setTime] = useState(100000);
   const classes = useStyles();
 
   const spaceCount = useRef;
@@ -143,7 +152,7 @@ const FishingComponent = (props) => {
   }, [time]);
 
   function endGame() {
-    // setShowMode(true);
+    setShowMode(true);
     console.log("endGame : " + showMode);
 
     const startTimer = setTimeout(() => {
