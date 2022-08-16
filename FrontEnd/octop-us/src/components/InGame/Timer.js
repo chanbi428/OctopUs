@@ -41,8 +41,8 @@ export const Timer = (time, user, page, flag, obj) => {
         // 밤 애니메이션 -> 밤
       } else if (page == 2) {
         data2 = {
-          page: 14,
-          initTime: 1000,
+          page: 3,
+          initTime: 3,
         };
         // 밤 -> 낮 애니메이션
       } else if (page == 3) {

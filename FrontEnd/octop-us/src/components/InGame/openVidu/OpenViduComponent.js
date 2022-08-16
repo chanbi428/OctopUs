@@ -2060,7 +2060,7 @@ class OpenViduComponent extends Component {
           <div className="d-flex flex-column justify-content-center">
             {/* 승자들 */}
             <div>
-              <GameResultPage />
+              <GameResultPage victoryUsers={this.state.victoryUsers} />
             </div>
             <div className="d-flex justify-content-around winner-box">
               {this.props.gamerData.userList

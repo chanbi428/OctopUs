@@ -13,22 +13,22 @@ function GameResultComponent(props) {
   useEffect(() => {
     var audio = new Audio(MP_EndGame);
     audio.play();
-
+    axios
+      .get(`${BASE_URL}/gamers/${props.victoryUsers[0]}`)
+      .then((res) => (setWinTeam(res.data.gameTeam)))
+      .catch((err) => console.log(err));
+    
     axios
       .delete(`${BASE_URL}/games/end/${pathName}`)
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
 
     axios
-      .get(`${BASE_URL}/gamers/victory/team/${pathName}`)
-      .then((res) => setWinTeam(res.data.gameTeam))
-      .catch((err) => console.log(err));
-
-    axios
       .put(`${BASE_URL}/rooms/update/status/end/${pathName}`)
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
-  });
+
+  },[]);
 
   return <div className="winner-text">{winTeam}팀 승리!</div>;
 }
