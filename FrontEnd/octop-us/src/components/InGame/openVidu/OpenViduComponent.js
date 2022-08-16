@@ -1204,7 +1204,7 @@ class OpenViduComponent extends Component {
               clickExitBtn={this.props.clickExitBtn}
               setPlayFalse={this.setPlayFalse}
             />
-            <div className="d-flex">
+            <div className="d-flex wait-floor">
               <ShowRoom
                 roomName={this.props.roomName}
                 personNum={this.props.personNum}
@@ -1217,7 +1217,7 @@ class OpenViduComponent extends Component {
               <div className="d-flex justify-content-between">
                 {localUser !== undefined &&
                   localUser.getStreamManager() !== undefined && (
-                    <div className="chating-box" style={chatDisplay}>
+                    <div className="chating-box ms-3" style={chatDisplay}>
                       <ChatComponent
                         user={localUser}
                         chatDisplay={this.state.chatDisplay}
