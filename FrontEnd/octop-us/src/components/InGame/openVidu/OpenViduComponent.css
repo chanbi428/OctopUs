@@ -95,11 +95,8 @@
   text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
 }
 
-.timer_night {
-  text-align: center;
-  color: white;
-  text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
-  margin-left: 48%;
+.night {
+  margin-left: 40%;
 }
 
 .agree__btn {
