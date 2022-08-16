@@ -44,8 +44,8 @@ const DayToNightLoading = (props) => {
             <FontAwesomeIcon icon={faAsterisk} className="star5" />
           </div>
         </div>
+        <div className="day-to-night__text">{gameturn}번째 밤</div>
       </div>
-      <div className="day-to-night__text">{gameturn}번째 밤</div>
     </div>
   );
 };

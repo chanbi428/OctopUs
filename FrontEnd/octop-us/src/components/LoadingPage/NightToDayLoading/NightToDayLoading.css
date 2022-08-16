@@ -8,11 +8,16 @@
 
 .sun-page {
   position: absolute;
-  top: 100px;
-  left: 35%;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(141, 204, 243);
 }
 
 .wrap-sun {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 500px;
   height: 500px;
   display: flex;
@@ -26,7 +31,8 @@
   height: 400px;
   position: relative;
   overflow: hidden;
-  border: 7px solid #464343;
+  /* border: 7px solid #464343; */
+  border: 7px solid #00afb9;
   border-radius: 100%;
   background: #20b2aa;
   transform: translate3d(0, 0, 0);

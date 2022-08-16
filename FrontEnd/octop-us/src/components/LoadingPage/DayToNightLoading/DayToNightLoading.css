@@ -8,11 +8,18 @@
 
 .moon-page {
   position: absolute;
-  top: 100px;
-  left: 35%;
+  width: 100%;
+  height: 100%;
+  /* top: 100px; */
+  /* left: 35%; */
+  background-color: #13293d;
 }
 
 .wrap-moon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 500px;
   height: 500px;
   display: flex;
@@ -188,8 +195,11 @@
 
 .day-to-night__text {
   font-family: BMJUA;
-  font-size: 30px;
+  font-size: 40px;
   color: white;
   /* margin-left: 15vw; */
-  text-align:center;
+  text-align: center;
+  position: absolute;
+  top: -30px;
+  /* margin-top: 5rem; */
 }
