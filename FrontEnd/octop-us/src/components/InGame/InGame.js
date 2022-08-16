@@ -58,7 +58,6 @@ const InGame = () => {
       setTimeout(() => {
         chatRef.current.ovref.current.gameNotice();
       }, 1000);
-      await chatRef.current.ovref.current.gameNotice();
       await setPage(1);
     } catch (error) {
       console.log(error);
