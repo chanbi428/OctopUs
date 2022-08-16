@@ -16,13 +16,7 @@ import {
 } from "@material-ui/core";
 import { lightBlue } from "@mui/material/colors";
 
-// import LinearProgress, {
-//   linearProgressClasses,
-// } from "@mui/material/LinearProgress";
-
 import styled from "styled-components";
-
-const barColor = lightBlue[800];
 
 const FishingDivComponent = styled.div`
   position: relative; /* 상대위치 지정 */
@@ -57,7 +51,6 @@ const useStyles = makeStyles((theme) =>
     root: {
       display: "flex",
       flexDirection: "column",
-      // height: "10vh",
       alignItems: "center",
       justifyContent: "center",
     },
@@ -73,7 +66,6 @@ const useStyles = makeStyles((theme) =>
   })
 );
 const FishingBottom = styled.div`
-  /* border: 1px solid black; */
   width: 100%;
   height: 20vh;
   display: flex;
@@ -184,7 +176,7 @@ const FishingComponent = (props) => {
   const [mafiaPercent, setMafiaPercent] = useState(50);
   const [showMode, setShowMode] = useState(false);
 
-  const [time, setTime] = useState(100000);
+  const [time, setTime] = useState(30);
   const classes = useStyles();
 
   const spaceCount = useRef;
@@ -213,23 +205,6 @@ const FishingComponent = (props) => {
   };
 
   useEffect(() => {
-    // let time = 0;
-    //   const updater = setInterval(() => {
-    //     console.log("useEffect : " + count + " timer : " + time);
-    //     updateCount(spaceCount.current);
-    //     setCount(0);
-    //     spaceCount.current = 0;
-    //     time++;
-    //     if (time >= 3) {
-    //       return () => {
-    //         console.log("timer 2 : " + time);
-    //         clearInterval(updater);
-    //       };
-    //     }
-    //   }, 1000); // 1000 -> 1 second / update percent time
-    //   return () => {
-    //     clearInterval(updater);
-    //   };
     updateCount(spaceCount.current);
     setCount(0);
     spaceCount.current = 0;
@@ -309,7 +284,6 @@ const FishingComponent = (props) => {
 
   return (
     <div>
-      {/* {!startChange && !showMode && <FishingGameStartCount />} */}
       {!showMode && (
         <FishingDivComponent>
           <FishingTimer className={time < 6 ? "redTime" : null}>
@@ -328,9 +302,7 @@ const FishingComponent = (props) => {
               className={[classes.linearProgress, classes.margin]}
               color="secondary"
             />
-            {/* <div className="row justify-content-between" id="centerPlace"> */}
             <FishingScore>
-              {/* <div className="col-4" id="citizenPercent"> */}
               <div className="octo-score">
                 <img
                   src="images/minigame/octo.png"
@@ -342,13 +314,9 @@ const FishingComponent = (props) => {
                   <div>{citizenPercent.toFixed(1)}%</div>
                 </div>
               </div>
-              {/* </div> */}
-              {/* <div className="col-4" id="buttonCenter"> */}
               <button className="fishing-game__btn active" onClick={countFun}>
                 {jobs === "마피아" ? "방해하기" : "도망치기"}
               </button>
-              {/* </div> */}
-              {/* <div className="col-4" id="mafiaPercent"> */}
               <div className="squid-score">
                 <div className="squid-textbox">
                   <div className="squid-text">오징어</div>
@@ -360,14 +328,8 @@ const FishingComponent = (props) => {
                   className="squid-img"
                 />
               </div>
-              {/* </div> */}
             </FishingScore>
-            {/* </div> */}
           </FishingBottom>
-          {/* </div> */}
-          {/* <p>count : {count}</p> */}
-
-          {/* </div> */}
         </FishingDivComponent>
       )}
       {showMode &&
