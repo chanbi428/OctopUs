@@ -36,9 +36,8 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* background-color: #00afb9 !important; */
@@ -49,6 +48,44 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.swal2-title {
+  font-family: "BMJUA";
+}
+.swal2-html-container {
+  font-family: "BMJUA";
+}
+
+.swal2-styled.swal2-confirm.swalBtnColor {
+  color: black;
+  border: 3px solid black;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.swal2-styled.swal2-confirm.swalBtnColor:hover {
+  color: black;
+  border: 3px solid #f4d35e;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.swal2-styled.swal2-cancel.swalBtnColor {
+  color: black;
+  border: 3px solid black;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.swal2-styled.swal2-cancel.swalBtnColor:hover {
+  color: black;
+  border: 3px solid #f4d35e;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.swal2-popup.popUp {
+  border: 4px solid black;
 }
