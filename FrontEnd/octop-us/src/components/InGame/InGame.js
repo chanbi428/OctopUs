@@ -55,6 +55,9 @@ const InGame = () => {
       await console.log("clickBtn : " + sessionName);
       await setSessionName(sessionName);
       await ClickStart(roomId, userList, userInfo.userName);
+      setTimeout(() => {
+        chatRef.current.ovref.current.gameNotice();
+      }, 1000);
       await chatRef.current.ovref.current.gameNotice();
       await setPage(1);
     } catch (error) {
