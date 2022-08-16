@@ -8,13 +8,8 @@ import { BASE_URL, config } from "../../../api/BASE_URL";
 import Timer from "../../InGame/Timer";
 import { useSelector } from "react-redux";
 
-import { LinearProgress, makeStyles, createStyles } from "@material-ui/core";
-import {
-  CircularProgress,
-  LinearProgress,
-  makeStyles,
-  createStyles,
-} from "@material-ui/core";
+import { CircularProgress, LinearProgress, makeStyles, createStyles } from "@material-ui/core";
+
 import styled from "styled-components";
 
 const FishingDivComponent = styled.div`
