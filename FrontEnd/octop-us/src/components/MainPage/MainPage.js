@@ -18,7 +18,7 @@ import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { faOctopusDeploy } from "@fortawesome/free-brands-svg-icons";
 
 import MP_btn1 from "../../effect/MP_btn1.mp3";
-import MP_bgm1 from "../../effect/MP_bgm1.mp3";
+import MP_bgm2 from "../../effect/MP_bgm2.mp3";
 import Swal from "sweetalert2";
 
 function MainPage() {
@@ -28,10 +28,10 @@ function MainPage() {
   const navigate = useNavigate();
   console.log("MainPage");
   const { userInfo } = useSelector((state) => state.user);
-  const bgmAudio = new Audio(MP_bgm1);
+  const bgmAudio = new Audio(MP_bgm2);
 
-  const onClickLogout = () => {
-    bgmAudio.pause(); // 이거 왜 안되는지 모르겠음
+  const onClickLogout = (e) => {
+    // bgmAudio.muted = true;
     var audio = new Audio(MP_btn1);
     audio.play();
     Swal.fire({
@@ -51,6 +51,7 @@ function MainPage() {
       },
     }).then((result) => {
       if (result.isConfirmed) {
+        pauseBgmAudio(); //이거 왜 안되는지 모르겠음
         dispatch(logout());
         navigate("/");
       }
@@ -58,7 +59,7 @@ function MainPage() {
   };
 
   useEffect(() => {
-    bgmAudio.play();
+    playBgmAudio();
 
     axios
       .get(`${BASE_URL}/rooms`)
@@ -88,7 +89,6 @@ function MainPage() {
       axios
         .get(`${BASE_URL}/rooms/detail/roomnamelike/${search}`)
         .then((res) => {
-          bgmAudio.pause();
           setRoomInfo(res.data);
           setLoading(true);
         })
@@ -147,7 +147,7 @@ function MainPage() {
                 },
               })
               .then((res) => {
-                bgmAudio.pause();
+                pauseBgmAudio();
                 console.log(res);
                 navigate(`/${item.data.roomId}`);
               })
@@ -166,9 +166,20 @@ function MainPage() {
   };
 
   const onClickRefresh = () => {
+    pauseBgmAudio();
     var audio = new Audio(MP_btn1);
     audio.play();
     window.location.reload();
+  };
+
+  const pauseBgmAudio = (e) => {
+    bgmAudio.pause();
+  };
+
+  const playBgmAudio = (e) => {
+    bgmAudio.loop = true;
+    bgmAudio.muted = false;
+    bgmAudio.play();
   };
 
   return (
@@ -228,8 +239,12 @@ function MainPage() {
           </div>
         </div>
         <div className="main-page__main">
-          <MakeRoom />
-          {loading ? <RoomList roomInfo={roomInfo} loading={loading} /> : <LoadingSpanner />}
+          <MakeRoom pauseBgmAudio={pauseBgmAudio} />
+          {loading ? (
+            <RoomList roomInfo={roomInfo} loading={loading} pauseBgmAudio={pauseBgmAudio} />
+          ) : (
+            <LoadingSpanner />
+          )}
         </div>
       </div>
     </div>

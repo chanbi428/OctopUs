@@ -357,6 +357,12 @@ class ChatComponent extends Component {
         const data = JSON.parse(event.data);
         this.props.getMinigame({ idx: data.idx });
       });
+      this.props.user.getStreamManager().stream.session.on("signal:pauseBgmAudio", (event) => {
+        this.props.setPlayFalse();
+      });
+      this.props.user.getStreamManager().stream.session.on("signal:playBgmAudio", (event) => {
+        this.props.setPlayTrue();
+      });
     }
     this.scrollToBottom();
   }

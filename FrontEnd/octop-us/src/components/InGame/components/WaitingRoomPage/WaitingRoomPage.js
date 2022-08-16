@@ -170,6 +170,7 @@ export default function WaitingRoomPage(props) {
       },
     }).then((result) => {
       if (result.isConfirmed) {
+        props.setPlayFalse();
         props.clickExitBtn();
       }
     });
