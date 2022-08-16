@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 
 import {
   CircularProgress,
-  LinearProgress,
+  // LinearProgress,
   makeStyles,
   createStyles,
 } from "@material-ui/core";
