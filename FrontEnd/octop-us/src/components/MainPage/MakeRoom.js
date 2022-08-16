@@ -5,7 +5,7 @@ import { BASE_URL, CLIENT_URL } from "../../api/BASE_URL";
 import axios from "axios";
 import "./MakeRoom.css";
 
-function MakeRoom() {
+function MakeRoom({ pauseBgmAudio }) {
   const [roomName, setRoomName] = useState("");
   const [gameTime, setGameTime] = useState("60");
   const [isPrivate, setIsPrivate] = useState("0");
@@ -29,6 +29,7 @@ function MakeRoom() {
     setRoomPw(e.target.value);
   };
   const createRoom = () => {
+    pauseBgmAudio();
     userList = [userInfo.userName, "", "", "", "", "", "", ""];
     const data = {
       // type : 'system',
@@ -79,11 +80,9 @@ function MakeRoom() {
             },
           }) // 이후 이 부분이 필요한가 생각 중...
           .then((res) => {
-            axios
-              .get(`${BASE_URL}/rooms/detail/roomname/${roomName}`)
-              .then((res) => {
-                console.log(res.data[0].roomId);
-              });
+            axios.get(`${BASE_URL}/rooms/detail/roomname/${roomName}`).then((res) => {
+              console.log(res.data[0].roomId);
+            });
           })
           .catch((err) => console.log(err));
       }

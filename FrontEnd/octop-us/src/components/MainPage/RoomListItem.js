@@ -8,7 +8,7 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 
 import MP_btn1 from "../../effect/MP_btn1.mp3";
 
-function RoomListItem({ item }) {
+function RoomListItem({ item, pauseBgmAudio }) {
   const { userInfo } = useSelector((state) => state.user);
   const [roomPwIn, setRoomPwIn] = useState("");
   const handleRoomPwIn = (e) => {
@@ -49,6 +49,7 @@ function RoomListItem({ item }) {
           },
         })
         .then((res) => {
+          pauseBgmAudio();
           console.log(res);
           document.location.href = `${CLIENT_URL}/${item.roomId}`;
           console.log(document.location.pathname);
