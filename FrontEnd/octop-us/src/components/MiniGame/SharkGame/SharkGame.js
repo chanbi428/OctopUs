@@ -50,7 +50,11 @@ function SharkGame(props) {
       gameAudio.volume = 0.4;
       gameAudio.play();
     }, 15500);
-    setTimeout(() => gameAudio.pause(), 45000); // 테스트용
+    setTimeout(() => gameAudio.pause(), 45000);
+    var resultAudio = new Audio(MP_MiniResult);
+    setTimeout(() => {
+      resultAudio.play();
+    }, 45500);
   }, []);
 
   const onClickHandler = (e) => {

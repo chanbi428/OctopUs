@@ -15,7 +15,7 @@ const SharkGameStartCount = () => {
       if (count === 0) {
         clearInterval(startcount);
       }
-      if (count <= 5) {
+      if (count <= 5 && count > 1) {
         var audio = new Audio(MP_count);
         audio.play();
       }

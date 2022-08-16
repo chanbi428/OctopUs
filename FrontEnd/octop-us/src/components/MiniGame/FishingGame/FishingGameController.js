@@ -17,6 +17,11 @@ import {
   mafiaLoseAtMinigame,
 } from "../../../features/gamer/gamerSlice";
 
+import MP_MiniAni from "../../../effect/MP_MiniAni.mp3";
+import MP_MiniGame from "../../../effect/MP_MiniGame.mp3";
+import MP_btn3 from "../../../effect/MP_btn3.mp3";
+import MP_MiniResult from "../../../effect/MP_MiniResult.mp3";
+
 const FishingGameStart = (props) => {
   const [roomId, setRoomId] = useState(props.roomId);
   const [startAnimation, setStartAnimation] = useState(true);
@@ -29,8 +34,9 @@ const FishingGameStart = (props) => {
   const { userInfo } = useSelector((state) => state.user);
   const { roomChief } = useSelector((state) => state.wait);
   const { localUser } = useSelector((state) => state.gamer);
-  const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } =
-    useSelector((state) => state.gamer);
+  const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } = useSelector(
+    (state) => state.gamer
+  );
   const obj = {
     roomChief: roomChief,
     minigameResult: minigameResult,
@@ -65,22 +71,38 @@ const FishingGameStart = (props) => {
           setStartCount(false);
           setStartGame(true);
           clearTimeout(timerForGame);
-        }, 4500);
+        }, 5000);
         clearTimeout(timerForTutorial);
-      }, 10000);
+      }, 5000);
       clearTimeout(timerForAnimation);
     }, 4000);
+  }, []);
+
+  // 다영 추가
+  useEffect(() => {
+    var aniAudio = new Audio(MP_MiniAni);
+    aniAudio.loop = true;
+    aniAudio.volume = 0.5;
+    aniAudio.play();
+    setTimeout(() => aniAudio.pause(), 9000);
+    var gameAudio = new Audio(MP_MiniGame);
+    setTimeout(() => {
+      gameAudio.loop = true;
+      gameAudio.volume = 0.4;
+      gameAudio.play();
+    }, 15500);
+    setTimeout(() => gameAudio.pause(), 45000); // 테스트용
+    var resultAudio = new Audio(MP_MiniResult);
+    setTimeout(() => {
+      resultAudio.play();
+    }, 46000);
   }, []);
 
   async function makeDB() {
     // const roomId = props.roomId;
     let sendData = { roomId };
     console.log("sendData make : " + JSON.stringify(sendData));
-    const result = await axios.post(
-      BASE_URL + "/games/mini/fish/make",
-      sendData,
-      config
-    );
+    const result = await axios.post(BASE_URL + "/games/mini/fish/make", sendData, config);
     console.log("makeDB running... : " + result);
   }
 
@@ -107,11 +129,7 @@ const FishingGameStart = (props) => {
     <div>
       {startAnimation && (
         <div className="fish-game__container">
-          <img
-            src="images/minigame/fishgame1.png"
-            alt="낚시꾼"
-            className="fish-game__img"
-          />
+          <img src="images/minigame/fishgame1.png" alt="낚시꾼" className="fish-game__img" />
         </div>
       )}
       {startTutorial && (

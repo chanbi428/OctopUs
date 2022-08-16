@@ -8,16 +8,11 @@ import { BASE_URL, config } from "../../../api/BASE_URL";
 import Timer from "../../InGame/Timer";
 import { useSelector } from "react-redux";
 
-import {
-  CircularProgress,
-  LinearProgress,
-  makeStyles,
-  createStyles,
-} from "@material-ui/core";
+import { CircularProgress, LinearProgress, makeStyles, createStyles } from "@material-ui/core";
 import { lightBlue } from "@mui/material/colors";
 
 import styled from "styled-components";
-
+import MP_btn3 from "../../../effect/MP_btn3.mp3";
 const FishingDivComponent = styled.div`
   position: relative; /* 상대위치 지정 */
   display: flex;
@@ -186,8 +181,9 @@ const FishingComponent = (props) => {
   const { userInfo } = useSelector((state) => state.user);
   const { roomChief } = useSelector((state) => state.wait);
   const { localUser } = useSelector((state) => state.gamer);
-  const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } =
-    useSelector((state) => state.gamer);
+  const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } = useSelector(
+    (state) => state.gamer
+  );
   const obj = {
     roomChief: roomChief,
     minigameResult: minigameResult,
@@ -241,6 +237,8 @@ const FishingComponent = (props) => {
     return () => clearTimeout(startTimer);
   }
   function countFun(e) {
+    var audio = new Audio(MP_btn3);
+    audio.play();
     setCount(count + 1);
   }
 
@@ -261,11 +259,7 @@ const FishingComponent = (props) => {
     console.log("count : " + count);
 
     console.log(`data: ${JSON.stringify(sendData)}`);
-    const { data } = await axios.post(
-      BASE_URL + "/games/mini/fish",
-      sendData,
-      config
-    );
+    const { data } = await axios.post(BASE_URL + "/games/mini/fish", sendData, config);
 
     console.log("data : " + data);
     let citizenData = data.citizen;
@@ -286,15 +280,10 @@ const FishingComponent = (props) => {
     <div>
       {!showMode && (
         <FishingDivComponent>
-          <FishingTimer className={time < 6 ? "redTime" : null}>
-            {time}
-          </FishingTimer>
+          <FishingTimer className={time < 6 ? "redTime" : null}>{time}</FishingTimer>
           {/* <div id="mainComponent"> */}
           {/* <div id="centerPlace"> */}
-          <img
-            src="images/minigame/fishbg.gif"
-            className="fishing-game__img"
-          ></img>
+          <img src="images/minigame/fishbg.gif" className="fishing-game__img"></img>
           <FishingBottom>
             <LinearProgress
               variant="determinate"
@@ -304,11 +293,7 @@ const FishingComponent = (props) => {
             />
             <FishingScore>
               <div className="octo-score">
-                <img
-                  src="images/minigame/octo.png"
-                  alt=""
-                  className="octo-img"
-                />
+                <img src="images/minigame/octo.png" alt="" className="octo-img" />
                 <div className="octo-textbox">
                   <div className="octo-text">문어</div>
                   <div>{citizenPercent.toFixed(1)}%</div>
@@ -322,11 +307,7 @@ const FishingComponent = (props) => {
                   <div className="squid-text">오징어</div>
                   <div>{mafiaPercent.toFixed(1)}%</div>
                 </div>
-                <img
-                  src="images/minigame/squid.png"
-                  alt=""
-                  className="squid-img"
-                />
+                <img src="images/minigame/squid.png" alt="" className="squid-img" />
               </div>
             </FishingScore>
           </FishingBottom>
