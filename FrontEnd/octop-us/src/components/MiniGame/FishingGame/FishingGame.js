@@ -21,24 +21,64 @@ import {
   makeStyles,
   createStyles,
 } from "@material-ui/core";
+import styled from "styled-components";
+
+const FishingComponent = styled.div`
+  position: relative; /* 상대위치 지정 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  width: 1000px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  padding: 10px;
+  background-color: #fdfcdc;
+  overflow: hidden;
+  border: 3px solid black;
+  & .redTime {
+    color: rgb(240, 113, 103);
+  }
+`;
+
+const FishingTimer = styled.div`
+  color: #13293d;
+  font-size: 40px;
+  font-weight: bold;
+  font-family: BMJUA;
+  & .redTime {
+    color: rgb(240, 113, 103);
+  }
+`;
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       display: "flex",
       flexDirection: "column",
-      height: "100vh",
+      // height: "100vh",
       alignItems: "center",
       justifyContent: "center",
     },
     margin: {
-      margin: theme.spacing(3),
+      // margin: theme.spacing(3),
     },
     linearProgress: {
-      width: theme.spacing(30),
+      // width: theme.spacing(30),
     },
   })
 );
+
+const FishingBottom = styled.div`
+  border: 1px solid black;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const FishingScore = styled.div`
+  font-family: BMJUA;
+`;
 
 const FishingGame = (props) => {
   const dispatch = useDispatch();
@@ -50,7 +90,7 @@ const FishingGame = (props) => {
   const [citizenPercent, setCitizenPercent] = useState(50);
   const [mafiaPercent, setMafiaPercent] = useState(50);
   const [showMode, setShowMode] = useState(false);
-  const [startChange, setStartChange] = useState(false);
+  const [startChange, setStartChange] = useState(true); // 애니메이션 연결
   const [existMode, setExistMode] = useState(true);
 
   const [time, setTime] = useState(45);
@@ -134,7 +174,7 @@ const FishingGame = (props) => {
   }, [time]);
 
   function endGame() {
-    setShowMode(true);
+    // setShowMode(true);
     console.log("endGame : " + showMode);
 
     const startTimer = setTimeout(() => {
@@ -185,56 +225,61 @@ const FishingGame = (props) => {
     <div>
       {!startChange && !showMode && <FishingGameStartCount />}
       {startChange && !showMode && (
-        <div id="mainComponent">
-          <p id="Clock">{time}</p>
-          <Card>
-            <div id="mainComponent">
-              <div id="centerPlace">
-                <img src="images/minigame/fishbg.jpg"></img>
-                <LinearProgress
-                  id="progressPercent"
-                  variant="determinate"
-                  value={citizenPercent}
-                  className={[classes.linearProgress, classes.margin]}
-                />
+        <FishingComponent>
+          <FishingTimer className={time < 6 ? "redTime" : null}>
+            {time}
+          </FishingTimer>
+          {/* <div id="mainComponent"> */}
+          {/* <div id="centerPlace"> */}
+          <img src="images/minigame/fishbg.jpg"></img>
+          <FishingBottom>
+            <LinearProgress
+              variant="determinate"
+              value={citizenPercent}
+              className={[classes.linearProgress, classes.margin]}
+            />
+            {/* <div className="row justify-content-between" id="centerPlace"> */}
+            <FishingScore>
+              <div className="col-4" id="citizenPercent">
+                <span id="citizenPercent">
+                  문어 : {citizenPercent.toFixed(1)}%
+                </span>
               </div>
-              {/* <p>count : {count}</p> */}
-              <div className="row justify-content-between" id="centerPlace">
-                <div className="col-4" id="citizenPercent">
-                  <span id="citizenPercent">
-                    문어 : {citizenPercent.toFixed(1)}%
-                  </span>
-                </div>
-                <div className="col-4" id="buttonCenter">
-                  <button className="btn btn-primary" onClick={countFun}>
-                    Click
-                  </button>
-                </div>
-                <div className="col-4" id="mafiaPercent">
-                  <span id="mafiaPercent">
-                    오징어 : {mafiaPercent.toFixed(1)}%
-                  </span>
-                </div>
+              <div className="col-4" id="buttonCenter">
+                <button className="btn btn-primary" onClick={countFun}>
+                  Click
+                </button>
               </div>
-            </div>
-          </Card>
-        </div>
+              <div className="col-4" id="mafiaPercent">
+                <span id="mafiaPercent">
+                  오징어 : {mafiaPercent.toFixed(1)}%
+                </span>
+              </div>
+            </FishingScore>
+            {/* </div> */}
+          </FishingBottom>
+          {/* </div> */}
+          {/* <p>count : {count}</p> */}
+
+          {/* </div> */}
+        </FishingComponent>
       )}
-      {startChange &&
-        showMode &&
-        (citizenPercent > mafiaPercent ? (
-          <Card className="team_octopus_card">
-            <img src="images/octopus_signiture.png" alt="team_octopus" />
-            <h2>문어 팀의 승리!</h2>
-            <p>오늘 낮 투표가 정상적으로 진행됩니다.</p>
-          </Card>
-        ) : (
-          <Card className="team_squid_card">
-            <img src="images/squid_std.png" alt="team_squid" />
-            <h2>오징어 팀의 승리!</h2>
-            <p>오늘 낮 투표를 진행하지 않습니다.</p>
-          </Card>
-        ))
+      {
+        startChange &&
+          showMode &&
+          (citizenPercent > mafiaPercent ? (
+            <Card className="team_octopus_card">
+              <img src="images/octopus_signiture.png" alt="team_octopus" />
+              <h2>문어 팀의 승리!</h2>
+              <p>오늘 낮 투표가 정상적으로 진행됩니다.</p>
+            </Card>
+          ) : (
+            <Card className="team_squid_card">
+              <img src="images/squid_std.png" alt="team_squid" />
+              <h2>오징어 팀의 승리!</h2>
+              <p>오늘 낮 투표를 진행하지 않습니다.</p>
+            </Card>
+          ))
         // {showMode && (
         // <Card id="mainComponent">
         //   <div id="winMent">
