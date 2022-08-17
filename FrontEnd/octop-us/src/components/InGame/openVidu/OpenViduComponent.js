@@ -82,7 +82,7 @@ class OpenViduComponent extends Component {
       ? this.props.sessionName
       : "SessionA";
     let userName = localStorage.getItem("userName");
-    let bgmAudio = new Audio(MP_bgm1);
+    // let bgmAudio = new Audio(MP_bgm1);
     this.remotes = [];
     this.localUserAccessAllowed = false;
     // 상위 컴포넌트에서 하위 함수 호출 위한 부분
@@ -113,7 +113,7 @@ class OpenViduComponent extends Component {
       hasSkill: true,
       killed: "없음",
       voteName: "",
-      bgmAudio: bgmAudio,
+      // bgmAudio: bgmAudio,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -145,6 +145,7 @@ class OpenViduComponent extends Component {
       this.setState({ page: pageNum });
     }
   };
+  bgmAudio = new Audio(MP_bgm1);
 
   componentDidMount() {
     const openViduLayoutOptions = {
@@ -1182,12 +1183,17 @@ class OpenViduComponent extends Component {
   };
 
   setPlayFalse = () => {
-    this.state.bgmAudio.pause();
+    this.bgmAudio.pause();
+    // this.state.bgmAudio.pause();
     // this.setState({ play: false });
   };
 
   setPlayTrue = () => {
-    this.state.bgmAudio.play();
+    this.bgmAudio.loop = true;
+    this.bgmAudio.volume = 0.6;
+    this.bgmAudio.play();
+    // this.setState ( {bgmAudio : {loop: true, volume : 0.2}});
+    // this.state.bgmAudio.play();
     // this.setState({ play: true });
   };
 
@@ -1999,7 +2005,7 @@ class OpenViduComponent extends Component {
                   : <VotePage moveVoteWait={this.moveVoteWait} />
                 } */}
                 <DayOctopi />
-                <DayComponent />
+                {/* <DayComponent /> */}
                 <JobCardComponent gameJob={this.props.gamerData.job} />
               </div>
               <div className="d-flex justify-content-center">

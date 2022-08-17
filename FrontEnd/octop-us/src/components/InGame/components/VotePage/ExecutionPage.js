@@ -8,6 +8,7 @@ function ExecutionPage(props) {
     const document = window.document;
 
     var audio = new Audio(MP_Cannon);
+    audio.volume = 0.3;
     audio.play();
 
     setTimeout(() => {
