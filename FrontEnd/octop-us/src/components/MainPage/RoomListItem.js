@@ -74,37 +74,35 @@ function RoomListItem({ item, pauseBgmAudio }) {
         roomInfo = res.data;
 
         let userList = roomInfo.userList.split(",");
-      console.log(userList);
-      userList[userList.indexOf("")] = userInfo.userName;
-      console.log(userList);
-      const personNum = roomInfo.personNum + 1;
-      const data = {
-        roomChief: roomInfo.roomChief,
-        private: roomInfo.private,
-        roomName: roomInfo.roomName,
-        personLimit: roomInfo.personLimit,
-        personNum: personNum,
-        roomPw: roomInfo.roomPw,
-        gameTime: roomInfo.gameTime,
-        userList: userList.join(),
-        roomId: roomInfo.roomId,
-      };
-      axios
-        .put(`${BASE_URL}/rooms`, JSON.stringify(data), {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        })
-        .then((res) => {
-          pauseBgmAudio();
-          console.log(res);
-          document.location.href = `${CLIENT_URL}/${item.roomId}`;
-          console.log(document.location.pathname);
-        })
-        .catch((err) => console.log(err));
+        console.log(userList);
+        userList[userList.indexOf("")] = userInfo.userName;
+        console.log(userList);
+        const personNum = roomInfo.personNum + 1;
+        const data = {
+          roomChief: roomInfo.roomChief,
+          private: roomInfo.private,
+          roomName: roomInfo.roomName,
+          personLimit: roomInfo.personLimit,
+          personNum: personNum,
+          roomPw: roomInfo.roomPw,
+          gameTime: roomInfo.gameTime,
+          userList: userList.join(),
+          roomId: roomInfo.roomId,
+        };
+        axios
+          .put(`${BASE_URL}/rooms`, JSON.stringify(data), {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+          })
+          .then((res) => {
+            pauseBgmAudio();
+            console.log(res);
+            document.location.href = `${CLIENT_URL}/${item.roomId}`;
+            console.log(document.location.pathname);
+          })
+          .catch((err) => console.log(err));
       })
-
-      
     }
   };
   async function joinRoom(){
