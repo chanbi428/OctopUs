@@ -178,7 +178,7 @@ function MainPage() {
 
   const playBgmAudio = (e) => {
     bgmAudio.loop = true;
-    bgmAudio.muted = false;
+    bgmAudio.volume = 0.7;
     bgmAudio.play();
   };
 
