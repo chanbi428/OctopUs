@@ -57,108 +57,134 @@ class ChatComponent extends Component {
 
   componentDidMount() {
     if (this.props.user.getStreamManager().stream.streamId === undefined) {
-      this.props.user.getStreamManager().stream.session.on("signal:chat", (event) => {
-        const data = JSON.parse(event.data);
-        let message = {
-          connectionId: event.from.connectionId,
-          nickname: data.nickname,
-          message: data.message,
-          isDead: data.isDead,
-          job: data.job,
-          gameStatus: data.gameStatus,
-        };
-        const document = window.document;
-        setTimeout(() => {
-          const userImg = document.getElementById("userImg-" + (this.state.messageList.length - 1));
-          const video = document.getElementById("video-" + data.streamId);
-          const avatar = userImg.getContext("2d");
-          avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
-        }, 50);
-        if (data.nickname === "사회자" && data.job === this.props.gamerData.job) {
-          var audio = new Audio(MP_Pling);
-          audio.play();
-
-          console.log("경찰 지목이 들어왔다고 알림", message);
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:chat", (event) => {
+          const data = JSON.parse(event.data);
+          let message = {
+            connectionId: event.from.connectionId,
+            nickname: data.nickname,
+            message: data.message,
+            isDead: data.isDead,
+            job: data.job,
+            gameStatus: data.gameStatus,
+          };
+          const document = window.document;
           setTimeout(() => {
-            this.props.setMessageList({ message: message });
-          }, 2000);
-        } else {
-          if (data.isDead === true && this.props.getGamerData().isDead === true) {
-            var audio = new Audio(MP_Pling);
-            audio.play();
-
-            // 유령
-            this.props.setMessageList({ message: message });
-            console.log("유령 대화에 들어옴 ", message);
-          }
-          if (data.isDead === false && this.props.getGamerData().gameStatus !== 1) {
-            var audio = new Audio(MP_Pling);
-            audio.play();
-
-            this.props.setMessageList({ message: message });
-            console.log("살아있는 대화에 들어옴 ", message);
-          } else if (
-            this.props.gamerData.job === "마피아" &&
-            this.props.getGamerData().gameStatus === 1 &&
-            this.props.getGamerData().isDead === false &&
-            data.job === "마피아" &&
-            data.isDead === false
+            const userImg = document.getElementById(
+              "userImg-" + (this.state.messageList.length - 1)
+            );
+            const video = document.getElementById("video-" + data.streamId);
+            const avatar = userImg.getContext("2d");
+            avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
+          }, 50);
+          if (
+            data.nickname === "사회자" &&
+            data.job === this.props.gamerData.job
           ) {
             var audio = new Audio(MP_Pling);
             audio.play();
 
-            this.props.setMessageList({ message: message });
-            console.log("마피아 대화에 들어옴 ", message);
-          }
-        }
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:timer", (event) => {
-        console.log("timer다 1초씩 줄어들면 됨!");
-        const data = JSON.parse(event.data);
+            console.log("경찰 지목이 들어왔다고 알림", message);
+            setTimeout(() => {
+              this.props.setMessageList({ message: message });
+            }, 2000);
+          } else {
+            if (
+              data.isDead === true &&
+              this.props.getGamerData().isDead === true
+            ) {
+              var audio = new Audio(MP_Pling);
+              audio.play();
 
-        const second = data.second;
-        this.props.changeTime(second);
-      });
+              // 유령
+              this.props.setMessageList({ message: message });
+              console.log("유령 대화에 들어옴 ", message);
+            }
+            if (
+              data.isDead === false &&
+              this.props.getGamerData().gameStatus !== 1
+            ) {
+              var audio = new Audio(MP_Pling);
+              audio.play();
+
+              this.props.setMessageList({ message: message });
+              console.log("살아있는 대화에 들어옴 ", message);
+            } else if (
+              this.props.gamerData.job === "마피아" &&
+              this.props.getGamerData().gameStatus === 1 &&
+              this.props.getGamerData().isDead === false &&
+              data.job === "마피아" &&
+              data.isDead === false
+            ) {
+              var audio = new Audio(MP_Pling);
+              audio.play();
+
+              this.props.setMessageList({ message: message });
+              console.log("마피아 대화에 들어옴 ", message);
+            }
+          }
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:timer", (event) => {
+          console.log("timer다 1초씩 줄어들면 됨!");
+          const data = JSON.parse(event.data);
+
+          const second = data.second;
+          this.props.changeTime(second);
+        });
       var flag = {
         gameEnd: false, // 게임종료여부,
         voteGo: false, // 투표결과(최후변론 할지 안할지),
         agreeVoteGo: false, // 찬반투표결과(처형 할지 안할지)
       };
-      this.props.user.getStreamManager().stream.session.on("signal:gameEnd", (event) => {
-        flag = {
-          gameEnd: true,
-          voteGo: false,
-          agreeVoteGo: false,
-        };
-        if (this.props.gamerData.job === "크레이지경찰") {
-          console.log("크레이지 경찰 직업 다시 돌려놓기", this.props.gamerData.roomId);
-          this.settingGamerList(this.props.gamerData.roomId);
-        }
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:voteGo", (event) => {
-        console.log("VOTE : VOTEGO STATUS CHANGE");
-        flag = {
-          gameEnd: false,
-          voteGo: true,
-          agreeVoteGo: false,
-        };
-        const data = JSON.parse(event.data);
-        this.props.setPickUserState(data.userName);
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:agreeVoteGo", (event) => {
-        flag = {
-          gameEnd: false,
-          voteGo: false,
-          agreeVoteGo: true,
-        };
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:resetFlag", (event) => {
-        flag = {
-          gameEnd: false,
-          voteGo: false,
-          agreeVoteGo: false,
-        };
-      });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:gameEnd", (event) => {
+          flag = {
+            gameEnd: true,
+            voteGo: false,
+            agreeVoteGo: false,
+          };
+          if (this.props.gamerData.job === "크레이지경찰") {
+            console.log(
+              "크레이지 경찰 직업 다시 돌려놓기",
+              this.props.gamerData.roomId
+            );
+            this.settingGamerList(this.props.gamerData.roomId);
+          }
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:voteGo", (event) => {
+          console.log("VOTE : VOTEGO STATUS CHANGE");
+          flag = {
+            gameEnd: false,
+            voteGo: true,
+            agreeVoteGo: false,
+          };
+          const data = JSON.parse(event.data);
+          this.props.setPickUserState(data.userName);
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:agreeVoteGo", (event) => {
+          flag = {
+            gameEnd: false,
+            voteGo: false,
+            agreeVoteGo: true,
+          };
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:resetFlag", (event) => {
+          flag = {
+            gameEnd: false,
+            voteGo: false,
+            agreeVoteGo: false,
+          };
+        });
       this.props.user
         .getStreamManager()
         .stream.session.on("signal:agreeVoteGoAndGameEnd", (event) => {
@@ -168,214 +194,267 @@ class ChatComponent extends Component {
             agreeVoteGo: true,
           };
         });
-      this.props.user.getStreamManager().stream.session.on("signal:change", (event) => {
-        const data = JSON.parse(event.data);
-        if (data.page === 1) {
-          this.props.setMessageListReset();
-          console.log("1페이지다", this.props.gamerData.job);
-          // 크레이지 경찰
-          if (this.props.gamerData.job == "크레이지경찰") {
-            console.log("드루와");
-            let jobs = ["마피아", "마피아", "시민", "시민", "시민", "시민", "시민", "시민"];
-            let users = [];
-            this.shuffle(jobs);
-            console.log(jobs);
-            this.props.gamerData.userList.map((user, i) => {
-              if (user.userName != this.props.userData.userInfo.userName) {
-                let tmp = {
-                  gameJob: jobs[i],
-                  gameTeam: user.gameTeam,
-                  isDead: user.isDead,
-                  subIdx: user.subIdx,
-                  userName: user.userName,
-                };
-                users = [...users, tmp];
-                console.log(users);
-              } else {
-                let tmp = {
-                  gameJob: user.gameJob,
-                  gameTeam: user.gameTeam,
-                  isDead: user.isDead,
-                  subIdx: user.subIdx,
-                  userName: user.userName,
-                };
-                users = [...users, tmp];
-                console.log(users);
-              }
-            });
-            console.log("크레이지 경찰 다시 세팅", this.props.gamerData.userList);
-            setTimeout(() => {
-              this.props.setUserListAll({ userList: users });
-              console.log("크레이지 경찰 다시 세팅", this.props.gamerData.userList);
-            }, 1000);
-          }
-        }
-        if (data.page === 2) {
-          console.log("pickUser 초기화");
-          this.props.resetPickUser();
-          this.props.setGameStatus({ gameStatus: 1 });
-          this.props.setmafiaLoseAtMinigame();
-          this.props.setReporter({ reporter: "" });
-
-          this.props.user.getStreamManager().stream.session.signal({
-            type: "resetFlag",
-          });
-          if (this.props.waitData.roomChief === this.props.gamerData.userName) {
-            axios
-              .put(`${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`)
-              .then((res) => {
-                console.log("host가 밤 초기화");
-              });
-          }
-        }
-        if (data.page === 10) {
-          console.log("pickUser 초기화");
-          this.props.resetPickUser();
-          this.props.setGameStatus({ gameStatus: 0 });
-        }
-        // if (data.page === 15 && this.props.gamerData.job === "크레이지경찰") {
-        //   this.settingGamerList({ roomId: this.props.gamerData.roomId });
-        // }
-        // 다영 추가
-        // if (data.page === 11) {
-        //   console.log("VOTE : pickUser 초기화");
-        //   this.props.resetPickUser();
-        // }
-        const obj = {
-          minigameResult: this.props.getGamerData().minigameResult,
-          job: this.props.gamerData.job,
-          hasSkill: this.props.getHasSkill(),
-          isDead: this.props.getGamerData().isDead,
-          shark: this.props.getGamerData().shark,
-          fisher: this.props.getGamerData().fisher,
-          reporter: this.props.getGamerData().reporter,
-          roomChief: this.props.waitData.roomChief,
-          vote: this.props.getPickUser(), // 다영 추가
-          gameTime: this.props.waitData.gameTime,
-        };
-        console.log("change repoter 값", this.props.gamerData.reporter);
-        setTimeout(() => {
-          console.log("page 변환!", data.page);
-          this.props.changeTime(data.initTime);
-          this.props.changePage(data.page);
-          if (this.props.waitData.roomChief === this.props.gamerData.userName) {
-            Timer(data.initTime, this.props.user, data.page, flag, obj);
-          }
-        }, 1000);
-      });
-
-      this.props.user.getStreamManager().stream.session.on("signal:changeToGame", (event) => {
-        setTimeout(() => {
-          console.log("page 변환!");
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:change", (event) => {
           const data = JSON.parse(event.data);
-          this.props.changeTime(data.initTime);
-          this.props.changePage(data.page, data.gameChoice);
-          // this.props.clickBtnGame(data.gameChoice);
-          // Timer(data.initTime, this.props.user, data.page, flag, obj);
-        }, 1000);
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:mafia", (event) => {
-        const data = JSON.parse(event.data);
-        console.log("MAFIA : RECIEVE MESSAGE, 선택한 게이머 notice받음");
-        console.log("RECEIVED PICK USER : ", data.gamer);
-        if (
-          this.props.gamerData.job === "마피아" &&
-          this.props.getGamerData().isDead === false &&
-          this.props.gamerData.userName !== data.mafiaName
-        ) {
-          console.log("UPDATE PICK USER FROM RECEIVED MESSAGE1");
-          this.props.changePerson({ pickUser: data.gamer.userName });
-        }
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:nightEnd", (event) => {
-        // 각자 DB에 업뎃하게 함
-        console.log("night 끝났음");
-        this.props.updatePickUser();
-      });
-      // 다영 수정
-      this.props.user.getStreamManager().stream.session.on("signal:voteEnd", (event) => {
-        // 각자 DB에 업뎃하게 함
-        console.log("VOTE 끝남");
-        console.log("HOST : 각자 VOTE 테이블에 투표 결과 UPDATE! ");
-        this.props.updatePickUserAtVote();
-      });
+          if (data.page === 1) {
+            this.props.setMessageListReset();
+            console.log("1페이지다", this.props.gamerData.job);
+            // 크레이지 경찰
+            if (this.props.gamerData.job == "크레이지경찰") {
+              console.log("드루와");
+              let jobs = [
+                "마피아",
+                "마피아",
+                "시민",
+                "시민",
+                "시민",
+                "시민",
+                "시민",
+                "시민",
+              ];
+              let users = [];
+              this.shuffle(jobs);
+              console.log(jobs);
+              this.props.gamerData.userList.map((user, i) => {
+                if (user.userName != this.props.userData.userInfo.userName) {
+                  let tmp = {
+                    gameJob: jobs[i],
+                    gameTeam: user.gameTeam,
+                    isDead: user.isDead,
+                    subIdx: user.subIdx,
+                    userName: user.userName,
+                  };
+                  users = [...users, tmp];
+                  console.log(users);
+                } else {
+                  let tmp = {
+                    gameJob: user.gameJob,
+                    gameTeam: user.gameTeam,
+                    isDead: user.isDead,
+                    subIdx: user.subIdx,
+                    userName: user.userName,
+                  };
+                  users = [...users, tmp];
+                  console.log(users);
+                }
+              });
+              console.log(
+                "크레이지 경찰 다시 세팅",
+                this.props.gamerData.userList
+              );
+              setTimeout(() => {
+                this.props.setUserListAll({ userList: users });
+                console.log(
+                  "크레이지 경찰 다시 세팅",
+                  this.props.gamerData.userList
+                );
+              }, 1000);
+            }
+          }
+          if (data.page === 2) {
+            console.log("pickUser 초기화");
+            this.props.resetPickUser();
+            this.props.setGameStatus({ gameStatus: 1 });
+            this.props.setmafiaLoseAtMinigame();
+            this.props.setReporter({ reporter: "" });
 
-      this.props.user.getStreamManager().stream.session.on("signal:voteResult", (event) => {
-        const data = JSON.parse(event.data);
-        console.log("VOTE : RECIEVE MESSAGE, MAX VOTES notice받음");
-        console.log("RECEIVED MAX VOTES : ", data.votes.userName);
-        this.props.setVoteName(data.votes.userName);
-        if (data.votes.userName === "skip") {
-          // 그냥 페이지 테스트용
-          console.log("NO MAX VOTES => 찬반 페이지 PASS");
-          this.props.user.getStreamManager().stream.session.signal({
-            type: "resetFlag",
-          });
-        } else {
-          console.log("MAX VOTES => 찬반 페이지 GO");
-          this.props.user.getStreamManager().stream.session.signal({
-            data: event.data,
-            type: "voteGo",
-          });
-        }
-      });
+            this.props.user.getStreamManager().stream.session.signal({
+              type: "resetFlag",
+            });
+            if (
+              this.props.waitData.roomChief === this.props.gamerData.userName
+            ) {
+              axios
+                .put(
+                  `${BASE_URL}/night/initialization/${this.props.gamerData.roomId}`
+                )
+                .then((res) => {
+                  console.log("host가 밤 초기화");
+                });
+            }
+          }
+          if (data.page === 10) {
+            console.log("pickUser 초기화");
+            this.props.resetPickUser();
+            this.props.setGameStatus({ gameStatus: 0 });
+          }
+          // if (data.page === 15 && this.props.gamerData.job === "크레이지경찰") {
+          //   this.settingGamerList({ roomId: this.props.gamerData.roomId });
+          // }
+          // 다영 추가
+          // if (data.page === 11) {
+          //   console.log("VOTE : pickUser 초기화");
+          //   this.props.resetPickUser();
+          // }
+          const obj = {
+            minigameResult: this.props.getGamerData().minigameResult,
+            job: this.props.gamerData.job,
+            hasSkill: this.props.getHasSkill(),
+            isDead: this.props.getGamerData().isDead,
+            shark: this.props.getGamerData().shark,
+            fisher: this.props.getGamerData().fisher,
+            reporter: this.props.getGamerData().reporter,
+            roomChief: this.props.waitData.roomChief,
+            vote: this.props.getPickUser(), // 다영 추가
+            gameTime: this.props.waitData.gameTime,
+          };
+          console.log("change repoter 값", this.props.gamerData.reporter);
+          setTimeout(() => {
+            console.log("page 변환!", data.page);
+            this.props.changeTime(data.initTime);
+            this.props.changePage(data.page);
+            if (
+              this.props.waitData.roomChief === this.props.gamerData.userName
+            ) {
+              Timer(data.initTime, this.props.user, data.page, flag, obj);
+            }
+          }, 1000);
+        });
+
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:changeToGame", (event) => {
+          setTimeout(() => {
+            console.log("page 변환!");
+            const data = JSON.parse(event.data);
+            this.props.changeTime(data.initTime);
+            this.props.changePage(data.page, data.gameChoice);
+            // this.props.clickBtnGame(data.gameChoice);
+            // Timer(data.initTime, this.props.user, data.page, flag, obj);
+          }, 1000);
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:mafia", (event) => {
+          const data = JSON.parse(event.data);
+          console.log("MAFIA : RECIEVE MESSAGE, 선택한 게이머 notice받음");
+          console.log("RECEIVED PICK USER : ", data.gamer);
+          if (
+            this.props.gamerData.job === "마피아" &&
+            this.props.getGamerData().isDead === false &&
+            this.props.gamerData.userName !== data.mafiaName
+          ) {
+            console.log("UPDATE PICK USER FROM RECEIVED MESSAGE1");
+            this.props.changePerson({ pickUser: data.gamer.userName });
+          }
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:nightEnd", (event) => {
+          // 각자 DB에 업뎃하게 함
+          console.log("night 끝났음");
+          this.props.updatePickUser();
+        });
       // 다영 수정
-      this.props.user.getStreamManager().stream.session.on("signal:agreeVoteEnd", (event) => {
-        // 각자 DB에 업뎃하게 함
-        console.log("찬반 투표 (AGREE VOTE 끝남)");
-        console.log("HOST : 각자 AGREE VOTE 테이블에 투표 결과 UPDATE! ");
-        this.props.updatePickUserAtAgreeVote();
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:agreeVoteResult", (event) => {
-        const data = JSON.parse(event.data);
-        console.log("AGREE VOTE : RECIEVE MESSAGE, VOTE notice받음");
-        console.log("RECEIVED VOTE : ", data.votes.vote);
-        if (data.votes.vote > 0) {
-          console.log("AGREE VOTE : 처형");
-          this.props.setVoteName("처형");
-          // 처형처리
-          this.props.killPickUser();
-        } else {
-          console.log("AGREE VOTE : 처형 X => 처형X 결과 페이지 GO");
-          this.props.setVoteName("skip");
-          // 페이지 이동 (페이지 수정 필요)
-          this.props.user.getStreamManager().stream.session.signal({
-            type: "resetFlag",
-          });
-        }
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:dead", (event) => {
-        const data = JSON.parse(event.data);
-        const deadUser = data.userName;
-        console.log(data.userName, "이 죽었습니다고 전부에게 알림");
-        this.props.updateUserListforDead({ userName: deadUser });
-        setTimeout(() => {
-          console.log("죽음처리됐는지 확인", this.props.gamerData.userList);
-        }, 1000);
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:reporter", (event) => {
-        const data = JSON.parse(event.data);
-        this.props.setReporter({ reporter: data.reporter });
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:shark", (event) => {
-        this.props.setShark();
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:fisher", (event) => {
-        this.props.setFisher();
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:miniGame", (event) => {
-        const data = JSON.parse(event.data);
-        this.props.getMinigame({ idx: data.idx });
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:pauseBgmAudio", (event) => {
-        this.props.setPlayFalse();
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:playBgmAudio", (event) => {
-        this.props.setPlayTrue();
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:voteStart", (event) => {
-        this.voteNotice();
-      });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:voteEnd", (event) => {
+          // 각자 DB에 업뎃하게 함
+          console.log("VOTE 끝남");
+          console.log("HOST : 각자 VOTE 테이블에 투표 결과 UPDATE! ");
+          this.props.updatePickUserAtVote();
+        });
+
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:voteResult", (event) => {
+          const data = JSON.parse(event.data);
+          console.log("VOTE : RECIEVE MESSAGE, MAX VOTES notice받음");
+          console.log("RECEIVED MAX VOTES : ", data.votes.userName);
+          this.props.setVoteName(data.votes.userName);
+          if (data.votes.userName === "skip") {
+            // 그냥 페이지 테스트용
+            console.log("NO MAX VOTES => 찬반 페이지 PASS");
+            this.props.user.getStreamManager().stream.session.signal({
+              type: "resetFlag",
+            });
+          } else {
+            console.log("MAX VOTES => 찬반 페이지 GO");
+            this.props.user.getStreamManager().stream.session.signal({
+              data: data,
+              type: "voteGo",
+            });
+          }
+        });
+      // 다영 수정
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:agreeVoteEnd", (event) => {
+          // 각자 DB에 업뎃하게 함
+          console.log("찬반 투표 (AGREE VOTE 끝남)");
+          console.log("HOST : 각자 AGREE VOTE 테이블에 투표 결과 UPDATE! ");
+          this.props.updatePickUserAtAgreeVote();
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:agreeVoteResult", (event) => {
+          const data = JSON.parse(event.data);
+          console.log("AGREE VOTE : RECIEVE MESSAGE, VOTE notice받음");
+          console.log("RECEIVED VOTE : ", data.votes.vote);
+          if (data.votes.vote > 0) {
+            console.log("AGREE VOTE : 처형");
+            this.props.setVoteName("처형");
+            // 처형처리
+            this.props.killPickUser();
+          } else {
+            console.log("AGREE VOTE : 처형 X => 처형X 결과 페이지 GO");
+            this.props.setVoteName("skip");
+            // 페이지 이동 (페이지 수정 필요)
+            this.props.user.getStreamManager().stream.session.signal({
+              type: "resetFlag",
+            });
+          }
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:dead", (event) => {
+          const data = JSON.parse(event.data);
+          const deadUser = data.userName;
+          console.log(data.userName, "이 죽었습니다고 전부에게 알림");
+          this.props.updateUserListforDead({ userName: deadUser });
+          setTimeout(() => {
+            console.log("죽음처리됐는지 확인", this.props.gamerData.userList);
+          }, 1000);
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:reporter", (event) => {
+          const data = JSON.parse(event.data);
+          this.props.setReporter({ reporter: data.reporter });
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:shark", (event) => {
+          this.props.setShark();
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:fisher", (event) => {
+          this.props.setFisher();
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:miniGame", (event) => {
+          const data = JSON.parse(event.data);
+          this.props.getMinigame({ idx: data.idx });
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:pauseBgmAudio", (event) => {
+          this.props.setPlayFalse();
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:playBgmAudio", (event) => {
+          this.props.setPlayTrue();
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:voteStart", (event) => {
+          this.voteNotice();
+        });
     }
     this.scrollToBottom();
   }
@@ -419,7 +498,8 @@ class ChatComponent extends Component {
   scrollToBottom() {
     setTimeout(() => {
       try {
-        this.chatScroll.current.scrollTop = this.chatScroll.current.scrollHeight;
+        this.chatScroll.current.scrollTop =
+          this.chatScroll.current.scrollHeight;
       } catch (err) {}
     }, 20);
   }
@@ -537,36 +617,42 @@ class ChatComponent extends Component {
       //console.log("ComponentDidUpdate의 메세지 가장 마지막꺼", msg);
       if (msg.includes("[알림]")) {
         // console.log("개인이 감지해야함", this.props.waitData.roomId)  // roomChief를 알거나, roomId를 알거나...
-        axios.get(`${BASE_URL}/rooms/detail/roomid/${this.props.waitData.roomId}`).then((res) => {
-          // state에 seats를 저장하거나 state에 유저리스트를 저장한다. 유저리스트 저장이 좀 더 쓸모 있을 것 같다.
-          // console.log("문어자리 업데이트용-chatcompo", res.data)
-          const roomNum = res.data.roomId;
-          const chief = res.data.roomChief;
-          const people = res.data.personNum;
-          const users = res.data.userList.split(",");
-          console.log("유저 비교!!!", users, this.props.waitData.userList);
-          if (this.props.waitData.userList !== users || this.props.waitData.roomId !== roomNum) {
-            this.settingRoomId({ roomId: roomNum });
-            console.log("업데이트 아이디 확인", this.props.waitData);
-            this.settingUserList(users);
-            console.log("업데이트 리스트 확인", this.props.waitData);
-            this.settingRoomChief({ roomChief: chief });
-            this.settingPersonNum({ personNum: people });
-            console.log("업데이트 호스트 확인", this.props.waitData);
-            const lst = {
-              connectionId: this.props.user.getStreamManager().stream.streamId,
-              message: "",
-              nickname: "",
-              job: "",
-              gameStatus: 0,
-              isDead: false,
-            };
-            this.props.setMessageList({ message: lst });
-            // if (this.props.gamerDate.messageList.at(-1) !== lst) {
-            //   this.props.setMessageList({ message: lst });
-            // }
-          }
-        });
+        axios
+          .get(`${BASE_URL}/rooms/detail/roomid/${this.props.waitData.roomId}`)
+          .then((res) => {
+            // state에 seats를 저장하거나 state에 유저리스트를 저장한다. 유저리스트 저장이 좀 더 쓸모 있을 것 같다.
+            // console.log("문어자리 업데이트용-chatcompo", res.data)
+            const roomNum = res.data.roomId;
+            const chief = res.data.roomChief;
+            const people = res.data.personNum;
+            const users = res.data.userList.split(",");
+            console.log("유저 비교!!!", users, this.props.waitData.userList);
+            if (
+              this.props.waitData.userList !== users ||
+              this.props.waitData.roomId !== roomNum
+            ) {
+              this.settingRoomId({ roomId: roomNum });
+              console.log("업데이트 아이디 확인", this.props.waitData);
+              this.settingUserList(users);
+              console.log("업데이트 리스트 확인", this.props.waitData);
+              this.settingRoomChief({ roomChief: chief });
+              this.settingPersonNum({ personNum: people });
+              console.log("업데이트 호스트 확인", this.props.waitData);
+              const lst = {
+                connectionId:
+                  this.props.user.getStreamManager().stream.streamId,
+                message: "",
+                nickname: "",
+                job: "",
+                gameStatus: 0,
+                isDead: false,
+              };
+              this.props.setMessageList({ message: lst });
+              // if (this.props.gamerDate.messageList.at(-1) !== lst) {
+              //   this.props.setMessageList({ message: lst });
+              // }
+            }
+          });
       } else if (msg.includes("[게임]")) {
         const userName = this.props.userData.userInfo.userName;
         console.log(userName);
@@ -670,7 +756,8 @@ class ChatComponent extends Component {
                 }
                 if (
                   (data.isDead === false && data.gameStatus !== 1) ||
-                  (data.nickname === "사회자" && data.job === this.props.gamerData.job)
+                  (data.nickname === "사회자" &&
+                    data.job === this.props.gamerData.job)
                 ) {
                   // 살아있는 사람의 채팅은 모두에게 보인다.
                   return (
