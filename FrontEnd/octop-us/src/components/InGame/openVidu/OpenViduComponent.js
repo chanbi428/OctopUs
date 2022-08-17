@@ -937,6 +937,10 @@ class OpenViduComponent extends Component {
     this.setState({ pickUser: "" });
   };
 
+  setPickUserState = (userName) => {
+    this.setState({ pickUser: userName });
+  }
+
   getHasSkill = () => {
     return this.state.hasSkill;
   };
@@ -1245,6 +1249,7 @@ class OpenViduComponent extends Component {
                         setVoteName={this.setVoteName}
                         setPlayFalse={this.setPlayFalse}
                         setPlayTrue={this.setPlayTrue}
+                        setPickUserState={this.setPickUserState}
                       />
                     </div>
                   )}
@@ -1357,6 +1362,7 @@ class OpenViduComponent extends Component {
                     setVoteName={this.setVoteName}
                     setPlayFalse={this.setPlayFalse}
                     setPlayTrue={this.setPlayTrue}
+                    setPickUserState={this.setPickUserState}
                   />
                 </div>
               </div>
@@ -1508,6 +1514,7 @@ class OpenViduComponent extends Component {
                     setVoteName={this.setVoteName}
                     setPlayFalse={this.setPlayFalse}
                     setPlayTrue={this.setPlayTrue}
+                    setPickUserState={this.setPickUserState}
                   />
                 </div>
               </div>
@@ -1672,6 +1679,7 @@ class OpenViduComponent extends Component {
                     setVoteName={this.setVoteName}
                     setPlayFalse={this.setPlayFalse}
                     setPlayTrue={this.setPlayTrue}
+                    setPickUserState={this.setPickUserState}
                   />
                 </div>
               </div>
@@ -1781,6 +1789,7 @@ class OpenViduComponent extends Component {
                   setVoteName={this.setVoteName}
                   setPlayFalse={this.setPlayFalse}
                   setPlayTrue={this.setPlayTrue}
+                  setPickUserState={this.setPickUserState}
                 />
               </div>
             </div>
@@ -1903,6 +1912,7 @@ class OpenViduComponent extends Component {
                   setVoteName={this.setVoteName}
                   setPlayFalse={this.setPlayFalse}
                   setPlayTrue={this.setPlayTrue}
+                  setPickUserState={this.setPickUserState}
                 />
               </div>
             </div>
@@ -2031,6 +2041,7 @@ class OpenViduComponent extends Component {
                   setVoteName={this.setVoteName}
                   setPlayFalse={this.setPlayFalse}
                   setPlayTrue={this.setPlayTrue}
+                  setPickUserState={this.setPickUserState}
                 />
               </div>
             </div>
