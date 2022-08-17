@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { BASE_URL, CLIENT_URL } from "../../api/BASE_URL";
 import axios from "axios";
 import "./RoomListItem.css";
@@ -12,6 +13,7 @@ import Swal from "sweetalert2";
 function RoomListItem({ item, pauseBgmAudio }) {
   const { userInfo } = useSelector((state) => state.user);
   const [roomPwIn, setRoomPwIn] = useState("");
+  const navigate = useNavigate();
   const handleRoomPwIn = (e) => {
     setRoomPwIn(e.target.value);
   };
