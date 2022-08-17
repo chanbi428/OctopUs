@@ -1306,7 +1306,7 @@ class OpenViduComponent extends Component {
             (this.props.gamerData.job === "기자" &&
               this.props.gamerData.hasSkill === false)) && (
             <div className="d-flex justify-content-between">
-              <div>
+              <div className="mt-3">
                 {this.props.gamerData.userList
                   .slice(0, 4)
                   .map((subGamer, i) => (
@@ -1360,7 +1360,7 @@ class OpenViduComponent extends Component {
                   />
                 </div>
               </div>
-              <div>
+              <div className="mt-3">
                 {this.props.gamerData.userList
                   .slice(4, 8)
                   .map((subGamer, i) => (
@@ -1386,7 +1386,7 @@ class OpenViduComponent extends Component {
           this.props.gamerData.isDead === false &&
           this.props.gamerData.job === "마피아" && (
             <div className="d-flex justify-content-between">
-              <div>
+              <div className="mt-3">
                 {this.props.gamerData.userList
                   .slice(0, 4)
                   .map((subGamer, i) => (
@@ -1511,7 +1511,7 @@ class OpenViduComponent extends Component {
                   />
                 </div>
               </div>
-              <div>
+              <div className="mt-3">
                 {this.props.gamerData.userList
                   .slice(4, 8)
                   .map((subGamer, i) => (
@@ -1574,7 +1574,7 @@ class OpenViduComponent extends Component {
               this.props.gamerData.gameturn > 1)) && (
             <div className="d-flex justify-content-between">
               {console.log("start police")}
-              <div>
+              <div className="mt-3">
                 {this.props.gamerData.userList
                   .slice(0, 4)
                   .map((subGamer, i) => (
@@ -1675,7 +1675,7 @@ class OpenViduComponent extends Component {
                   />
                 </div>
               </div>
-              <div>
+              <div className="mt-3">
                 {this.props.gamerData.userList
                   .slice(4, 8)
                   .map((subGamer, i) => (
@@ -1731,7 +1731,7 @@ class OpenViduComponent extends Component {
         {/* 밤페이지 - 밤역할 수행 x (죽은 사람) */}
         {this.state.page === 3 && this.props.gamerData.isDead === true && (
           <div className="d-flex justify-content-between">
-            <div>
+            <div className="mt-3">
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div id="layout" className="ingame-bounds">
                   <div
@@ -1784,7 +1784,7 @@ class OpenViduComponent extends Component {
                 />
               </div>
             </div>
-            <div>
+            <div className="mt-3">
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
                 <div id="layout" className="ingame-bounds">
                   <div
@@ -1832,7 +1832,7 @@ class OpenViduComponent extends Component {
         {this.state.page === 10 && (
           <div className="d-flex justify-content-between">
             {/* <DayComponent /> */}
-            <div>
+            <div className="mt-3">
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div
                   id="layout"
@@ -1906,7 +1906,7 @@ class OpenViduComponent extends Component {
                 />
               </div>
             </div>
-            <div>
+            <div className="mt-3">
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
                 <div
                   id="layout"
@@ -1949,7 +1949,7 @@ class OpenViduComponent extends Component {
          */}
         {this.state.page === 11 && (
           <div className="d-flex justify-content-between">
-            <div>
+            <div className="mt-3">
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div
                   id="layout"
@@ -2034,7 +2034,7 @@ class OpenViduComponent extends Component {
                 />
               </div>
             </div>
-            <div>
+            <div className="mt-3">
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
                 <div
                   id="layout"
