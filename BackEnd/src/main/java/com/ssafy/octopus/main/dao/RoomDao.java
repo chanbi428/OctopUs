@@ -32,8 +32,8 @@ public interface RoomDao extends JpaRepository<Room, Integer> {
     // 방 설정 수정 (roomId)
     @Modifying
     @Transactional
-    @Query(value = "UPDATE room SET room_chief = ? , is_private = ? , room_name = ? , person_limit = ? , room_pw = ? , game_time = ? WHERE room_id = ?", nativeQuery = true)
-    int update(String roomChief, Boolean isPrivate, String roomName, int personLimit, String roomPw, int gameTime, String roomId);
+    @Query(value = "UPDATE room SET room_chief = ? , is_private = ? , room_name = ? , person_limit = ? , room_pw = ? , game_time = ?, person_num = ?, user_list = ? WHERE room_id = ?", nativeQuery = true)
+    int update(String roomChief, Boolean isPrivate, String roomName, int personLimit, String roomPw, int gameTime, int personNum, String userList, String roomId);
 
     // 방 게임 중 상태 수정 (roomId)
     @Modifying
@@ -51,4 +51,8 @@ public interface RoomDao extends JpaRepository<Room, Integer> {
     // 방 삭제 (roomId)
     @Transactional
     Long deleteByRoomId(String roomId);
+
+    //findRoomIdForFastStart
+    @Query(value = "SELECT room_id FROM (SELECT room_id, person_num FROM room WHERE person_limit > person_num AND game_status = 0 ORDER BY person_num DESC LIMIT 1) as r", nativeQuery = true)
+    String findRoomIdForFastStart();
 }

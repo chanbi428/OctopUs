@@ -1,0 +1,189 @@
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.register-modal__section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 90%;
+  height: 50vh;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 0.3rem;
+  background-color: #fdfcdc;
+  opacity: 0.9;
+  animation: modal-show 0.3s;
+  overflow: hidden;
+  border: 3px solid black;
+}
+
+.modal > div > form {
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.modal > section > form > h1 {
+  font-family: BMJUA;
+  text-align: center;
+  margin-top: 3vh;
+  margin-bottom: 0;
+  font-size: 30px;
+  letter-spacing: 7px;
+}
+
+.modal.openModal {
+  display: flex;
+  align-items: center;
+  animation: modal-bg-show 0.3s;
+}
+@keyframes modal-show {
+  from {
+    opacity: 0;
+    margin-top: -50px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+@keyframes modal-bg-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.register-modal__inputcontainer {
+  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.register-modal__inputbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-family: BMJUA;
+  font-size: 20px;
+}
+
+.register-modal__input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  width: 15vw;
+  height: 5vh;
+  border-radius: 5px;
+}
+
+.register-modal__btn {
+  font-family: BMJUA;
+  text-align: center;
+  text-justify: center;
+  width: 7vw;
+  height: 5vh;
+  margin: 4px;
+  border: 3px solid;
+  border-radius: 5px;
+  margin-bottom: 3vh;
+  margin-left: 2vh;
+  margin-right: 2vh;
+  background-color: #f4d35e;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+  border-bottom: 4px solid;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.register-modal__btn:hover {
+  font-family: BMJUA;
+  text-align: center;
+  text-justify: center;
+  width: 7vw;
+  height: 5vh;
+  margin: 4px;
+  border: 3px solid;
+  border-radius: 5px;
+  margin-bottom: 3vh;
+  margin-left: 2vh;
+  margin-right: 2vh;
+  background-color: #f4d35e;
+  text-decoration: none;
+  display: inline-block;
+  border: 3px solid rgba(0, 0, 0, 0.21);
+  border-bottom: 4px solid rgba(0, 0, 0, 0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.register-modal__double-check-btn {
+  text-align: center;
+  width: 4vw;
+  height: 4vh;
+  border-radius: 5px;
+  margin-left: 2vh;
+  margin-right: 2vh;
+  font-size: 12px;
+  background-color: #f4d35e;
+  text-decoration: none;
+  display: inline-block;
+  border: 2px solid;
+  border-bottom: 2px solid;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.register-modal__double-check-btn:hover {
+  text-align: center;
+  width: 4vw;
+  height: 4vh;
+  border-radius: 5px;
+  margin-left: 2vh;
+  margin-right: 2vh;
+  font-size: 12px;
+  background-color: #f4d35e;
+  text-decoration: none;
+  display: inline-block;
+  border: 2px solid rgba(0, 0, 0, 0.21);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.register-modal__password {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  width: 15vw;
+  height: 5vh;
+  border-radius: 5px;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.register-modal__password::placeholder {
+  font-family: BMJUA;
+}

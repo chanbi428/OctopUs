@@ -1,0 +1,160 @@
+.MakeRoom {
+  font-family: BMJUA;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 15px;
+  height: 500px;
+  margin-right: 5vw;
+}
+
+.make-room__contents {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 50vh;
+  width: 300vw;
+}
+
+.make-room__header {
+  font-size: 30px;
+  letter-spacing: 3px;
+}
+
+.make-room__settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3vh;
+}
+
+.make-room__card-body {
+  text-align: center;
+  margin-bottom: 2vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.make-room__title {
+  font-size: 20px;
+}
+
+.make-room__timesettings {
+  display: flex;
+  flex-direction: column;
+}
+
+.make-room__input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  width: 11vw;
+  height: 4vh;
+  border-radius: 5px;
+}
+
+.make-room__password-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  width: 11vw;
+  height: 4vh;
+  border-radius: 5px;
+  font-size: 15px;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.make-room__password-input::placeholder {
+  font-family: BMJUA;
+  font-size: 15px;
+}
+
+.make-room__timesetting input[type="radio"] {
+  display: none;
+}
+
+.make-room__timesetting input[type="radio"] + label {
+  display: inline-block;
+  cursor: pointer;
+  height: 24px;
+  width: 90px;
+  border: 3px solid #333;
+  line-height: 24px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  background-color: #fff;
+  color: #333;
+  border-radius: 5px;
+}
+
+.make-room__timesetting input[type="radio"]:checked + label {
+  background-color: #333;
+  color: #fff;
+}
+
+.make-room__card-body input[type="radio"] {
+  display: none;
+}
+
+.make-room__card-body input[type="radio"] + label {
+  display: inline-block;
+  cursor: pointer;
+  height: 24px;
+  width: 90px;
+  border: 1px solid #333;
+  line-height: 24px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  background-color: #fff;
+  color: #333;
+  border-radius: 5px;
+}
+
+.make-room__card-body input[type="radio"]:checked + label {
+  background-color: #333;
+  color: #fff;
+}
+
+.make-room__btn {
+  text-align: center;
+  width: 10vw;
+  height: 5vh;
+  margin: 10px;
+  border-radius: 5px;
+  margin-bottom: 0;
+  margin-left: 2vh;
+  margin-right: 2vh;
+  border: 3px solid;
+  background-color: #f4d35e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.make-room__btn:hover {
+  text-align: center;
+  width: 10vw;
+  height: 5vh;
+  margin: 10px;
+  border-radius: 5px;
+  border: 3px solid;
+  margin-bottom: 0;
+  margin-left: 2vh;
+  margin-right: 2vh;
+  background-color: #f4d35e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+  display: inline-block;
+  border: 3px solid rgba(0, 0, 0, 0.21);
+  border-bottom: 4px solid rgba(0, 0, 0, 0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}

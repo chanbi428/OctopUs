@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
@@ -36,10 +37,18 @@ public class UserController {
 
     }
 
-
-    @PostMapping("/SignIn") // 회원가입
-    public ResponseEntity<User> signIn(@RequestBody UserDto dto){
-        System.out.println("signin : " + dto);
+    @GetMapping("/existName/{userName}")
+    public  String existName(@PathVariable String userName){
+        if(service.nameOverlapCheck(userName)){
+            return "true";
+        }
+        else{
+            return "false";
+        }
+    }
+    @PostMapping("/signUp") // 회원가입
+    public ResponseEntity<User> signUp(@RequestBody UserDto dto){
+        System.out.println("signup : " + dto);
         User user = service.save(dto);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

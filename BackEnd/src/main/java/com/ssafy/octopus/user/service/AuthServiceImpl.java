@@ -20,14 +20,14 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public User findById(String id) {
-        return userRepository.findByUserId(id);
+    public User findByName(String name) {
+        return userRepository.findByUserName(name);
     }
 
     @Override
-    public User findByUserIdAndUserPw(String id, String pw) {
+    public User findByUserNameAndUserPw(String id, String pw) {
         System.out.println("serviceImpl : " + id + " : " + pw);
-        return userRepository.findByUserIdAndUserPw(id, pw);
+        return userRepository.findByUserNameAndUserPw(id, pw);
     }
 
 }

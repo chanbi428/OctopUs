@@ -1,13 +1,90 @@
+/* 방 만들기, 빠른 시작 등 큰 글씨 - 여기어때 잘난체 */
+@font-face {
+  font-family: "yg-jalnan";
+  src: url("./fonts/Jalnan.ttf") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 로그인, 로그아웃, 설정 등 - 배달의 민족 주아체 */
+@font-face {
+  font-family: "BMJUA";
+  src: url("./fonts/BMJUA_ttf.ttf") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 채팅 - 지마켓 산스 medium, light */
+@font-face {
+  font-family: "GmarketSansLight";
+  src: url("./fonts/GmarketSansTTFLight.ttf") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("./fonts/GmarketSansTTFMedium.ttf") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "GmarketSansBold";
+  src: url("./fonts/GmarketSansTTFBold.ttf") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url("background/baseimage_longer.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.swal2-title {
+  font-family: "BMJUA";
+}
+.swal2-html-container {
+  font-family: "BMJUA";
+}
+
+.swal2-styled.swal2-confirm.swalBtnColor {
+  color: black;
+  border: 3px solid black;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.swal2-styled.swal2-confirm.swalBtnColor:hover {
+  color: black;
+  border: 3px solid #f4d35e;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.swal2-styled.swal2-cancel.swalBtnColor {
+  color: black;
+  border: 3px solid black;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.swal2-styled.swal2-cancel.swalBtnColor:hover {
+  color: black;
+  border: 3px solid #f4d35e;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.swal2-popup.popUp {
+  border: 4px solid black;
 }

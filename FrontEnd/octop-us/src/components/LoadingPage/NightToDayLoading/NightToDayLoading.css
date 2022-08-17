@@ -1,0 +1,196 @@
+/* body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1c1d22;
+  color: rgba(255, 255, 255, 0.6);
+} */
+
+#sun-page {
+  margin-top: -24px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #B0E0E6;
+}
+
+.wrap-sun {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 맨 밑의 웨이브 */
+.circle-sun {
+  width: 400px;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+  /* border: 7px solid #464343; */
+  border: 7px solid #00afb9;
+  border-radius: 100%;
+  background: #20b2aa;
+  transform: translate3d(0, 0, 0);
+}
+
+/* 밑에서 두 번째 웨이브 */
+.wave-one-sun {
+  width: 600px;
+  height: 600px;
+  position: absolute;
+  top: -65%;
+  left: -30%;
+  border-radius: 45%;
+  background: #00ced1;
+  animation: move 3s infinite linear;
+}
+
+/* 배경색 */
+.wave-two-sun {
+  width: 650px;
+  height: 650px;
+  position: absolute;
+  top: -90%;
+  left: -30%;
+  border-radius: 45%;
+  /* background: red; */
+  background: linear-gradient(#afeeee, #87ceeb);
+  animation: move 5s infinite linear;
+}
+
+@keyframes move {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* moon css & animation */
+.fa-sun {
+  position: absolute;
+  top: 19%;
+  left: 33%;
+  font-size: 130px;
+  color: rgba(255, 204, 51, 0.8);
+  animation: sun-rotation 4s infinite linear;
+}
+
+.blur-sun {
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
+}
+
+@keyframes sun-rotation {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-20deg);
+  }
+}
+
+/* cloud css & animation */
+.fa-cloud {
+  position: absolute;
+  font-size: 30px;
+  color: #fff;
+  /* opacity: 0.8; */
+}
+
+.cloud1 {
+  top: 70px;
+  left: 90px;
+  animation: cloud-one 5s infinite;
+}
+
+.cloud2 {
+  top: 50px;
+  right: 110px;
+  animation: cloud-two 3s infinite;
+}
+
+.cloud3 {
+  top: 180px;
+  left: 45px;
+  animation: cloud-three 4s infinite;
+}
+
+.cloud4 {
+  top: 120px;
+  right: 40px;
+  font-size: 10px;
+  animation: cloud-five 3.5s infinite;
+}
+
+.cloud5 {
+  top: 200px;
+  right: 90px;
+  font-size: 10px;
+  animation: cloud-five 3.1s infinite;
+}
+
+@keyframes cloud-one {
+  0%,
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes cloud-two {
+  0%,
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes cloud-three {
+  0%,
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes cloud-four {
+  0%,
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes cloud-five {
+  0%,
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

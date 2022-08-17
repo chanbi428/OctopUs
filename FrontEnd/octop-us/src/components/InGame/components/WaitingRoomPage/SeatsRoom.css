@@ -1,0 +1,105 @@
+.crown {
+    color :gold;
+}
+
+.copyright {
+    font-size: xx-small;
+} 
+
+#group_octopus {
+    display: flex;
+
+}
+
+.octopus {
+    width : 80px;
+    height : auto;
+}
+
+.nameBox {
+    display : flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    width : auto;
+    gap : 0.5rem;
+    margin-bottom: -1rem;
+}
+
+.nameTag {
+    white-space: nowrap;
+}
+
+#num_zero {
+    margin-top : -1.3rem;
+    margin-bottom: 3rem;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+#num_one {
+    margin-top : 0.7rem;
+    margin-bottom: 3rem;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+#num_two {
+    margin-top: -2.3rem;
+    margin-bottom: 2rem;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+#num_thr {
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+#num_four {
+    margin-top: -1.3rem;
+    margin-bottom: 2rem;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+#num_five {
+    margin-top: 0.7rem;
+    margin-bottom: 2rem;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+#num_six {
+    margin-top : -2.3rem;
+    margin-bottom: 3rem;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+#num_svn {
+    margin-top : 0.5rem;
+    margin-bottom: 3rem;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+#move_octo {
+    animation: motion 0.3s linear 0s infinite alternate; 
+}
+
+@keyframes motion {
+	/* 0% {margin-top: 0px;}
+	100% {margin-top: 10px;} */
+    /* 0% { top: 0; }
+    25% { top: -10px; transform: scale(1.1); }
+    40% { top: 0; transform: scale(1); }
+    100% { top: 0; } */
+    from {
+        transform : translateY(0px)
+    }
+    to {
+        transform: translateY(10px);
+    }
+}

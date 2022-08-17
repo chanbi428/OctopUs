@@ -1,0 +1,115 @@
+.room-list__btn {
+  margin: 10px;
+  border-radius: 10px;
+  width: 400px;
+}
+
+.room-list__container {
+  height: 16vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 25vw;
+  border-radius: 10px;
+  border-bottom: 4px solid rgba(0, 0, 0, 0.25);
+  /* cursor: pointer; */
+}
+
+.room-list__left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 5vw;
+  font-family: BMJUA;
+  margin-bottom: 2vh;
+}
+
+.room-list__idx-1 {
+  font-size: 30px;
+  /* color: #0081a7; */
+  color: #0081a7;
+}
+
+.room-list__idx-2 {
+  font-size: 30px;
+  /* color: #0081a7; */
+
+  color: #13293d;
+}
+
+.room-list__locked {
+  text-align: center;
+  text-justify: center;
+  height: 3vh;
+  margin-top: 1vh;
+}
+
+.room-list__unlocked {
+  text-align: center;
+  text-justify: center;
+  height: 3vh;
+  margin-top: 1vh;
+  opacity: 0;
+}
+
+.room-list__middle {
+  display: flex;
+  flex-direction: column;
+  width: 10vw;
+  justify-content: space-evenly;
+}
+
+.room-list__title {
+  font-family: GmarketSansMedium;
+  font-size: 20px;
+  color: white;
+}
+
+.room-list__password {
+  width: 100%;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.2);
+  cursor: auto;
+}
+
+.room-list__password-opacity {
+  width: 100%;
+  opacity: 0;
+  cursor: default;
+}
+
+.room-list__right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1vw;
+}
+
+.room-list__info {
+  border: 2px solid;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1vh;
+  width: 5vw;
+  padding: 5px;
+  /* background-color: rgb(240, 113, 103); */
+  background-color: #fdfcdc;
+  font-family: BMJUA;
+  cursor: default;
+}
+
+.main-page__room-list-btn {
+  text-align: center;
+  margin-top: 1vh;
+  width: 6vw;
+  height: 4vh;
+  border-radius: 5px;
+  background-color: #f4d35e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  font-family: BMJUA;
+  letter-spacing: 2px;
+}

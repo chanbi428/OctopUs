@@ -28,36 +28,38 @@ import javax.persistence.*;
 )
 public class Room {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int idx;
 
-    @Column(name="roomId", columnDefinition="varchar(40)")
+    @Column(name="room_id", columnDefinition="varchar(40)")
     private String roomId;
 
-    @Column(name="roomChief", columnDefinition="varchar(20)")
+    @Column(name="room_chief", columnDefinition="varchar(20)")
     private String roomChief;
 
-    @Column(name="isPrivate", columnDefinition="tinyint default '0' ")
+    @Column(name="is_private", columnDefinition="tinyint default '0' ")
     private boolean isPrivate;
 
-    @Column(name="roomName", columnDefinition="varchar(20)")
+    @Column(name="room_name", columnDefinition="varchar(20)")
     private String roomName;
 
+    @Column(name="person_limit")
     private int personLimit;
 
-    @Column(name="roomPw", columnDefinition="varchar(20)")
+    @Column(name="room_pw", columnDefinition="varchar(20)")
     private String roomPw;
 
-    @Column(name="gameStatus", columnDefinition="tinyint default '0' ")
+    @Column(name="game_status", columnDefinition="tinyint default '0' ")
     private boolean gameStatus;
 
-    @Column(name="personNum", columnDefinition="int default '1' ")
+    @Column(name="person_num", columnDefinition="int default '1' ")
     private int personNum;
 
+    @Column(name="game_time")
     private int gameTime;
 
-    @Column(name="userList")
+    @Column(name="user_list")
     private String userList;
 }
 

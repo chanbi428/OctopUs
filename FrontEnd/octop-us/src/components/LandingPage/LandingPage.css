@@ -1,0 +1,25 @@
+.landing-page__bg-img {
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  object-fit: cover;
+}
+
+.landing-page__div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 72vh;
+}
+
+.landing-page__img-container {
+  display: flex;
+  justify-content: center;
+}
+
+.landing-page__img-container img {
+  position: relative;
+  top: 100px;
+}

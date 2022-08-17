@@ -10,6 +10,6 @@ import lombok.*;
 public class UserDto { // can use @Setter
     private int idx;
     private String userName;
-    private String userId;
     private String userPW;
+    private String token;
 }

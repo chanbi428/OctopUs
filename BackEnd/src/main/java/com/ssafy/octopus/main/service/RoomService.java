@@ -29,4 +29,6 @@ public interface RoomService {
     int updateStatusToEndByRoomId(String roomId); // 방 대기 상태로 수정
 
     Long deleteByRoomId(String roomId); // 방 삭제
+
+    Room findRoomIdForFastStart(); // 빠른 시작 시 Room 정보 return
 }

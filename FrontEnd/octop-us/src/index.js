@@ -3,20 +3,12 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-// import { Provider } from "react-redux";
+import { Provider } from "react-redux";
 // import { createStore } from "redux";
 // import promiseMiddleware from "redux-promise";
 // import reduxThunk from "redux-thunk";
 import { BrowserRouter } from "react-router-dom";
-
-// const logger = createLogger();
-
-// const createStoreWithMiddleware = applyMiddleware(
-//   promiseMiddleware,
-//   reduxThunk
-// )(createStore);
-
-// const store = createStore();
+import store from "./app/store";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -28,7 +20,9 @@ ReactDOM.render(
           window.__REDUX_DEVTOOLS_EXTENSION__()
       )}
       > */}
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
       {/* </Provider> */}
     </BrowserRouter>
   </React.StrictMode>,

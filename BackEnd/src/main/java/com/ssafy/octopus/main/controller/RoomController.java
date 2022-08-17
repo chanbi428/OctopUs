@@ -22,13 +22,7 @@ import java.util.Optional;
  */
 
 @RestController
-@CrossOrigin(
-        // localhost:3000 과 127.0.0.1 구분
-        origins = "http://localhost:3000", //allowCredentials = "true" 인 경우, origins="*" 는 X
-        allowCredentials = "true",
-        allowedHeaders = "*",
-        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT, RequestMethod.HEAD, RequestMethod.OPTIONS}
-)
+@CrossOrigin(origins = "*")
 public class RoomController {
 
     @Autowired
@@ -108,7 +102,8 @@ public class RoomController {
      *  @author : LDY, 98dlstod@naver.com
      */
     @PostMapping(value ="/rooms")
-    public ResponseEntity<Room> insert(@Parameter(description = "방 생성", required = true, example = "Room dto")  Room dto) {
+    public ResponseEntity<Room> insert(@Parameter(description = "방 생성", required = true, example = "Room dto")@RequestBody  Room dto) {
+        System.out.println(dto);
         return new ResponseEntity<Room>(service.insert(dto), HttpStatus.OK);
     }
 
@@ -119,7 +114,7 @@ public class RoomController {
      *  @author : LDY, 98dlstod@naver.com
      */
     @PutMapping(value="/rooms")
-    public ResponseEntity<Integer> updateByRoomId(@Parameter(description = "방 설정 수정", required = true, example = "Room dto") Room dto) {
+    public ResponseEntity<Integer> updateByRoomId(@Parameter(description = "방 설정 수정", required = true, example = "Room dto")@RequestBody Room dto) {
         return new ResponseEntity<Integer>(service.update(dto), HttpStatus.OK);
     }
 
@@ -156,5 +151,14 @@ public class RoomController {
         return new ResponseEntity<Long>(service.deleteByRoomId(roomId), HttpStatus.OK);
     }
 
-
+    /** @brief : findRoomIdForFastStart , 빠른 시작 클릭 => roomId 리턴
+     *  @date : 2022-07-27
+     *  @param
+     *  @return : ResponseEntity<Room>
+     *  @author : LDY, 98dlstod@naver.com
+     */
+    @GetMapping(value = "/rooms/find/faststart")
+    public ResponseEntity<Room> findRoomIdForFastStart() {
+        return new ResponseEntity<Room>(service.findRoomIdForFastStart(), HttpStatus.OK);
+    }
 }
