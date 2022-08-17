@@ -263,8 +263,8 @@ const FishingComponent = (props) => {
     const { data } = await axios.post(BASE_URL + "/games/mini/fish", sendData, config);
 
     console.log("data : " + data);
-    let citizenData = data.citizen;
-    let mafiaData = data.mafia;
+    let citizenData = data.citizen/6;
+    let mafiaData = data.mafia/2;
     let citizenPercent = (citizenData / (citizenData + mafiaData)) * 100;
     let mafiaPercent = (mafiaData / (citizenData + mafiaData)) * 100;
     if (citizenData === 0) {
