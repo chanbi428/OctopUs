@@ -370,6 +370,9 @@ class ChatComponent extends Component {
       this.props.user.getStreamManager().stream.session.on("signal:playBgmAudio", (event) => {
         this.props.setPlayTrue();
       });
+      this.props.user.getStreamManager().stream.session.on("signal:voteStart", (event) => {
+        this.voteNotice();
+      });
     }
     this.scrollToBottom();
   }
