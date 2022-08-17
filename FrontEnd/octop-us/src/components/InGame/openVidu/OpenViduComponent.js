@@ -137,7 +137,7 @@ class OpenViduComponent extends Component {
 
   changePage = (pageNum, gameChoice) => {
     console.log("changePage 실행됨 : " + pageNum + " : " + gameChoice);
-    if (pageNum === 20) {
+    if (pageNum === 20 || pageNum === 30) {
       this.setState({ gameNum: gameChoice });
       this.props.selectGame(gameChoice);
       this.setState({ page: pageNum });
@@ -2372,7 +2372,10 @@ class OpenViduComponent extends Component {
               className="d-flex flex-column justify-content-center align-items-center"
               style={{ width: "110%" }}
             >
-              <FishingGame roomId={this.state.mySessionId} />
+              <FishingGame
+                roomId={this.state.mySessionId}
+                gameNum={this.state.gameNum}
+              />
             </div>
             <div>
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (

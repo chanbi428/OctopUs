@@ -20,7 +20,7 @@
   overflow: hidden;
   border: 5px solid black;
   padding: 2rem;
-  gap : 1rem;
+  gap: 1rem;
   /* font-family: "BMJUA"; */
 }
 
@@ -35,7 +35,7 @@
   border: 5px solid white;
   padding: 2rem;
   color: red;
-  gap : 2rem;
+  gap: 2rem;
 }
 
 .news-card {
@@ -48,7 +48,7 @@
   overflow: hidden;
   border: 5px solid black;
   padding: 2rem;
-  gap : 1rem;
+  gap: 1rem;
 }
 
 .team_octopus_card {
@@ -64,9 +64,9 @@
   border: 5px solid black;
   text-align: center;
   margin: 5rem auto;
-  width : 500px;
+  width: 480px;
   padding: 3rem;
-  gap : 1rem;
+  gap: 1rem;
 }
 
 .team_squid_card {
@@ -82,7 +82,7 @@
   border: 5px solid black;
   text-align: center;
   margin: 5rem auto;
-  width : 500px;
+  width: 500px;
   padding: 3rem;
-  gap : 1rem;
+  gap: 1rem;
 }
