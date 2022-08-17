@@ -8,6 +8,10 @@
   display: block;
   width: 250px;
   height: auto;
+  border-style: groove;
+  border-radius: 30px;
+  border-color: black;
+  border-width: 5px;
 }
 
 .hover-card .job-cards {
