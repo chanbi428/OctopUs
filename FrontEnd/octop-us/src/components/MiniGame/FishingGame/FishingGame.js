@@ -178,7 +178,7 @@ const FishingComponent = (props) => {
   const [mafiaPercent, setMafiaPercent] = useState(50);
   const [showMode, setShowMode] = useState(false);
 
-  const [time, setTime] = useState(5);
+  const [time, setTime] = useState(20);
   const classes = useStyles();
 
   const spaceCount = useRef;
