@@ -144,6 +144,7 @@ class ChatComponent extends Component {
         };
         const data = JSON.parse(event.data);
         this.props.setPickUserState(data.userName);
+        console.log("찬반 결과할 이름",data.userName);
       });
       this.props.user.getStreamManager().stream.session.on("signal:agreeVoteGo", (event) => {
         flag = {
@@ -314,7 +315,9 @@ class ChatComponent extends Component {
         } else {
           console.log("MAX VOTES => 찬반 페이지 GO");
           this.props.user.getStreamManager().stream.session.signal({
-            data: event.data,
+            data: JSON.stringify({
+              userName : data.votes.userName,
+            }),
             type: "voteGo",
           });
         }
