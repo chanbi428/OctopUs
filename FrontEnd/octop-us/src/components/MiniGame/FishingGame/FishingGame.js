@@ -178,7 +178,7 @@ const FishingComponent = (props) => {
   const [mafiaPercent, setMafiaPercent] = useState(50);
   const [showMode, setShowMode] = useState(false);
 
-  const [time, setTime] = useState(30);
+  const [time, setTime] = useState(5);
   const classes = useStyles();
 
   const spaceCount = useRef;
@@ -275,8 +275,8 @@ const FishingComponent = (props) => {
     );
 
     console.log("data : " + data);
-    let citizenData = data.citizen/6;
-    let mafiaData = data.mafia/2;
+    let citizenData = data.citizen / 6;
+    let mafiaData = data.mafia / 2;
     let citizenPercent = (citizenData / (citizenData + mafiaData)) * 100;
     let mafiaPercent = (mafiaData / (citizenData + mafiaData)) * 100;
     if (citizenData === 0) {

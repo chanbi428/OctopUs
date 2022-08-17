@@ -34,9 +34,8 @@ const FishingGameStart = (props) => {
   const { userInfo } = useSelector((state) => state.user);
   const { roomChief } = useSelector((state) => state.wait);
   const { localUser } = useSelector((state) => state.gamer);
-  const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } = useSelector(
-    (state) => state.gamer
-  );
+  const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } =
+    useSelector((state) => state.gamer);
   const obj = {
     roomChief: roomChief,
     minigameResult: minigameResult,
@@ -102,7 +101,11 @@ const FishingGameStart = (props) => {
     // const roomId = props.roomId;
     let sendData = { roomId };
     console.log("sendData make : " + JSON.stringify(sendData));
-    const result = await axios.post(BASE_URL + "/games/mini/fish/make", sendData, config);
+    const result = await axios.post(
+      BASE_URL + "/games/mini/fish/make",
+      sendData,
+      config
+    );
     console.log("makeDB running... : " + result);
   }
 
@@ -118,18 +121,22 @@ const FishingGameStart = (props) => {
       // mafia win
       dispatch(mafiaWinAtMinigame());
     }
-    obj["fisher"] = false;
-    dispatch(resetFisher());
-    if (roomChief === userInfo.userName) {
-      Timer(0, localUser, 20, flag, obj);
-    }
+    // obj["fisher"] = false;
+    // dispatch(resetFisher());
+    // if (roomChief === userInfo.userName) {
+    //   Timer(0, localUser, 20, flag, obj);
+    // }
   }
 
   return (
     <div>
       {startAnimation && (
         <div className="fish-game__container">
-          <img src="images/minigame/fishgame1.png" alt="낚시꾼" className="fish-game__img" />
+          <img
+            src="images/minigame/fishgame1.png"
+            alt="낚시꾼"
+            className="fish-game__img"
+          />
         </div>
       )}
       {startTutorial && (
