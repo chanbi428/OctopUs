@@ -88,14 +88,14 @@ const FishingGameStart = (props) => {
     var gameAudio = new Audio(MP_MiniGame);
     setTimeout(() => {
       gameAudio.loop = true;
-      gameAudio.volume = 0.2;
+      gameAudio.volume = 0.4;
       gameAudio.play();
     }, 15500);
-    setTimeout(() => gameAudio.pause(), 45000); // 테스트용
+    setTimeout(() => gameAudio.pause(), 35000); // 테스트용
     var resultAudio = new Audio(MP_MiniResult);
     setTimeout(() => {
       resultAudio.play();
-    }, 46000);
+    }, 36000);
   }, []);
 
   async function makeDB() {
