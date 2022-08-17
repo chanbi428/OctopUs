@@ -1329,6 +1329,7 @@ class OpenViduComponent extends Component {
                 <div>
                   <NightOctopi />
                   <NightComponent />
+                  <JobCardComponent gameJob={this.props.gamerData.job} />
                 </div>
                 <div className="d-flex justify-content-center">
                   <NightsStayIcon className="mini-moon" />
@@ -1436,6 +1437,7 @@ class OpenViduComponent extends Component {
                 <div>
                   <MafiaNightOctopi />
                   <NightComponent />
+                  <JobCardComponent gameJob={this.props.gamerData.job} />
                 </div>
                 <div className="timer_bar">
                   <div className="d-flex justify-content-center night">
@@ -1624,6 +1626,7 @@ class OpenViduComponent extends Component {
                 <div>
                   <NightOctopi />
                   <NightComponent />
+                  <JobCardComponent gameJob={this.props.gamerData.job} />
                 </div>
                 <div>
                   {this.state.hasSkill === true &&
@@ -1749,6 +1752,7 @@ class OpenViduComponent extends Component {
               <div>
                 <NightOctopi />
                 <NightComponent />
+                <JobCardComponent gameJob={this.props.gamerData.job} />
               </div>
               <div className="d-flex justify-content-center">
                 <NightsStayIcon className="mini-moon" />
@@ -1868,6 +1872,7 @@ class OpenViduComponent extends Component {
             <div className="d-flex flex-column justify-content-between">
               <div>
                 <DayOctopi />
+                <JobCardComponent gameJob={this.props.gamerData.job} />
               </div>
               <div className="d-flex justify-content-center">
                 <Brightness7Icon className="mini-sun" />
@@ -1995,6 +2000,7 @@ class OpenViduComponent extends Component {
                 } */}
                 <DayOctopi />
                 <DayComponent />
+                <JobCardComponent gameJob={this.props.gamerData.job} />
               </div>
               <div className="d-flex justify-content-center">
                 <HowToVoteIcon className="mini-vote" />
@@ -2261,7 +2267,7 @@ class OpenViduComponent extends Component {
               ))}
             </div>
             <div
-              className="d-flex flex-column justify-content-between align-items-center"
+              className="d-flex flex-column justify-content-center align-items-center"
               style={{ width: "100%" }}
             >
               <SharkGameResult gameNum={this.state.gameNum} />
@@ -2346,7 +2352,7 @@ class OpenViduComponent extends Component {
               ))}
             </div>
             <div
-              className="d-flex flex-column justify-content-between align-items-center"
+              className="d-flex flex-column justify-content-center align-items-center"
               style={{ width: "110%" }}
             >
               <FishingGame roomId={this.state.mySessionId} />

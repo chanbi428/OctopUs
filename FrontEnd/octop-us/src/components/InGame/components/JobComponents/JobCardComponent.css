@@ -1,0 +1,17 @@
+.hover-card{
+  position: absolute;
+  top: 30px;
+  right: 20vw;
+}
+
+.hover-card:hover .job-cards {
+  display: block;
+  width: 250px;
+  height: auto;
+}
+
+.hover-card .job-cards {
+  display: none;
+  position: absolute;
+  right: 10px;
+}
