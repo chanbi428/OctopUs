@@ -255,7 +255,7 @@ export const Timer = (time, user, page, flag, obj) => {
           page: 0,
           initTime: 0,
         };
-      } else if (page == 20) {
+      } else if (page == 20 || page == 30) {
         isChange = 0;
         data2 = {
           page: 10,
