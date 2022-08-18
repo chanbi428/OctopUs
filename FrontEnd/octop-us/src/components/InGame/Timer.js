@@ -42,7 +42,7 @@ export const Timer = (time, user, page, flag, obj) => {
       } else if (page == 2) {
         data2 = {
           page: 3,
-          initTime: 3,
+          initTime: 20,
         };
         // 밤 -> 낮 애니메이션
       } else if (page == 3) {
