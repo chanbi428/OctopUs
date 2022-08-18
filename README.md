@@ -1,4 +1,4 @@
-# <img src="/uploads/3c6c9e2daadd3c7360744304fd927bc3/그림2.png" width="50" height="50"/> Octop Us
+# <img src="/uploads/3c6c9e2daadd3c7360744304fd927bc3/그림2.png" width="300" height="150"/>
 <br>
 ![landingimage](/uploads/3e9edbbf02303e17bce4d4fa150c0ea3/landingimage.jpg)
 
