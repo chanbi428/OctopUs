@@ -70,14 +70,6 @@ class ChatComponent extends Component {
             gameStatus: data.gameStatus,
           };
           const document = window.document;
-          setTimeout(() => {
-            const userImg = document.getElementById(
-              "userImg-" + (this.state.messageList.length - 1)
-            );
-            const video = document.getElementById("video-" + data.streamId);
-            const avatar = userImg.getContext("2d");
-            avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60);
-          }, 50);
           if (
             data.nickname === "사회자" &&
             data.job === this.props.gamerData.job

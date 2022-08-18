@@ -106,7 +106,7 @@ class OpenViduComponent extends Component {
       hostName: hostName,
       userList: ["a", "b", "c", "d"],
       victoryUsers: ["d1", "d2", "d3", "d4", "d5"],
-      pickUser: "d1",
+      pickUser: "d2",
       agree: false,
       speakingUsers: [0, 0, 0, 0, 0, 0, 0, 0],
       timer: 0,
@@ -2231,12 +2231,19 @@ class OpenViduComponent extends Component {
                                     : this.state.subscribers[subGamer.subIdx]
                                 }
                               />
+                              
                             ) : (
                               <div></div>
                             )}
-                            <ExecutionPage
-                              streamId={localUser.streamManager.stream.streamId}
-                            />
+                            {subGamer.userName === this.state.pickUser && 
+                              <ExecutionPage
+                                streamId={
+                                  subGamer.subIdx === undefined
+                                    ? localUser.streamManager.stream.streamId
+                                    : this.state.subscribers[subGamer.subIdx].streamManager.stream.streamId
+                                }
+                              />
+                            }
                           </div>
                         ))}
                     </div>
