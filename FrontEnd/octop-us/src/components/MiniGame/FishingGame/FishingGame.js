@@ -237,7 +237,7 @@ const FishingComponent = (props) => {
       dispatch(resetFisher());
       obj["fisher"] = false;
       if (roomChief === userInfo.userName) {
-        Timer(0, localUser, 30, flag, obj);
+        Timer(0, localUser, 20, flag, obj);
       }
       let data = citizenPercent > mafiaPercent ? true : false; // 게임 결과
       props.endGame(data);
