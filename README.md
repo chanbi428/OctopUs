@@ -1,4 +1,4 @@
-# ![그림2](/uploads/3c6c9e2daadd3c7360744304fd927bc3/그림2.png) Octop Us
+# ![그림2](/uploads/3c6c9e2daadd3c7360744304fd927bc3/그림2.png){: width="10" height="10"} Octop Us
 <br>
 ![landingimage](/uploads/3e9edbbf02303e17bce4d4fa150c0ea3/landingimage.jpg)
 
