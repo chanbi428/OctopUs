@@ -23,11 +23,12 @@ nav > p {
   text-justify: center;
   font-family: BMJUA;
   margin-right: 2vw;
+  padding-top: 0.5vh;
 }
 
 .waiting-page__exit-btn:hover {
   width: 9vw;
-  height: 5vh;
+  height: 6vh;
   background-color: #f4d35e;
   border-bottom: 4px solid rgba(0, 0, 0, 0.21);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
@@ -85,4 +86,5 @@ section {
   background-color: #fdfcdc;
   margin-top: 2px;
   margin-left: 1rem;
+  padding-top: 0.5vh;
 }

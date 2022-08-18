@@ -132,6 +132,7 @@ class OpenViduComponent extends Component {
   }
 
   changeTime = (second) => {
+    console.log("시간이 바뀜")
     this.setState({ timer: second });
   };
 
@@ -2158,7 +2159,7 @@ class OpenViduComponent extends Component {
                     )}
                 </div>
                 <div className="d-flex justify-content-around agree-box">
-                  <button
+                  {/* <button
                     onClick={(e) => this.selectAgree(e)}
                     disabled={
                       this.state.agree === true ||
@@ -2181,7 +2182,29 @@ class OpenViduComponent extends Component {
                     className="agree__btn"
                   >
                     반대
-                  </button>
+                  </button> */}
+                  <div>
+                    <input
+                      type="radio"
+                      id="agree_true"
+                      value={true}
+                      onChange={this.selectAgree}
+                      checked={this.state.agree === true}
+                      className="agree__btn"
+                    />
+                    <label htmlFor="agree_true">찬성</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="agree_false"
+                      value={false}
+                      onChange={this.selectDisAgree}
+                      checked={this.state.agree === false}
+                      className="agree__btn"
+                    />
+                    <label htmlFor="agree_false">반대</label>
+                  </div>
                 </div>
               </div>
             </div>

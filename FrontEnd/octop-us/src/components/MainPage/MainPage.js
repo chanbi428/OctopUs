@@ -123,22 +123,23 @@ function MainPage() {
         axios
           .get(`${BASE_URL}/rooms/detail/roomid/${res.data.roomId}`)
           .then((item) => {
-            console.log(item.data);
-            let userList = item.data.userList.split(",");
+            const roomInfo = item.data;
+            console.log("RoomListItem roomInfo : "+roomInfo);
+            let userList = roomInfo.userList.split(",");
             console.log(userList);
-            userList[userList.indexOf("")] = "currentUser";
+            userList[userList.indexOf("")] = userInfo.userName;
             console.log(userList);
-            const personNum = item.data.personNum + 1;
+            const personNum = roomInfo.personNum + 1;
             const data = {
-              roomChief: "host1",
-              isPrivate: item.data.isPrivate,
-              roomName: item.data.roomName,
-              personLimit: item.data.personLimit,
+              roomChief: roomInfo.roomChief,
+              private: roomInfo.private,
+              roomName: roomInfo.roomName,
+              personLimit: roomInfo.personLimit,
               personNum: personNum,
-              roomPw: item.data.roomPw,
-              gameTime: item.data.gameTime,
+              roomPw: roomInfo.roomPw,
+              gameTime: roomInfo.gameTime,
               userList: userList.join(),
-              roomId: item.data.roomId,
+              roomId: roomInfo.roomId,
             };
             axios
               .put(`${BASE_URL}/rooms`, JSON.stringify(data), {
