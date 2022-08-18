@@ -229,6 +229,7 @@ const FishingComponent = (props) => {
   }, [time]);
 
   function endGame() {
+    updateCount(0);
     setShowMode(true);
     console.log("endGame : " + showMode);
 
