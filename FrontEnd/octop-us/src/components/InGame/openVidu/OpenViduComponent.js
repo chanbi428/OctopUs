@@ -1333,7 +1333,7 @@ class OpenViduComponent extends Component {
                         id="remoteUsers"
                       >
                         {subGamer.isDead === true ? (
-                          <img src="images/deadOcto.png" width="200" />
+                          <img src="images/deadOcto.jpg" width="200" />
                         ) : (
                           <img src="images/octoAtNight.png" width="200" />
                         )}
@@ -1388,7 +1388,7 @@ class OpenViduComponent extends Component {
                         id="remoteUsers"
                       >
                         {subGamer.isDead === true ? (
-                          <img src="images/deadOcto.png" width="200" />
+                          <img src="images/deadOcto.jpg" width="200" />
                         ) : (
                           <img src="images/octoAtNight.png" width="200" />
                         )}
@@ -1422,7 +1422,7 @@ class OpenViduComponent extends Component {
                         id="remoteUsers"
                       >
                         {subGamer.isDead === true ? (
-                          <img src="images/deadOcto.png" width="200" />
+                          <img src="images/deadOcto.jpg" width="200" />
                         ) : subGamer.gameJob !== "마피아" ? (
                           <div className="octo-night-box">
                             <img src="images/octoAtNight.png" width="200" />
@@ -1548,7 +1548,7 @@ class OpenViduComponent extends Component {
                         id="remoteUsers"
                       >
                         {subGamer.isDead === true ? (
-                          <img src="images/deadOcto.png" width="200" />
+                          <img src="images/deadOcto.jpg" width="200" />
                         ) : subGamer.gameJob !== "마피아" ? (
                           <div className="octo-night-box">
                             <img src="images/octoAtNight.png" width="200" />
@@ -1611,7 +1611,7 @@ class OpenViduComponent extends Component {
                         id="remoteUsers"
                       >
                         {subGamer.isDead === true ? (
-                          <img src="images/deadOcto.png" width="200" />
+                          <img src="images/deadOcto.jpg" width="200" />
                         ) : subGamer.userName !==
                           this.props.gamerData.userName ? (
                           <div className="octo-night-box">
@@ -1713,7 +1713,7 @@ class OpenViduComponent extends Component {
                         id="remoteUsers"
                       >
                         {subGamer.isDead === true ? (
-                          <img src="images/deadOcto.png" width="200" />
+                          <img src="images/deadOcto.jpg" width="200" />
                         ) : subGamer.userName !==
                           this.props.gamerData.userName ? (
                           <div className="octo-night-box">
@@ -1759,7 +1759,7 @@ class OpenViduComponent extends Component {
                     id="remoteUsers"
                   >
                     {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
+                      <img src="images/deadOcto.jpg" width="200" />
                     ) : (
                       <img src="images/octoAtNight.png" width="200" />
                     )}
@@ -1813,7 +1813,7 @@ class OpenViduComponent extends Component {
                     id="remoteUsers"
                   >
                     {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
+                      <img src="images/deadOcto.jpg" width="200" />
                     ) : (
                       <img src="images/octoAtNight.png" width="200" />
                     )}
@@ -1868,7 +1868,7 @@ class OpenViduComponent extends Component {
                     id="remoteUsers"
                   >
                     {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
+                      <img src="images/deadOcto.jpg" width="200" />
                     ) : (
                       <StreamComponent
                         user={
@@ -1943,7 +1943,7 @@ class OpenViduComponent extends Component {
                     id="remoteUsers"
                   >
                     {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
+                      <img src="images/deadOcto.jpg" width="200" />
                     ) : (
                       <StreamComponent
                         user={
@@ -1991,7 +1991,7 @@ class OpenViduComponent extends Component {
                     id="remoteUsers"
                   >
                     {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
+                      <img src="images/deadOcto.jpg" width="200" />
                     ) : (
                       <StreamComponent
                         user={
@@ -2077,7 +2077,7 @@ class OpenViduComponent extends Component {
                     id="remoteUsers"
                   >
                     {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
+                      <img src="images/deadOcto.jpg" width="200" />
                     ) : (
                       <StreamComponent
                         user={
@@ -2274,7 +2274,7 @@ class OpenViduComponent extends Component {
                     id="remoteUsers"
                   >
                     {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
+                      <img src="images/deadOcto.jpg" width="200" />
                     ) : (
                       <StreamComponent
                         user={
@@ -2317,7 +2317,7 @@ class OpenViduComponent extends Component {
                     id="remoteUsers"
                   >
                     {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
+                      <img src="images/deadOcto.jpg" width="200" />
                     ) : (
                       <StreamComponent
                         user={
@@ -2359,7 +2359,7 @@ class OpenViduComponent extends Component {
                     id="remoteUsers"
                   >
                     {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
+                      <img src="images/deadOcto.jpg" width="200" />
                     ) : (
                       <StreamComponent
                         user={
@@ -2405,7 +2405,7 @@ class OpenViduComponent extends Component {
                     id="remoteUsers"
                   >
                     {subGamer.isDead === true ? (
-                      <img src="images/deadOcto.png" width="200" />
+                      <img src="images/deadOcto.jpg" width="200" />
                     ) : (
                       <StreamComponent
                         user={

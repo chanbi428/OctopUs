@@ -59,7 +59,7 @@ function MainPage() {
   };
 
   useEffect(() => {
-    playBgmAudio();
+    // playBgmAudio();
 
     axios
       .get(`${BASE_URL}/rooms`)
@@ -124,7 +124,7 @@ function MainPage() {
           .get(`${BASE_URL}/rooms/detail/roomid/${res.data.roomId}`)
           .then((item) => {
             const roomInfo = item.data;
-            console.log("RoomListItem roomInfo : "+roomInfo);
+            console.log("RoomListItem roomInfo : " + roomInfo);
             let userList = roomInfo.userList.split(",");
             console.log(userList);
             userList[userList.indexOf("")] = userInfo.userName;
