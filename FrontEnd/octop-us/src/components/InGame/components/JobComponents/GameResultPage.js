@@ -19,7 +19,13 @@ function GameResultComponent(props) {
     audio.play();
     axios
       .get(`${BASE_URL}/gamers/${props.victoryUsers[0]}`)
-      .then((res) => (setWinTeam(res.data.gameTeam)))
+      .then((res) => {
+          if(res.data.gameTeam === "중립") {
+            setWinTeam("재간둥이")
+          } else {
+            setWinTeam(res.data.gameTeam)
+          }
+        })
       .catch((err) => console.log(err));
 
     // setTimeout(() => audio.pause(), room.gameTime); // 나중에는 이거 사용
