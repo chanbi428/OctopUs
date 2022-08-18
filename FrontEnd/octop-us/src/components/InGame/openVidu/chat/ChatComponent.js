@@ -756,7 +756,8 @@ class ChatComponent extends Component {
                         "message" +
                         (data.connectionId !== this.props.user.getConnectionId()
                           ? " left"
-                          : " right" + " alive")
+                          : " right" + " alive") +
+                        (data.nickname === "사회자" ? " moderator" : "")
                       }
                     >
                       <div className="msg-detail">
