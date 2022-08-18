@@ -22,12 +22,8 @@ nav > p {
   text-align: center;
   text-justify: center;
   font-family: BMJUA;
-<<<<<<< HEAD
-  margin-right: 2vw;
   padding-top: 0.5vh;
-=======
   margin-right: 3vw;
->>>>>>> 3773efc29d3e887902137612bcc890336a7f96c8
 }
 
 .waiting-page__exit-btn:hover {
@@ -89,11 +85,7 @@ section {
   border-bottom-right-radius: 15px;
   background-color: #fdfcdc;
   margin-top: 2px;
-<<<<<<< HEAD
-  margin-left: 1rem;
   padding-top: 0.5vh;
-=======
   margin-left: 2.5rem;
   opacity: 0.9;
->>>>>>> 3773efc29d3e887902137612bcc890336a7f96c8
 }
