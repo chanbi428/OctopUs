@@ -65,36 +65,44 @@ function RoomListItem({ item, pauseBgmAudio }) {
       });
       //alert("비밀번호를 정확히 입력해주세요.");
     } else {
-      joinRoom();
-      // let userList = item.userList.split(",");
-      // console.log(userList);
-      // userList[userList.indexOf("")] = userInfo.userName;
-      // console.log(userList);
-      // const personNum = item.personNum + 1;
-      // const data = {
-      //   roomChief: item.roomChief,
-      //   private: item.private,
-      //   roomName: item.roomName,
-      //   personLimit: item.personLimit,
-      //   personNum: personNum,
-      //   roomPw: item.roomPw,
-      //   gameTime: item.gameTime,
-      //   userList: userList.join(),
-      //   roomId: item.roomId,
-      // };
-      // axios
-      //   .put(`${BASE_URL}/rooms`, JSON.stringify(data), {
-      //     headers: {
-      //       "Content-Type": `application/json`,
-      //     },
-      //   })
-      //   .then((res) => {
-      //     pauseBgmAudio();
-      //     console.log(res);
-      //     document.location.href = `${CLIENT_URL}/${item.roomId}`;
-      //     console.log(document.location.pathname);
-      //   })
-      //   .catch((err) => console.log(err));
+      // pauseBgmAudio();
+      // joinRoom();
+      var roomInfo = null;
+      axios.get(`/rooms/detail/roomid/${item.roomId}`)
+      .then((res) => {
+        console.log(res);
+        roomInfo = res.data;
+
+        let userList = roomInfo.userList.split(",");
+        console.log(userList);
+        userList[userList.indexOf("")] = userInfo.userName;
+        console.log(userList);
+        const personNum = roomInfo.personNum + 1;
+        const data = {
+          roomChief: roomInfo.roomChief,
+          private: roomInfo.private,
+          roomName: roomInfo.roomName,
+          personLimit: roomInfo.personLimit,
+          personNum: personNum,
+          roomPw: roomInfo.roomPw,
+          gameTime: roomInfo.gameTime,
+          userList: userList.join(),
+          roomId: roomInfo.roomId,
+        };
+        axios
+          .put(`${BASE_URL}/rooms`, JSON.stringify(data), {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+          })
+          .then((res) => {
+            pauseBgmAudio();
+            console.log(res);
+            document.location.href = `${CLIENT_URL}/${item.roomId}`;
+            console.log(document.location.pathname);
+          })
+          .catch((err) => console.log(err));
+      })
     }
   };
   async function joinRoom(){
@@ -124,7 +132,9 @@ function RoomListItem({ item, pauseBgmAudio }) {
         },
       })
       .then((res) => {
-        pauseBgmAudio();
+        setTimeout(() => {
+          pauseBgmAudio();
+        }, 1);
         console.log(res);
         navigate(`/${item.roomId}`);
         // console.log(document.location.pathname);
