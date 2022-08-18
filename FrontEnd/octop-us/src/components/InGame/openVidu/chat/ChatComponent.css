@@ -157,6 +157,17 @@ span.triangle {
   right: -5px;
 }
 
+.message.left.moderator .msg-detail .msg-content {
+  background-color: #00BD9D;
+  float: left;
+}
+
+.message.left.moderator .msg-detail .msg-content span.triangle {
+  background-color: #00BD9D;
+  border-bottom-width: 0;
+  border-left-width: 0;
+  right: -5px;
+}
 /* End message from other user */
 
 /* Start my messages */
@@ -202,6 +213,17 @@ span.triangle {
   right: -5px;
 }
 
+.message.right.moderator .msg-detail .msg-content {
+  background-color: #00BD9D;
+  float: right;
+}
+
+.message.right.moderator .msg-detail .msg-content span.triangle {
+  background-color: #00BD9D;
+  border-bottom-width: 0;
+  border-left-width: 0;
+  right: -5px;
+}
 /* End my messages */
 
 #messageInput {

@@ -41,13 +41,13 @@ function SharkGame(props) {
   useEffect(() => {
     var aniAudio = new Audio(MP_MiniAni);
     aniAudio.loop = true;
-    aniAudio.volume = 0.5;
+    aniAudio.volume = 0.2;
     aniAudio.play();
     setTimeout(() => aniAudio.pause(), 9000);
     var gameAudio = new Audio(MP_MiniGame);
     setTimeout(() => {
       gameAudio.loop = true;
-      gameAudio.volume = 0.4;
+      gameAudio.volume = 0.2;
       gameAudio.play();
     }, 15500);
     setTimeout(() => gameAudio.pause(), 45000);

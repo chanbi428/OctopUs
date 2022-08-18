@@ -82,7 +82,7 @@ class OpenViduComponent extends Component {
       ? this.props.sessionName
       : "SessionA";
     let userName = localStorage.getItem("userName");
-    let bgmAudio = new Audio(MP_bgm1);
+    // let bgmAudio = new Audio(MP_bgm1);
     this.remotes = [];
     this.localUserAccessAllowed = false;
     // 상위 컴포넌트에서 하위 함수 호출 위한 부분
@@ -106,14 +106,14 @@ class OpenViduComponent extends Component {
       hostName: hostName,
       userList: ["a", "b", "c", "d"],
       victoryUsers: ["d1", "d2", "d3", "d4", "d5"],
-      pickUser: "d1",
+      pickUser: "d2",
       agree: false,
       speakingUsers: [0, 0, 0, 0, 0, 0, 0, 0],
       timer: 0,
       hasSkill: true,
       killed: "없음",
       voteName: "",
-      bgmAudio: bgmAudio,
+      // bgmAudio: bgmAudio,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -132,12 +132,13 @@ class OpenViduComponent extends Component {
   }
 
   changeTime = (second) => {
+    console.log("시간이 바뀜")
     this.setState({ timer: second });
   };
 
   changePage = (pageNum, gameChoice) => {
     console.log("changePage 실행됨 : " + pageNum + " : " + gameChoice);
-    if (pageNum === 20) {
+    if (pageNum === 20 || pageNum === 30) {
       this.setState({ gameNum: gameChoice });
       this.props.selectGame(gameChoice);
       this.setState({ page: pageNum });
@@ -145,6 +146,7 @@ class OpenViduComponent extends Component {
       this.setState({ page: pageNum });
     }
   };
+  bgmAudio = new Audio(MP_bgm1);
 
   componentDidMount() {
     const openViduLayoutOptions = {
@@ -937,6 +939,10 @@ class OpenViduComponent extends Component {
     this.setState({ pickUser: "" });
   };
 
+  setPickUserState = (userName) => {
+    this.setState({ pickUser: userName });
+  }
+
   getHasSkill = () => {
     return this.state.hasSkill;
   };
@@ -953,27 +959,29 @@ class OpenViduComponent extends Component {
       userName: this.state.pickUser,
       vote: 0,
     };
-    if (this.props.gamerData.job === "시장") {
-      axios
-        .put(`${BASE_URL}/votes/daytime/mayor`, JSON.stringify(data), {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        })
-        .then((res) => {
-          console.log(data);
-          console.log("투표 저장!", data);
-        });
-    } else {
-      axios
-        .put(`${BASE_URL}/votes/daytime/etc`, JSON.stringify(data), {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        })
-        .then((res) => {
-          console.log("투표 저장!", data);
-        });
+    if (this.props.gamerData.isDead === false) {
+      if (this.props.gamerData.job === "시장") {
+        axios
+          .put(`${BASE_URL}/votes/daytime/mayor`, JSON.stringify(data), {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+          })
+          .then((res) => {
+            console.log(data);
+            console.log("투표 저장!", data);
+          });
+      } else {
+        axios
+          .put(`${BASE_URL}/votes/daytime/etc`, JSON.stringify(data), {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+          })
+          .then((res) => {
+            console.log("투표 저장!", data);
+          });
+      }
     }
     setTimeout(() => {
       this.voteResult();
@@ -1014,29 +1022,31 @@ class OpenViduComponent extends Component {
       userName: this.state.pickUser,
       vote: 0,
     };
-    if (this.state.agree) {
-      // 찬성
-      axios
-        .put(`${BASE_URL}/votes/agree`, JSON.stringify(data), {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        })
-        .then((res) => {
-          console.log(data);
-          console.log("처형 찬성!", data);
-        });
-    } else {
-      // 반대
-      axios
-        .put(`${BASE_URL}/votes/disagree`, JSON.stringify(data), {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        })
-        .then((res) => {
-          console.log("처형 반대!", data);
-        });
+    if (this.props.gamerData.isDead === false) {
+      if (this.state.agree) {
+        // 찬성
+        axios
+          .put(`${BASE_URL}/votes/agree`, JSON.stringify(data), {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+          })
+          .then((res) => {
+            console.log(data);
+            console.log("처형 찬성!", data);
+          });
+      } else {
+        // 반대
+        axios
+          .put(`${BASE_URL}/votes/disagree`, JSON.stringify(data), {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+          })
+          .then((res) => {
+            console.log("처형 반대!", data);
+          });
+      }
     }
     setTimeout(() => {
       this.agreeVoteResult();
@@ -1182,12 +1192,17 @@ class OpenViduComponent extends Component {
   };
 
   setPlayFalse = () => {
-    this.state.bgmAudio.pause();
+    this.bgmAudio.pause();
+    // this.state.bgmAudio.pause();
     // this.setState({ play: false });
   };
 
   setPlayTrue = () => {
-    this.state.bgmAudio.play();
+    this.bgmAudio.loop = true;
+    this.bgmAudio.volume = 0.6;
+    this.bgmAudio.play();
+    // this.setState ( {bgmAudio : {loop: true, volume : 0.2}});
+    // this.state.bgmAudio.play();
     // this.setState({ play: true });
   };
 
@@ -1245,6 +1260,7 @@ class OpenViduComponent extends Component {
                         setVoteName={this.setVoteName}
                         setPlayFalse={this.setPlayFalse}
                         setPlayTrue={this.setPlayTrue}
+                        setPickUserState={this.setPickUserState}
                       />
                     </div>
                   )}
@@ -1306,7 +1322,7 @@ class OpenViduComponent extends Component {
             (this.props.gamerData.job === "기자" &&
               this.props.gamerData.hasSkill === false)) && (
             <div className="d-flex justify-content-between">
-              <div>
+              <div className="mt-3">
                 {this.props.gamerData.userList
                   .slice(0, 4)
                   .map((subGamer, i) => (
@@ -1329,6 +1345,7 @@ class OpenViduComponent extends Component {
                 <div>
                   <NightOctopi />
                   <NightComponent />
+                  <JobCardComponent gameJob={this.props.gamerData.job} />
                 </div>
                 <div className="d-flex justify-content-center">
                   <NightsStayIcon className="mini-moon" />
@@ -1356,10 +1373,11 @@ class OpenViduComponent extends Component {
                     setVoteName={this.setVoteName}
                     setPlayFalse={this.setPlayFalse}
                     setPlayTrue={this.setPlayTrue}
+                    setPickUserState={this.setPickUserState}
                   />
                 </div>
               </div>
-              <div>
+              <div className="mt-3">
                 {this.props.gamerData.userList
                   .slice(4, 8)
                   .map((subGamer, i) => (
@@ -1385,7 +1403,7 @@ class OpenViduComponent extends Component {
           this.props.gamerData.isDead === false &&
           this.props.gamerData.job === "마피아" && (
             <div className="d-flex justify-content-between">
-              <div>
+              <div className="mt-3">
                 {this.props.gamerData.userList
                   .slice(0, 4)
                   .map((subGamer, i) => (
@@ -1436,6 +1454,7 @@ class OpenViduComponent extends Component {
                 <div>
                   <MafiaNightOctopi />
                   <NightComponent />
+                  <JobCardComponent gameJob={this.props.gamerData.job} />
                 </div>
                 <div className="timer_bar">
                   <div className="d-flex justify-content-center night">
@@ -1506,10 +1525,11 @@ class OpenViduComponent extends Component {
                     setVoteName={this.setVoteName}
                     setPlayFalse={this.setPlayFalse}
                     setPlayTrue={this.setPlayTrue}
+                    setPickUserState={this.setPickUserState}
                   />
                 </div>
               </div>
-              <div>
+              <div className="mt-3">
                 {this.props.gamerData.userList
                   .slice(4, 8)
                   .map((subGamer, i) => (
@@ -1572,7 +1592,7 @@ class OpenViduComponent extends Component {
               this.props.gamerData.gameturn > 1)) && (
             <div className="d-flex justify-content-between">
               {console.log("start police")}
-              <div>
+              <div className="mt-3">
                 {this.props.gamerData.userList
                   .slice(0, 4)
                   .map((subGamer, i) => (
@@ -1624,6 +1644,7 @@ class OpenViduComponent extends Component {
                 <div>
                   <NightOctopi />
                   <NightComponent />
+                  <JobCardComponent gameJob={this.props.gamerData.job} />
                 </div>
                 <div>
                   {this.state.hasSkill === true &&
@@ -1669,10 +1690,11 @@ class OpenViduComponent extends Component {
                     setVoteName={this.setVoteName}
                     setPlayFalse={this.setPlayFalse}
                     setPlayTrue={this.setPlayTrue}
+                    setPickUserState={this.setPickUserState}
                   />
                 </div>
               </div>
-              <div>
+              <div className="mt-3">
                 {this.props.gamerData.userList
                   .slice(4, 8)
                   .map((subGamer, i) => (
@@ -1728,7 +1750,7 @@ class OpenViduComponent extends Component {
         {/* 밤페이지 - 밤역할 수행 x (죽은 사람) */}
         {this.state.page === 3 && this.props.gamerData.isDead === true && (
           <div className="d-flex justify-content-between">
-            <div>
+            <div className="mt-3">
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div id="layout" className="ingame-bounds">
                   <div
@@ -1749,6 +1771,7 @@ class OpenViduComponent extends Component {
               <div>
                 <NightOctopi />
                 <NightComponent />
+                <JobCardComponent gameJob={this.props.gamerData.job} />
               </div>
               <div className="d-flex justify-content-center">
                 <NightsStayIcon className="mini-moon" />
@@ -1777,10 +1800,11 @@ class OpenViduComponent extends Component {
                   setVoteName={this.setVoteName}
                   setPlayFalse={this.setPlayFalse}
                   setPlayTrue={this.setPlayTrue}
+                  setPickUserState={this.setPickUserState}
                 />
               </div>
             </div>
-            <div>
+            <div className="mt-3">
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
                 <div id="layout" className="ingame-bounds">
                   <div
@@ -1828,7 +1852,7 @@ class OpenViduComponent extends Component {
         {this.state.page === 10 && (
           <div className="d-flex justify-content-between">
             {/* <DayComponent /> */}
-            <div>
+            <div className="mt-3">
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div
                   id="layout"
@@ -1868,6 +1892,7 @@ class OpenViduComponent extends Component {
             <div className="d-flex flex-column justify-content-between">
               <div>
                 <DayOctopi />
+                <JobCardComponent gameJob={this.props.gamerData.job} />
               </div>
               <div className="d-flex justify-content-center">
                 <Brightness7Icon className="mini-sun" />
@@ -1898,10 +1923,11 @@ class OpenViduComponent extends Component {
                   setVoteName={this.setVoteName}
                   setPlayFalse={this.setPlayFalse}
                   setPlayTrue={this.setPlayTrue}
+                  setPickUserState={this.setPickUserState}
                 />
               </div>
             </div>
-            <div>
+            <div className="mt-3">
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
                 <div
                   id="layout"
@@ -1944,7 +1970,7 @@ class OpenViduComponent extends Component {
          */}
         {this.state.page === 11 && (
           <div className="d-flex justify-content-between">
-            <div>
+            <div className="mt-3">
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div
                   id="layout"
@@ -1994,7 +2020,8 @@ class OpenViduComponent extends Component {
                   : <VotePage moveVoteWait={this.moveVoteWait} />
                 } */}
                 <DayOctopi />
-                <DayComponent />
+                {/* <DayComponent /> */}
+                <JobCardComponent gameJob={this.props.gamerData.job} />
               </div>
               <div className="d-flex justify-content-center">
                 <HowToVoteIcon className="mini-vote" />
@@ -2025,10 +2052,11 @@ class OpenViduComponent extends Component {
                   setVoteName={this.setVoteName}
                   setPlayFalse={this.setPlayFalse}
                   setPlayTrue={this.setPlayTrue}
+                  setPickUserState={this.setPickUserState}
                 />
               </div>
             </div>
-            <div>
+            <div className="mt-3">
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
                 <div
                   id="layout"
@@ -2134,32 +2162,32 @@ class OpenViduComponent extends Component {
                       </div>
                     )}
                 </div>
-                <div className="d-flex justify-content-around agree-box">
-                  <button
-                    onClick={(e) => this.selectAgree(e)}
-                    disabled={
-                      this.state.agree === true ||
-                      this.props.gamerData.isDead === true
-                        ? true
-                        : false
-                    }
-                    className="agree__btn"
-                  >
-                    찬성
-                  </button>
-                  <button
-                    onClick={(e) => this.selectDisAgree(e)}
-                    disabled={
-                      this.state.agree === false ||
-                      this.props.gamerData.isDead === true
-                        ? true
-                        : false
-                    }
-                    className="agree__btn"
-                  >
-                    반대
-                  </button>
-                </div>
+                {this.props.gamerData.isDead !== true &&
+                  <div className="d-flex justify-content-around agree-box">
+                    <div>
+                      <input
+                        type="radio"
+                        id="agree_true"
+                        value={true}
+                        onChange={this.selectAgree}
+                        checked={this.state.agree === true}
+                        className="agree__btn"
+                      />
+                      <label htmlFor="agree_true">찬성</label>
+                    </div>
+                    <div>
+                      <input
+                        type="radio"
+                        id="agree_false"
+                        value={false}
+                        onChange={this.selectDisAgree}
+                        checked={this.state.agree === false}
+                        className="agree__btn"
+                      />
+                      <label htmlFor="agree_false">반대</label>
+                    </div>
+                  </div>
+                }
               </div>
             </div>
           </div>
@@ -2203,12 +2231,19 @@ class OpenViduComponent extends Component {
                                     : this.state.subscribers[subGamer.subIdx]
                                 }
                               />
+                              
                             ) : (
                               <div></div>
                             )}
-                            <ExecutionPage
-                              streamId={localUser.streamManager.stream.streamId}
-                            />
+                            {subGamer.userName === this.state.pickUser && 
+                              <ExecutionPage
+                                streamId={
+                                  subGamer.subIdx === undefined
+                                    ? localUser.streamManager.stream.streamId
+                                    : this.state.subscribers[subGamer.subIdx].streamManager.stream.streamId
+                                }
+                              />
+                            }
                           </div>
                         ))}
                     </div>
@@ -2261,7 +2296,7 @@ class OpenViduComponent extends Component {
               ))}
             </div>
             <div
-              className="d-flex flex-column justify-content-between align-items-center"
+              className="d-flex flex-column justify-content-center align-items-center"
               style={{ width: "100%" }}
             >
               <SharkGameResult gameNum={this.state.gameNum} />
@@ -2346,10 +2381,13 @@ class OpenViduComponent extends Component {
               ))}
             </div>
             <div
-              className="d-flex flex-column justify-content-between align-items-center"
+              className="d-flex flex-column justify-content-center align-items-center"
               style={{ width: "110%" }}
             >
-              <FishingGame roomId={this.state.mySessionId} />
+              <FishingGame
+                roomId={this.state.mySessionId}
+                gameNum={this.state.gameNum}
+              />
             </div>
             <div>
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (

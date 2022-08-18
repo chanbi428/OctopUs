@@ -6,9 +6,15 @@ import "./FishingGame.css";
 import { BASE_URL, config } from "../../../api/BASE_URL";
 
 import Timer from "../../InGame/Timer";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { resetFisher } from "../../../features/gamer/gamerSlice";
 
-import { CircularProgress, LinearProgress, makeStyles, createStyles } from "@material-ui/core";
+import {
+  CircularProgress,
+  LinearProgress,
+  makeStyles,
+  createStyles,
+} from "@material-ui/core";
 import { lightBlue } from "@mui/material/colors";
 
 import styled from "styled-components";
@@ -164,6 +170,7 @@ const FishingScore = styled.div`
 `;
 
 const FishingComponent = (props) => {
+  const dispatch = useDispatch();
   const [jobs, setJobs] = useState(props.job);
   const [roomId, setRoomId] = useState(props.roomId);
   const [count, setCount] = useState(0);
@@ -171,7 +178,7 @@ const FishingComponent = (props) => {
   const [mafiaPercent, setMafiaPercent] = useState(50);
   const [showMode, setShowMode] = useState(false);
 
-  const [time, setTime] = useState(30);
+  const [time, setTime] = useState(20);
   const classes = useStyles();
 
   const spaceCount = useRef;
@@ -181,9 +188,8 @@ const FishingComponent = (props) => {
   const { userInfo } = useSelector((state) => state.user);
   const { roomChief, gameTime } = useSelector((state) => state.wait);
   const { localUser } = useSelector((state) => state.gamer);
-  const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } = useSelector(
-    (state) => state.gamer
-  );
+  const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } =
+    useSelector((state) => state.gamer);
   const obj = {
     roomChief: roomChief,
     minigameResult: minigameResult,
@@ -228,6 +234,8 @@ const FishingComponent = (props) => {
 
     const startTimer = setTimeout(() => {
       // 타이머로 이동
+      dispatch(resetFisher());
+      obj["fisher"] = false;
       if (roomChief === userInfo.userName) {
         Timer(0, localUser, 20, flag, obj);
       }
@@ -260,11 +268,15 @@ const FishingComponent = (props) => {
     console.log("count : " + count);
 
     console.log(`data: ${JSON.stringify(sendData)}`);
-    const { data } = await axios.post(BASE_URL + "/games/mini/fish", sendData, config);
+    const { data } = await axios.post(
+      BASE_URL + "/games/mini/fish",
+      sendData,
+      config
+    );
 
     console.log("data : " + data);
-    let citizenData = data.citizen;
-    let mafiaData = data.mafia;
+    let citizenData = data.citizen / 6;
+    let mafiaData = data.mafia / 2;
     let citizenPercent = (citizenData / (citizenData + mafiaData)) * 100;
     let mafiaPercent = (mafiaData / (citizenData + mafiaData)) * 100;
     if (citizenData === 0) {
@@ -281,10 +293,15 @@ const FishingComponent = (props) => {
     <div>
       {!showMode && (
         <FishingDivComponent>
-          <FishingTimer className={time < 6 ? "redTime" : null}>{time}</FishingTimer>
+          <FishingTimer className={time < 6 ? "redTime" : null}>
+            {time}
+          </FishingTimer>
           {/* <div id="mainComponent"> */}
           {/* <div id="centerPlace"> */}
-          <img src="images/minigame/fishbg.gif" className="fishing-game__img"></img>
+          <img
+            src="images/minigame/fishbg.gif"
+            className="fishing-game__img"
+          ></img>
           <FishingBottom>
             <LinearProgress
               variant="determinate"
@@ -294,7 +311,11 @@ const FishingComponent = (props) => {
             />
             <FishingScore>
               <div className="octo-score">
-                <img src="images/minigame/octo.png" alt="" className="octo-img" />
+                <img
+                  src="images/minigame/octo.png"
+                  alt=""
+                  className="octo-img"
+                />
                 <div className="octo-textbox">
                   <div className="octo-text">문어</div>
                   <div>{citizenPercent.toFixed(1)}%</div>
@@ -308,7 +329,11 @@ const FishingComponent = (props) => {
                   <div className="squid-text">오징어</div>
                   <div>{mafiaPercent.toFixed(1)}%</div>
                 </div>
-                <img src="images/minigame/squid.png" alt="" className="squid-img" />
+                <img
+                  src="images/minigame/squid.png"
+                  alt=""
+                  className="squid-img"
+                />
               </div>
             </FishingScore>
           </FishingBottom>

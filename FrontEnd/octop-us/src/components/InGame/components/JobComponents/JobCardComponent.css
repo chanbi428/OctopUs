@@ -1,0 +1,21 @@
+.hover-card{
+  position: absolute;
+  top: 30px;
+  right: 20vw;
+}
+
+.hover-card:hover .job-cards {
+  display: block;
+  width: 250px;
+  height: auto;
+  border-style: groove;
+  border-radius: 30px;
+  border-color: black;
+  border-width: 5px;
+}
+
+.hover-card .job-cards {
+  display: none;
+  position: absolute;
+  right: 10px;
+}

@@ -69,7 +69,8 @@
 }
 
 .night-result {
-  margin: 5rem auto;
+  margin: auto;
+  margin-top: 8rem;
   width: 500px;
   height: auto;
   font-family: "GmarketSansMedium";
@@ -152,6 +153,6 @@
 }
 
 .wait-floor {
-  margin-top: 5rem;
-  margin-left: 0.5rem;
+  margin-top: 6.5rem;
+  margin-left: 1rem;
 }

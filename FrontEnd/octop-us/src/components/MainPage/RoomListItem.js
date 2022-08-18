@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { BASE_URL, CLIENT_URL } from "../../api/BASE_URL";
 import axios from "axios";
 import "./RoomListItem.css";
@@ -12,6 +13,7 @@ import Swal from "sweetalert2";
 function RoomListItem({ item, pauseBgmAudio }) {
   const { userInfo } = useSelector((state) => state.user);
   const [roomPwIn, setRoomPwIn] = useState("");
+  const navigate = useNavigate();
   const handleRoomPwIn = (e) => {
     setRoomPwIn(e.target.value);
   };
@@ -63,37 +65,82 @@ function RoomListItem({ item, pauseBgmAudio }) {
       });
       //alert("비밀번호를 정확히 입력해주세요.");
     } else {
-      let userList = item.userList.split(",");
-      console.log(userList);
-      userList[userList.indexOf("")] = userInfo.userName;
-      console.log(userList);
-      const personNum = item.personNum + 1;
-      const data = {
-        roomChief: item.roomChief,
-        private: item.private,
-        roomName: item.roomName,
-        personLimit: item.personLimit,
-        personNum: personNum,
-        roomPw: item.roomPw,
-        gameTime: item.gameTime,
-        userList: userList.join(),
-        roomId: item.roomId,
-      };
-      axios
-        .put(`${BASE_URL}/rooms`, JSON.stringify(data), {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        })
-        .then((res) => {
-          pauseBgmAudio();
-          console.log(res);
-          document.location.href = `${CLIENT_URL}/${item.roomId}`;
-          console.log(document.location.pathname);
-        })
-        .catch((err) => console.log(err));
+      // pauseBgmAudio();
+      // joinRoom();
+      var roomInfo = null;
+      axios.get(`/rooms/detail/roomid/${item.roomId}`)
+      .then((res) => {
+        console.log(res);
+        roomInfo = res.data;
+
+        let userList = roomInfo.userList.split(",");
+        console.log(userList);
+        userList[userList.indexOf("")] = userInfo.userName;
+        console.log(userList);
+        const personNum = roomInfo.personNum + 1;
+        const data = {
+          roomChief: roomInfo.roomChief,
+          private: roomInfo.private,
+          roomName: roomInfo.roomName,
+          personLimit: roomInfo.personLimit,
+          personNum: personNum,
+          roomPw: roomInfo.roomPw,
+          gameTime: roomInfo.gameTime,
+          userList: userList.join(),
+          roomId: roomInfo.roomId,
+        };
+        axios
+          .put(`${BASE_URL}/rooms`, JSON.stringify(data), {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+          })
+          .then((res) => {
+            pauseBgmAudio();
+            console.log(res);
+            document.location.href = `${CLIENT_URL}/${item.roomId}`;
+            console.log(document.location.pathname);
+          })
+          .catch((err) => console.log(err));
+      })
     }
   };
+  async function joinRoom(){
+    let {data} = await axios.get(`/rooms/detail/roomid/${item.roomId}`);
+    const roomInfo = data;
+    console.log("RoomListItem roomInfo : "+roomInfo);
+    let userList = roomInfo.userList.split(",");
+    console.log(userList);
+    userList[userList.indexOf("")] = userInfo.userName;
+    console.log(userList);
+    const personNum = roomInfo.personNum + 1;
+    data = {
+      roomChief: roomInfo.roomChief,
+      private: roomInfo.private,
+      roomName: roomInfo.roomName,
+      personLimit: roomInfo.personLimit,
+      personNum: personNum,
+      roomPw: roomInfo.roomPw,
+      gameTime: roomInfo.gameTime,
+      userList: userList.join(),
+      roomId: roomInfo.roomId,
+    };
+    axios
+      .put(`${BASE_URL}/rooms`, JSON.stringify(data), {
+        headers: {
+          "Content-Type": `application/json`,
+        },
+      })
+      .then((res) => {
+        setTimeout(() => {
+          pauseBgmAudio();
+        }, 1);
+        console.log(res);
+        navigate(`/${item.roomId}`);
+        // console.log(document.location.pathname);
+      })
+      .catch((err) => console.log(err));
+  }
 
   return (
     <div className="col room-list__btn">
