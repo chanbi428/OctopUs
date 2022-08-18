@@ -959,27 +959,29 @@ class OpenViduComponent extends Component {
       userName: this.state.pickUser,
       vote: 0,
     };
-    if (this.props.gamerData.job === "시장") {
-      axios
-        .put(`${BASE_URL}/votes/daytime/mayor`, JSON.stringify(data), {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        })
-        .then((res) => {
-          console.log(data);
-          console.log("투표 저장!", data);
-        });
-    } else {
-      axios
-        .put(`${BASE_URL}/votes/daytime/etc`, JSON.stringify(data), {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        })
-        .then((res) => {
-          console.log("투표 저장!", data);
-        });
+    if (this.props.gamerData.isDead === false) {
+      if (this.props.gamerData.job === "시장") {
+        axios
+          .put(`${BASE_URL}/votes/daytime/mayor`, JSON.stringify(data), {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+          })
+          .then((res) => {
+            console.log(data);
+            console.log("투표 저장!", data);
+          });
+      } else {
+        axios
+          .put(`${BASE_URL}/votes/daytime/etc`, JSON.stringify(data), {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+          })
+          .then((res) => {
+            console.log("투표 저장!", data);
+          });
+      }
     }
     setTimeout(() => {
       this.voteResult();
@@ -1020,29 +1022,31 @@ class OpenViduComponent extends Component {
       userName: this.state.pickUser,
       vote: 0,
     };
-    if (this.state.agree) {
-      // 찬성
-      axios
-        .put(`${BASE_URL}/votes/agree`, JSON.stringify(data), {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        })
-        .then((res) => {
-          console.log(data);
-          console.log("처형 찬성!", data);
-        });
-    } else {
-      // 반대
-      axios
-        .put(`${BASE_URL}/votes/disagree`, JSON.stringify(data), {
-          headers: {
-            "Content-Type": `application/json`,
-          },
-        })
-        .then((res) => {
-          console.log("처형 반대!", data);
-        });
+    if (this.props.gamerData.isDead === false) {
+      if (this.state.agree) {
+        // 찬성
+        axios
+          .put(`${BASE_URL}/votes/agree`, JSON.stringify(data), {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+          })
+          .then((res) => {
+            console.log(data);
+            console.log("처형 찬성!", data);
+          });
+      } else {
+        // 반대
+        axios
+          .put(`${BASE_URL}/votes/disagree`, JSON.stringify(data), {
+            headers: {
+              "Content-Type": `application/json`,
+            },
+          })
+          .then((res) => {
+            console.log("처형 반대!", data);
+          });
+      }
     }
     setTimeout(() => {
       this.agreeVoteResult();
@@ -2158,54 +2162,32 @@ class OpenViduComponent extends Component {
                       </div>
                     )}
                 </div>
-                <div className="d-flex justify-content-around agree-box">
-                  {/* <button
-                    onClick={(e) => this.selectAgree(e)}
-                    disabled={
-                      this.state.agree === true ||
-                      this.props.gamerData.isDead === true
-                        ? true
-                        : false
-                    }
-                    className="agree__btn"
-                  >
-                    찬성
-                  </button>
-                  <button
-                    onClick={(e) => this.selectDisAgree(e)}
-                    disabled={
-                      this.state.agree === false ||
-                      this.props.gamerData.isDead === true
-                        ? true
-                        : false
-                    }
-                    className="agree__btn"
-                  >
-                    반대
-                  </button> */}
-                  <div>
-                    <input
-                      type="radio"
-                      id="agree_true"
-                      value={true}
-                      onChange={this.selectAgree}
-                      checked={this.state.agree === true}
-                      className="agree__btn"
-                    />
-                    <label htmlFor="agree_true">찬성</label>
+                {this.props.gamerData.isDead !== true &&
+                  <div className="d-flex justify-content-around agree-box">
+                    <div>
+                      <input
+                        type="radio"
+                        id="agree_true"
+                        value={true}
+                        onChange={this.selectAgree}
+                        checked={this.state.agree === true}
+                        className="agree__btn"
+                      />
+                      <label htmlFor="agree_true">찬성</label>
+                    </div>
+                    <div>
+                      <input
+                        type="radio"
+                        id="agree_false"
+                        value={false}
+                        onChange={this.selectDisAgree}
+                        checked={this.state.agree === false}
+                        className="agree__btn"
+                      />
+                      <label htmlFor="agree_false">반대</label>
+                    </div>
                   </div>
-                  <div>
-                    <input
-                      type="radio"
-                      id="agree_false"
-                      value={false}
-                      onChange={this.selectDisAgree}
-                      checked={this.state.agree === false}
-                      className="agree__btn"
-                    />
-                    <label htmlFor="agree_false">반대</label>
-                  </div>
-                </div>
+                }
               </div>
             </div>
           </div>
