@@ -249,4 +249,50 @@
 <br>
 
 ## 🌐 배포 방법
-.. 어디서부터 어디까지 적어야할지 의문 
+
+#### OpenVidu 서버
+
+##### OpenVidu 설치
+※ 해당 방식은 [공식 문서](https://docs.openvidu.io/en/stable/deployment/ce/on-premises/) 를 참조했습니다.
+- 1. /opt 폴더로 이동
+- 2. git clone으로 설치
+```
+curl https://s3-eu-west-1.amazonaws.com/aws.openvidu.io/install_openvidu_latest.sh | bash
+```
+    * 권한 문제 발생시 curl 앞에 sudo 그리고 bash 앞에 sudo 붙이면 해결 가능
+- 3. conf 파일 설정
+    - 3.1. /opt/openvidu폴더에 .env파일 열기
+    - 3.2 ssl 인증서 관련 설정을 아래와 같이 수정
+    ![Untitled](/uploads/3af075b4fef259514a4eb9dc86eacef3/Untitled.png)
+    - 3.3 포트 관련 설정을 아래와 같이 수정
+      ```
+        HTTP_PORT=80
+        HTTP_PORT=80
+      ```
+        저장 후 편집기 종료
+    - 3.2 CertBot 설치
+      ```
+        sudo apt-get install letsencrypt -y
+      ```
+
+##### Openvidu 실행
+- 1. OpenVidu 설치된 폴더 이동 (/opt/openvidu)
+- 2. 아래 명령어로 실행 
+  ```
+    ./openvidu start
+  ```
+- 3. 정상적으로 실행 되는지 확인
+  - 3.1. 실행한 콘솔 창에 해당 서버 링크와 포트 번호 나오는지 확인
+  - 3.2. sudo docker ps통해 해당 이미지들이 잘 실행 중인지 확인
+  - 3.3. 해당 포트로 사이트가 아래 사진처럼 잘 나오는지 확인
+    ![Untitled__1_](/uploads/9a1eea4e78434a09431c0ee7f2385975/Untitled__1_.png)
+    * 특히 주소창 왼쪽 자물쇠 모양(HTTPS 연결) 상태를 꼭 확인 할 것.
+  - 3.4. 정상 작동 확인이 되었다면 포트를 원하는 포트로 변경 후 재시작 (추후 설치할 Nginx를 위해 변경해야 함)
+
+#### Front & Back End 서버
+- 빌드 파일 위치한 폴더 이동 (/home/ubuntu/build)
+- 아래 명령어로 실행 
+```
+java -jar [Server File Name].jar
+```
+
