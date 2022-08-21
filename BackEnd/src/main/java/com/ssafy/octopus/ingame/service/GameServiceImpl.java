@@ -32,18 +32,28 @@ public class GameServiceImpl implements GameService {
     @Override
     @Transactional
     public List<Gamer> insert(List<String> users, String roomId) {
-        System.out.println(users.size());
-        List<String[]> jobs = combJobs();  // 현재 게임에서 등장하는 직업들을 저장할 리스트
-        if(users.size() == 7){  // 7명일때는 공통에 중립 추가
-            jobs.add(new String[]{(int)((Math.random()*1)+1) == 1 ? "재간둥이" : "데스노트", "중립"});
-        } else if(users.size() == 8){  // 8명일때는 공통에 중립, 마피아 추가
-            jobs.add(new String[]{(int)((Math.random()*1)+1) == 1 ? "재간둥이" : "데스노트", "중립"});
-            jobs.add(new String[]{"마피아", "마피아"});
-        }
+//        System.out.println(users.size());
+//        List<String[]> jobs = combJobs();  // 현재 게임에서 등장하는 직업들을 저장할 리스트
+//        if(users.size() == 7){  // 7명일때는 공통에 중립 추가
+//            jobs.add(new String[]{(int)((Math.random()*1)+1) == 1 ? "재간둥이" : "데스노트", "중립"});
+//        } else if(users.size() == 8){  // 8명일때는 공통에 중립, 마피아 추가
+//            jobs.add(new String[]{(int)((Math.random()*1)+1) == 1 ? "재간둥이" : "데스노트", "중립"});
+//            jobs.add(new String[]{"마피아", "마피아"});
+//        }
         /**
          * 무조건 고정 (마피아, 마피아, 의사, 경찰, 크레이지경찰, 시장, 재간둥이, 기자)
          */
-        jobs = new ArrayList<>();
+        users = new ArrayList<String>();
+        users.add("문어숙회");
+        users.add("오하민");
+        users.add("나마피아임");
+        users.add("닥터배사부");
+        users.add("해삼말미잘");
+        users.add("소리질러");
+        users.add("용용용용용");
+        users.add("재간둥스");
+
+        List<String[]> jobs = new ArrayList<>();
         jobs.add(new String[]{"마피아", "마피아"});
         jobs.add(new String[]{"마피아", "마피아"});
         jobs.add(new String[]{"경찰", "시민"});
@@ -55,7 +65,7 @@ public class GameServiceImpl implements GameService {
         /**
          * 고정값 설명 끝
          */
-        Collections.shuffle(jobs);  // 직업리스트 무작위 배치(섞어서 랜덤 효과)
+        //Collections.shuffle(jobs);  // 직업리스트 무작위 배치(섞어서 랜덤 효과)
 
         // gamer 테이블에 넣을 데이터
         List<Gamer> gamers = new ArrayList<>();
