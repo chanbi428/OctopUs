@@ -1282,9 +1282,6 @@ class OpenViduComponent extends Component {
           this.props.gamerData.isDead === false &&
           (this.props.gamerData.job === "시장" ||
             this.props.gamerData.job === "재간둥이" ||
-            (this.props.gamerData.job === "기자" &&
-              this.props.gamerData.gameturn === 1 &&
-              this.props.gamerData.hasSkill === true) ||
             (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === false)) && (
             <div className="d-flex justify-content-between">
               <div className="mt-3">
@@ -1515,8 +1512,7 @@ class OpenViduComponent extends Component {
             this.props.gamerData.job === "경찰" ||
             this.props.gamerData.job === "크레이지경찰" ||
             (this.props.gamerData.job === "기자" &&
-              this.props.gamerData.hasSkill === true &&
-              this.props.gamerData.gameturn > 1)) && (
+              this.props.gamerData.hasSkill === true)) && (
             <div className="d-flex justify-content-between">
               {console.log("start police")}
               <div className="mt-3">

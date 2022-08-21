@@ -3,7 +3,7 @@
   height: 600px;
   filter: grayscale(100%);
   position: absolute;
-  transform: scaleX(-1);
+  /* transform: scaleX(-1); */
 }
 
 .dead-img {
