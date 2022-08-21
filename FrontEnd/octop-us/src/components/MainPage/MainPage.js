@@ -170,7 +170,8 @@ function MainPage() {
     pauseBgmAudio();
     var audio = new Audio(MP_btn1);
     audio.play();
-    window.location.reload();
+    // window.location.reload();
+    navigate('/main');
   };
 
   const pauseBgmAudio = (e) => {

@@ -1,11 +1,13 @@
 import Card from "../Card/Card";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { BASE_URL, CLIENT_URL } from "../../api/BASE_URL";
 import axios from "axios";
 import "./MakeRoom.css";
 
 function MakeRoom({ pauseBgmAudio }) {
+  const navigate = useNavigate();
   const [roomName, setRoomName] = useState("");
   const [gameTime, setGameTime] = useState("60");
   const [isPrivate, setIsPrivate] = useState("0");
@@ -68,7 +70,8 @@ function MakeRoom({ pauseBgmAudio }) {
             },
           })
           .then((res) => {
-            document.location.href = `${CLIENT_URL}/${res.data.roomId}`;
+            // document.location.href = `${CLIENT_URL}/${res.data.roomId}`;
+            navigate(`${CLIENT_URL}/${res.data.roomId}`);
           })
           .catch((err) => console.log(err));
       } else {
