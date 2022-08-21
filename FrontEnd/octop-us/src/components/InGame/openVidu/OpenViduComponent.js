@@ -840,11 +840,38 @@ class OpenViduComponent extends Component {
           //axios.get(`${BASE_URL}/gamers/ismafia/${this.state.pickUser}`).then((res) => {
           let message = "";
           this.props.gamerData.userList.map((user, i) => {
-            if (this.state.pickUser === user.userName) {
+            // if (this.state.pickUser === user.userName && this.props.gamerData.job === "크레이지경찰") {
+            //   message =
+            //     user.gameJob === "마피아"
+            //       ? `${this.state.pickUser} 님은 오징어가 맞습니다.`
+            //       : `${this.state.pickUser} 님은 오징어가 아닙니다.`.replace(
+            //           / +(?= )/g,
+            //           ""
+            //         );
+            // }
+            if (
+              this.state.pickUser === user.userName &&
+              this.props.gamerData.job === "경찰"
+            ) {
               message =
                 user.gameJob === "마피아"
                   ? `${this.state.pickUser} 님은 오징어가 맞습니다.`
-                  : `${this.state.pickUser} 님은 오징어가 아닙니다.`.replace(/ +(?= )/g, "");
+                  : `${this.state.pickUser} 님은 오징어가 아닙니다.`.replace(
+                      / +(?= )/g,
+                      ""
+                    );
+            } else if (
+              this.state.pickUser === user.userName &&
+              this.props.gamerData.job === "크레이지경찰"
+            ) {
+              message =
+                this.props.gamerData.crazyjobs[this.props.gamerData.idx] ===
+                "오징어"
+                  ? `${this.state.pickUser} 님은 오징어가 맞습니다.`
+                  : `${this.state.pickUser} 님은 오징어가 아닙니다.`.replace(
+                      / +(?= )/g,
+                      ""
+                    );
             }
           });
           const data = {
@@ -2074,35 +2101,41 @@ class OpenViduComponent extends Component {
             <div className="d-flex flex-column justify-content-between">
               <h1 className="timer">{this.state.timer}</h1>
               <div id="layout" className="voted-bounds">
-                {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                  <div className="OT_root OT_publisher custom-class" id="localUser">
-                    {this.props.gamerData.userList.slice(0, 8).map((subGamer, i) => (
-                      <div>
-                        {subGamer.userName === this.state.pickUser ? (
-                          <StreamComponent
-                            user={
-                              subGamer.subIdx === undefined
-                                ? localUser
-                                : this.state.subscribers[subGamer.subIdx]
-                            }
-                          />
-                        ) : (
-                          <div></div>
-                        )}
-                        {subGamer.userName === this.state.pickUser && (
-                          <ExecutionPage
-                            streamId={
-                              subGamer.subIdx === undefined
-                                ? localUser.streamManager.stream.streamId
-                                : this.state.subscribers[subGamer.subIdx].streamManager.stream
-                                    .streamId
-                            }
-                          />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
+                {localUser !== undefined &&
+                  localUser.getStreamManager() !== undefined && (
+                    <div
+                      className="OT_root OT_publisher custom-class"
+                      id="localUser"
+                    >
+                      {this.props.gamerData.userList
+                        .slice(0, 8)
+                        .map((subGamer, i) => (
+                          <div>
+                            {subGamer.userName === this.state.pickUser ? (
+                              <StreamComponent
+                                user={
+                                  subGamer.subIdx === undefined
+                                    ? localUser
+                                    : this.state.subscribers[subGamer.subIdx]
+                                }
+                              />
+                            ) : (
+                              <div></div>
+                            )}
+                            {subGamer.userName === this.state.pickUser && (
+                              <ExecutionPage
+                                streamId={
+                                  subGamer.subIdx === undefined
+                                    ? localUser.streamManager.stream.streamId
+                                    : this.state.subscribers[subGamer.subIdx]
+                                        .streamManager.stream.streamId
+                                }
+                              />
+                            )}
+                          </div>
+                        ))}
+                    </div>
+                  )}
               </div>
             </div>
           </div>
