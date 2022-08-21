@@ -8,6 +8,7 @@
   color: #ffffff;
   text-shadow: -1px 0px black, 0px 1px black, 1px 0px black, 0px -1px black;
   font-size: 22px;
+  cursor: default;
   /* -webkit-text-stroke: 1px red; */
 }
 
@@ -34,6 +35,7 @@
 
 #nicknameForm {
   padding: 10px;
+  cursor: default;
 }
 .fullscreen {
   top: 40px;
@@ -58,7 +60,7 @@ video {
 
 #statusIcons {
   position: relative;
-  top : 0px;
+  top: 0px;
   right: 0px;
   bottom: 0;
   background: #c71100;

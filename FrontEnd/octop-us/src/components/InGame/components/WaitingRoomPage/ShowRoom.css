@@ -7,16 +7,17 @@
   padding: 15px;
   width: 300px;
   height: 300px;
-  margin :0 2rem 1rem 3rem;
+  margin: 0 2rem 1rem 3rem;
   border-radius: 10px;
-  background-color : #00afb9;
+  background-color: #00afb9;
+  cursor: default;
 }
 
 .ShowCardHeader {
   /* margin-bottom: 5px; */
   margin-top: 5px;
 }
-  
+
 .CardBody {
   font-family: "GmarketSansMedium";
   margin-top: 5px;

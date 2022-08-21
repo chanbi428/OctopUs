@@ -1,7 +1,12 @@
-.hover-card{
+.hover-card {
   position: absolute;
   top: 30px;
   right: 20vw;
+}
+
+.hover-card__job-img:hover {
+  cursor: pointer;
+  transform: scale(1.3);
 }
 
 .hover-card:hover .job-cards {
@@ -18,4 +23,5 @@
   display: none;
   position: absolute;
   right: 10px;
+  cursor: default;
 }

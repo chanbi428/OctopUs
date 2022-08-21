@@ -68,8 +68,7 @@ function RoomListItem({ item, pauseBgmAudio }) {
       // pauseBgmAudio();
       // joinRoom();
       var roomInfo = null;
-      axios.get(`/rooms/detail/roomid/${item.roomId}`)
-      .then((res) => {
+      axios.get(`/rooms/detail/roomid/${item.roomId}`).then((res) => {
         console.log(res);
         roomInfo = res.data;
 
@@ -102,13 +101,13 @@ function RoomListItem({ item, pauseBgmAudio }) {
             console.log(document.location.pathname);
           })
           .catch((err) => console.log(err));
-      })
+      });
     }
   };
-  async function joinRoom(){
-    let {data} = await axios.get(`/rooms/detail/roomid/${item.roomId}`);
+  async function joinRoom() {
+    let { data } = await axios.get(`/rooms/detail/roomid/${item.roomId}`);
     const roomInfo = data;
-    console.log("RoomListItem roomInfo : "+roomInfo);
+    console.log("RoomListItem roomInfo : " + roomInfo);
     let userList = roomInfo.userList.split(",");
     console.log(userList);
     userList[userList.indexOf("")] = userInfo.userName;
@@ -145,27 +144,39 @@ function RoomListItem({ item, pauseBgmAudio }) {
   return (
     <div className="col room-list__btn">
       <div
-        className={item.gameStatus ? "room-list__container" : "room-list__container"}
+        className={
+          item.gameStatus ? "room-list__container" : "room-list__container"
+        }
         style={{ backgroundColor: item.gameStatus ? "#13293d" : "#00afb9" }}
       >
         <div className="room-list__left">
-          <div className={item.gameStatus ? "room-list__idx-1" : "room-list__idx-2"}>
+          <div
+            className={
+              item.gameStatus ? "room-list__idx-1" : "room-list__idx-2"
+            }
+          >
             {item.idx}
           </div>
           <FontAwesomeIcon
             icon={faLock}
-            className={item.private ? "room-list__locked" : "room-list__unlocked"}
+            className={
+              item.private ? "room-list__locked" : "room-list__unlocked"
+            }
           />
         </div>
         <div className="room-list__middle">
           <h5 className="room-list__title">{item.roomName}</h5>
           <div>
             <input
-              type="passwordIn"
+              type="password"
               name="room_pw_in"
               value={roomPwIn}
               onChange={handleRoomPwIn}
-              className={item.private ? "room-list__password" : "room-list__password-opacity"}
+              className={
+                item.private
+                  ? "room-list__password"
+                  : "room-list__password-opacity"
+              }
             />
           </div>
         </div>
@@ -181,7 +192,10 @@ function RoomListItem({ item, pauseBgmAudio }) {
               게임중
             </button>
           ) : (
-            <button className="main-page__room-list-btn" onClick={onClickEnterRoom}>
+            <button
+              className="main-page__room-list-btn"
+              onClick={onClickEnterRoom}
+            >
               게임입장
             </button>
           )}

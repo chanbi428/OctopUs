@@ -28,7 +28,7 @@ nav > p {
 
 .waiting-page__exit-btn:hover {
   width: 9vw;
-  height: 6vh;
+  height: 5vh;
   background-color: #f4d35e;
   border-bottom: 4px solid rgba(0, 0, 0, 0.21);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
@@ -38,7 +38,6 @@ nav > p {
   letter-spacing: 2px;
   font-weight: bold;
   font-family: BMJUA;
-  margin-right: 2vw;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 }
 
@@ -46,7 +45,9 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0 3vh 0;
+  /* padding: 0 0 3vh 0; */
+  padding: 0 0 9vh 0;
+  height: 40vh; /* 여기 */
 }
 
 .waiting-page__img {
@@ -88,4 +89,5 @@ section {
   padding-top: 0.5vh;
   margin-left: 2.5rem;
   opacity: 0.9;
+  cursor: default;
 }

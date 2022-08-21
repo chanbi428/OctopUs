@@ -3,3 +3,6 @@
     height: auto;
     object-fit : cover;
 } */
+.reportBox {
+  cursor: default;
+}

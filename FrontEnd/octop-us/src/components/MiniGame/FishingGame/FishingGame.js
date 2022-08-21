@@ -45,6 +45,7 @@ const FishingTimer = styled.div`
   & .redTime {
     color: rgb(240, 113, 103);
   }
+  cursor: default;
 `;
 
 const useStyles = makeStyles((theme) =>
@@ -74,6 +75,7 @@ const FishingBottom = styled.div`
   justify-content: center;
   background-color: rgba(0, 129, 167, 0.7);
   border-radius: 20px;
+  cursor: default;
 
   & .octo-score {
     display: flex;
