@@ -43,25 +43,46 @@ public class GameServiceImpl implements GameService {
         /**
          * 무조건 고정 (마피아, 마피아, 의사, 경찰, 크레이지경찰, 시장, 재간둥이, 기자)
          */
-        users = new ArrayList<String>();
-        users.add("문어숙회");
-        users.add("오하민");
-        users.add("나마피아임");
-        users.add("닥터배사부");
-        users.add("해삼말미잘");
-        users.add("소리질러");
-        users.add("용용용용용");
-        users.add("재간둥스");
+//        users = new ArrayList<String>();
+//        users.add("문어숙회");
+//        users.add("오하민");
+//        users.add("나마피아임");
+//        users.add("닥터배사부");
+//        users.add("해삼말미잘");
+//        users.add("소리질러");
+//        users.add("용용용용용");
+//        users.add("재간둥스");
 
         List<String[]> jobs = new ArrayList<>();
-        jobs.add(new String[]{"마피아", "마피아"});
-        jobs.add(new String[]{"마피아", "마피아"});
-        jobs.add(new String[]{"경찰", "시민"});
-        jobs.add(new String[]{"의사", "시민"});
-        jobs.add(new String[]{"크레이지경찰", "시민"});
-        jobs.add(new String[]{"시장", "시민"});
-        jobs.add(new String[]{"기자", "시민"});
-        jobs.add(new String[]{"재간둥이", "중립"});
+        for(int i=0; i<8; i++){
+            if(users.get(i).equals("문어숙회")){
+                jobs.add(new String[]{"마피아", "마피아"});
+            } else if (users.get(i).equals("오하민")){
+                jobs.add(new String[]{"마피아", "마피아"});
+            } else if (users.get(i).equals("나마피아임")){
+                jobs.add(new String[]{"경찰", "시민"});
+            } else if (users.get(i).equals("닥터배사부")){
+                jobs.add(new String[]{"의사", "시민"});
+            } else if (users.get(i).equals("해삼말미잘")){
+                jobs.add(new String[]{"크레이지경찰", "시민"});
+            } else if (users.get(i).equals("용용용용용")){
+                jobs.add(new String[]{"기자", "시민"});
+            } else if (users.get(i).equals("소리질러")){
+                jobs.add(new String[]{"시장", "시민"});
+            } else if (users.get(i).equals("재간둥스")){
+                jobs.add(new String[]{"재간둥이", "중립"});
+            }
+        }
+
+//        List<String[]> jobs = new ArrayList<>();
+//        jobs.add(new String[]{"마피아", "마피아"});
+//        jobs.add(new String[]{"마피아", "마피아"});
+//        jobs.add(new String[]{"경찰", "시민"});
+//        jobs.add(new String[]{"의사", "시민"});
+//        jobs.add(new String[]{"크레이지경찰", "시민"});
+//        jobs.add(new String[]{"시장", "시민"});
+//        jobs.add(new String[]{"기자", "시민"});
+//        jobs.add(new String[]{"재간둥이", "중립"});
         /**
          * 고정값 설명 끝
          */
