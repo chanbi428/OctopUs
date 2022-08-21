@@ -131,42 +131,53 @@ class ChatComponent extends Component {
         voteGo: false, // 투표결과(최후변론 할지 안할지),
         agreeVoteGo: false, // 찬반투표결과(처형 할지 안할지)
       };
-      this.props.user.getStreamManager().stream.session.on("signal:gameEnd", (event) => {
-        flag = {
-          gameEnd: true,
-          voteGo: false,
-          agreeVoteGo: false,
-        };
-        if (this.props.gamerData.job === "크레이지경찰") {
-          console.log("크레이지 경찰 직업 다시 돌려놓기", this.props.gamerData.roomId);
-          this.settingGamerList(this.props.gamerData.roomId);
-        }
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:voteGo", (event) => {
-        console.log("VOTE : VOTEGO STATUS CHANGE");
-        flag = {
-          gameEnd: false,
-          voteGo: true,
-          agreeVoteGo: false,
-        };
-        const data = JSON.parse(event.data);
-        this.props.setPickUserState(data.userName);
-        console.log("찬반 결과할 이름",data.userName);
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:agreeVoteGo", (event) => {
-        flag = {
-          gameEnd: false,
-          voteGo: false,
-          agreeVoteGo: true,
-        };
-      });
-      this.props.user.getStreamManager().stream.session.on("signal:resetFlag", (event) => {
-        flag = {
-          gameEnd: false,
-          voteGo: false,
-          agreeVoteGo: false,
-        };
-      });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:gameEnd", (event) => {
+          flag = {
+            gameEnd: true,
+            voteGo: false,
+            agreeVoteGo: false,
+          };
+          if (this.props.gamerData.job === "크레이지경찰") {
+            console.log(
+              "크레이지 경찰 직업 다시 돌려놓기",
+              this.props.gamerData.roomId
+            );
+            this.settingGamerList(this.props.gamerData.roomId);
+          }
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:voteGo", (event) => {
+          console.log("VOTE : VOTEGO STATUS CHANGE");
+          flag = {
+            gameEnd: false,
+            voteGo: true,
+            agreeVoteGo: false,
+          };
+          const data = JSON.parse(event.data);
+          this.props.setPickUserState(data.userName);
+          console.log("찬반 결과할 이름", data.userName);
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:agreeVoteGo", (event) => {
+          flag = {
+            gameEnd: false,
+            voteGo: false,
+            agreeVoteGo: true,
+          };
+        });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:resetFlag", (event) => {
+          flag = {
+            gameEnd: false,
+            voteGo: false,
+            agreeVoteGo: false,
+          };
+        });
       this.props.user
         .getStreamManager()
         .stream.session.on("signal:agreeVoteGoAndGameEnd", (event) => {
@@ -198,7 +209,7 @@ class ChatComponent extends Component {
               ];
               let users = [];
               this.shuffle(jobs);
-              console.log(jobs);
+              console.log("크레이지 경찰 정보다", jobs);
               this.props.gamerData.userList.map((user, i) => {
                 if (user.userName != this.props.userData.userInfo.userName) {
                   let tmp = {
@@ -330,34 +341,38 @@ class ChatComponent extends Component {
           this.props.updatePickUser();
         });
       // 다영 수정
-      this.props.user.getStreamManager().stream.session.on("signal:voteEnd", (event) => {
-        // 각자 DB에 업뎃하게 함
-        console.log("VOTE 끝남");
-        console.log("HOST : 각자 VOTE 테이블에 투표 결과 UPDATE! ");
-        this.props.updatePickUserAtVote();
-      });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:voteEnd", (event) => {
+          // 각자 DB에 업뎃하게 함
+          console.log("VOTE 끝남");
+          console.log("HOST : 각자 VOTE 테이블에 투표 결과 UPDATE! ");
+          this.props.updatePickUserAtVote();
+        });
 
-      this.props.user.getStreamManager().stream.session.on("signal:voteResult", (event) => {
-        const data = JSON.parse(event.data);
-        console.log("VOTE : RECIEVE MESSAGE, MAX VOTES notice받음");
-        console.log("RECEIVED MAX VOTES : ", data.votes.userName);
-        this.props.setVoteName(data.votes.userName);
-        if (data.votes.userName === "skip") {
-          // 그냥 페이지 테스트용
-          console.log("NO MAX VOTES => 찬반 페이지 PASS");
-          this.props.user.getStreamManager().stream.session.signal({
-            type: "resetFlag",
-          });
-        } else {
-          console.log("MAX VOTES => 찬반 페이지 GO");
-          this.props.user.getStreamManager().stream.session.signal({
-            data: JSON.stringify({
-              userName : data.votes.userName,
-            }),
-            type: "voteGo",
-          });
-        }
-      });
+      this.props.user
+        .getStreamManager()
+        .stream.session.on("signal:voteResult", (event) => {
+          const data = JSON.parse(event.data);
+          console.log("VOTE : RECIEVE MESSAGE, MAX VOTES notice받음");
+          console.log("RECEIVED MAX VOTES : ", data.votes.userName);
+          this.props.setVoteName(data.votes.userName);
+          if (data.votes.userName === "skip") {
+            // 그냥 페이지 테스트용
+            console.log("NO MAX VOTES => 찬반 페이지 PASS");
+            this.props.user.getStreamManager().stream.session.signal({
+              type: "resetFlag",
+            });
+          } else {
+            console.log("MAX VOTES => 찬반 페이지 GO");
+            this.props.user.getStreamManager().stream.session.signal({
+              data: JSON.stringify({
+                userName: data.votes.userName,
+              }),
+              type: "voteGo",
+            });
+          }
+        });
       // 다영 수정
       this.props.user
         .getStreamManager()

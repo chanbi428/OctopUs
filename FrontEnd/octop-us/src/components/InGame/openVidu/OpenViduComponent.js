@@ -132,7 +132,7 @@ class OpenViduComponent extends Component {
   }
 
   changeTime = (second) => {
-    console.log("시간이 바뀜")
+    console.log("시간이 바뀜");
     this.setState({ timer: second });
   };
 
@@ -872,9 +872,33 @@ class OpenViduComponent extends Component {
           //axios.get(`${BASE_URL}/gamers/ismafia/${this.state.pickUser}`).then((res) => {
           let message = "";
           this.props.gamerData.userList.map((user, i) => {
-            if (this.state.pickUser === user.userName) {
+            // if (this.state.pickUser === user.userName && this.props.gamerData.job === "크레이지경찰") {
+            //   message =
+            //     user.gameJob === "마피아"
+            //       ? `${this.state.pickUser} 님은 오징어가 맞습니다.`
+            //       : `${this.state.pickUser} 님은 오징어가 아닙니다.`.replace(
+            //           / +(?= )/g,
+            //           ""
+            //         );
+            // }
+            if (
+              this.state.pickUser === user.userName &&
+              this.props.gamerData.job === "경찰"
+            ) {
               message =
                 user.gameJob === "마피아"
+                  ? `${this.state.pickUser} 님은 오징어가 맞습니다.`
+                  : `${this.state.pickUser} 님은 오징어가 아닙니다.`.replace(
+                      / +(?= )/g,
+                      ""
+                    );
+            } else if (
+              this.state.pickUser === user.userName &&
+              this.props.gamerData.job === "크레이지경찰"
+            ) {
+              message =
+                this.props.gamerData.crazyjobs[this.props.gamerData.idx] ===
+                "오징어"
                   ? `${this.state.pickUser} 님은 오징어가 맞습니다.`
                   : `${this.state.pickUser} 님은 오징어가 아닙니다.`.replace(
                       / +(?= )/g,
@@ -941,7 +965,7 @@ class OpenViduComponent extends Component {
 
   setPickUserState = (userName) => {
     this.setState({ pickUser: userName });
-  }
+  };
 
   getHasSkill = () => {
     return this.state.hasSkill;
@@ -2162,7 +2186,7 @@ class OpenViduComponent extends Component {
                       </div>
                     )}
                 </div>
-                {this.props.gamerData.isDead !== true &&
+                {this.props.gamerData.isDead !== true && (
                   <div className="d-flex justify-content-around agree-box">
                     <div>
                       <input
@@ -2187,7 +2211,7 @@ class OpenViduComponent extends Component {
                       <label htmlFor="agree_false">반대</label>
                     </div>
                   </div>
-                }
+                )}
               </div>
             </div>
           </div>
@@ -2231,19 +2255,19 @@ class OpenViduComponent extends Component {
                                     : this.state.subscribers[subGamer.subIdx]
                                 }
                               />
-                              
                             ) : (
                               <div></div>
                             )}
-                            {subGamer.userName === this.state.pickUser && 
+                            {subGamer.userName === this.state.pickUser && (
                               <ExecutionPage
                                 streamId={
                                   subGamer.subIdx === undefined
                                     ? localUser.streamManager.stream.streamId
-                                    : this.state.subscribers[subGamer.subIdx].streamManager.stream.streamId
+                                    : this.state.subscribers[subGamer.subIdx]
+                                        .streamManager.stream.streamId
                                 }
                               />
-                            }
+                            )}
                           </div>
                         ))}
                     </div>
