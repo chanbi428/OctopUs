@@ -18,8 +18,16 @@ const SharkGameResult = () => {
   const [getWin, setGetWin] = useState("시민");
   const { userInfo } = useSelector((state) => state.user);
   const { roomChief, gameTime, roomId } = useSelector((state) => state.wait);
-  const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter, localUser } =
-    useSelector((state) => state.gamer);
+  const {
+    minigameResult,
+    job,
+    hasSkill,
+    isDead,
+    shark,
+    fisher,
+    reporter,
+    localUser,
+  } = useSelector((state) => state.gamer);
 
   const dispatch = useDispatch();
   const obj = {
@@ -43,17 +51,22 @@ const SharkGameResult = () => {
     if (!resultChange) {
       const startTimer = setTimeout(() => {
         // 결과 받아오기
-        axios.get(`${BASE_URL}/games/mini/shark/result/${roomId}`).then((res) => {
-          console.log(res.data.gameTeam === "마피아", "데이터 확인!!!!!!!!!!!!!!!!!!!!!!");
-          if (res.data.gameTeam === "마피아") {
-            dispatch(mafiaWinAtMinigame());
-            setGetWin("마피아");
-            setresultChange(true); // result 띄워 줘라
-          } else {
-            dispatch(mafiaLoseAtMinigame());
-            setresultChange(true); // result 띄워 줘라
-          }
-        });
+        axios
+          .get(`${BASE_URL}/games/mini/shark/result/${roomId}`)
+          .then((res) => {
+            console.log(
+              res.data.gameTeam === "마피아",
+              "데이터 확인!!!!!!!!!!!!!!!!!!!!!!"
+            );
+            if (res.data.gameTeam === "마피아") {
+              dispatch(mafiaWinAtMinigame());
+              setGetWin("마피아");
+              setresultChange(true); // result 띄워 줘라
+            } else {
+              dispatch(mafiaLoseAtMinigame());
+              setresultChange(true); // result 띄워 줘라
+            }
+          });
       }, 45000); // 여기 수정 v
       return () => {
         clearTimeout(startTimer);

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 import { BASE_URL } from "../../../../api/BASE_URL";
 import "./RoundComponent.css";
+import "./GameResultPage.css";
 
 import MP_EndGame from "../../../../effect/MP_EndGame.mp3";
 
@@ -20,12 +21,12 @@ function GameResultComponent(props) {
     axios
       .get(`${BASE_URL}/gamers/${props.victoryUsers[0]}`)
       .then((res) => {
-          if(res.data.gameTeam === "중립") {
-            setWinTeam("재간둥이")
-          } else {
-            setWinTeam(res.data.gameTeam)
-          }
-        })
+        if (res.data.gameTeam === "중립") {
+          setWinTeam("재간둥이");
+        } else {
+          setWinTeam(res.data.gameTeam);
+        }
+      })
       .catch((err) => console.log(err));
 
     // setTimeout(() => audio.pause(), room.gameTime); // 나중에는 이거 사용
@@ -40,8 +41,7 @@ function GameResultComponent(props) {
       .put(`${BASE_URL}/rooms/update/status/end/${pathName}`)
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
-
-  },[]);
+  }, []);
 
   return <div className="winner-text">{winTeam}팀 승리!</div>;
 }

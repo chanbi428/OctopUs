@@ -24,6 +24,7 @@ const Container = styled.div`
 const Timer = styled.div`
   text-align: right;
   font-family: BMJUA;
+  cursor: default;
 `;
 
 const MyRecord = styled.div`

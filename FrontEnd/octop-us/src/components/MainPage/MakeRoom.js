@@ -80,9 +80,11 @@ function MakeRoom({ pauseBgmAudio }) {
             },
           }) // 이후 이 부분이 필요한가 생각 중...
           .then((res) => {
-            axios.get(`${BASE_URL}/rooms/detail/roomname/${roomName}`).then((res) => {
-              console.log(res.data[0].roomId);
-            });
+            axios
+              .get(`${BASE_URL}/rooms/detail/roomname/${roomName}`)
+              .then((res) => {
+                console.log(res.data[0].roomId);
+              });
           })
           .catch((err) => console.log(err));
       }
@@ -111,17 +113,6 @@ function MakeRoom({ pauseBgmAudio }) {
               placeholder="방 제목을 입력하세요."
             />
           </div>
-          {/* <div className="CardBody">
-            <label htmlFor="person_limit">인원</label>
-            <br />
-            <input
-              type="number"
-              name="person_limit"
-              value={personLimit}
-              onChange={handlePersonLimit}
-              className="Input"
-            />
-          </div> */}
           <div className="make-room__card-body">
             <span className="make-room__title">회의 시간</span>
             <div className="make-room__timesettings">

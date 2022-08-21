@@ -90,7 +90,7 @@
   overflow: hidden;
   min-width: 170px !important;
   width: 170px !important;
-  height: 150px !important; 
+  height: 150px !important;
   position: relative !important;
   bottom: 0;
   height: 20vh;
@@ -1046,24 +1046,24 @@
   flex-direction: row;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  margin: 2rem auto 4rem auto; 
+  margin: 2rem auto 4rem auto;
   /* border-radius: 0.3rem;
   border: 3px solid black; */
   width: 1250px;
 }
 
-.result-job-text{
+.result-job-text {
   text-align: center;
   color: white;
 }
 
-.octo-night-box{
+.octo-night-box {
   display: flex;
   justify-content: center;
   cursor: pointer;
 }
 
-.gamer-nickname{
+.gamer-nickname {
   z-index: 10000050;
   text-align: center;
   color: white;
@@ -1071,9 +1071,10 @@
   bottom: 6px;
   font-size: 22px;
   font-family: Arial, Helvetica, sans-serif;
+  cursor: default;
 }
 
-.winner-text{
+.winner-text {
   text-align: center;
   font-size: 80px;
   font-family: "GmarketSansBold";
@@ -1081,20 +1082,20 @@
   margin: 2rem 0 0 0;
 }
 
-.winner-crown{
+.winner-crown {
   z-index: 10;
   margin-bottom: -1.7rem;
   font-size: xx-large;
 }
 
-.agree-non-pickuser{
+.agree-non-pickuser {
   z-index: -9999999;
   width: 0;
   height: 0;
   position: absolute;
 }
 
-.mini-sun{
+.mini-sun {
   position: static;
   font-size: 2.5rem !important;
   margin: 7px 20px 0 20px;
@@ -1102,7 +1103,7 @@
   animation: sun-rotation 4s infinite linear;
 }
 
-.mini-moon{
+.mini-moon {
   position: static;
   font-size: 2.5rem !important;
   margin: 7px 20px 0 20px;
@@ -1110,7 +1111,7 @@
   animation: moon-rotation 4s infinite linear;
 }
 
-.mini-vote{
+.mini-vote {
   position: static;
   font-size: 2.5rem !important;
   margin: 7px 20px 0 20px;

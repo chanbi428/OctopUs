@@ -94,6 +94,7 @@
   text-align: center;
   color: white;
   text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+  cursor: default;
 }
 
 .night {
@@ -108,6 +109,7 @@
 .timer_bar {
   display: flex;
   justify-content: space-between;
+  cursor: default;
 }
 
 .pick-for-vote {

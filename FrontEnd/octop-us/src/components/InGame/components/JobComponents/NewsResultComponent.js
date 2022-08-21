@@ -6,6 +6,7 @@ import axios from "axios";
 import { hasntSkill } from "../../../../features/gamer/gamerSlice";
 import { Autorenew } from "@material-ui/icons";
 
+import "./NewsResultComponent.css";
 import typing from "../../../../effect/typing.mp3";
 
 function NewsResultComponent(props) {

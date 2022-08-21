@@ -59,6 +59,7 @@
   border-bottom-right-radius: 15px;
   background-color: #fdfcdc;
   margin-top: 2px;
+  cursor: default;
 }
 
 .main-page__user-image {

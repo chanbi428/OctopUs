@@ -8,6 +8,7 @@
   background-color: #fdfcdc;
   overflow: hidden;
   border: 3px solid black;
+  cursor: default;
 }
 
 .mafia_cardbox_not {
@@ -21,7 +22,6 @@
   border: 5px solid black;
   padding: 2rem;
   gap: 1rem;
-  /* font-family: "BMJUA"; */
 }
 
 .mafia_cardbox {
