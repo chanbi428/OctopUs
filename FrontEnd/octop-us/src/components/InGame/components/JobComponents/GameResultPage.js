@@ -21,11 +21,12 @@ function GameResultComponent(props) {
     axios
       .get(`${BASE_URL}/gamers/${props.victoryUsers[0]}`)
       .then((res) => {
-        if (res.data.gameTeam === "중립") {
-          setWinTeam("재간둥이");
-        } else {
-          setWinTeam(res.data.gameTeam);
-        }
+        setWinTeam(res.data.gameTeam);
+        // if (res.data.gameTeam === "중립") {
+        //   setWinTeam("재간둥이");
+        // } else {
+        //   setWinTeam(res.data.gameTeam);
+        // }
       })
       .catch((err) => console.log(err));
 
@@ -43,7 +44,15 @@ function GameResultComponent(props) {
       .catch((err) => console.log(err));
   }, []);
 
-  return <div className="winner-text">{winTeam}팀 승리!</div>;
+  return (
+    <div>
+      {winTeam === "마피아" && (
+        <div className="winner-text">오징어팀 승리!</div>
+      )}
+      {winTeam === "시민" && <div className="winner-text">문어팀 승리!</div>}
+      {winTeam === "중립" && <div className="winner-text">재간둥이 승리!</div>}
+    </div>
+  );
 }
 
 export default GameResultComponent;

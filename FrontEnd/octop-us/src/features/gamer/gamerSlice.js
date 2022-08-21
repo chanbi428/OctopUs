@@ -26,6 +26,17 @@ const initialState = {
   pickUser: "",
   gameturn: 0,
   sjh: "",
+  // 크레이지 경찰 직업 배열
+  crazyjobs: [
+    "오징어",
+    "오징어",
+    "문어",
+    "문어",
+    "문어",
+    "문어",
+    "문어",
+    "문어",
+  ],
 };
 
 const gamerSlice = createSlice({
@@ -194,6 +205,13 @@ const gamerSlice = createSlice({
       state.pickUser = "";
       state.gameturn = 0;
     },
+    // 크레이지 경찰 직업 카드 클릭 시 배열 섞기
+    setCrazyJobs: (state) => {
+      const shuffle = () => Math.random() - 0.5;
+      const shuffled = [...state.crazyjobs].sort(shuffle);
+      state.crazyjobs = shuffled;
+      console.log("크레이지경찰정보다직업", state.crazyjobs);
+    },
   },
   extraReducers: {
     /*
@@ -323,6 +341,7 @@ export const {
   setPickUser,
   setTurnCheck,
   resetGamer,
+  setCrazyJobs,
 } = gamerSlice.actions;
 
 export default gamerSlice.reducer;
