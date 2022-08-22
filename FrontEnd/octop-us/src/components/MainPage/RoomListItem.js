@@ -97,7 +97,8 @@ function RoomListItem({ item, pauseBgmAudio }) {
           .then((res) => {
             pauseBgmAudio();
             console.log(res);
-            document.location.href = `${CLIENT_URL}/${item.roomId}`;
+            // document.location.href = `${CLIENT_URL}/${item.roomId}`;
+            navigate(`${CLIENT_URL}/${item.roomId}`);
             console.log(document.location.pathname);
           })
           .catch((err) => console.log(err));

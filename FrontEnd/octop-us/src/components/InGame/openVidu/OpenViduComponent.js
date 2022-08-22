@@ -42,11 +42,14 @@ import VoteAgreeComponent from "../components/MusicComponents/VoteAgreeComponent
 import WaitingComponent from "../components/MusicComponents/WaitingComponent";
 import "./OpenViduComponent.css";
 
+import ErrorGuideComponent from "../components/ErrorComponents/ErrorGuideComponent";
+
 import OpenViduLayout from "../layout/openvidu-layout";
 import UserModel from "../models/user-model";
 import ToolbarComponent from "./toolbar/ToolbarComponent";
 import Swal from "sweetalert2";
 
+import { useSelector } from "react-redux";
 import { connect } from "react-redux";
 import {
   updateUserListforDead,
@@ -347,6 +350,7 @@ class OpenViduComponent extends Component {
   }
 
   updateSubscribers() {
+    console.log("updateSubscribers here");
     var subscribers = this.remotes;
     this.setState(
       {
@@ -367,6 +371,7 @@ class OpenViduComponent extends Component {
   }
 
   leaveSession() {
+    console.log("leaveSession on Here");
     const mySession = this.state.session;
     // 유저 퇴장 시 채팅으로 [서버] 퇴장 알림.
     // console.log("ovref 퇴장 알림 준비. ovref.current null 시 주석 처리", this.ovref)
@@ -443,6 +448,19 @@ class OpenViduComponent extends Component {
   subscribeToStreamDestroyed() {
     // On every Stream destroyed...
     this.state.session.on("streamDestroyed", (event) => {
+      console.log("Stream destroyed");
+      const obj = {
+        job: this.props.gamerData.job,
+      };
+      console.log("obj.job : " + obj.job);
+      if(obj.job !== undefined && obj.job !== null){
+        console.log("Job is not undefined : " + obj.job);
+        // this.state.page = -1;
+        this.setState({ page: -1 });
+      }
+      else{
+        console.log("Job is undefined");
+      }
       // Remove the stream from 'subscribers' array
       this.deleteSubscriber(event.stream);
       setTimeout(() => {
@@ -454,6 +472,7 @@ class OpenViduComponent extends Component {
   }
 
   subscribeToUserChanged() {
+    console.log('subscribeToUserChanged');
     this.state.session.on("signal:userChanged", (event) => {
       let remoteUsers = this.state.subscribers;
       remoteUsers.forEach((user) => {
@@ -1278,6 +1297,9 @@ class OpenViduComponent extends Component {
     var chatDisplay = { display: this.state.chatDisplay };
     return (
       <div>
+        {this.state.page == -1 && (
+          <ErrorGuideComponent/>
+        )}
         {this.state.page === 0 && ( // 대기실
           <div>
             <WaitingComponent setPlayTrue={this.setPlayTrue} />
