@@ -1237,6 +1237,40 @@ class OpenViduComponent extends Component {
     // this.setState({ play: true });
   };
 
+  setFilter = () => {
+    console.log("필터전", this.state.localUser)
+    let publisher = this.state.localUser.getStreamManager()
+    publisher.stream.applyFilter('FaceOverlayFilter')
+        .then(filter => {
+          filter.execMethod(
+            'setOverlayedImage',
+            {
+              uri: 'https://cdn.pixabay.com/photo/2017/02/01/11/13/ancient-2029708_960_720.png',
+              "offsetXPercent":"-0.2F",
+              "offsetYPercent":"-0.8F",
+              "widthPercent":"1.3F",
+              "heightPercent":"1.0F"
+            })
+        })
+    setTimeout(() => {
+      console.log("필터후", this.state.localUser)
+    }, 1000);
+  }
+
+  resetFilter = () => {
+    if(this.state.localUser.streamManager.stream.filter) {
+      console.log("필터링초기화")
+      let publisher = this.state.localUser.getStreamManager()
+      publisher.stream.removeFilter()
+        .then(() => {
+            console.log("Filter removed");
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }
+  }
+
   render() {
     const mySessionId = this.props.sessionName; // !== undefined ? this.props.sessionName : "SessionA";
 
@@ -2462,7 +2496,7 @@ class OpenViduComponent extends Component {
           <div className="d-flex flex-column justify-content-center">
             {/* 승자들 */}
             <div>
-              <GameResultPage victoryUsers={this.state.victoryUsers} />
+              <GameResultPage victoryUsers={this.state.victoryUsers} setFilter={this.setFilter} resetFilter={this.resetFilter} />
             </div>
             <div className="d-flex justify-content-around winner-box">
               {this.props.gamerData.userList
@@ -2603,7 +2637,13 @@ class OpenViduComponent extends Component {
 
   createToken(sessionId) {
     return new Promise((resolve, reject) => {
-      var data = JSON.stringify({});
+      var data = JSON.stringify({
+        kurentoOptions: {
+          type: 'WEBRTC',
+          role: 'PUBLISHER',
+          allowedFilters: ['GStreamerFilter', 'FaceOverlayFilter']
+        }
+      });
       axios
         .post(
           this.OPENVIDU_SERVER_URL +

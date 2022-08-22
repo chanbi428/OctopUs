@@ -13,6 +13,7 @@ function GameResultComponent(props) {
   let pathName = document.location.pathname.replace("/", "");
   const [winTeam, setWinTeam] = useState("");
   const room = useSelector((state) => state.wait);
+  const gamer = useSelector((state) => state.gamer);
   useEffect(() => {
     var audio = new Audio(MP_EndGame);
     audio.loop = true;
@@ -42,7 +43,18 @@ function GameResultComponent(props) {
       .put(`${BASE_URL}/rooms/update/status/end/${pathName}`)
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
+    
+    if(props.victoryUsers.includes(gamer.userName)) {
+      props.setFilter()
+      console.log("필터링 됨")
+    }
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      props.resetFilter()
+    }, 7000);
+  },[])
 
   return (
     <div>
