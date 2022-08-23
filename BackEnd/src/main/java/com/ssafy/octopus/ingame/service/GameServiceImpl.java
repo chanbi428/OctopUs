@@ -56,19 +56,19 @@ public class GameServiceImpl implements GameService {
         List<String[]> jobs = new ArrayList<>();
         for(int i=0; i<8; i++){
             if(users.get(i).equals("문어숙회")){
-                jobs.add(new String[]{"마피아", "마피아"});
-            } else if (users.get(i).equals("오하민")){
-                jobs.add(new String[]{"마피아", "마피아"});
-            } else if (users.get(i).equals("나마피아임")){
-                jobs.add(new String[]{"경찰", "시민"});
-            } else if (users.get(i).equals("닥터배사부")){
-                jobs.add(new String[]{"의사", "시민"});
-            } else if (users.get(i).equals("해삼말미잘")){
                 jobs.add(new String[]{"크레이지경찰", "시민"});
-            } else if (users.get(i).equals("용용용용용")){
-                jobs.add(new String[]{"기자", "시민"});
-            } else if (users.get(i).equals("소리질러")){
+            } else if (users.get(i).equals("오하민")){
+                jobs.add(new String[]{"경찰", "시민"});
+            } else if (users.get(i).equals("나마피아임")){
+                jobs.add(new String[]{"마피아", "마피아"});
+            } else if (users.get(i).equals("닥터배사부")){
+                jobs.add(new String[]{"마피아", "마피아"});
+            } else if (users.get(i).equals("해삼말미잘")){
                 jobs.add(new String[]{"시장", "시민"});
+            } else if (users.get(i).equals("용용용용용")){
+                jobs.add(new String[]{"의사", "시민"});
+            } else if (users.get(i).equals("소리질러")){
+                jobs.add(new String[]{"기자", "시민"});
             } else if (users.get(i).equals("재간둥스")){
                 jobs.add(new String[]{"재간둥이", "중립"});
             }
