@@ -196,38 +196,63 @@
 ![기술스택](/uploads/fb67c18d7e441b9647a2e81117b57c6f/기술스택.png)
 
 - Issue 관리
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/64809643-837d-44aa-a9a9-5e527b7310ab/Untitled.png)
   - JIRA
+  
 
 - 형상 관리
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6e4c3fab-30f8-42fd-b5d6-6cd691ed71c7/Untitled.png)
   - GitLab
 
 - 커뮤니티
-  - MatterMost, Webex
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/92d95b47-1a62-4e0c-9101-615308bb32bc/Untitled.png)
+  - MatterMost
+  
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1259be28-17c9-405f-8733-f8e49c15be65/Untitled.png)
+  - Webex
+
 
 - 개발 환경
-  - OS: Windows
+  
+  - OS: Windows ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/300d5c9c-19ea-45b5-a2c9-90960b869e11/Untitled.png)
+  
   - IDE 
+    - ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/842cfe45-3815-4c76-a6e2-3411cb81b70a/Untitled.png)
     - IntelliJ IDEA 2022.1.4 (Ultimate Edition)
+
+    - ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bb830199-e22d-4ffe-9c74-19c75a74429d/Untitled.png)
     - Visual Studio Code 1.70.1
+  
   - Database
-    - MariaDB
-    - MySQL WorkBench
+    - ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/febb442f-8078-4075-8853-aff53df957de/Untitled.png)
+    - MariaDB 10.3.34
+    - ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/adf61f3d-7760-4167-8cb6-49dcb4316391/Untitled.png)
+    - MySQL WorkBench 8.0
+
   - Server
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8e77f058-3440-41be-86e7-7e8fe907a370/Untitled.png)
     - Ubuntu 20.04 LTS
 
 - frontend
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5335f244-0ef2-4f26-92d1-918c8157d2fc/Untitled.png)
   - HTML5, CSS3, JAVASCRIPT(ES6)
   - React 17.0.2
+  - React-redux 8.0.2
+  - redux-toolkit 1.8.3
   - Node JS 16.16.0
   - OpenVidu 2.22.0
 
 - backend
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f209b572-fd27-48ed-8d7e-145d35350c10/Untitled.png)
   - Java (Zulu 8.33.0.1-win64)
   - Spring Boot Gradle 7.5
   - Lombok 1.18.24
   - Swagger 3.0.0
+  - JPA
+  - JWT
 
 - AWS EC2
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ac1a29cf-0a4b-4503-81ad-cc2be4d39ef4/Untitled.png)
   - Docker (20.10.17)
   - Nginx (1.18.0)
   - certBot
