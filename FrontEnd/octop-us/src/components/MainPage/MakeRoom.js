@@ -71,7 +71,7 @@ function MakeRoom({ pauseBgmAudio }) {
           })
           .then((res) => {
             // document.location.href = `${CLIENT_URL}/${res.data.roomId}`;
-            navigate(`${CLIENT_URL}/${res.data.roomId}`);
+            navigate(`${res.data.roomId}`);
           })
           .catch((err) => console.log(err));
       } else {
