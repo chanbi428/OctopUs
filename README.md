@@ -201,33 +201,33 @@
 ![기술스택](/uploads/fb67c18d7e441b9647a2e81117b57c6f/기술스택.png)
 
 - Issue 관리
-  <img src="/uploads/985edf13897e316cee9adcae4264d648/jira.png" width="200" height="100"/>
+  <img src="/uploads/985edf13897e316cee9adcae4264d648/jira.png" width="100" height="50"/>
   
 - 형상 관리
-  <img src="/uploads/0ac4f12073e9f87a5d5e026595db363b/gitLab.png" width="200" height="100"/>
+  <img src="/uploads/0ac4f12073e9f87a5d5e026595db363b/gitLab.png" width="100" height="50"/>
 
 - 커뮤니티
-  <img src="/uploads/5528758afe9cabff640922353085bfde/mm.png" width="200" height="100"/>
-  <img src="/uploads/6bb015e42fe779866bbad7c2354e5fe9/webex.png" width="200" height="100"/>
+  <img src="/uploads/5528758afe9cabff640922353085bfde/mm.png" width="100" height="50"/>
+  <img src="/uploads/6bb015e42fe779866bbad7c2354e5fe9/webex.png" width="100" height="50"/>
 
 - 개발 환경
   
-  - OS: <img src="/uploads/f42c7b595853ccc591a51659958f7bd7/windows.png" width="200" height="100"/>
+  - OS: <img src="/uploads/f42c7b595853ccc591a51659958f7bd7/windows.png" width="100" height="50"/>
   - IDE 
-    - <img src="/uploads/d8c2d458185896e3dbdf94347a11379c/intellij.png" width="200" height="100"/>
+    - <img src="/uploads/d8c2d458185896e3dbdf94347a11379c/intellij.png" width="100" height="50"/>
     - IntelliJ IDEA 2022.1.4 (Ultimate Edition)
 
-    - <img src="/uploads/8a2a0c557d97464d5452f2785f5d762a/vscode.png" width="200" height="100"/>
+    - <img src="/uploads/8a2a0c557d97464d5452f2785f5d762a/vscode.png" width="100" height="50"/>
     - Visual Studio Code 1.70.1
   
   - Database
-    - <img src="/uploads/fdbe2f33de650a6b01251f7905655941/mariadb.png" width="200" height="100"/>
+    - <img src="/uploads/fdbe2f33de650a6b01251f7905655941/mariadb.png" width="100" height="50"/>
     - MariaDB 10.3.34
-    - <img src="/uploads/101f2ad90f1c408cd7b5ebf48d82ee32/mysql.png" width="200" height="100"/>
+    - <img src="/uploads/101f2ad90f1c408cd7b5ebf48d82ee32/mysql.png" width="100" height="50"/>
     - MySQL WorkBench 8.0
 
   - Server
-    - <img src="/uploads/1fa349f0e063b199a0df272358b1d4cf/ubuntu.png" width="200" height="100"/>
+    - <img src="/uploads/1fa349f0e063b199a0df272358b1d4cf/ubuntu.png" width="100" height="50"/>
     - Ubuntu 20.04 LTS
 
 - frontend
