@@ -42,7 +42,7 @@ export const Timer = (time, user, page, flag, obj) => {
       } else if (page == 2) {
         data2 = {
           page: 3,
-          initTime: 20,
+          initTime: 10,
         };
         // 밤 -> 낮 애니메이션
       } else if (page == 3) {
@@ -66,7 +66,7 @@ export const Timer = (time, user, page, flag, obj) => {
         if (flag.gameEnd) {
           data2 = {
             page: 15,
-            initTime: 7,
+            initTime: 15,
           };
           // 기자가 능력 사용
         } else if (obj.reporter !== "") {
@@ -104,7 +104,7 @@ export const Timer = (time, user, page, flag, obj) => {
           } else {
             data2 = {
               page: 10,
-              initTime: obj.gameTime,
+              initTime: 50,
             };
           }
         }
@@ -138,7 +138,7 @@ export const Timer = (time, user, page, flag, obj) => {
         } else {
           data2 = {
             page: 10,
-            initTime: obj.gameTime,
+            initTime: 50,
           };
         }
         // 낮 -> 밤 애니메이션(미니게임 마피아 승) or 투표
@@ -153,7 +153,7 @@ export const Timer = (time, user, page, flag, obj) => {
         } else {
           data2 = {
             page: 11,
-            initTime: 20,
+            initTime: 15,
           };
           user.getStreamManager().stream.session.signal({
             data: JSON.stringify(data2),
@@ -185,7 +185,7 @@ export const Timer = (time, user, page, flag, obj) => {
         if (flag.voteGo) {
           data2 = {
             page: 13,
-            initTime: 15,
+            initTime: 10,
           };
           // 투표결과 없어서 밤으로 이동
         } else {
@@ -240,7 +240,7 @@ export const Timer = (time, user, page, flag, obj) => {
         if (flag.gameEnd) {
           data2 = {
             page: 15,
-            initTime: 7,
+            initTime: 20,
           };
           // 밤 애니메이션
         } else {
@@ -259,7 +259,7 @@ export const Timer = (time, user, page, flag, obj) => {
         isChange = 0;
         data2 = {
           page: 10,
-          initTime: obj.gameTime,
+          initTime: 50,
         };
       }
       if (isChange === 0 && obj.roomChief === user.nickname) {
