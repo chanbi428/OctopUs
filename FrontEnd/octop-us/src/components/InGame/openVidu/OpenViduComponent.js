@@ -554,7 +554,7 @@ class OpenViduComponent extends Component {
   // 임시로 만들어놓은 대기실에서 이동하는 버튼 함수
   clickBtn = () => {
     var audio = new Audio(MP_btn1);
-    audio.volume = 0.2; // 여기
+    audio.volume = 0.1; // 여기
     audio.play();
     if (this.props.waitData.personNum != 8) {
       Swal.fire({
@@ -1262,7 +1262,7 @@ class OpenViduComponent extends Component {
 
   setPlayTrue = () => {
     this.bgmAudio.loop = true;
-    this.bgmAudio.volume = 0.6;
+    this.bgmAudio.volume = 0.05;
     this.bgmAudio.play();
     // this.setState ( {bgmAudio : {loop: true, volume : 0.2}});
     // this.state.bgmAudio.play();

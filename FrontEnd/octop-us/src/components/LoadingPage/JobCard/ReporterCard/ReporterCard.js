@@ -22,7 +22,7 @@ export const ReporterCard = () => {
           <div className="card_rep back_rep"></div>
         </div>
         <audio
-          volume="0.2"
+          volume="0.05"
           src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/945546/%E7%BF%BB%E7%89%8C%E9%9F%B3%E6%95%88.m4a"
           id="audioHint"
         ></audio>

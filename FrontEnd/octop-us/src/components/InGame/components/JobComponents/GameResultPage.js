@@ -16,7 +16,7 @@ function GameResultComponent(props) {
   const gamer = useSelector((state) => state.gamer);
   useEffect(() => {
     var audio = new Audio(MP_EndGame);
-    audio.volume = 0.2;
+    audio.volume = 0.03;
     audio.loop = true;
     audio.play();
     axios

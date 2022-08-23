@@ -10,7 +10,7 @@ const FishingGameStartCount = () => {
     const timer = setTimeout(() => {
       if (count <= 5 && count > 1) {
         var audio = new Audio(MP_count);
-        audio.volume = 0.2; // 여기
+        audio.volume = 0.03; // 여기
         audio.play();
       }
       console.log("startcount" + count);

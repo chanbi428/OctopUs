@@ -81,13 +81,13 @@ const FishingGameStart = (props) => {
   useEffect(() => {
     var aniAudio = new Audio(MP_MiniAni);
     aniAudio.loop = true;
-    aniAudio.volume = 0.3;
+    aniAudio.volume = 0.05;
     aniAudio.play();
     setTimeout(() => aniAudio.pause(), 9000);
     var gameAudio = new Audio(MP_MiniGame);
     setTimeout(() => {
       gameAudio.loop = true;
-      gameAudio.volume = 0.4;
+      gameAudio.volume = 0.05;
       gameAudio.play();
     }, 15500);
     setTimeout(() => gameAudio.pause(), 35000); // 테스트용

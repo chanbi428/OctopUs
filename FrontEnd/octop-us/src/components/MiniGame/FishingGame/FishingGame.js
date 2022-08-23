@@ -250,7 +250,7 @@ const FishingComponent = (props) => {
   }
   function countFun(e) {
     var audio = new Audio(MP_btn3);
-    audio.volume = 0.2; // 여기
+    audio.volume = 0.03; // 여기
     audio.play();
     setCount(count + 1);
   }
