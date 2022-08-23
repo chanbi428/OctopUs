@@ -53,7 +53,7 @@ function GameResultComponent(props) {
   useEffect(() => {
     setTimeout(() => {
       props.resetFilter()
-    }, 7000);
+    }, 15000);
   },[])
 
   return (

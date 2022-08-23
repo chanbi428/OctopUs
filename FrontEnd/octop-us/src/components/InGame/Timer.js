@@ -240,7 +240,7 @@ export const Timer = (time, user, page, flag, obj) => {
         if (flag.gameEnd) {
           data2 = {
             page: 15,
-            initTime: 20,
+            initTime: 15,
           };
           // 밤 애니메이션
         } else {
