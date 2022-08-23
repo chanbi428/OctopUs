@@ -75,6 +75,7 @@ class ChatComponent extends Component {
             data.job === this.props.gamerData.job
           ) {
             var audio = new Audio(MP_Pling);
+            audio.volume = 0.2; // 여기
             audio.play();
 
             console.log("경찰 지목이 들어왔다고 알림", message);
@@ -87,6 +88,7 @@ class ChatComponent extends Component {
               this.props.getGamerData().isDead === true
             ) {
               var audio = new Audio(MP_Pling);
+              audio.volume = 0.2; // 여기
               audio.play();
 
               // 유령
@@ -98,6 +100,7 @@ class ChatComponent extends Component {
               this.props.getGamerData().gameStatus !== 1
             ) {
               var audio = new Audio(MP_Pling);
+              audio.volume = 0.2; // 여기
               audio.play();
 
               this.props.setMessageList({ message: message });
@@ -110,6 +113,7 @@ class ChatComponent extends Component {
               data.isDead === false
             ) {
               var audio = new Audio(MP_Pling);
+              audio.volume = 0.2; // 여기
               audio.play();
 
               this.props.setMessageList({ message: message });

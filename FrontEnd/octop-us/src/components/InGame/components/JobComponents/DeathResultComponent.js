@@ -15,11 +15,13 @@ function DeathResultComponent(props) {
   useEffect(() => {
     if (props.killed !== "없음") {
       var audio = new Audio(MP_Scary);
+      audio.volume = 0.2; // 여기
       audio.play();
 
       setTimeout(() => audio.pause(), 3000);
     } else {
       var audio = new Audio(MP_noEvent);
+      audio.volume = 0.2; // 여기
       audio.play();
 
       setTimeout(() => audio.pause(), 3000);

@@ -8,7 +8,7 @@ function VoteAgreeComponent(props) {
   useEffect(() => {
     var audio = new Audio(MP_clock);
     audio.loop = true;
-    audio.volume = 0.5;
+    audio.volume = 0.2;
     audio.play();
     // setTimeout(() => audio.pause(), room.gameTime); // 나중에는 이거 사용
     setTimeout(() => audio.pause(), 3000); // 테스트용

@@ -59,6 +59,7 @@ function SharkGame(props) {
 
   const onClickHandler = (e) => {
     var audio = new Audio(MP_btn3);
+    audio.volume = 0.2; // 여기
     audio.play();
     const num = parseInt(e.target.innerText);
     const isCorrect = async () => {
@@ -119,7 +120,10 @@ function SharkGame(props) {
       {startChange && (
         <div className="shark-game__board">
           <SharkGameTimer isFinish={isFinish} />
-          <SharkGameBoard numbers={numbers} handleClick={onClickHandler}></SharkGameBoard>
+          <SharkGameBoard
+            numbers={numbers}
+            handleClick={onClickHandler}
+          ></SharkGameBoard>
         </div>
       )}
     </div>
