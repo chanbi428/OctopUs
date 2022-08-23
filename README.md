@@ -15,9 +15,10 @@
 - 2. [🦑게임 규칙](#-게임-규칙)
 - 3. [⚽게임 FLOW](#-게임-flow)
 4. [💡 주요 기능](#-주요-기능)
-5. [⚙️ 기술 스택](#-기술-스택)
-6. [🏑 conventionss](#-conventionss)
-5. [🌐 배포 방법](#-배포-방법)
+5. [📝 스프린트](#-스프린트)
+6. [⚙️ 기술 스택](#-기술-스택)
+7. [🏑 conventionss](#-conventionss)
+8. [🌐 배포 방법](#-배포-방법)
 
 
 <br>
@@ -190,51 +191,49 @@
 
 <br>
 
+## 📝 스프린트
+
+![jira_sprint](/uploads/0d68d5339dc7ee9387c68eb77f82a138/jira_sprint.png)
+
 
 ## ⚙️ 기술 스택
 
 ![기술스택](/uploads/fb67c18d7e441b9647a2e81117b57c6f/기술스택.png)
 
 - Issue 관리
-  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/64809643-837d-44aa-a9a9-5e527b7310ab/Untitled.png)
-  - JIRA
+  ![JIRA](/uploads/985edf13897e316cee9adcae4264d648/jira.png)
   
-
 - 형상 관리
-  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6e4c3fab-30f8-42fd-b5d6-6cd691ed71c7/Untitled.png)
-  - GitLab
+  ![GitLab](/uploads/0ac4f12073e9f87a5d5e026595db363b/gitLab.png)
 
 - 커뮤니티
-  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/92d95b47-1a62-4e0c-9101-615308bb32bc/Untitled.png)
-  - MatterMost
+  ![MatterMost](/uploads/5528758afe9cabff640922353085bfde/mm.png)
   
-  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1259be28-17c9-405f-8733-f8e49c15be65/Untitled.png)
-  - Webex
+  ![Webex](/uploads/6bb015e42fe779866bbad7c2354e5fe9/webex.png)
 
 
 - 개발 환경
   
-  - OS: Windows ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/300d5c9c-19ea-45b5-a2c9-90960b869e11/Untitled.png)
-  
+  - OS: ![Windows](/uploads/f42c7b595853ccc591a51659958f7bd7/windows.png)
   - IDE 
-    - ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/842cfe45-3815-4c76-a6e2-3411cb81b70a/Untitled.png)
+    - ![IntelliJ](/uploads/d8c2d458185896e3dbdf94347a11379c/intellij.png)    
     - IntelliJ IDEA 2022.1.4 (Ultimate Edition)
 
-    - ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bb830199-e22d-4ffe-9c74-19c75a74429d/Untitled.png)
+    - ![VSCode](/uploads/8a2a0c557d97464d5452f2785f5d762a/vscode.png)
     - Visual Studio Code 1.70.1
   
   - Database
-    - ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/febb442f-8078-4075-8853-aff53df957de/Untitled.png)
+    - ![MariaDB](/uploads/fdbe2f33de650a6b01251f7905655941/mariadb.png)
     - MariaDB 10.3.34
-    - ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/adf61f3d-7760-4167-8cb6-49dcb4316391/Untitled.png)
+    - ![MySQL WorkBench](/uploads/101f2ad90f1c408cd7b5ebf48d82ee32/mysql.png)
     - MySQL WorkBench 8.0
 
   - Server
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8e77f058-3440-41be-86e7-7e8fe907a370/Untitled.png)
+    ![Ubuntu](/uploads/1fa349f0e063b199a0df272358b1d4cf/ubuntu.png)
     - Ubuntu 20.04 LTS
 
 - frontend
-  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5335f244-0ef2-4f26-92d1-918c8157d2fc/Untitled.png)
+  ![FE](/uploads/a9a02c393437c533fc83c0895f310e63/fe.png)
   - HTML5, CSS3, JAVASCRIPT(ES6)
   - React 17.0.2
   - React-redux 8.0.2
@@ -243,7 +242,7 @@
   - OpenVidu 2.22.0
 
 - backend
-  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f209b572-fd27-48ed-8d7e-145d35350c10/Untitled.png)
+  ![BE](/uploads/48aa52bad0962a31a2882b46030885d0/be.png)
   - Java (Zulu 8.33.0.1-win64)
   - Spring Boot Gradle 7.5
   - Lombok 1.18.24
@@ -252,7 +251,7 @@
   - JWT
 
 - AWS EC2
-  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ac1a29cf-0a4b-4503-81ad-cc2be4d39ef4/Untitled.png)
+  ![Server](/uploads/9a47c4b7013bca4fb3ec91e25a274eb8/server.png)
   - Docker (20.10.17)
   - Nginx (1.18.0)
   - certBot
