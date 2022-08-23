@@ -201,39 +201,37 @@
 ![기술스택](/uploads/fb67c18d7e441b9647a2e81117b57c6f/기술스택.png)
 
 - Issue 관리
-  ![JIRA](/uploads/985edf13897e316cee9adcae4264d648/jira.png)
+  <img src="/uploads/985edf13897e316cee9adcae4264d648/jira.png" width="200" height="100"/>
   
 - 형상 관리
-  ![GitLab](/uploads/0ac4f12073e9f87a5d5e026595db363b/gitLab.png)
+  <img src="/uploads/0ac4f12073e9f87a5d5e026595db363b/gitLab.png" width="200" height="100"/>
 
 - 커뮤니티
-  ![MatterMost](/uploads/5528758afe9cabff640922353085bfde/mm.png)
-  
-  ![Webex](/uploads/6bb015e42fe779866bbad7c2354e5fe9/webex.png)
-
+  <img src="/uploads/5528758afe9cabff640922353085bfde/mm.png" width="200" height="100"/>
+  <img src="/uploads/6bb015e42fe779866bbad7c2354e5fe9/webex.png" width="200" height="100"/>
 
 - 개발 환경
   
-  - OS: ![Windows](/uploads/f42c7b595853ccc591a51659958f7bd7/windows.png)
+  - OS: <img src="/uploads/f42c7b595853ccc591a51659958f7bd7/windows.png" width="200" height="100"/>
   - IDE 
-    - ![IntelliJ](/uploads/d8c2d458185896e3dbdf94347a11379c/intellij.png)    
+    - <img src="/uploads/d8c2d458185896e3dbdf94347a11379c/intellij.png" width="200" height="100"/>
     - IntelliJ IDEA 2022.1.4 (Ultimate Edition)
 
-    - ![VSCode](/uploads/8a2a0c557d97464d5452f2785f5d762a/vscode.png)
+    - <img src="/uploads/8a2a0c557d97464d5452f2785f5d762a/vscode.png" width="200" height="100"/>
     - Visual Studio Code 1.70.1
   
   - Database
-    - ![MariaDB](/uploads/fdbe2f33de650a6b01251f7905655941/mariadb.png)
+    - <img src="/uploads/fdbe2f33de650a6b01251f7905655941/mariadb.png" width="200" height="100"/>
     - MariaDB 10.3.34
-    - ![MySQL WorkBench](/uploads/101f2ad90f1c408cd7b5ebf48d82ee32/mysql.png)
+    - <img src="/uploads/101f2ad90f1c408cd7b5ebf48d82ee32/mysql.png" width="200" height="100"/>
     - MySQL WorkBench 8.0
 
   - Server
-    ![Ubuntu](/uploads/1fa349f0e063b199a0df272358b1d4cf/ubuntu.png)
+    - <img src="/uploads/1fa349f0e063b199a0df272358b1d4cf/ubuntu.png" width="200" height="100"/>
     - Ubuntu 20.04 LTS
 
 - frontend
-  ![FE](/uploads/a9a02c393437c533fc83c0895f310e63/fe.png)
+  <img src="/uploads/a9a02c393437c533fc83c0895f310e63/fe.png" width="700" height="500"/>
   - HTML5, CSS3, JAVASCRIPT(ES6)
   - React 17.0.2
   - React-redux 8.0.2
@@ -242,7 +240,7 @@
   - OpenVidu 2.22.0
 
 - backend
-  ![BE](/uploads/48aa52bad0962a31a2882b46030885d0/be.png)
+  <img src="/uploads/48aa52bad0962a31a2882b46030885d0/be.png" width="700" height="500"/>
   - Java (Zulu 8.33.0.1-win64)
   - Spring Boot Gradle 7.5
   - Lombok 1.18.24
@@ -251,7 +249,7 @@
   - JWT
 
 - AWS EC2
-  ![Server](/uploads/9a47c4b7013bca4fb3ec91e25a274eb8/server.png)
+  <img src="/uploads/9a47c4b7013bca4fb3ec91e25a274eb8/server.png" width="700" height="500"/>
   - Docker (20.10.17)
   - Nginx (1.18.0)
   - certBot
