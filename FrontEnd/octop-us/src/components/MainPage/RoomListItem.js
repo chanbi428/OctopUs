@@ -19,6 +19,7 @@ function RoomListItem({ item, pauseBgmAudio }) {
   };
   const onClickEnterRoom = (e) => {
     var audio = new Audio(MP_btn1);
+    audio.volume = 0.2; // 여기
     audio.play();
     e.preventDefault();
 

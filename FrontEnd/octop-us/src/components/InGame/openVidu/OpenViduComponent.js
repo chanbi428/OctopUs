@@ -453,12 +453,11 @@ class OpenViduComponent extends Component {
         job: this.props.gamerData.job,
       };
       console.log("obj.job : " + obj.job);
-      if(obj.job !== undefined && obj.job !== null){
+      if (obj.job !== undefined && obj.job !== null) {
         console.log("Job is not undefined : " + obj.job);
         // this.state.page = -1;
         this.setState({ page: -1 });
-      }
-      else{
+      } else {
         console.log("Job is undefined");
       }
       // Remove the stream from 'subscribers' array
@@ -472,7 +471,7 @@ class OpenViduComponent extends Component {
   }
 
   subscribeToUserChanged() {
-    console.log('subscribeToUserChanged');
+    console.log("subscribeToUserChanged");
     this.state.session.on("signal:userChanged", (event) => {
       let remoteUsers = this.state.subscribers;
       remoteUsers.forEach((user) => {
@@ -555,6 +554,7 @@ class OpenViduComponent extends Component {
   // 임시로 만들어놓은 대기실에서 이동하는 버튼 함수
   clickBtn = () => {
     var audio = new Audio(MP_btn1);
+    audio.volume = 0.2; // 여기
     audio.play();
     if (this.props.waitData.personNum != 8) {
       Swal.fire({
@@ -616,10 +616,12 @@ class OpenViduComponent extends Component {
     e.preventDefault();
     if (this.state.pickUser === gamer.userName) {
       var audio = new Audio(MP_btn2);
+      audio.volume = 0.2; // 여기
       audio.play();
       this.setState({ pickUser: "" });
     } else if (gamer.isDead === false) {
       var audio = new Audio(MP_btn2);
+      audio.volume = 0.2; // 여기
       audio.play();
       this.setState({ pickUser: gamer.userName });
     }
@@ -633,9 +635,11 @@ class OpenViduComponent extends Component {
       if (this.state.pickUser === gamer.userName) {
         var audio = new Audio(MP_btn2);
         audio.play();
+        audio.volume = 0.2; // 여기
         this.setState({ pickUser: "" });
       } else if (gamer.isDead === false) {
         var audio = new Audio(MP_btn2);
+        audio.volume = 0.2; // 여기
         audio.play();
         this.setState({ pickUser: gamer.userName });
       }
@@ -644,10 +648,12 @@ class OpenViduComponent extends Component {
         console.log("자기 자신은 선택 X");
       } else if (this.state.pickUser === gamer.userName) {
         var audio = new Audio(MP_btn2);
+        audio.volume = 0.2; // 여기
         audio.play();
         this.setState({ pickUser: "" });
       } else if (gamer.isDead === false) {
         var audio = new Audio(MP_btn2);
+        audio.volume = 0.2; // 여기
         audio.play();
         this.setState({ pickUser: gamer.userName });
       }
@@ -659,10 +665,12 @@ class OpenViduComponent extends Component {
           } else if (this.state.pickUser === gamer.userName) {
             var audio = new Audio(MP_btn2);
             audio.play();
+            audio.volume = 0.2; // 여기
             this.setState({ pickUser: "" });
             console.log("reporterpick 같은 유저 선택", this.state.pickUser);
           } else if (gamer.isDead === false) {
             var audio = new Audio(MP_btn2);
+            audio.volume = 0.2; // 여기
             audio.play();
             // console.log(g)
             this.setState({ pickUser: gamer.userName });
@@ -686,6 +694,7 @@ class OpenViduComponent extends Component {
     e.preventDefault();
     if (gamer.isDead === false && gamer.gameJob !== "마피아") {
       var audio = new Audio(MP_btn2);
+      audio.volume = 0.2; // 여기
       audio.play();
       if (this.state.pickUser === gamer.userName) {
         this.setState({ pickUser: "" });
@@ -706,6 +715,7 @@ class OpenViduComponent extends Component {
     console.log("UPDATE PICK USER FROM RECEIVED MESSAGE2 (changePerson 수행)");
     // 다영 이부분은 고민 중
     var audio = new Audio(MP_btn2);
+    audio.volume = 0.2; // 여기
     audio.play();
     if (this.state.pickUser === pickUser) {
       this.setState({ pickUser: "" });
@@ -760,6 +770,7 @@ class OpenViduComponent extends Component {
 
   clickSharkMiniGame = () => {
     var audio = new Audio(MP_btn1);
+    audio.volume = 0.2; // 여기
     audio.play();
     // this.props.setShark();
     // this.usingMinigame({ idx: 1 });
@@ -774,6 +785,7 @@ class OpenViduComponent extends Component {
 
   clickFisherMiniGame = () => {
     var audio = new Audio(MP_btn1);
+    audio.volume = 0.2; // 여기
     audio.play();
     // this.props.setFisher();
     // this.usingMinigame({ idx: 0 });
@@ -788,6 +800,7 @@ class OpenViduComponent extends Component {
 
   clickBtnGame = (e) => {
     var audio = new Audio(MP_btn2);
+    audio.volume = 0.2; // 여기
     audio.play();
     console.log("clickBtnGame : " + e);
     // this.setState({ page: 2 });
@@ -812,6 +825,7 @@ class OpenViduComponent extends Component {
 
   selectAgree = (e) => {
     var audio = new Audio(MP_btn2);
+    audio.volume = 0.2; // 여기
     audio.play();
     this.setState({ agree: true });
     console.log("AGREE VOTE 찬성 여부 : " + this.state.agree);
@@ -823,6 +837,7 @@ class OpenViduComponent extends Component {
   // 다영 수정
   selectDisAgree = (e) => {
     var audio = new Audio(MP_btn2);
+    audio.volume = 0.2; // 여기
     audio.play();
     this.setState({ agree: false });
     console.log("AGREE VOTE 찬성 여부 : " + this.state.agree);
@@ -1255,38 +1270,36 @@ class OpenViduComponent extends Component {
   };
 
   setFilter = () => {
-    console.log("필터전", this.state.localUser)
-    let publisher = this.state.localUser.getStreamManager()
-    publisher.stream.applyFilter('FaceOverlayFilter')
-        .then(filter => {
-          filter.execMethod(
-            'setOverlayedImage',
-            {
-              uri: 'https://cdn.pixabay.com/photo/2017/02/01/11/13/ancient-2029708_960_720.png',
-              "offsetXPercent":"-0.2F",
-              "offsetYPercent":"-0.8F",
-              "widthPercent":"1.3F",
-              "heightPercent":"1.0F"
-            })
-        })
+    console.log("필터전", this.state.localUser);
+    let publisher = this.state.localUser.getStreamManager();
+    publisher.stream.applyFilter("FaceOverlayFilter").then((filter) => {
+      filter.execMethod("setOverlayedImage", {
+        uri: "https://cdn.pixabay.com/photo/2017/02/01/11/13/ancient-2029708_960_720.png",
+        offsetXPercent: "-0.2F",
+        offsetYPercent: "-0.8F",
+        widthPercent: "1.3F",
+        heightPercent: "1.0F",
+      });
+    });
     setTimeout(() => {
-      console.log("필터후", this.state.localUser)
+      console.log("필터후", this.state.localUser);
     }, 1000);
-  }
+  };
 
   resetFilter = () => {
-    if(this.state.localUser.streamManager.stream.filter) {
-      console.log("필터링초기화")
-      let publisher = this.state.localUser.getStreamManager()
-      publisher.stream.removeFilter()
+    if (this.state.localUser.streamManager.stream.filter) {
+      console.log("필터링초기화");
+      let publisher = this.state.localUser.getStreamManager();
+      publisher.stream
+        .removeFilter()
         .then(() => {
-            console.log("Filter removed");
+          console.log("Filter removed");
         })
-        .catch(error => {
-            console.error(error);
+        .catch((error) => {
+          console.error(error);
         });
     }
-  }
+  };
 
   render() {
     const mySessionId = this.props.sessionName; // !== undefined ? this.props.sessionName : "SessionA";
@@ -1295,9 +1308,7 @@ class OpenViduComponent extends Component {
     var chatDisplay = { display: this.state.chatDisplay };
     return (
       <div>
-        {this.state.page == -1 && (
-          <ErrorGuideComponent/>
-        )}
+        {this.state.page == -1 && <ErrorGuideComponent />}
         {this.state.page === 0 && ( // 대기실
           <div>
             <WaitingComponent setPlayTrue={this.setPlayTrue} />
@@ -2516,7 +2527,11 @@ class OpenViduComponent extends Component {
           <div className="d-flex flex-column justify-content-center">
             {/* 승자들 */}
             <div>
-              <GameResultPage victoryUsers={this.state.victoryUsers} setFilter={this.setFilter} resetFilter={this.resetFilter} />
+              <GameResultPage
+                victoryUsers={this.state.victoryUsers}
+                setFilter={this.setFilter}
+                resetFilter={this.resetFilter}
+              />
             </div>
             <div className="d-flex justify-content-around winner-box">
               {this.props.gamerData.userList
@@ -2659,10 +2674,10 @@ class OpenViduComponent extends Component {
     return new Promise((resolve, reject) => {
       var data = JSON.stringify({
         kurentoOptions: {
-          type: 'WEBRTC',
-          role: 'PUBLISHER',
-          allowedFilters: ['GStreamerFilter', 'FaceOverlayFilter']
-        }
+          type: "WEBRTC",
+          role: "PUBLISHER",
+          allowedFilters: ["GStreamerFilter", "FaceOverlayFilter"],
+        },
       });
       axios
         .post(

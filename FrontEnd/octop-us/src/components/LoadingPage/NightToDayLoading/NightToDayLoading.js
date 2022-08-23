@@ -20,6 +20,7 @@ const NightToDayLoading = (props) => {
 
   useEffect(() => {
     var audio = new Audio(MP_Morning);
+    audio.volume = 0.2; // 여기
     audio.play();
     setTimeout(() => audio.pause(), 3000);
 

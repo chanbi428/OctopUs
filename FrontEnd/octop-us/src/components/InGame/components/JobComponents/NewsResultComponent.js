@@ -24,6 +24,7 @@ function NewsResultComponent(props) {
       console.log("기자 고발 대상이 잘 들어왔는지 확인!", unveiled);
     });
     var audio = new Audio(typing);
+    audio.volume = 0.2; // 여기
     audio.play();
 
     setTimeout(() => audio.pause(), 3000);
