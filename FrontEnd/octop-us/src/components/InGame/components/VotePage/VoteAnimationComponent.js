@@ -7,6 +7,7 @@ import MP_Bubbles from "../../../../effect/MP_Bubbles.mp3";
 function VoteAnimationComponent(props) {
   useEffect(() => {
     var audio = new Audio(MP_Bubbles);
+    audio.volume = 0.1;
     audio.play();
     setTimeout(() => audio.pause(), 3000);
   }, []);

@@ -16,8 +16,8 @@ function GameResultComponent(props) {
   const gamer = useSelector((state) => state.gamer);
   useEffect(() => {
     var audio = new Audio(MP_EndGame);
+    audio.volume = 0.03;
     audio.loop = true;
-    audio.volume = 0.5;
     audio.play();
     axios
       .get(`${BASE_URL}/gamers/${props.victoryUsers[0]}`)
@@ -44,16 +44,16 @@ function GameResultComponent(props) {
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
 
-    if(props.victoryUsers.includes(gamer.userName)) {
-      props.setFilter()
-      console.log("필터링 됨")
+    if (props.victoryUsers.includes(gamer.userName)) {
+      props.setFilter();
+      console.log("필터링 됨");
     }
   }, []);
 
   useEffect(() => {
     setTimeout(() => {
       props.resetFilter()
-    }, 7000);
+    }, 15000);
   },[])
 
   return (

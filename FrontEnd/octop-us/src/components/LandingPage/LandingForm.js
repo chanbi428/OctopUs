@@ -4,6 +4,7 @@ import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 
 import MP_btn1 from "../../effect/MP_btn1.mp3";
+import Swal from "sweetalert2";
 
 function LandingForm(props) {
   const [loginmodalopen, setLoginModalOpen] = useState(false);
@@ -22,7 +23,19 @@ function LandingForm(props) {
   const openRegisterModal = () => {
     var audio = new Audio(MP_btn1);
     audio.play();
-    setRegisterModalOpen(true);
+    // setRegisterModalOpen(true); register modal 오픈 x
+    Swal.fire({
+      icon: "warning",
+      title: "시연 중 회원가입 불가",
+      text: "시연 중이므로 회원가입이 불가능합니다.",
+      background: "#fdfcdc",
+      confirmButtonColor: "#f4d35e",
+      color: "black",
+      customClass: {
+        confirmButton: "swalBtnColor",
+        popup: "popUp",
+      },
+    });
   };
   const closeRegisterModal = () => {
     var audio = new Audio(MP_btn1);
@@ -40,7 +53,10 @@ function LandingForm(props) {
         <button className="landing-page__btn" onClick={openRegisterModal}>
           &nbsp;SIGN UP
         </button>
-        <RegisterModal open={registermodalopen} close={closeRegisterModal}></RegisterModal>
+        <RegisterModal
+          open={registermodalopen}
+          close={closeRegisterModal}
+        ></RegisterModal>
       </div>
     </div>
   );

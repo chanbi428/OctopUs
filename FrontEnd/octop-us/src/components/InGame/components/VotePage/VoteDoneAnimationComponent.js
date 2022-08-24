@@ -8,9 +8,11 @@ function VoteDoneAnimationComponent(props) {
   useEffect(() => {
     var audio = new Audio(MP_Bubbles);
     var audio2 = new Audio(MP_VoteResult);
+    audio.volume = 0.1;
     audio.play();
     setTimeout(() => {
       audio.pause();
+      audio2.volume = 0.1; // 여기
       audio2.play();
     }, 2000);
   }, []);

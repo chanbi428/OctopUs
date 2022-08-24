@@ -19,6 +19,7 @@ function RoomListItem({ item, pauseBgmAudio }) {
   };
   const onClickEnterRoom = (e) => {
     var audio = new Audio(MP_btn1);
+    audio.volume = 0.2; // 여기
     audio.play();
     e.preventDefault();
 
@@ -97,7 +98,8 @@ function RoomListItem({ item, pauseBgmAudio }) {
           .then((res) => {
             pauseBgmAudio();
             console.log(res);
-            document.location.href = `${CLIENT_URL}/${item.roomId}`;
+            // document.location.href = `${CLIENT_URL}/${item.roomId}`;
+            navigate(`/${item.roomId}`);
             console.log(document.location.pathname);
           })
           .catch((err) => console.log(err));

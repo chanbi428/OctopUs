@@ -39,6 +39,7 @@ nav > p {
   font-weight: bold;
   font-family: BMJUA;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
 
 section {

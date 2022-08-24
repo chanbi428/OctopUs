@@ -33,6 +33,7 @@ function MainPage() {
   const onClickLogout = (e) => {
     // bgmAudio.muted = true;
     var audio = new Audio(MP_btn1);
+    audio.volume = 0.2; // 여기
     audio.play();
     Swal.fire({
       icon: "question",
@@ -80,6 +81,7 @@ function MainPage() {
 
   const onClickSearch = (e) => {
     var audio = new Audio(MP_btn1);
+    audio.volume = 0.2; // 여기
     audio.play();
     e.preventDefault();
     if (search == "") {
@@ -98,6 +100,7 @@ function MainPage() {
 
   const onClickSearchReset = (e) => {
     var audio = new Audio(MP_btn1);
+    audio.volume = 0.2; // 여기
     audio.play();
     e.preventDefault();
     setLoading(false);
@@ -115,6 +118,7 @@ function MainPage() {
 
   const onClickFastStart = (e) => {
     var audio = new Audio(MP_btn1);
+    audio.volume = 0.2; // 여기
     audio.play();
     e.preventDefault();
     axios
@@ -161,6 +165,7 @@ function MainPage() {
   const onKeyPress = (e) => {
     if (e.key == "Enter") {
       var audio = new Audio(MP_btn1);
+      audio.volume = 0.2; // 여기
       audio.play();
       onClickSearch(e);
     }
@@ -169,11 +174,14 @@ function MainPage() {
   const onClickRefresh = () => {
     pauseBgmAudio();
     var audio = new Audio(MP_btn1);
+    audio.volume = 0.2; // 여기
     audio.play();
-    window.location.reload();
+    // window.location.reload();
+    navigate("/main");
   };
 
   const pauseBgmAudio = (e) => {
+    console.log("Audi pause");
     bgmAudio.pause();
   };
 
@@ -198,7 +206,10 @@ function MainPage() {
                   <ExitToAppIcon style={{ fontSize: "2rem" }} />
                 </div>
                 <div className="main-page__userinfo">
-                  <FontAwesomeIcon icon={faOctopusDeploy} className="main-page__user-image" />
+                  <FontAwesomeIcon
+                    icon={faOctopusDeploy}
+                    className="main-page__user-image"
+                  />
                   <div className="main-page__username">{userInfo.userName}</div>
                 </div>
               </div>
@@ -229,7 +240,10 @@ function MainPage() {
             />
           </div>
           <div className="main-page__btn-set">
-            <button className="main-page__quickstart" onClick={onClickFastStart}>
+            <button
+              className="main-page__quickstart"
+              onClick={onClickFastStart}
+            >
               <FontAwesomeIcon icon={faPlay} />
               &nbsp;빠른시작
             </button>
@@ -242,7 +256,11 @@ function MainPage() {
         <div className="main-page__main">
           <MakeRoom pauseBgmAudio={pauseBgmAudio} />
           {loading ? (
-            <RoomList roomInfo={roomInfo} loading={loading} pauseBgmAudio={pauseBgmAudio} />
+            <RoomList
+              roomInfo={roomInfo}
+              loading={loading}
+              pauseBgmAudio={pauseBgmAudio}
+            />
           ) : (
             <LoadingSpanner />
           )}

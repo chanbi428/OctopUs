@@ -20,6 +20,7 @@ const DayToNightLoading = (props) => {
       props.checkGameTurn();
 
       var audio = new Audio(MP_Thunder);
+      audio.volume = 0.2; // 여기
       audio.play();
       setTimeout(() => audio.pause(), 3000);
     }
