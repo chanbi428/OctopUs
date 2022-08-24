@@ -82,9 +82,7 @@ class OpenViduComponent extends Component {
     this.hasBeenUpdated = false;
     this.layout = new OpenViduLayout();
     let hostName = this.props.host ? this.props.host : "HostA";
-    let sessionName = this.props.sessionName
-      ? this.props.sessionName
-      : "SessionA";
+    let sessionName = this.props.sessionName ? this.props.sessionName : "SessionA";
     let userName = localStorage.getItem("userName");
     // let bgmAudio = new Audio(MP_bgm1);
     this.remotes = [];
@@ -136,12 +134,12 @@ class OpenViduComponent extends Component {
   }
 
   changeTime = (second) => {
-    console.log("시간이 바뀜");
+    // console.log("시간이 바뀜");
     this.setState({ timer: second });
   };
 
   changePage = (pageNum, gameChoice) => {
-    console.log("changePage 실행됨 : " + pageNum + " : " + gameChoice);
+    // console.log("changePage 실행됨 : " + pageNum + " : " + gameChoice);
     if (pageNum === 20 || pageNum === 30) {
       this.setState({ gameNum: gameChoice });
       this.props.selectGame(gameChoice);
@@ -166,10 +164,7 @@ class OpenViduComponent extends Component {
       animate: true, // Whether you want to animate the transitions
     };
 
-    this.layout.initLayoutContainer(
-      document.getElementById("layout"),
-      openViduLayoutOptions
-    );
+    this.layout.initLayoutContainer(document.getElementById("layout"), openViduLayoutOptions);
     window.addEventListener("beforeunload", this.onbeforeunload);
     window.addEventListener("resize", this.updateLayout);
     this.joinSession();
@@ -206,19 +201,19 @@ class OpenViduComponent extends Component {
         const array = event.connection.data.split('"');
         const targetPlayerId = array[3];
         let tmp = [...this.state.speakingUsers];
-        console.log(
-          "누구?",
-          this.props.gamerData.userList,
-          array,
-          targetPlayerId
-        );
+        // console.log(
+        //   "누구?",
+        //   this.props.gamerData.userList,
+        //   array,
+        //   targetPlayerId
+        // );
         {
           this.props.gamerData.userList &&
             this.props.gamerData.userList.map((sub, i) => {
               if (sub.userName === targetPlayerId) {
                 tmp[i] = 1;
                 this.setState({ speakingUsers: tmp });
-                console.log("말한다");
+                // console.log("말한다");
               }
             });
         }
@@ -243,12 +238,12 @@ class OpenViduComponent extends Component {
 
   connectToSession() {
     if (this.props.token !== undefined) {
-      console.log("token received: ", this.props.token);
+      // console.log("token received: ", this.props.token);
       this.connect(this.props.token);
     } else {
       this.getToken()
         .then((token) => {
-          console.log(token);
+          // console.log(token);
           this.connect(token);
         })
         .catch((error) => {
@@ -260,11 +255,11 @@ class OpenViduComponent extends Component {
               status: error.status,
             });
           }
-          console.log(
-            "There was an error getting the token:",
-            error.code,
-            error.message
-          );
+          // console.log(
+          //   "There was an error getting the token:",
+          //   error.code,
+          //   error.message
+          // );
           alert("There was an error getting the token:", error.message);
         });
     }
@@ -286,11 +281,11 @@ class OpenViduComponent extends Component {
           });
         }
         alert("There was an error connecting to the session:", error.message);
-        console.log(
-          "There was an error connecting to the session:",
-          error.code,
-          error.message
-        );
+        // console.log(
+        //   "There was an error connecting to the session:",
+        //   error.code,
+        //   error.message
+        // );
       });
   }
 
@@ -316,7 +311,7 @@ class OpenViduComponent extends Component {
           if (this.props.joinSession) {
             this.props.joinSession();
           }
-          console.log(this.subscribers);
+          // console.log(this.subscribers);
         });
       });
     }
@@ -330,27 +325,22 @@ class OpenViduComponent extends Component {
       isScreenShareActive: localUser.isScreenShareActive(),
     });
 
-    this.setState(
-      { currentVideoDevice: videoDevices[0], localUser: localUser },
-      () => {
-        this.state.localUser.getStreamManager().on("streamPlaying", (e) => {
-          this.updateLayout();
-          publisher.videos[0].video.parentElement.classList.remove(
-            "custom-class"
-          );
-        });
-      }
-    );
+    this.setState({ currentVideoDevice: videoDevices[0], localUser: localUser }, () => {
+      this.state.localUser.getStreamManager().on("streamPlaying", (e) => {
+        this.updateLayout();
+        publisher.videos[0].video.parentElement.classList.remove("custom-class");
+      });
+    });
     // 유저 입장 시 채팅으로 [서버] 입장 알림.
-    console.log(
-      "ovref 입장 알림 준비. ovref.current null 시 주석 처리",
-      this.ovref
-    );
+    // console.log(
+    //   "ovref 입장 알림 준비. ovref.current null 시 주석 처리",
+    //   this.ovref
+    // );
     this.ovref.current.enterNotice();
   }
 
   updateSubscribers() {
-    console.log("updateSubscribers here");
+    // console.log("updateSubscribers here");
     var subscribers = this.remotes;
     this.setState(
       {
@@ -410,9 +400,7 @@ class OpenViduComponent extends Component {
 
   deleteSubscriber(stream) {
     const remoteUsers = this.state.subscribers;
-    const userStream = remoteUsers.filter(
-      (user) => user.getStreamManager().stream === stream
-    )[0];
+    const userStream = remoteUsers.filter((user) => user.getStreamManager().stream === stream)[0];
     let index = remoteUsers.indexOf(userStream, 0);
     if (index > -1) {
       remoteUsers.splice(index, 1);
@@ -428,9 +416,7 @@ class OpenViduComponent extends Component {
       // var subscribers = this.state.subscribers;
       subscriber.on("streamPlaying", (e) => {
         this.checkSomeoneShareScreen();
-        subscriber.videos[0].video.parentElement.classList.remove(
-          "custom-class"
-        );
+        subscriber.videos[0].video.parentElement.classList.remove("custom-class");
       });
       const newUser = new UserModel();
       newUser.setStreamManager(subscriber);
@@ -448,17 +434,17 @@ class OpenViduComponent extends Component {
   subscribeToStreamDestroyed() {
     // On every Stream destroyed...
     this.state.session.on("streamDestroyed", (event) => {
-      console.log("Stream destroyed");
+      // console.log("Stream destroyed");
       const obj = {
         job: this.props.gamerData.job,
       };
-      console.log("obj.job : " + obj.job);
+      // console.log("obj.job : " + obj.job);
       if (obj.job !== undefined && obj.job !== null) {
-        console.log("Job is not undefined : " + obj.job);
+        // console.log("Job is not undefined : " + obj.job);
         // this.state.page = -1;
         this.setState({ page: -1 });
       } else {
-        console.log("Job is undefined");
+        // console.log("Job is undefined");
       }
       // Remove the stream from 'subscribers' array
       this.deleteSubscriber(event.stream);
@@ -471,13 +457,13 @@ class OpenViduComponent extends Component {
   }
 
   subscribeToUserChanged() {
-    console.log("subscribeToUserChanged");
+    // console.log("subscribeToUserChanged");
     this.state.session.on("signal:userChanged", (event) => {
       let remoteUsers = this.state.subscribers;
       remoteUsers.forEach((user) => {
         if (user.getConnectionId() === event.from.connectionId) {
           const data = JSON.parse(event.data);
-          console.log("EVENTO REMOTE: ", event.data);
+          // console.log("EVENTO REMOTE: ", event.data);
           if (data.isAudioActive !== undefined) {
             user.setAudioActive(data.isAudioActive);
           }
@@ -546,7 +532,7 @@ class OpenViduComponent extends Component {
     if (display === "block") {
       this.setState({ chatDisplay: display, messageReceived: false });
     } else {
-      console.log("chat", display);
+      // console.log("chat", display);
       this.setState({ chatDisplay: display });
     }
     this.updateLayout();
@@ -590,7 +576,7 @@ class OpenViduComponent extends Component {
       };
 
       this.settingLocalUser({ localUser: this.state.localUser });
-      console.log(this.state.localUser);
+      // console.log(this.state.localUser);
       this.timer(0, this.state.localUser, 0, flag, obj);
       this.state.localUser.getStreamManager().stream.session.signal({
         type: "pauseBgmAudio",
@@ -599,7 +585,7 @@ class OpenViduComponent extends Component {
   };
 
   clickUser = (e) => {
-    console.log("clickUser on child : " + e);
+    // console.log("clickUser on child : " + e);
   };
   // 투표 시작하는 버튼 누름(누르면 투표 활성화)
   clickBtnVote = () => this.setState({ votePageStart: 1 });
@@ -625,7 +611,7 @@ class OpenViduComponent extends Component {
       audio.play();
       this.setState({ pickUser: gamer.userName });
     }
-    console.log("선택한 유저" + this.state.pickUser);
+    // console.log("선택한 유저" + this.state.pickUser);
   };
 
   // 밤 역할 있는 문어가 유저를 선택하는 함수 (state의 pickUser가 선택한 userName으로 넘어감)
@@ -645,7 +631,7 @@ class OpenViduComponent extends Component {
       }
     } else {
       if (gamer.userName === this.props.gamerData.userName) {
-        console.log("자기 자신은 선택 X");
+        // console.log("자기 자신은 선택 X");
       } else if (this.state.pickUser === gamer.userName) {
         var audio = new Audio(MP_btn2);
         audio.volume = 0.2; // 여기
@@ -661,32 +647,32 @@ class OpenViduComponent extends Component {
       if (this.props.gamerData.job === "기자") {
         if (this.state.hasSkill === true) {
           if (gamer.userName === this.props.gamerData.userName) {
-            console.log("자기 자신은 선택 X");
+            // console.log("자기 자신은 선택 X");
           } else if (this.state.pickUser === gamer.userName) {
             var audio = new Audio(MP_btn2);
             audio.play();
             audio.volume = 0.2; // 여기
             this.setState({ pickUser: "" });
-            console.log("reporterpick 같은 유저 선택", this.state.pickUser);
+            // console.log("reporterpick 같은 유저 선택", this.state.pickUser);
           } else if (gamer.isDead === false) {
             var audio = new Audio(MP_btn2);
             audio.volume = 0.2; // 여기
             audio.play();
             // console.log(g)
             this.setState({ pickUser: gamer.userName });
-            console.log(
-              "reporterpick 지금 기자가 밤에 찍은 사람 누구?",
-              this.state.pickUser
-            );
+            // console.log(
+            //   "reporterpick 지금 기자가 밤에 찍은 사람 누구?",
+            //   this.state.pickUser
+            // );
           }
         }
-        console.log(
-          "기자 능력 확인 : ",
-          this.props.gamerData.hasSkill === false ? "사용" : "미사용"
-        );
+        // console.log(
+        //   "기자 능력 확인 : ",
+        //   this.props.gamerData.hasSkill === false ? "사용" : "미사용"
+        // );
       }
     }
-    console.log("선택한 유저" + this.state.pickUser);
+    // console.log("선택한 유저" + this.state.pickUser);
   };
 
   // 마피아 죽일 사람 선택하는 함수
@@ -698,12 +684,12 @@ class OpenViduComponent extends Component {
       audio.play();
       if (this.state.pickUser === gamer.userName) {
         this.setState({ pickUser: "" });
-        console.log("선택한 유저" + this.state.pickUser);
+        // console.log("선택한 유저" + this.state.pickUser);
         // 채팅 전송
         this.pickMafiaNotice(gamer, 1);
       } else {
         this.setState({ pickUser: gamer.userName });
-        console.log("선택한 유저" + this.state.pickUser);
+        // console.log("선택한 유저" + this.state.pickUser);
         // 채팅 전송
         this.pickMafiaNotice(gamer, 2);
       }
@@ -712,7 +698,7 @@ class OpenViduComponent extends Component {
 
   // PICKUSER 변경하는 함수
   changePerson = (pickUser) => {
-    console.log("UPDATE PICK USER FROM RECEIVED MESSAGE2 (changePerson 수행)");
+    // console.log("UPDATE PICK USER FROM RECEIVED MESSAGE2 (changePerson 수행)");
     // 다영 이부분은 고민 중
     var audio = new Audio(MP_btn2);
     audio.volume = 0.2; // 여기
@@ -720,17 +706,17 @@ class OpenViduComponent extends Component {
     if (this.state.pickUser === pickUser) {
       this.setState({ pickUser: "" });
     } else {
-      console.log("다른 마피아 선택 변경 : ", pickUser);
+      // console.log("다른 마피아 선택 변경 : ", pickUser);
       this.setState({ pickUser: pickUser.pickUser });
     }
-    console.log("다른 마피아 선택 변경 완료 : ", this.state.pickUser);
+    // console.log("다른 마피아 선택 변경 완료 : ", this.state.pickUser);
   };
 
   // 마피아 밤 죽일 사람 => CHATTING MESSAGE 전송
   pickMafiaNotice(gamer, idx) {
     if (idx === 1) {
-      console.log("MAFIA : SEND MESSAGE, NOTICE 감지");
-      console.log("PICK USER", "없음, 두 번 클릭");
+      // console.log("MAFIA : SEND MESSAGE, NOTICE 감지");
+      // console.log("PICK USER", "없음, 두 번 클릭");
       const data = {
         mafiaName: this.props.gamerData.userName,
         gamer: { userName: "" },
@@ -742,8 +728,8 @@ class OpenViduComponent extends Component {
         type: "mafia",
       });
     } else {
-      console.log("MAFIA : SEND MESSAGE, NOTICE 감지");
-      console.log("PICK USER", gamer);
+      // console.log("MAFIA : SEND MESSAGE, NOTICE 감지");
+      // console.log("PICK USER", gamer);
       const data = {
         mafiaName: this.props.gamerData.userName,
         gamer: gamer,
@@ -802,7 +788,7 @@ class OpenViduComponent extends Component {
     var audio = new Audio(MP_btn2);
     audio.volume = 0.2; // 여기
     audio.play();
-    console.log("clickBtnGame : " + e);
+    // console.log("clickBtnGame : " + e);
     // this.setState({ page: 2 });
     // if (e === 1) {
     //   this.setState({ gameNum: 1 });
@@ -828,7 +814,7 @@ class OpenViduComponent extends Component {
     audio.volume = 0.2; // 여기
     audio.play();
     this.setState({ agree: true });
-    console.log("AGREE VOTE 찬성 여부 : " + this.state.agree);
+    // console.log("AGREE VOTE 찬성 여부 : " + this.state.agree);
     // 다영 테스트 지워야함
     // this.state.localUser.getStreamManager().stream.session.signal({
     //   type: "agreeVoteEnd",
@@ -840,7 +826,7 @@ class OpenViduComponent extends Component {
     audio.volume = 0.2; // 여기
     audio.play();
     this.setState({ agree: false });
-    console.log("AGREE VOTE 찬성 여부 : " + this.state.agree);
+    // console.log("AGREE VOTE 찬성 여부 : " + this.state.agree);
     // 다영 테스트 지워야함
     // this.state.localUser.getStreamManager().stream.session.signal({
     //   type: "agreeVoteEnd",
@@ -854,7 +840,7 @@ class OpenViduComponent extends Component {
   // 하민 (승리 유저 갱신)
   setVictoryUser = (data) => {
     this.setState({ victoryUsers: data });
-    console.log("승리 유저 바뀜!");
+    // console.log("승리 유저 바뀜!");
     if (this.props.waitData.roomChief === this.state.myUserName) {
       this.state.localUser.getStreamManager().stream.session.signal({
         type: "gameEnd",
@@ -888,23 +874,22 @@ class OpenViduComponent extends Component {
   };
 
   updatePickUser = () => {
-    console.log("pickUser 들어옴", this.state.pickUser);
+    // console.log("pickUser 들어옴", this.state.pickUser);
     axios
       .put(
-        `${BASE_URL}/night/update/${
-          this.state.pickUser === "" ? "없음" : this.state.pickUser
-        }/${this.props.userData.userInfo.userName}`
+        `${BASE_URL}/night/update/${this.state.pickUser === "" ? "없음" : this.state.pickUser}/${
+          this.props.userData.userInfo.userName
+        }`
       )
       .then((res) => {
-        console.log("DB에 지목상대 저장!");
+        // console.log("DB에 지목상대 저장!");
         this.settingPickUser({ pickUser: this.state.pickUser });
-        console.log("pickUser 고름", this.props.gamerData);
+        // console.log("pickUser 고름", this.props.gamerData);
         if (
-          (this.props.gamerData.job === "경찰" ||
-            this.props.gamerData.job === "크레이지경찰") &&
+          (this.props.gamerData.job === "경찰" || this.props.gamerData.job === "크레이지경찰") &&
           this.state.pickUser != ""
         ) {
-          console.log("경찰이 수사함", `gamers/ismafia/${this.state.pickUser}`);
+          // console.log("경찰이 수사함", `gamers/ismafia/${this.state.pickUser}`);
           //axios.get(`${BASE_URL}/gamers/ismafia/${this.state.pickUser}`).then((res) => {
           let message = "";
           this.props.gamerData.userList.map((user, i) => {
@@ -917,17 +902,11 @@ class OpenViduComponent extends Component {
             //           ""
             //         );
             // }
-            if (
-              this.state.pickUser === user.userName &&
-              this.props.gamerData.job === "경찰"
-            ) {
+            if (this.state.pickUser === user.userName && this.props.gamerData.job === "경찰") {
               message =
                 user.gameJob === "마피아"
                   ? `${this.state.pickUser} 님은 오징어가 맞습니다.`
-                  : `${this.state.pickUser} 님은 오징어가 아닙니다.`.replace(
-                      / +(?= )/g,
-                      ""
-                    );
+                  : `${this.state.pickUser} 님은 오징어가 아닙니다.`.replace(/ +(?= )/g, "");
             } else if (
               this.state.pickUser === user.userName &&
               this.props.gamerData.job === "크레이지경찰"
@@ -935,16 +914,13 @@ class OpenViduComponent extends Component {
               message =
                 this.props.gamerData.crazyjobs[user.subIdx] === "오징어"
                   ? `${this.state.pickUser} 님은 오징어가 맞습니다.`
-                  : `${this.state.pickUser} 님은 오징어가 아닙니다.`.replace(
-                      / +(?= )/g,
-                      ""
-                    );
-              console.log(
-                "크레이지경찰정보다 - 인덱스",
-                this.props.gamerData.crazyjobs,
-                user.subIdx,
-                user
-              );
+                  : `${this.state.pickUser} 님은 오징어가 아닙니다.`.replace(/ +(?= )/g, "");
+              // console.log(
+              //   "크레이지경찰정보다 - 인덱스",
+              //   this.props.gamerData.crazyjobs,
+              //   user.subIdx,
+              //   user
+              // );
             }
           });
           const data = {
@@ -962,10 +938,7 @@ class OpenViduComponent extends Component {
             });
           });
           //});
-        } else if (
-          this.props.gamerData.job === "기자" &&
-          this.state.pickUser !== ""
-        ) {
+        } else if (this.props.gamerData.job === "기자" && this.state.pickUser !== "") {
           const data = {
             reporter: this.state.pickUser,
           };
@@ -982,21 +955,19 @@ class OpenViduComponent extends Component {
   };
 
   nightResult() {
-    axios
-      .get(`${BASE_URL}/nights/result/${this.props.gamerData.roomId}`)
-      .then((res) => {
-        console.log("밤 결과 확인!", res.data);
-        this.setState({ killed: res.data.userName });
-        console.log("killed  state에 잘 들어갔는지 확인!!", this.state.killed);
-        if (res.data.userName != "없음" && res.data.userName != "") {
-          console.log("누가 죽었니?", res.data.userName);
-          this.props.updateUserListforDead({ userName: res.data.userName });
-        }
-      });
+    axios.get(`${BASE_URL}/nights/result/${this.props.gamerData.roomId}`).then((res) => {
+      // console.log("밤 결과 확인!", res.data);
+      this.setState({ killed: res.data.userName });
+      // console.log("killed  state에 잘 들어갔는지 확인!!", this.state.killed);
+      if (res.data.userName != "없음" && res.data.userName != "") {
+        // console.log("누가 죽었니?", res.data.userName);
+        this.props.updateUserListforDead({ userName: res.data.userName });
+      }
+    });
   }
 
   getPickUser = () => {
-    console.log("getPickUser실행!!!", this.state.pickUser);
+    // console.log("getPickUser실행!!!", this.state.pickUser);
     return this.state.pickUser;
   };
 
@@ -1017,7 +988,7 @@ class OpenViduComponent extends Component {
   };
   // 다영 수정
   updatePickUserAtVote = () => {
-    console.log("VOTE한 PICK USER 들어옴", this.state.pickUser);
+    // console.log("VOTE한 PICK USER 들어옴", this.state.pickUser);
     const data = {
       idx: 0,
       roomId: 0,
@@ -1055,31 +1026,29 @@ class OpenViduComponent extends Component {
 
   voteResult() {
     if (this.props.waitData.roomChief === this.props.gamerData.userName) {
-      axios
-        .get(`${BASE_URL}/votes/max/${this.props.gamerData.roomId}`)
-        .then((res) => {
-          console.log("투표 결과 확인!", res.data);
-          this.setState({ voteName: res.data.userName });
+      axios.get(`${BASE_URL}/votes/max/${this.props.gamerData.roomId}`).then((res) => {
+        // console.log("투표 결과 확인!", res.data);
+        this.setState({ voteName: res.data.userName });
 
-          console.log("VOTE : SEND MESSAGE, NOTICE 감지");
-          console.log("MOST VOTES : ", res.data.userName);
-          this.setState({ pickUser: res.data.userName });
-          const data = {
-            votes: res.data,
-            nickname: "사회자",
-            streamId: this.state.localUser.getStreamManager().stream.streamId,
-          };
-          this.state.localUser.getStreamManager().stream.session.signal({
-            data: JSON.stringify(data),
-            type: "voteResult",
-          });
+        // console.log("VOTE : SEND MESSAGE, NOTICE 감지");
+        // console.log("MOST VOTES : ", res.data.userName);
+        this.setState({ pickUser: res.data.userName });
+        const data = {
+          votes: res.data,
+          nickname: "사회자",
+          streamId: this.state.localUser.getStreamManager().stream.streamId,
+        };
+        this.state.localUser.getStreamManager().stream.session.signal({
+          data: JSON.stringify(data),
+          type: "voteResult",
         });
+      });
     }
   }
 
   // 다영 수정
   updatePickUserAtAgreeVote = () => {
-    console.log("AGREE VOTE한 PICK USER 들어옴", this.state.pickUser);
+    // console.log("AGREE VOTE한 PICK USER 들어옴", this.state.pickUser);
     // this.setState({ pickUser: "c4" }); // 테스트용 지워야함 다영
     const data = {
       idx: 0,
@@ -1097,8 +1066,8 @@ class OpenViduComponent extends Component {
             },
           })
           .then((res) => {
-            console.log(data);
-            console.log("처형 찬성!", data);
+            // console.log(data);
+            // console.log("처형 찬성!", data);
           });
       } else {
         // 반대
@@ -1109,7 +1078,7 @@ class OpenViduComponent extends Component {
             },
           })
           .then((res) => {
-            console.log("처형 반대!", data);
+            // console.log("처형 반대!", data);
           });
       }
     }
@@ -1122,10 +1091,10 @@ class OpenViduComponent extends Component {
     this.setState({ voteName: "skip" });
     if (this.props.waitData.roomChief === this.props.gamerData.userName) {
       axios.get(`${BASE_URL}/votes/${this.state.pickUser}`).then((res) => {
-        console.log("투표 결과 확인!", res.data);
+        // console.log("투표 결과 확인!", res.data);
 
-        console.log("AGREE VOTE : SEND MESSAGE, NOTICE 감지");
-        console.log("AGREE VOTE RESULT : ", res.data.vote);
+        // console.log("AGREE VOTE : SEND MESSAGE, NOTICE 감지");
+        // console.log("AGREE VOTE RESULT : ", res.data.vote);
 
         const data = {
           votes: res.data,
@@ -1141,32 +1110,30 @@ class OpenViduComponent extends Component {
   };
 
   killPickUser = () => {
-    console.log("AGREE VOTE한 PICK USER : ", this.state.pickUser);
+    // console.log("AGREE VOTE한 PICK USER : ", this.state.pickUser);
     this.setState({ voteName: "처형" });
     if (this.state.pickUser === this.props.gamerData.sjh) {
       let victoryUsers = [];
 
-      axios
-        .put(`${BASE_URL}/gamers/isvictory/userName/${this.state.pickUser}`)
-        .then((res) => {
-          console.log(res);
-          console.log("AGREE VOTE : 처형 => 재간둥이 O => 종료 페이지 GO");
-          console.log("AGREE VOTE : 재간둥이 승리!!");
+      axios.put(`${BASE_URL}/gamers/isvictory/userName/${this.state.pickUser}`).then((res) => {
+        // console.log(res);
+        // console.log("AGREE VOTE : 처형 => 재간둥이 O => 종료 페이지 GO");
+        // console.log("AGREE VOTE : 재간둥이 승리!!");
 
-          axios
-            .get(`${BASE_URL}/gamers/winners`)
-            .then((res) => {
-              victoryUsers = res.data.map((row) => row.userName);
-              this.setVictoryUser(victoryUsers);
-              this.state.localUser.getStreamManager().stream.session.signal({
-                type: "agreeVoteGoAndGameEnd",
-              });
-              console.log("처형 페이지로 이동 후 종료! ");
-            })
-            .catch((err) => console.log(err));
-        });
+        axios
+          .get(`${BASE_URL}/gamers/winners`)
+          .then((res) => {
+            victoryUsers = res.data.map((row) => row.userName);
+            this.setVictoryUser(victoryUsers);
+            this.state.localUser.getStreamManager().stream.session.signal({
+              type: "agreeVoteGoAndGameEnd",
+            });
+            // console.log("처형 페이지로 이동 후 종료! ");
+          })
+          .catch((err) => console.log(err));
+      });
     } else {
-      console.log("AGREE VOTE : 처형 => 재간둥이 X => 처형 페이지 GO");
+      // console.log("AGREE VOTE : 처형 => 재간둥이 X => 처형 페이지 GO");
       const data = {
         idx: 0,
         roomId: 0,
@@ -1181,8 +1148,8 @@ class OpenViduComponent extends Component {
           },
         })
         .then((res) => {
-          console.log(data);
-          console.log("AGREE VOTE : 처형!!", data);
+          // console.log(data);
+          // console.log("AGREE VOTE : 처형!!", data);
 
           // 리덕스 죽음 처리
           this.state.localUser.getStreamManager().stream.session.signal({
@@ -1192,46 +1159,36 @@ class OpenViduComponent extends Component {
 
           let pathName = document.location.pathname.replace("/", "");
           let victoryUsers = [];
-          axios
-            .get(`${BASE_URL}/gamers/victory/team/${pathName}`)
-            .then((res) => {
-              if (res.data.victory) {
-                axios
-                  .put(
-                    `${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${res.data.gameTeam}`
-                  )
-                  .then((res) => {
-                    axios
-                      .get(`${BASE_URL}/gamers/winners`)
-                      .then((res) => {
-                        victoryUsers = res.data.map((row) => row.userName);
-                        this.setVictoryUser(victoryUsers);
-                        this.state.localUser
-                          .getStreamManager()
-                          .stream.session.signal({
-                            type: "agreeVoteGoAndGameEnd",
-                          });
-                        console.log(
-                          "처형 페이지로 이동후 종료 페이지로 이동 ! "
-                        );
-                      })
-                      .catch((err) => console.log(err));
-                  })
-                  .catch((err) => console.log(err));
-              } else {
-                // 처형페이지 이동
-                this.state.localUser.getStreamManager().stream.session.signal({
-                  type: "agreeVoteGo",
+          axios.get(`${BASE_URL}/gamers/victory/team/${pathName}`).then((res) => {
+            if (res.data.victory) {
+              axios
+                .put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${res.data.gameTeam}`)
+                .then((res) => {
+                  axios.get(`${BASE_URL}/gamers/winners`).then((res) => {
+                    victoryUsers = res.data.map((row) => row.userName);
+                    this.setVictoryUser(victoryUsers);
+                    this.state.localUser.getStreamManager().stream.session.signal({
+                      type: "agreeVoteGoAndGameEnd",
+                    });
+                    // console.log("처형 페이지로 이동후 종료 페이지로 이동 ! ");
+                  });
+                  // .catch((err) => console.log(err));
                 });
-              }
-            })
-            .catch((err) => console.log(err));
+              // .catch((err) => console.log(err));
+            } else {
+              // 처형페이지 이동
+              this.state.localUser.getStreamManager().stream.session.signal({
+                type: "agreeVoteGo",
+              });
+            }
+          });
+          // .catch((err) => console.log(err));
         });
     }
   };
   // 15턴 게임횟수 세는 함수 (다영 수정)
   checkGameTurn = () => {
-    console.log("현재 GAME TURN : ", this.props.gamerData.gameturn);
+    // console.log("현재 GAME TURN : ", this.props.gamerData.gameturn);
 
     let pathName = document.location.pathname.replace("/", "");
     let victoryUsers = [];
@@ -1239,19 +1196,15 @@ class OpenViduComponent extends Component {
     if (this.props.gamerData.gameturn === 15) {
       if (this.props.gamerData.userName === this.props.waitData.roomChief) {
         const gameTeam = "마피아";
-        axios
-          .put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${gameTeam}`)
-          .then((res) => {
-            axios
-              .get(`${BASE_URL}/gamers/winners`)
-              .then((res) => {
-                victoryUsers = res.data.map((row) => row.userName);
-                this.setVictoryUser(victoryUsers);
-                console.log("종료 페이지로 이동 !");
-              })
-              .catch((err) => console.log(err));
-          })
-          .catch((err) => console.log(err));
+        axios.put(`${BASE_URL}/gamers/isvictory/gameTeam/${pathName}/${gameTeam}`).then((res) => {
+          axios.get(`${BASE_URL}/gamers/winners`).then((res) => {
+            victoryUsers = res.data.map((row) => row.userName);
+            this.setVictoryUser(victoryUsers);
+            // console.log("종료 페이지로 이동 !");
+          });
+          // .catch((err) => console.log(err));
+        });
+        // .catch((err) => console.log(err));
       }
     }
   };
@@ -1272,7 +1225,7 @@ class OpenViduComponent extends Component {
   };
 
   setFilter = () => {
-    console.log("필터전", this.state.localUser);
+    // console.log("필터전", this.state.localUser);
     let publisher = this.state.localUser.getStreamManager();
     publisher.stream.applyFilter("FaceOverlayFilter").then((filter) => {
       filter.execMethod("setOverlayedImage", {
@@ -1284,21 +1237,21 @@ class OpenViduComponent extends Component {
       });
     });
     setTimeout(() => {
-      console.log("필터후", this.state.localUser);
+      // console.log("필터후", this.state.localUser);
     }, 1000);
   };
 
   resetFilter = () => {
     if (this.state.localUser.streamManager.stream.filter) {
-      console.log("필터링초기화");
+      // console.log("필터링초기화");
       let publisher = this.state.localUser.getStreamManager();
       publisher.stream
         .removeFilter()
         .then(() => {
-          console.log("Filter removed");
+          // console.log("Filter removed");
         })
         .catch((error) => {
-          console.error(error);
+          // console.error(error);
         });
     }
   };
@@ -1329,59 +1282,51 @@ class OpenViduComponent extends Component {
                 gameTime={this.props.gameTime}
               />
               <div className="d-flex justify-content-between">
-                {localUser !== undefined &&
-                  localUser.getStreamManager() !== undefined && (
-                    <div className="chating-box ms-3" style={chatDisplay}>
-                      <ChatComponent
-                        user={localUser}
-                        chatDisplay={this.state.chatDisplay}
-                        close={this.toggleChat}
-                        ref={this.ovref}
-                        roomName={this.props.roomName}
-                        settingListForSub={this.settingListForSub}
-                        subscribers={this.state.subscribers}
-                        canSend="true"
-                        changeTime={this.changeTime}
-                        changePage={this.changePage}
-                        clickBtnGame={this.clickBtnGame}
-                        changePerson={this.changePerson}
-                        updatePickUser={this.updatePickUser}
-                        getPickUser={this.getPickUser}
-                        resetPickUser={this.resetPickUser}
-                        getHasSkill={this.getHasSkill}
-                        updatePickUserAtVote={this.updatePickUserAtVote}
-                        getGamerData={this.getGamerData}
-                        updatePickUserAtAgreeVote={
-                          this.updatePickUserAtAgreeVote
-                        }
-                        killPickUser={this.killPickUser}
-                        setVoteName={this.setVoteName}
-                        setPlayFalse={this.setPlayFalse}
-                        setPlayTrue={this.setPlayTrue}
-                        setPickUserState={this.setPickUserState}
-                      />
-                    </div>
-                  )}
+                {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                  <div className="chating-box ms-3" style={chatDisplay}>
+                    <ChatComponent
+                      user={localUser}
+                      chatDisplay={this.state.chatDisplay}
+                      close={this.toggleChat}
+                      ref={this.ovref}
+                      roomName={this.props.roomName}
+                      settingListForSub={this.settingListForSub}
+                      subscribers={this.state.subscribers}
+                      canSend="true"
+                      changeTime={this.changeTime}
+                      changePage={this.changePage}
+                      clickBtnGame={this.clickBtnGame}
+                      changePerson={this.changePerson}
+                      updatePickUser={this.updatePickUser}
+                      getPickUser={this.getPickUser}
+                      resetPickUser={this.resetPickUser}
+                      getHasSkill={this.getHasSkill}
+                      updatePickUserAtVote={this.updatePickUserAtVote}
+                      getGamerData={this.getGamerData}
+                      updatePickUserAtAgreeVote={this.updatePickUserAtAgreeVote}
+                      killPickUser={this.killPickUser}
+                      setVoteName={this.setVoteName}
+                      setPlayFalse={this.setPlayFalse}
+                      setPlayTrue={this.setPlayTrue}
+                      setPickUserState={this.setPickUserState}
+                    />
+                  </div>
+                )}
                 <div className="setting_box">
                   <div id="layout" className="bounds">
-                    {localUser !== undefined &&
-                      localUser.getStreamManager() !== undefined && (
-                        <div
-                          className="OT_root OT_publisher custom-class"
-                          id="localUser"
-                        >
-                          <StreamComponent user={localUser} />
-                          <ToolbarComponent
-                            user={localUser}
-                            camStatusChanged={this.camStatusChanged}
-                            micStatusChanged={this.micStatusChanged}
-                          />
-                        </div>
-                      )}
+                    {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                      <div className="OT_root OT_publisher custom-class" id="localUser">
+                        <StreamComponent user={localUser} />
+                        <ToolbarComponent
+                          user={localUser}
+                          camStatusChanged={this.camStatusChanged}
+                          micStatusChanged={this.micStatusChanged}
+                        />
+                      </div>
+                    )}
                   </div>
                   <div>
-                    {this.props.waitData.roomChief ===
-                      this.state.myUserName && (
+                    {this.props.waitData.roomChief === this.state.myUserName && (
                       <button className="start__btn" onClick={this.clickBtn}>
                         START
                       </button>
@@ -1404,37 +1349,27 @@ class OpenViduComponent extends Component {
           </div>
         )}
         {this.state.page === 2 && ( // 밤 애니메이션
-          <DayToNightLoading
-            page={this.state.page}
-            checkGameTurn={this.checkGameTurn}
-          />
+          <DayToNightLoading page={this.state.page} checkGameTurn={this.checkGameTurn} />
         )}
         {/* 밤페이지 - 밤역할 수행 x (시장, 재간둥이, 능력 쓴 기자) */}
         {this.state.page === 3 &&
           this.props.gamerData.isDead === false &&
           (this.props.gamerData.job === "시장" ||
             this.props.gamerData.job === "재간둥이" ||
-            (this.props.gamerData.job === "기자" &&
-              this.props.gamerData.hasSkill === false)) && (
+            (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === false)) && (
             <div className="d-flex justify-content-between">
               <div className="mt-3">
-                {this.props.gamerData.userList
-                  .slice(0, 4)
-                  .map((subGamer, i) => (
-                    <div id="layout" className="ingame-bounds">
-                      <div
-                        key={i}
-                        className="OT_root OT_publisher custom-class"
-                        id="remoteUsers"
-                      >
-                        {subGamer.isDead === true ? (
-                          <img src="images/deadOcto.jpg" width="200" />
-                        ) : (
-                          <img src="images/octoAtNight.png" width="200" />
-                        )}
-                      </div>
+                {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
+                  <div id="layout" className="ingame-bounds">
+                    <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
+                      {subGamer.isDead === true ? (
+                        <img src="images/deadOcto.jpg" width="200" />
+                      ) : (
+                        <img src="images/octoAtNight.png" width="200" />
+                      )}
                     </div>
-                  ))}
+                  </div>
+                ))}
               </div>
               <div className="d-flex flex-column justify-content-between">
                 <div>
@@ -1473,23 +1408,17 @@ class OpenViduComponent extends Component {
                 </div>
               </div>
               <div className="mt-3">
-                {this.props.gamerData.userList
-                  .slice(4, 8)
-                  .map((subGamer, i) => (
-                    <div id="layout" className="ingame-bounds">
-                      <div
-                        key={i}
-                        className="OT_root OT_publisher custom-class"
-                        id="remoteUsers"
-                      >
-                        {subGamer.isDead === true ? (
-                          <img src="images/deadOcto.jpg" width="200" />
-                        ) : (
-                          <img src="images/octoAtNight.png" width="200" />
-                        )}
-                      </div>
+                {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
+                  <div id="layout" className="ingame-bounds">
+                    <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
+                      {subGamer.isDead === true ? (
+                        <img src="images/deadOcto.jpg" width="200" />
+                      ) : (
+                        <img src="images/octoAtNight.png" width="200" />
+                      )}
                     </div>
-                  ))}
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -1499,51 +1428,47 @@ class OpenViduComponent extends Component {
           this.props.gamerData.job === "마피아" && (
             <div className="d-flex justify-content-between">
               <div className="mt-3">
-                {this.props.gamerData.userList
-                  .slice(0, 4)
-                  .map((subGamer, i) => (
+                {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
+                  <div
+                    id="layout"
+                    className={"ingame-bounds"}
+                    onClick={(e) => this.selectPerson(subGamer, e)}
+                  >
                     <div
-                      id="layout"
-                      className={"ingame-bounds"}
-                      onClick={(e) => this.selectPerson(subGamer, e)}
+                      key={i}
+                      className={
+                        subGamer.userName === this.state.pickUser
+                          ? "OT_root OT_publisher custom-class ingame_picked_user"
+                          : "OT_root OT_publisher custom-class"
+                      }
+                      id="remoteUsers"
                     >
-                      <div
-                        key={i}
-                        className={
-                          subGamer.userName === this.state.pickUser
-                            ? "OT_root OT_publisher custom-class ingame_picked_user"
-                            : "OT_root OT_publisher custom-class"
-                        }
-                        id="remoteUsers"
-                      >
-                        {subGamer.isDead === true ? (
-                          <img src="images/deadOcto.jpg" width="200" />
-                        ) : subGamer.gameJob !== "마피아" ? (
-                          <div className="octo-night-box">
-                            <img src="images/octoAtNight.png" width="200" />
-                            <p className="gamer-nickname">
-                              {subGamer.userName}
-                            </p>
-                          </div>
-                        ) : (
-                          <StreamComponent
-                            user={
-                              subGamer.subIdx === undefined
-                                ? localUser
-                                : this.state.subscribers[subGamer.subIdx]
-                            }
-                          />
-                        )}
-                        {subGamer.userName === this.state.myUserName && (
-                          <ToolbarComponent
-                            user={localUser}
-                            camStatusChanged={this.camStatusChanged}
-                            micStatusChanged={this.micStatusChanged}
-                          />
-                        )}
-                      </div>
+                      {subGamer.isDead === true ? (
+                        <img src="images/deadOcto.jpg" width="200" />
+                      ) : subGamer.gameJob !== "마피아" ? (
+                        <div className="octo-night-box">
+                          <img src="images/octoAtNight.png" width="200" />
+                          <p className="gamer-nickname">{subGamer.userName}</p>
+                        </div>
+                      ) : (
+                        <StreamComponent
+                          user={
+                            subGamer.subIdx === undefined
+                              ? localUser
+                              : this.state.subscribers[subGamer.subIdx]
+                          }
+                        />
+                      )}
+                      {subGamer.userName === this.state.myUserName && (
+                        <ToolbarComponent
+                          user={localUser}
+                          camStatusChanged={this.camStatusChanged}
+                          micStatusChanged={this.micStatusChanged}
+                        />
+                      )}
                     </div>
-                  ))}
+                  </div>
+                ))}
               </div>
               <div className="d-flex flex-column justify-content-between">
                 <div>
@@ -1559,39 +1484,21 @@ class OpenViduComponent extends Component {
                   <div className="mafiaButtons">
                     <p className="icons-property"></p>
                     {this.props.gamerData.minigameList[0] === true ? (
-                      <button
-                        onClick={this.clickFisherMiniGame}
-                        className="mafiaEventBtn"
-                      >
-                        <img
-                          src="icons/icons8-spinner-lure-50.png"
-                          alt="lure event"
-                        />
+                      <button onClick={this.clickFisherMiniGame} className="mafiaEventBtn">
+                        <img src="icons/icons8-spinner-lure-50.png" alt="lure event" />
                       </button>
                     ) : (
                       <button className="usedEventBtn">
-                        <img
-                          src="icons/icons8-spinner-lure-50.png"
-                          alt="lure event"
-                        />
+                        <img src="icons/icons8-spinner-lure-50.png" alt="lure event" />
                       </button>
                     )}
                     {this.props.gamerData.minigameList[1] === true ? (
-                      <button
-                        onClick={this.clickSharkMiniGame}
-                        className="mafiaEventBtn"
-                      >
-                        <img
-                          src="icons/icons8-shark-50.png"
-                          alt="shark event"
-                        />
+                      <button onClick={this.clickSharkMiniGame} className="mafiaEventBtn">
+                        <img src="icons/icons8-shark-50.png" alt="shark event" />
                       </button>
                     ) : (
                       <button className="usedEventBtn">
-                        <img
-                          src="icons/icons8-shark-50.png"
-                          alt="shark event"
-                        />
+                        <img src="icons/icons8-shark-50.png" alt="shark event" />
                       </button>
                     )}
                   </div>
@@ -1625,54 +1532,50 @@ class OpenViduComponent extends Component {
                 </div>
               </div>
               <div className="mt-3">
-                {this.props.gamerData.userList
-                  .slice(4, 8)
-                  .map((subGamer, i) => (
+                {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
+                  <div
+                    id="layout"
+                    className={"ingame-bounds"}
+                    onClick={(e) => this.selectPerson(subGamer, e)}
+                  >
                     <div
-                      id="layout"
-                      className={"ingame-bounds"}
-                      onClick={(e) => this.selectPerson(subGamer, e)}
+                      key={i}
+                      className={
+                        subGamer.userName === this.state.pickUser
+                          ? "OT_root OT_publisher custom-class ingame_picked_user"
+                          : "OT_root OT_publisher custom-class"
+                      }
+                      id="remoteUsers"
                     >
-                      <div
-                        key={i}
-                        className={
-                          subGamer.userName === this.state.pickUser
-                            ? "OT_root OT_publisher custom-class ingame_picked_user"
-                            : "OT_root OT_publisher custom-class"
-                        }
-                        id="remoteUsers"
-                      >
-                        {subGamer.isDead === true ? (
-                          <img src="images/deadOcto.jpg" width="200" />
-                        ) : subGamer.gameJob !== "마피아" ? (
-                          <div className="octo-night-box">
-                            <img src="images/octoAtNight.png" width="200" />
-                            <p className="gamer-nickname">
-                              {subGamer.userName}
-                            </p>
-                          </div>
-                        ) : (
-                          <StreamComponent
-                            user={
-                              subGamer.subIdx === undefined
-                                ? localUser
-                                : this.state.subscribers[subGamer.subIdx]
-                            }
-                          />
-                        )}
-                        {subGamer.userName === this.state.myUserName && (
-                          <ToolbarComponent
-                            user={localUser}
-                            camStatusChanged={this.camStatusChanged}
-                            micStatusChanged={this.micStatusChanged}
-                          />
-                        )}
-                      </div>
-                      <div>
-                        <p>투표</p>
-                      </div>
+                      {subGamer.isDead === true ? (
+                        <img src="images/deadOcto.jpg" width="200" />
+                      ) : subGamer.gameJob !== "마피아" ? (
+                        <div className="octo-night-box">
+                          <img src="images/octoAtNight.png" width="200" />
+                          <p className="gamer-nickname">{subGamer.userName}</p>
+                        </div>
+                      ) : (
+                        <StreamComponent
+                          user={
+                            subGamer.subIdx === undefined
+                              ? localUser
+                              : this.state.subscribers[subGamer.subIdx]
+                          }
+                        />
+                      )}
+                      {subGamer.userName === this.state.myUserName && (
+                        <ToolbarComponent
+                          user={localUser}
+                          camStatusChanged={this.camStatusChanged}
+                          micStatusChanged={this.micStatusChanged}
+                        />
+                      )}
                     </div>
-                  ))}
+                    <div>
+                      <p>투표</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -1682,57 +1585,51 @@ class OpenViduComponent extends Component {
           (this.props.gamerData.job === "의사" ||
             this.props.gamerData.job === "경찰" ||
             this.props.gamerData.job === "크레이지경찰" ||
-            (this.props.gamerData.job === "기자" &&
-              this.props.gamerData.hasSkill === true)) && (
+            (this.props.gamerData.job === "기자" && this.props.gamerData.hasSkill === true)) && (
             <div className="d-flex justify-content-between">
-              {console.log("start police")}
+              {/* {console.log("start police")} */}
               <div className="mt-3">
-                {this.props.gamerData.userList
-                  .slice(0, 4)
-                  .map((subGamer, i) => (
+                {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
+                  <div
+                    id="layout"
+                    className="ingame-bounds"
+                    onClick={(e) => this.selectVoteAtNight(subGamer, e)}
+                  >
                     <div
-                      id="layout"
-                      className="ingame-bounds"
-                      onClick={(e) => this.selectVoteAtNight(subGamer, e)}
+                      key={i}
+                      className={
+                        subGamer.userName === this.state.pickUser
+                          ? "OT_root OT_publisher custom-class ingame_picked_user"
+                          : "OT_root OT_publisher custom-class"
+                      }
+                      id="remoteUsers"
                     >
-                      <div
-                        key={i}
-                        className={
-                          subGamer.userName === this.state.pickUser
-                            ? "OT_root OT_publisher custom-class ingame_picked_user"
-                            : "OT_root OT_publisher custom-class"
-                        }
-                        id="remoteUsers"
-                      >
-                        {subGamer.isDead === true ? (
-                          <img src="images/deadOcto.jpg" width="200" />
-                        ) : subGamer.userName !==
-                          this.props.gamerData.userName ? (
-                          <div className="octo-night-box">
-                            <img src="images/octoAtNight.png" width="200" />
-                            <p className="gamer-nickname">
-                              {subGamer.userName}
-                            </p>
-                          </div>
-                        ) : (
-                          <StreamComponent
-                            user={
-                              subGamer.subIdx === undefined
-                                ? localUser
-                                : this.state.subscribers[subGamer.subIdx]
-                            }
-                          />
-                        )}
-                        {subGamer.userName === this.state.myUserName && (
-                          <ToolbarComponent
-                            user={localUser}
-                            camStatusChanged={this.camStatusChanged}
-                            micStatusChanged={this.micStatusChanged}
-                          />
-                        )}
-                      </div>
+                      {subGamer.isDead === true ? (
+                        <img src="images/deadOcto.jpg" width="200" />
+                      ) : subGamer.userName !== this.props.gamerData.userName ? (
+                        <div className="octo-night-box">
+                          <img src="images/octoAtNight.png" width="200" />
+                          <p className="gamer-nickname">{subGamer.userName}</p>
+                        </div>
+                      ) : (
+                        <StreamComponent
+                          user={
+                            subGamer.subIdx === undefined
+                              ? localUser
+                              : this.state.subscribers[subGamer.subIdx]
+                          }
+                        />
+                      )}
+                      {subGamer.userName === this.state.myUserName && (
+                        <ToolbarComponent
+                          user={localUser}
+                          camStatusChanged={this.camStatusChanged}
+                          micStatusChanged={this.micStatusChanged}
+                        />
+                      )}
                     </div>
-                  ))}
+                  </div>
+                ))}
               </div>
               <div className="d-flex flex-column justify-content-between">
                 <div>
@@ -1741,19 +1638,17 @@ class OpenViduComponent extends Component {
                   <JobCardComponent gameJob={this.props.gamerData.job} />
                 </div>
                 <div>
-                  {this.state.hasSkill === true &&
-                    this.props.gamerData.job === "기자" && (
-                      <div className="timer_bar">
-                        <div className="d-flex justify-content-center night">
-                          <NightsStayIcon className="mini-moon" />
-                          <h1 className="timer">{this.state.timer}</h1>
-                        </div>
-                        <p className="reporter-skill-button">
-                          <img src="icons/icons8-news-50.png" /> 기자 능력 사용
-                          가능{" "}
-                        </p>
+                  {this.state.hasSkill === true && this.props.gamerData.job === "기자" && (
+                    <div className="timer_bar">
+                      <div className="d-flex justify-content-center night">
+                        <NightsStayIcon className="mini-moon" />
+                        <h1 className="timer">{this.state.timer}</h1>
                       </div>
-                    )}
+                      <p className="reporter-skill-button">
+                        <img src="icons/icons8-news-50.png" /> 기자 능력 사용 가능{" "}
+                      </p>
+                    </div>
+                  )}
                 </div>
                 {this.props.gamerData.job != "기자" && (
                   <div className="d-flex justify-content-center">
@@ -1789,55 +1684,50 @@ class OpenViduComponent extends Component {
                 </div>
               </div>
               <div className="mt-3">
-                {this.props.gamerData.userList
-                  .slice(4, 8)
-                  .map((subGamer, i) => (
+                {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
+                  <div
+                    id="layout"
+                    className="ingame-bounds"
+                    onClick={(e) => this.selectVoteAtNight(subGamer, e)}
+                  >
                     <div
-                      id="layout"
-                      className="ingame-bounds"
-                      onClick={(e) => this.selectVoteAtNight(subGamer, e)}
+                      key={i}
+                      className={
+                        subGamer.userName === this.state.pickUser
+                          ? "OT_root OT_publisher custom-class ingame_picked_user"
+                          : "OT_root OT_publisher custom-class"
+                      }
+                      id="remoteUsers"
                     >
-                      <div
-                        key={i}
-                        className={
-                          subGamer.userName === this.state.pickUser
-                            ? "OT_root OT_publisher custom-class ingame_picked_user"
-                            : "OT_root OT_publisher custom-class"
-                        }
-                        id="remoteUsers"
-                      >
-                        {subGamer.isDead === true ? (
-                          <img src="images/deadOcto.jpg" width="200" />
-                        ) : subGamer.userName !==
-                          this.props.gamerData.userName ? (
-                          <div className="octo-night-box">
-                            <img src="images/octoAtNight.png" width="200" />
-                            <p className="gamer-nickname">
-                              {subGamer.userName}
-                            </p>
-                          </div>
-                        ) : (
-                          <StreamComponent
-                            user={
-                              subGamer.subIdx === undefined
-                                ? localUser
-                                : this.state.subscribers[subGamer.subIdx]
-                            }
-                          />
-                        )}
-                        {subGamer.userName === this.state.myUserName && (
-                          <ToolbarComponent
-                            user={localUser}
-                            camStatusChanged={this.camStatusChanged}
-                            micStatusChanged={this.micStatusChanged}
-                          />
-                        )}
-                      </div>
-                      <div>
-                        <p>투표</p>
-                      </div>
+                      {subGamer.isDead === true ? (
+                        <img src="images/deadOcto.jpg" width="200" />
+                      ) : subGamer.userName !== this.props.gamerData.userName ? (
+                        <div className="octo-night-box">
+                          <img src="images/octoAtNight.png" width="200" />
+                          <p className="gamer-nickname">{subGamer.userName}</p>
+                        </div>
+                      ) : (
+                        <StreamComponent
+                          user={
+                            subGamer.subIdx === undefined
+                              ? localUser
+                              : this.state.subscribers[subGamer.subIdx]
+                          }
+                        />
+                      )}
+                      {subGamer.userName === this.state.myUserName && (
+                        <ToolbarComponent
+                          user={localUser}
+                          camStatusChanged={this.camStatusChanged}
+                          micStatusChanged={this.micStatusChanged}
+                        />
+                      )}
                     </div>
-                  ))}
+                    <div>
+                      <p>투표</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -1847,11 +1737,7 @@ class OpenViduComponent extends Component {
             <div className="mt-3">
               {this.props.gamerData.userList.slice(0, 4).map((subGamer, i) => (
                 <div id="layout" className="ingame-bounds">
-                  <div
-                    key={i}
-                    className="OT_root OT_publisher custom-class"
-                    id="remoteUsers"
-                  >
+                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.jpg" width="200" />
                     ) : (
@@ -1901,11 +1787,7 @@ class OpenViduComponent extends Component {
             <div className="mt-3">
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
                 <div id="layout" className="ingame-bounds">
-                  <div
-                    key={i}
-                    className="OT_root OT_publisher custom-class"
-                    id="remoteUsers"
-                  >
+                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.jpg" width="200" />
                     ) : (
@@ -1928,10 +1810,7 @@ class OpenViduComponent extends Component {
          */}
         {this.state.page === 8 && (
           <div className="night-result">
-            <DeathResultComponent
-              user={this.state.localUser}
-              killed={this.state.killed}
-            />
+            <DeathResultComponent user={this.state.localUser} killed={this.state.killed} />
           </div>
         )}
         {/* 기자 결과s
@@ -1956,11 +1835,7 @@ class OpenViduComponent extends Component {
                       : "ingame-bounds"
                   }
                 >
-                  <div
-                    key={i}
-                    className="OT_root OT_publisher custom-class"
-                    id="remoteUsers"
-                  >
+                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.jpg" width="200" />
                     ) : (
@@ -2031,11 +1906,7 @@ class OpenViduComponent extends Component {
                       : "ingame-bounds"
                   }
                 >
-                  <div
-                    key={i}
-                    className="OT_root OT_publisher custom-class"
-                    id="remoteUsers"
-                  >
+                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.jpg" width="200" />
                     ) : (
@@ -2220,41 +2091,33 @@ class OpenViduComponent extends Component {
               <div className="d-flex flex-column justify-content-between">
                 <h1 className="timer">{this.state.timer}</h1>
                 <div id="layout" className="voted-bounds">
-                  {localUser !== undefined &&
-                    localUser.getStreamManager() !== undefined && (
-                      <div
-                        className="OT_root OT_publisher custom-class"
-                        id="localUser"
-                      >
-                        {this.props.gamerData.userList
-                          .slice(0, 8)
-                          .map((subGamer, i) => (
-                            <div>
-                              {subGamer.userName === this.state.pickUser ? (
-                                <StreamComponent
-                                  user={
-                                    subGamer.subIdx === undefined
-                                      ? localUser
-                                      : this.state.subscribers[subGamer.subIdx]
-                                  }
-                                />
-                              ) : (
-                                <div className="agree-non-pickuser">
-                                  <StreamComponent
-                                    user={
-                                      subGamer.subIdx === undefined
-                                        ? localUser
-                                        : this.state.subscribers[
-                                            subGamer.subIdx
-                                          ]
-                                    }
-                                  />
-                                </div>
-                              )}
+                  {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                    <div className="OT_root OT_publisher custom-class" id="localUser">
+                      {this.props.gamerData.userList.slice(0, 8).map((subGamer, i) => (
+                        <div>
+                          {subGamer.userName === this.state.pickUser ? (
+                            <StreamComponent
+                              user={
+                                subGamer.subIdx === undefined
+                                  ? localUser
+                                  : this.state.subscribers[subGamer.subIdx]
+                              }
+                            />
+                          ) : (
+                            <div className="agree-non-pickuser">
+                              <StreamComponent
+                                user={
+                                  subGamer.subIdx === undefined
+                                    ? localUser
+                                    : this.state.subscribers[subGamer.subIdx]
+                                }
+                              />
                             </div>
-                          ))}
-                      </div>
-                    )}
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 {this.props.gamerData.isDead !== true && (
                   <div className="d-flex justify-content-around agree-box">
@@ -2307,41 +2170,35 @@ class OpenViduComponent extends Component {
             <div className="d-flex flex-column justify-content-between">
               <h1 className="timer">{this.state.timer}</h1>
               <div id="layout" className="voted-bounds">
-                {localUser !== undefined &&
-                  localUser.getStreamManager() !== undefined && (
-                    <div
-                      className="OT_root OT_publisher custom-class"
-                      id="localUser"
-                    >
-                      {this.props.gamerData.userList
-                        .slice(0, 8)
-                        .map((subGamer, i) => (
-                          <div>
-                            {subGamer.userName === this.state.pickUser ? (
-                              <StreamComponent
-                                user={
-                                  subGamer.subIdx === undefined
-                                    ? localUser
-                                    : this.state.subscribers[subGamer.subIdx]
-                                }
-                              />
-                            ) : (
-                              <div></div>
-                            )}
-                            {subGamer.userName === this.state.pickUser && (
-                              <ExecutionPage
-                                streamId={
-                                  subGamer.subIdx === undefined
-                                    ? localUser.streamManager.stream.streamId
-                                    : this.state.subscribers[subGamer.subIdx]
-                                        .streamManager.stream.streamId
-                                }
-                              />
-                            )}
-                          </div>
-                        ))}
-                    </div>
-                  )}
+                {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                  <div className="OT_root OT_publisher custom-class" id="localUser">
+                    {this.props.gamerData.userList.slice(0, 8).map((subGamer, i) => (
+                      <div>
+                        {subGamer.userName === this.state.pickUser ? (
+                          <StreamComponent
+                            user={
+                              subGamer.subIdx === undefined
+                                ? localUser
+                                : this.state.subscribers[subGamer.subIdx]
+                            }
+                          />
+                        ) : (
+                          <div></div>
+                        )}
+                        {subGamer.userName === this.state.pickUser && (
+                          <ExecutionPage
+                            streamId={
+                              subGamer.subIdx === undefined
+                                ? localUser.streamManager.stream.streamId
+                                : this.state.subscribers[subGamer.subIdx].streamManager.stream
+                                    .streamId
+                            }
+                          />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -2362,11 +2219,7 @@ class OpenViduComponent extends Component {
                       : "ingame-bounds"
                   }
                 >
-                  <div
-                    key={i}
-                    className="OT_root OT_publisher custom-class"
-                    id="remoteUsers"
-                  >
+                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.jpg" width="200" />
                     ) : (
@@ -2405,11 +2258,7 @@ class OpenViduComponent extends Component {
                       : "ingame-bounds"
                   }
                 >
-                  <div
-                    key={i}
-                    className="OT_root OT_publisher custom-class"
-                    id="remoteUsers"
-                  >
+                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.jpg" width="200" />
                     ) : (
@@ -2447,11 +2296,7 @@ class OpenViduComponent extends Component {
                       : "ingame-bounds"
                   }
                 >
-                  <div
-                    key={i}
-                    className="OT_root OT_publisher custom-class"
-                    id="remoteUsers"
-                  >
+                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.jpg" width="200" />
                     ) : (
@@ -2478,10 +2323,7 @@ class OpenViduComponent extends Component {
               className="d-flex flex-column justify-content-center align-items-center"
               style={{ width: "110%" }}
             >
-              <FishingGame
-                roomId={this.state.mySessionId}
-                gameNum={this.state.gameNum}
-              />
+              <FishingGame roomId={this.state.mySessionId} gameNum={this.state.gameNum} />
             </div>
             <div>
               {this.props.gamerData.userList.slice(4, 8).map((subGamer, i) => (
@@ -2493,11 +2335,7 @@ class OpenViduComponent extends Component {
                       : "ingame-bounds"
                   }
                 >
-                  <div
-                    key={i}
-                    className="OT_root OT_publisher custom-class"
-                    id="remoteUsers"
-                  >
+                  <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                     {subGamer.isDead === true ? (
                       <img src="images/deadOcto.jpg" width="200" />
                     ) : (
@@ -2540,27 +2378,19 @@ class OpenViduComponent extends Component {
                 .filter((sub) => this.state.victoryUsers.includes(sub.userName))
                 .map((subGamer, i) => (
                   <div className="d-flex justify-content-center flex-column">
-                    <FontAwesomeIcon
-                      icon={faCrown}
-                      className="crown winner-crown"
-                    />
+                    <FontAwesomeIcon icon={faCrown} className="crown winner-crown" />
                     <div id="layout" className="winner-bounds">
-                      {localUser !== undefined &&
-                        localUser.getStreamManager() !== undefined && (
-                          <div
-                            key={i}
-                            className="OT_root OT_publisher custom-class"
-                            id="localUser"
-                          >
-                            <StreamComponent
-                              user={
-                                subGamer.subIdx === undefined
-                                  ? localUser
-                                  : this.state.subscribers[subGamer.subIdx]
-                              }
-                            />
-                          </div>
-                        )}
+                      {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                        <div key={i} className="OT_root OT_publisher custom-class" id="localUser">
+                          <StreamComponent
+                            user={
+                              subGamer.subIdx === undefined
+                                ? localUser
+                                : this.state.subscribers[subGamer.subIdx]
+                            }
+                          />
+                        </div>
+                      )}
                     </div>
                     <p className="result-job-text">{subGamer.gameJob}</p>
                   </div>
@@ -2569,36 +2399,28 @@ class OpenViduComponent extends Component {
             {/* 패자들 */}
             <div className="d-flex justify-content-center">
               {this.props.gamerData.userList
-                .filter(
-                  (sub) =>
-                    this.state.victoryUsers.includes(sub.userName) === false
-                )
+                .filter((sub) => this.state.victoryUsers.includes(sub.userName) === false)
                 .map((subGamer, i) => (
                   <div>
                     <div id="layout" className="loser-bounds col">
-                      {localUser !== undefined &&
-                        localUser.getStreamManager() !== undefined && (
-                          <div
-                            key={i}
-                            className="OT_root OT_publisher custom-class"
-                            id="localUser"
-                          >
-                            <StreamComponent
-                              user={
-                                subGamer.subIdx === undefined
-                                  ? localUser
-                                  : this.state.subscribers[subGamer.subIdx]
-                              }
+                      {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                        <div key={i} className="OT_root OT_publisher custom-class" id="localUser">
+                          <StreamComponent
+                            user={
+                              subGamer.subIdx === undefined
+                                ? localUser
+                                : this.state.subscribers[subGamer.subIdx]
+                            }
+                          />
+                          {subGamer.userName === this.state.myUserName && (
+                            <ToolbarComponent
+                              user={localUser}
+                              camStatusChanged={this.camStatusChanged}
+                              micStatusChanged={this.micStatusChanged}
                             />
-                            {subGamer.userName === this.state.myUserName && (
-                              <ToolbarComponent
-                                user={localUser}
-                                camStatusChanged={this.camStatusChanged}
-                                micStatusChanged={this.micStatusChanged}
-                              />
-                            )}
-                          </div>
-                        )}
+                          )}
+                        </div>
+                      )}
                     </div>
                     <p className="result-job-text">{subGamer.gameJob}</p>
                   </div>
@@ -2634,13 +2456,12 @@ class OpenViduComponent extends Component {
       axios
         .post(this.OPENVIDU_SERVER_URL + "/openvidu/api/sessions", data, {
           headers: {
-            Authorization:
-              "Basic " + btoa("OPENVIDUAPP:" + this.OPENVIDU_SERVER_SECRET),
+            Authorization: "Basic " + btoa("OPENVIDUAPP:" + this.OPENVIDU_SERVER_SECRET),
             "Content-Type": "application/json",
           },
         })
         .then((response) => {
-          console.log("CREATE SESION", response);
+          // console.log("CREATE SESION", response);
           resolve(response.data.id);
         })
         .catch((response) => {
@@ -2648,11 +2469,11 @@ class OpenViduComponent extends Component {
           if (error.response && error.response.status === 409) {
             resolve(sessionId);
           } else {
-            console.log(error);
-            console.warn(
-              "No connection to OpenVidu Server. This may be a certificate error at " +
-                this.OPENVIDU_SERVER_URL
-            );
+            // console.log(error);
+            // console.warn(
+            //   "No connection to OpenVidu Server. This may be a certificate error at " +
+            //     this.OPENVIDU_SERVER_URL
+            // );
             if (
               window.confirm(
                 'No connection to OpenVidu Server. This may be a certificate error at "' +
@@ -2663,9 +2484,7 @@ class OpenViduComponent extends Component {
                   '"'
               )
             ) {
-              window.location.assign(
-                this.OPENVIDU_SERVER_URL + "/accept-certificate"
-              );
+              window.location.assign(this.OPENVIDU_SERVER_URL + "/accept-certificate");
             }
           }
         });
@@ -2683,21 +2502,17 @@ class OpenViduComponent extends Component {
       });
       axios
         .post(
-          this.OPENVIDU_SERVER_URL +
-            "/openvidu/api/sessions/" +
-            sessionId +
-            "/connection",
+          this.OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + sessionId + "/connection",
           data,
           {
             headers: {
-              Authorization:
-                "Basic " + btoa("OPENVIDUAPP:" + this.OPENVIDU_SERVER_SECRET),
+              Authorization: "Basic " + btoa("OPENVIDUAPP:" + this.OPENVIDU_SERVER_SECRET),
               "Content-Type": "application/json",
             },
           }
         )
         .then((response) => {
-          console.log("TOKEN", response);
+          // console.log("TOKEN", response);
           resolve(response.data.token);
         })
         .catch((error) => reject(error));
