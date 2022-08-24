@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { BASE_URL, CLIENT_URL } from "../../api/BASE_URL";
+import { BASE_URL } from "../../api/BASE_URL";
 import axios from "axios";
 import "./RoomListItem.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -36,7 +36,6 @@ function RoomListItem({ item, pauseBgmAudio }) {
           popup: "popUp",
         },
       });
-      //alert("이미 게임중입니다!");
     } else if (item.personNum >= item.personLimit) {
       Swal.fire({
         icon: "warning",
@@ -50,7 +49,6 @@ function RoomListItem({ item, pauseBgmAudio }) {
           popup: "popUp",
         },
       });
-      //alert("방 인원이 꽉 찼습니다.");
     } else if (item.private && item.roomPw !== roomPwIn) {
       Swal.fire({
         icon: "warning",
@@ -64,19 +62,15 @@ function RoomListItem({ item, pauseBgmAudio }) {
           popup: "popUp",
         },
       });
-      //alert("비밀번호를 정확히 입력해주세요.");
     } else {
       // pauseBgmAudio();
       // joinRoom();
       var roomInfo = null;
       axios.get(`/rooms/detail/roomid/${item.roomId}`).then((res) => {
-        console.log(res);
         roomInfo = res.data;
 
         let userList = roomInfo.userList.split(",");
-        console.log(userList);
         userList[userList.indexOf("")] = userInfo.userName;
-        console.log(userList);
         const personNum = roomInfo.personNum + 1;
         const data = {
           roomChief: roomInfo.roomChief,
@@ -97,10 +91,7 @@ function RoomListItem({ item, pauseBgmAudio }) {
           })
           .then((res) => {
             pauseBgmAudio();
-            console.log(res);
-            // document.location.href = `${CLIENT_URL}/${item.roomId}`;
             navigate(`/${item.roomId}`);
-            console.log(document.location.pathname);
           })
           .catch((err) => console.log(err));
       });
@@ -109,11 +100,8 @@ function RoomListItem({ item, pauseBgmAudio }) {
   async function joinRoom() {
     let { data } = await axios.get(`/rooms/detail/roomid/${item.roomId}`);
     const roomInfo = data;
-    console.log("RoomListItem roomInfo : " + roomInfo);
     let userList = roomInfo.userList.split(",");
-    console.log(userList);
     userList[userList.indexOf("")] = userInfo.userName;
-    console.log(userList);
     const personNum = roomInfo.personNum + 1;
     data = {
       roomChief: roomInfo.roomChief,
@@ -136,9 +124,7 @@ function RoomListItem({ item, pauseBgmAudio }) {
         setTimeout(() => {
           pauseBgmAudio();
         }, 1);
-        console.log(res);
         navigate(`/${item.roomId}`);
-        // console.log(document.location.pathname);
       })
       .catch((err) => console.log(err));
   }

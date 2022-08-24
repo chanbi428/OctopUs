@@ -26,7 +26,7 @@ function MainPage() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log("MainPage");
+
   const { userInfo } = useSelector((state) => state.user);
   const bgmAudio = new Audio(MP_bgm2);
 
@@ -68,10 +68,7 @@ function MainPage() {
         setRoomInfo(res.data);
         setLoading(true);
       })
-
-      // .then((res) => setRoomInfo(res.data))
       .catch((err) => console.log(err));
-    console.log("MainPage useEffect");
   }, []);
 
   const [search, setSearch] = useState("");
@@ -128,11 +125,8 @@ function MainPage() {
           .get(`${BASE_URL}/rooms/detail/roomid/${res.data.roomId}`)
           .then((item) => {
             const roomInfo = item.data;
-            console.log("RoomListItem roomInfo : " + roomInfo);
             let userList = roomInfo.userList.split(",");
-            console.log(userList);
             userList[userList.indexOf("")] = userInfo.userName;
-            console.log(userList);
             const personNum = roomInfo.personNum + 1;
             const data = {
               roomChief: roomInfo.roomChief,
@@ -153,7 +147,6 @@ function MainPage() {
               })
               .then((res) => {
                 pauseBgmAudio();
-                console.log(res);
                 navigate(`/${item.data.roomId}`);
               })
               .catch((err) => console.log(err));
@@ -181,7 +174,6 @@ function MainPage() {
   };
 
   const pauseBgmAudio = (e) => {
-    console.log("Audi pause");
     bgmAudio.pause();
   };
 

@@ -23,7 +23,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* margin-top: 20px; */
   margin-bottom: 5%;
   font-size: 20px;
   font-weight: bold;
@@ -77,8 +76,6 @@
 
 .main-page__username {
   color: black;
-  /* margin-right: 10px; */
-  /* padding-top: 6px; */
   display: flex;
   align-items: center;
   justify-content: center;

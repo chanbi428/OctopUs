@@ -62,7 +62,6 @@ function MakeRoom({ pauseBgmAudio }) {
       alert("방 비밀번호를 설정해주세요!");
     } else {
       if (data.roomChief === userInfo.userName) {
-        console.log(data);
         axios
           .post(`${BASE_URL}/rooms`, JSON.stringify(data), {
             headers: {
@@ -70,12 +69,10 @@ function MakeRoom({ pauseBgmAudio }) {
             },
           })
           .then((res) => {
-            // document.location.href = `${CLIENT_URL}/${res.data.roomId}`;
             navigate(`/${res.data.roomId}`);
           })
           .catch((err) => console.log(err));
       } else {
-        console.log(data);
         axios
           .put(`${BASE_URL}/rooms`, JSON.stringify(data), {
             headers: {
@@ -83,11 +80,7 @@ function MakeRoom({ pauseBgmAudio }) {
             },
           }) // 이후 이 부분이 필요한가 생각 중...
           .then((res) => {
-            axios
-              .get(`${BASE_URL}/rooms/detail/roomname/${roomName}`)
-              .then((res) => {
-                console.log(res.data[0].roomId);
-              });
+            axios.get(`${BASE_URL}/rooms/detail/roomname/${roomName}`);
           })
           .catch((err) => console.log(err));
       }

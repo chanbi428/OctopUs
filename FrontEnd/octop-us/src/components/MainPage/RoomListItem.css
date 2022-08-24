@@ -27,13 +27,11 @@
 
 .room-list__idx-1 {
   font-size: 30px;
-  /* color: #0081a7; */
   color: #0081a7;
 }
 
 .room-list__idx-2 {
   font-size: 30px;
-  /* color: #0081a7; */
 
   color: #13293d;
 }
@@ -96,7 +94,6 @@
   margin-top: 1vh;
   width: 5vw;
   padding: 5px;
-  /* background-color: rgb(240, 113, 103); */
   background-color: #fdfcdc;
   font-family: BMJUA;
   cursor: default;
