@@ -12,7 +12,6 @@ export const userLogin = createAsyncThunk(
         { userName, userPW },
         config
       );
-      console.log(data);
 
       // 로컬 스토리지에 토큰 저장
       localStorage.setItem("userToken", data.token);
@@ -39,8 +38,11 @@ export const userRegister = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.post(`${BASE_URL}/user/signUp`, { userName, userPW }, config);
-      console.log("회원가입:", data);
+      const { data } = await axios.post(
+        `${BASE_URL}/user/signUp`,
+        { userName, userPW },
+        config
+      );
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {

@@ -86,10 +86,8 @@ const gamerSlice = createSlice({
     },
     // 죽은 사람 => userList의 isDead = true 리듀서
     updateUserListforDead: (state, { payload }) => {
-      console.log("gamerSlice에서 죽음 처리", payload.userName);
       state.userList.forEach((user) => {
         if (user.userName === payload.userName) {
-          console.log(payload.userName, "죽었다");
           user.isDead = true;
         }
       });
@@ -99,14 +97,10 @@ const gamerSlice = createSlice({
     },
     // subscribers 와 연결
     updateUserListforSub: (state, { payload }) => {
-      console.warn("In subscribers");
-      console.log(payload.subscribers);
-
       state.userList.forEach((user) => {
         var idx = 0;
         payload.subscribers.forEach((sub) => {
           if (user.userName === sub.nickname) {
-            console.log("match name");
             user.subIdx = idx;
           }
           idx++;
@@ -119,9 +113,7 @@ const gamerSlice = createSlice({
     },
     // set Reporter Reducer
     setReporter: (state, { payload }) => {
-      console.log("setReporter 기자", payload);
       state.reporter = payload.reporter;
-      console.log("setReporter after 기자", state.reporter);
     },
 
     // set shark Reducer
@@ -170,7 +162,6 @@ const gamerSlice = createSlice({
         state.messageList.at(-1).job == state.job &&
         state.messageList.at(-1).message == payload.message
       ) {
-        console.log("추가하지않음");
       } else {
         state.messageList = [...state.messageList, payload.message];
       }
@@ -210,7 +201,6 @@ const gamerSlice = createSlice({
       const shuffle = () => Math.random() - 0.5;
       const shuffled = [...state.crazyjobs].sort(shuffle);
       state.crazyjobs = shuffled;
-      console.log("크레이지경찰정보다직업", state.crazyjobs);
     },
   },
   extraReducers: {
@@ -219,15 +209,11 @@ const gamerSlice = createSlice({
     */
     // 디스패치를 통해 액션이 실행됐을 때 - 로딩 중..
     [gamerInit.pending]: (state) => {
-      console.log(
-        "features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer init!"
-      );
       state.loading = true;
       state.error = null;
     },
     // gamer init 성공
     [gamerInit.fulfilled]: (state, { payload }) => {
-      console.log("features/gamer/gamerSliece : game init 성공!");
       state.job = payload.gameJob;
       state.roomId = payload.roomId;
       state.userName = payload.userName;
@@ -236,8 +222,6 @@ const gamerSlice = createSlice({
     [gamerInit.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-      console.error("features/gamer/gamerSliece : 게이머 init 실패 rejected!");
-      console.log(state.payload);
     },
 
     /*
@@ -245,7 +229,6 @@ const gamerSlice = createSlice({
     */
     // 디스패치를 통해 액션이 실행됐을 때 - 로딩 중..
     [gamerUserList.pending]: (state) => {
-      console.log("features/gamer/gamerSliece : Dispatch: get UserList!");
       state.loading = true;
       state.error = null;
     },
@@ -279,38 +262,26 @@ const gamerSlice = createSlice({
       });
 
       state.userList = list;
-      console.log("features/gamer/gamerSliece : get UserList 성공!");
     },
     //  get UserList실패
     [gamerUserList.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-      console.error(
-        "features/gamer/gamerSliece :  get UserList 실패 rejected!"
-      );
-      console.log(state.payload);
     },
 
     /*
     gamer Dead
     */
     [gamerDead.pending]: (state) => {
-      console.log(
-        "features/gamer/gamerSliece : 디스패치를 통해 액션이 실행됨 gamer dead!"
-      );
       state.loading = true;
       state.error = null;
     },
     [gamerDead.fulfilled]: (state, { payload }) => {
-      console.log("features/gamer/gamerSliece : game dead 성공!");
       state.isDead = true;
     },
     [gamerDead.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-      console.error(
-        "features/gamer/gamerSliece : 게이머 dead 처리 실패 rejected!"
-      );
     },
   },
 });

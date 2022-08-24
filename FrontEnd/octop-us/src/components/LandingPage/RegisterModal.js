@@ -39,6 +39,7 @@ const RegisterModal = (props) => {
     e.preventDefault();
 
     if (register.userPW !== register.confirmUserPW) {
+      // 비밀번호 일치하지 않을 때
       Swal.fire({
         icon: "error",
         title: "회원 가입 실패",
@@ -51,7 +52,7 @@ const RegisterModal = (props) => {
           popup: "popUp",
         },
       });
-      // alert("비밀번호가 일치하지 않습니다.");
+      // 회원 가입 성공
     } else {
       Swal.fire({
         icon: "success",
@@ -65,7 +66,6 @@ const RegisterModal = (props) => {
           popup: "popUp",
         },
       });
-      //alert("회원가입 성공입니다. 로그인 해주시길 바랍니다.");
       dispatch(userRegister(register));
       close();
     }
@@ -77,7 +77,7 @@ const RegisterModal = (props) => {
     audio.play();
     axios.get(`${BASE_URL}/user/existName/${register.userName}`).then((res) => {
       if (res.data !== true) {
-        //alert("중복 확인이 완료되었습니다.");
+        // 중복 확인 성공
         Swal.fire({
           icon: "success",
           title: "중복 확인 성공",
@@ -92,6 +92,7 @@ const RegisterModal = (props) => {
         });
         setIsChecked(true);
       } else {
+        // 중복 확인 실패
         Swal.fire({
           icon: "warning",
           title: "중복 확인 실패",
@@ -116,7 +117,8 @@ const RegisterModal = (props) => {
             <h1>&nbsp;SIGN UP</h1>
             <div className="register-modal__inputcontainer">
               <div className="register-modal__inputbox">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;닉네임 :&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;닉네임
+                :&nbsp;
                 <input
                   className="register-modal__input"
                   name="userName"
@@ -158,7 +160,11 @@ const RegisterModal = (props) => {
               </div>
             </div>
             <div>
-              <button type="submit" className="register-modal__btn" disabled={!isChecked}>
+              <button
+                type="submit"
+                className="register-modal__btn"
+                disabled={!isChecked}
+              >
                 회원가입
               </button>
               <button className="register-modal__btn" onClick={close}>
