@@ -32,16 +32,14 @@ function ErrorGuildComponent() {
         },
       }).then((result) => {
         if (result.isConfirmed) {
-            console.log("방 나가기 버튼 누르고 절차 시작");
             axios.get(`${BASE_URL}/rooms/detail/roomid/${roomId}`).then((res) => {
               if (res !== null && res !== undefined) {
                 axios
                   .delete(`${BASE_URL}/rooms/${roomId}`)
-                  .then(() => console.log("혼자일 때 방 나가기 완료"));
+                  .then();
               }
             });
             navigate("/main");
-            console.log("navigate로 방 나가기 완전 종료");
             dispatch(updateRoomId(""));
             dispatch(updateRoomChief(""));
             dispatch(updateUserList([]));
