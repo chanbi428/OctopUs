@@ -53,8 +53,6 @@ const FishingGameStart = (props) => {
   };
 
   useEffect(() => {
-    console.log("props.roomId : " + props.roomId);
-    console.log("state.roomId : " + roomId);
     makeDB();
 
     const timerForAnimation = setTimeout(() => {
@@ -100,20 +98,16 @@ const FishingGameStart = (props) => {
   async function makeDB() {
     // const roomId = props.roomId;
     let sendData = { roomId };
-    console.log("sendData make : " + JSON.stringify(sendData));
     const result = await axios.post(
       BASE_URL + "/games/mini/fish/make",
       sendData,
       config
     );
-    console.log("makeDB running... : " + result);
   }
 
   async function endGame(e) {
     // const roomId = props.roomId;
     await axios.delete(BASE_URL + `/games/mini/fish/delete/${roomId}`, config);
-    console.log("endGame on Starter : " + e);
-
     if (e) {
       // citizen win
       dispatch(mafiaLoseAtMinigame());

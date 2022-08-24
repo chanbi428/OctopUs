@@ -217,10 +217,8 @@ const FishingComponent = (props) => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      console.log("timer : " + time);
       if (time > 0) setTime((time) => time - 1);
       if (time === 0) {
-        console.log("FishGame end");
         clearInterval(timer);
         endGame();
       }
@@ -233,7 +231,6 @@ const FishingComponent = (props) => {
   function endGame() {
     updateCount(0);
     setShowMode(true);
-    console.log("endGame : " + showMode);
 
     const startTimer = setTimeout(() => {
       // 타이머로 이동
@@ -256,10 +253,8 @@ const FishingComponent = (props) => {
   }
 
   async function updateCount(count) {
-    console.log("update : " + count);
     let citizen = 0;
     let mafia = 0;
-    console.log("update : " + jobs);
     if (jobs === "마피아") {
       citizen = 0;
       mafia = count;
@@ -269,16 +264,12 @@ const FishingComponent = (props) => {
     }
 
     let sendData = { roomId, citizen, mafia };
-    console.log("count : " + count);
-
-    console.log(`data: ${JSON.stringify(sendData)}`);
     const { data } = await axios.post(
       BASE_URL + "/games/mini/fish",
       sendData,
       config
     );
 
-    console.log("data : " + data);
     let citizenData = data.citizen / 6;
     let mafiaData = data.mafia / 2;
     let citizenPercent = (citizenData / (citizenData + mafiaData)) * 100;

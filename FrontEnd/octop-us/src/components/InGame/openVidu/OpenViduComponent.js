@@ -8,7 +8,6 @@ import NightsStayIcon from "@material-ui/icons/NightsStay";
 import HowToVoteIcon from "@material-ui/icons/HowToVote";
 import StreamComponent from "./stream/StreamComponent";
 import ChatComponent from "./chat/ChatComponent";
-import RoundComponent from "../components/JobComponents/RoundComponent";
 import JobCardComponent from "../components/JobComponents/JobCardComponent";
 import DayToNightLoading from "../../LoadingPage/DayToNightLoading/DayToNightLoading";
 import NightToDayLoading from "../../LoadingPage/NightToDayLoading/NightToDayLoading";
@@ -16,9 +15,6 @@ import DeathResultComponent from "../components/JobComponents/DeathResultCompone
 import NewsResultComponent from "../components/JobComponents/NewsResultComponent";
 import VoteAnimationComponent from "../components/VotePage/VoteAnimationComponent";
 import VoteDoneAnimationComponent from "../components/VotePage/VoteDoneAnimationComponent";
-import AgreePage from "../components/VotePage/AgreePage";
-import VotePage from "../components/VotePage/VotePage";
-import VoteWaitPage from "../components/VotePage/VoteWaitPage";
 import ExecutionPage from "../components/VotePage/ExecutionPage";
 
 import SharkGameResult from "../../MiniGame/SharkGame/SharkGameResult";
@@ -37,7 +33,6 @@ import DayOctopi from "../components/octopi/DayOctopi";
 import NightOctopi from "../components/octopi/NightOctopi";
 import MafiaNightOctopi from "../components/octopi/MafiaNightOctopi";
 import NightComponent from "../components/MusicComponents/NightComponent";
-import DayComponent from "../components/MusicComponents/DayComponent";
 import VoteAgreeComponent from "../components/MusicComponents/VoteAgreeComponent";
 import WaitingComponent from "../components/MusicComponents/WaitingComponent";
 import "./OpenViduComponent.css";
@@ -49,7 +44,6 @@ import UserModel from "../models/user-model";
 import ToolbarComponent from "./toolbar/ToolbarComponent";
 import Swal from "sweetalert2";
 
-import { useSelector } from "react-redux";
 import { connect } from "react-redux";
 import {
   updateUserListforDead,
@@ -136,12 +130,10 @@ class OpenViduComponent extends Component {
   }
 
   changeTime = (second) => {
-    console.log("시간이 바뀜");
     this.setState({ timer: second });
   };
 
   changePage = (pageNum, gameChoice) => {
-    console.log("changePage 실행됨 : " + pageNum + " : " + gameChoice);
     if (pageNum === 20 || pageNum === 30) {
       this.setState({ gameNum: gameChoice });
       this.props.selectGame(gameChoice);
@@ -206,19 +198,12 @@ class OpenViduComponent extends Component {
         const array = event.connection.data.split('"');
         const targetPlayerId = array[3];
         let tmp = [...this.state.speakingUsers];
-        console.log(
-          "누구?",
-          this.props.gamerData.userList,
-          array,
-          targetPlayerId
-        );
         {
           this.props.gamerData.userList &&
             this.props.gamerData.userList.map((sub, i) => {
               if (sub.userName === targetPlayerId) {
                 tmp[i] = 1;
                 this.setState({ speakingUsers: tmp });
-                console.log("말한다");
               }
             });
         }
@@ -243,12 +228,11 @@ class OpenViduComponent extends Component {
 
   connectToSession() {
     if (this.props.token !== undefined) {
-      console.log("token received: ", this.props.token);
+      
       this.connect(this.props.token);
     } else {
       this.getToken()
         .then((token) => {
-          console.log(token);
           this.connect(token);
         })
         .catch((error) => {
@@ -260,11 +244,6 @@ class OpenViduComponent extends Component {
               status: error.status,
             });
           }
-          console.log(
-            "There was an error getting the token:",
-            error.code,
-            error.message
-          );
           alert("There was an error getting the token:", error.message);
         });
     }
@@ -286,11 +265,6 @@ class OpenViduComponent extends Component {
           });
         }
         alert("There was an error connecting to the session:", error.message);
-        console.log(
-          "There was an error connecting to the session:",
-          error.code,
-          error.message
-        );
       });
   }
 
@@ -316,7 +290,6 @@ class OpenViduComponent extends Component {
           if (this.props.joinSession) {
             this.props.joinSession();
           }
-          console.log(this.subscribers);
         });
       });
     }
@@ -342,15 +315,10 @@ class OpenViduComponent extends Component {
       }
     );
     // 유저 입장 시 채팅으로 [서버] 입장 알림.
-    console.log(
-      "ovref 입장 알림 준비. ovref.current null 시 주석 처리",
-      this.ovref
-    );
     this.ovref.current.enterNotice();
   }
 
   updateSubscribers() {
-    console.log("updateSubscribers here");
     var subscribers = this.remotes;
     this.setState(
       {
@@ -371,11 +339,7 @@ class OpenViduComponent extends Component {
   }
 
   leaveSession() {
-    console.log("leaveSession on Here");
     const mySession = this.state.session;
-    // 유저 퇴장 시 채팅으로 [서버] 퇴장 알림.
-    // console.log("ovref 퇴장 알림 준비. ovref.current null 시 주석 처리", this.ovref)
-    // this.ovref.current.exitNotice()
     if (mySession) {
       mySession.disconnect();
     }
@@ -448,17 +412,11 @@ class OpenViduComponent extends Component {
   subscribeToStreamDestroyed() {
     // On every Stream destroyed...
     this.state.session.on("streamDestroyed", (event) => {
-      console.log("Stream destroyed");
       const obj = {
         job: this.props.gamerData.job,
       };
-      console.log("obj.job : " + obj.job);
       if (obj.job !== undefined && obj.job !== null) {
-        console.log("Job is not undefined : " + obj.job);
-        // this.state.page = -1;
         this.setState({ page: -1 });
-      } else {
-        console.log("Job is undefined");
       }
       // Remove the stream from 'subscribers' array
       this.deleteSubscriber(event.stream);
@@ -471,13 +429,11 @@ class OpenViduComponent extends Component {
   }
 
   subscribeToUserChanged() {
-    console.log("subscribeToUserChanged");
     this.state.session.on("signal:userChanged", (event) => {
       let remoteUsers = this.state.subscribers;
       remoteUsers.forEach((user) => {
         if (user.getConnectionId() === event.from.connectionId) {
           const data = JSON.parse(event.data);
-          console.log("EVENTO REMOTE: ", event.data);
           if (data.isAudioActive !== undefined) {
             user.setAudioActive(data.isAudioActive);
           }
@@ -546,7 +502,6 @@ class OpenViduComponent extends Component {
     if (display === "block") {
       this.setState({ chatDisplay: display, messageReceived: false });
     } else {
-      console.log("chat", display);
       this.setState({ chatDisplay: display });
     }
     this.updateLayout();
@@ -590,7 +545,6 @@ class OpenViduComponent extends Component {
       };
 
       this.settingLocalUser({ localUser: this.state.localUser });
-      console.log(this.state.localUser);
       this.timer(0, this.state.localUser, 0, flag, obj);
       this.state.localUser.getStreamManager().stream.session.signal({
         type: "pauseBgmAudio",
@@ -625,7 +579,6 @@ class OpenViduComponent extends Component {
       audio.play();
       this.setState({ pickUser: gamer.userName });
     }
-    console.log("선택한 유저" + this.state.pickUser);
   };
 
   // 밤 역할 있는 문어가 유저를 선택하는 함수 (state의 pickUser가 선택한 userName으로 넘어감)
@@ -645,7 +598,6 @@ class OpenViduComponent extends Component {
       }
     } else {
       if (gamer.userName === this.props.gamerData.userName) {
-        console.log("자기 자신은 선택 X");
       } else if (this.state.pickUser === gamer.userName) {
         var audio = new Audio(MP_btn2);
         audio.volume = 0.2; // 여기
@@ -661,32 +613,21 @@ class OpenViduComponent extends Component {
       if (this.props.gamerData.job === "기자") {
         if (this.state.hasSkill === true) {
           if (gamer.userName === this.props.gamerData.userName) {
-            console.log("자기 자신은 선택 X");
           } else if (this.state.pickUser === gamer.userName) {
             var audio = new Audio(MP_btn2);
             audio.play();
             audio.volume = 0.2; // 여기
             this.setState({ pickUser: "" });
-            console.log("reporterpick 같은 유저 선택", this.state.pickUser);
           } else if (gamer.isDead === false) {
             var audio = new Audio(MP_btn2);
             audio.volume = 0.2; // 여기
             audio.play();
             // console.log(g)
             this.setState({ pickUser: gamer.userName });
-            console.log(
-              "reporterpick 지금 기자가 밤에 찍은 사람 누구?",
-              this.state.pickUser
-            );
           }
         }
-        console.log(
-          "기자 능력 확인 : ",
-          this.props.gamerData.hasSkill === false ? "사용" : "미사용"
-        );
       }
     }
-    console.log("선택한 유저" + this.state.pickUser);
   };
 
   // 마피아 죽일 사람 선택하는 함수
@@ -698,12 +639,10 @@ class OpenViduComponent extends Component {
       audio.play();
       if (this.state.pickUser === gamer.userName) {
         this.setState({ pickUser: "" });
-        console.log("선택한 유저" + this.state.pickUser);
         // 채팅 전송
         this.pickMafiaNotice(gamer, 1);
       } else {
         this.setState({ pickUser: gamer.userName });
-        console.log("선택한 유저" + this.state.pickUser);
         // 채팅 전송
         this.pickMafiaNotice(gamer, 2);
       }
@@ -712,7 +651,6 @@ class OpenViduComponent extends Component {
 
   // PICKUSER 변경하는 함수
   changePerson = (pickUser) => {
-    console.log("UPDATE PICK USER FROM RECEIVED MESSAGE2 (changePerson 수행)");
     // 다영 이부분은 고민 중
     var audio = new Audio(MP_btn2);
     audio.volume = 0.2; // 여기
@@ -720,17 +658,13 @@ class OpenViduComponent extends Component {
     if (this.state.pickUser === pickUser) {
       this.setState({ pickUser: "" });
     } else {
-      console.log("다른 마피아 선택 변경 : ", pickUser);
       this.setState({ pickUser: pickUser.pickUser });
     }
-    console.log("다른 마피아 선택 변경 완료 : ", this.state.pickUser);
   };
 
   // 마피아 밤 죽일 사람 => CHATTING MESSAGE 전송
   pickMafiaNotice(gamer, idx) {
     if (idx === 1) {
-      console.log("MAFIA : SEND MESSAGE, NOTICE 감지");
-      console.log("PICK USER", "없음, 두 번 클릭");
       const data = {
         mafiaName: this.props.gamerData.userName,
         gamer: { userName: "" },
@@ -742,8 +676,6 @@ class OpenViduComponent extends Component {
         type: "mafia",
       });
     } else {
-      console.log("MAFIA : SEND MESSAGE, NOTICE 감지");
-      console.log("PICK USER", gamer);
       const data = {
         mafiaName: this.props.gamerData.userName,
         gamer: gamer,
@@ -757,23 +689,10 @@ class OpenViduComponent extends Component {
     }
   }
 
-  // clickBtnMiniGame = (e) => {
-  //   if (e === 1) {
-  //     console.log("낚시게임 리덕스에 저장");
-  //     this.settingFisher({ fisher: true });
-  //   } else if (e === 2) {
-  //     console.log("상어게임 리덕스에 저장");
-  //     this.settingShark({ shark: true });
-  //   }
-  //   this.usingMinigame({ idx: e - 1 });
-  // };
-
   clickSharkMiniGame = () => {
     var audio = new Audio(MP_btn1);
     audio.volume = 0.2; // 여기
     audio.play();
-    // this.props.setShark();
-    // this.usingMinigame({ idx: 1 });
     this.state.localUser.getStreamManager().stream.session.signal({
       type: "shark",
     });
@@ -787,8 +706,6 @@ class OpenViduComponent extends Component {
     var audio = new Audio(MP_btn1);
     audio.volume = 0.2; // 여기
     audio.play();
-    // this.props.setFisher();
-    // this.usingMinigame({ idx: 0 });
     this.state.localUser.getStreamManager().stream.session.signal({
       type: "fisher",
     });
@@ -802,23 +719,6 @@ class OpenViduComponent extends Component {
     var audio = new Audio(MP_btn2);
     audio.volume = 0.2; // 여기
     audio.play();
-    console.log("clickBtnGame : " + e);
-    // this.setState({ page: 2 });
-    // if (e === 1) {
-    //   this.setState({ gameNum: 1 });
-    // } else if (e === 2) {
-    //   this.setState({ gameNum: 2 });
-    // }
-
-    // const startTimer = setTimeout(() => {
-    //   console.log("startTimer");
-    //   this.props.selectGame(e);
-    // }, 4000); // 여기 수정 v
-    // const startTimerReturnDay = setTimeout(() => {
-    //   console.log("startTimerReturnDay");
-    //   this.setState({ page: 10 });
-    // }, 34000); // 여기 수정 v
-    // return () => clearTimeout(startTimerReturnDay, startTimer);
   };
 
   // 찬반 버튼 누르면 state.agree가 바뀜
@@ -828,11 +728,6 @@ class OpenViduComponent extends Component {
     audio.volume = 0.2; // 여기
     audio.play();
     this.setState({ agree: true });
-    console.log("AGREE VOTE 찬성 여부 : " + this.state.agree);
-    // 다영 테스트 지워야함
-    // this.state.localUser.getStreamManager().stream.session.signal({
-    //   type: "agreeVoteEnd",
-    // });
   };
   // 다영 수정
   selectDisAgree = (e) => {
@@ -840,11 +735,6 @@ class OpenViduComponent extends Component {
     audio.volume = 0.2; // 여기
     audio.play();
     this.setState({ agree: false });
-    console.log("AGREE VOTE 찬성 여부 : " + this.state.agree);
-    // 다영 테스트 지워야함
-    // this.state.localUser.getStreamManager().stream.session.signal({
-    //   type: "agreeVoteEnd",
-    // });
   };
 
   clickBtnAuto() {
@@ -854,7 +744,6 @@ class OpenViduComponent extends Component {
   // 하민 (승리 유저 갱신)
   setVictoryUser = (data) => {
     this.setState({ victoryUsers: data });
-    console.log("승리 유저 바뀜!");
     if (this.props.waitData.roomChief === this.state.myUserName) {
       this.state.localUser.getStreamManager().stream.session.signal({
         type: "gameEnd",
@@ -888,7 +777,6 @@ class OpenViduComponent extends Component {
   };
 
   updatePickUser = () => {
-    console.log("pickUser 들어옴", this.state.pickUser);
     axios
       .put(
         `${BASE_URL}/night/update/${
@@ -896,27 +784,14 @@ class OpenViduComponent extends Component {
         }/${this.props.userData.userInfo.userName}`
       )
       .then((res) => {
-        console.log("DB에 지목상대 저장!");
         this.settingPickUser({ pickUser: this.state.pickUser });
-        console.log("pickUser 고름", this.props.gamerData);
         if (
           (this.props.gamerData.job === "경찰" ||
             this.props.gamerData.job === "크레이지경찰") &&
           this.state.pickUser != ""
         ) {
-          console.log("경찰이 수사함", `gamers/ismafia/${this.state.pickUser}`);
-          //axios.get(`${BASE_URL}/gamers/ismafia/${this.state.pickUser}`).then((res) => {
           let message = "";
           this.props.gamerData.userList.map((user, i) => {
-            // if (this.state.pickUser === user.userName && this.props.gamerData.job === "크레이지경찰") {
-            //   message =
-            //     user.gameJob === "마피아"
-            //       ? `${this.state.pickUser} 님은 오징어가 맞습니다.`
-            //       : `${this.state.pickUser} 님은 오징어가 아닙니다.`.replace(
-            //           / +(?= )/g,
-            //           ""
-            //         );
-            // }
             if (
               this.state.pickUser === user.userName &&
               this.props.gamerData.job === "경찰"
@@ -939,12 +814,6 @@ class OpenViduComponent extends Component {
                       / +(?= )/g,
                       ""
                     );
-              console.log(
-                "크레이지경찰정보다 - 인덱스",
-                this.props.gamerData.crazyjobs,
-                user.subIdx,
-                user
-              );
             }
           });
           const data = {
@@ -961,7 +830,6 @@ class OpenViduComponent extends Component {
               type: "chat",
             });
           });
-          //});
         } else if (
           this.props.gamerData.job === "기자" &&
           this.state.pickUser !== ""
@@ -985,18 +853,14 @@ class OpenViduComponent extends Component {
     axios
       .get(`${BASE_URL}/nights/result/${this.props.gamerData.roomId}`)
       .then((res) => {
-        console.log("밤 결과 확인!", res.data);
         this.setState({ killed: res.data.userName });
-        console.log("killed  state에 잘 들어갔는지 확인!!", this.state.killed);
         if (res.data.userName != "없음" && res.data.userName != "") {
-          console.log("누가 죽었니?", res.data.userName);
           this.props.updateUserListforDead({ userName: res.data.userName });
         }
       });
   }
 
   getPickUser = () => {
-    console.log("getPickUser실행!!!", this.state.pickUser);
     return this.state.pickUser;
   };
 
@@ -1017,7 +881,6 @@ class OpenViduComponent extends Component {
   };
   // 다영 수정
   updatePickUserAtVote = () => {
-    console.log("VOTE한 PICK USER 들어옴", this.state.pickUser);
     const data = {
       idx: 0,
       roomId: 0,
@@ -1031,10 +894,6 @@ class OpenViduComponent extends Component {
             headers: {
               "Content-Type": `application/json`,
             },
-          })
-          .then((res) => {
-            console.log(data);
-            console.log("투표 저장!", data);
           });
       } else {
         axios
@@ -1042,9 +901,6 @@ class OpenViduComponent extends Component {
             headers: {
               "Content-Type": `application/json`,
             },
-          })
-          .then((res) => {
-            console.log("투표 저장!", data);
           });
       }
     }
@@ -1058,11 +914,8 @@ class OpenViduComponent extends Component {
       axios
         .get(`${BASE_URL}/votes/max/${this.props.gamerData.roomId}`)
         .then((res) => {
-          console.log("투표 결과 확인!", res.data);
           this.setState({ voteName: res.data.userName });
 
-          console.log("VOTE : SEND MESSAGE, NOTICE 감지");
-          console.log("MOST VOTES : ", res.data.userName);
           this.setState({ pickUser: res.data.userName });
           const data = {
             votes: res.data,
@@ -1079,8 +932,6 @@ class OpenViduComponent extends Component {
 
   // 다영 수정
   updatePickUserAtAgreeVote = () => {
-    console.log("AGREE VOTE한 PICK USER 들어옴", this.state.pickUser);
-    // this.setState({ pickUser: "c4" }); // 테스트용 지워야함 다영
     const data = {
       idx: 0,
       roomId: 0,
@@ -1095,10 +946,6 @@ class OpenViduComponent extends Component {
             headers: {
               "Content-Type": `application/json`,
             },
-          })
-          .then((res) => {
-            console.log(data);
-            console.log("처형 찬성!", data);
           });
       } else {
         // 반대
@@ -1107,9 +954,6 @@ class OpenViduComponent extends Component {
             headers: {
               "Content-Type": `application/json`,
             },
-          })
-          .then((res) => {
-            console.log("처형 반대!", data);
           });
       }
     }
@@ -1122,10 +966,6 @@ class OpenViduComponent extends Component {
     this.setState({ voteName: "skip" });
     if (this.props.waitData.roomChief === this.props.gamerData.userName) {
       axios.get(`${BASE_URL}/votes/${this.state.pickUser}`).then((res) => {
-        console.log("투표 결과 확인!", res.data);
-
-        console.log("AGREE VOTE : SEND MESSAGE, NOTICE 감지");
-        console.log("AGREE VOTE RESULT : ", res.data.vote);
 
         const data = {
           votes: res.data,
@@ -1141,7 +981,6 @@ class OpenViduComponent extends Component {
   };
 
   killPickUser = () => {
-    console.log("AGREE VOTE한 PICK USER : ", this.state.pickUser);
     this.setState({ voteName: "처형" });
     if (this.state.pickUser === this.props.gamerData.sjh) {
       let victoryUsers = [];
@@ -1149,10 +988,6 @@ class OpenViduComponent extends Component {
       axios
         .put(`${BASE_URL}/gamers/isvictory/userName/${this.state.pickUser}`)
         .then((res) => {
-          console.log(res);
-          console.log("AGREE VOTE : 처형 => 재간둥이 O => 종료 페이지 GO");
-          console.log("AGREE VOTE : 재간둥이 승리!!");
-
           axios
             .get(`${BASE_URL}/gamers/winners`)
             .then((res) => {
@@ -1161,12 +996,10 @@ class OpenViduComponent extends Component {
               this.state.localUser.getStreamManager().stream.session.signal({
                 type: "agreeVoteGoAndGameEnd",
               });
-              console.log("처형 페이지로 이동 후 종료! ");
             })
             .catch((err) => console.log(err));
         });
     } else {
-      console.log("AGREE VOTE : 처형 => 재간둥이 X => 처형 페이지 GO");
       const data = {
         idx: 0,
         roomId: 0,
@@ -1181,9 +1014,6 @@ class OpenViduComponent extends Component {
           },
         })
         .then((res) => {
-          console.log(data);
-          console.log("AGREE VOTE : 처형!!", data);
-
           // 리덕스 죽음 처리
           this.state.localUser.getStreamManager().stream.session.signal({
             data: JSON.stringify(data),
@@ -1211,9 +1041,6 @@ class OpenViduComponent extends Component {
                           .stream.session.signal({
                             type: "agreeVoteGoAndGameEnd",
                           });
-                        console.log(
-                          "처형 페이지로 이동후 종료 페이지로 이동 ! "
-                        );
                       })
                       .catch((err) => console.log(err));
                   })
@@ -1231,7 +1058,6 @@ class OpenViduComponent extends Component {
   };
   // 15턴 게임횟수 세는 함수 (다영 수정)
   checkGameTurn = () => {
-    console.log("현재 GAME TURN : ", this.props.gamerData.gameturn);
 
     let pathName = document.location.pathname.replace("/", "");
     let victoryUsers = [];
@@ -1247,7 +1073,6 @@ class OpenViduComponent extends Component {
               .then((res) => {
                 victoryUsers = res.data.map((row) => row.userName);
                 this.setVictoryUser(victoryUsers);
-                console.log("종료 페이지로 이동 !");
               })
               .catch((err) => console.log(err));
           })
@@ -1272,7 +1097,6 @@ class OpenViduComponent extends Component {
   };
 
   setFilter = () => {
-    console.log("필터전", this.state.localUser);
     let publisher = this.state.localUser.getStreamManager();
     publisher.stream.applyFilter("FaceOverlayFilter").then((filter) => {
       filter.execMethod("setOverlayedImage", {
@@ -1284,19 +1108,14 @@ class OpenViduComponent extends Component {
       });
     });
     setTimeout(() => {
-      console.log("필터후", this.state.localUser);
     }, 1000);
   };
 
   resetFilter = () => {
     if (this.state.localUser.streamManager.stream.filter) {
-      console.log("필터링초기화");
       let publisher = this.state.localUser.getStreamManager();
       publisher.stream
         .removeFilter()
-        .then(() => {
-          console.log("Filter removed");
-        })
         .catch((error) => {
           console.error(error);
         });
@@ -1685,7 +1504,6 @@ class OpenViduComponent extends Component {
             (this.props.gamerData.job === "기자" &&
               this.props.gamerData.hasSkill === true)) && (
             <div className="d-flex justify-content-between">
-              {console.log("start police")}
               <div className="mt-3">
                 {this.props.gamerData.userList
                   .slice(0, 4)
@@ -2640,7 +2458,6 @@ class OpenViduComponent extends Component {
           },
         })
         .then((response) => {
-          console.log("CREATE SESION", response);
           resolve(response.data.id);
         })
         .catch((response) => {
@@ -2697,7 +2514,6 @@ class OpenViduComponent extends Component {
           }
         )
         .then((response) => {
-          console.log("TOKEN", response);
           resolve(response.data.token);
         })
         .catch((error) => reject(error));
