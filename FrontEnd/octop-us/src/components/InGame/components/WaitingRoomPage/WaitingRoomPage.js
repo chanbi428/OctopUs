@@ -50,11 +50,9 @@ export default function WaitingRoomPage(props) {
     { crown: 0 },
     { crown: 0 },
   ]);
-  const { roomId } = useSelector((state) => state.wait);
   const { userList } = useSelector((state) => state.wait);
   const { roomChief } = useSelector((state) => state.wait);
   const dispatch = useDispatch();
-  console.log(roomChief);
 
   // 방 입장 시 데이터 받아옴
   useEffect(() => {
@@ -65,14 +63,10 @@ export default function WaitingRoomPage(props) {
       .get(`${BASE_URL}/rooms/detail/roomid/${pathName}`)
       .then((res) => {
         let room = res.data;
-        console.log("room data", room);
         const tmp = room.userList.split(",");
         room.userList = tmp;
-        console.log("tmp로 유저리스트 교체", room);
         setRoomInfo(room);
-        console.log("set roomInfo", roomInfo);
         updateRoomInfo(room);
-        console.log("update roomInfo", roomInfo);
         dispatch(updateRoomId({ roomId: room.roomId }));
         console.log(room.userList);
         dispatch(updateUserList(room.userList));
@@ -103,19 +97,14 @@ export default function WaitingRoomPage(props) {
 
   // 유저 목록이 변경되면 문어 자리 다시 앉히고 다시 왕관 배정
   useEffect(() => {
-    console.log("대기실에서 유저 목록 변경됨 감지!", seats, throne);
     if (roomInfo.userList !== ["", "", "", "", "", "", "", ""]) {
       sitRoom(seats);
       getCrown(throne);
     }
-    console.log("유저 목록 변경 후 자리 배치 다시 하기!", seats, throne);
-    console.log(seats, throne);
   }, [userList, roomChief]);
 
   const sitRoom = (seats) => {
     let sit = seats;
-    console.log("목록", userList);
-    console.log("seats", seats);
     for (let i = 0; i < 8; i++) {
       if (userList[i] === "") {
         sit[i] = {
@@ -135,10 +124,8 @@ export default function WaitingRoomPage(props) {
   };
 
   const getCrown = () => {
-    console.log("throne", throne);
     let crown = throne;
     for (let j = 0; j < 8; j++) {
-      console.log("방장 누구냐!!!!!", roomChief);
       if (userList[j] === roomChief) {
         crown[j] = {
           crown: 1,

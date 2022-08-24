@@ -515,9 +515,9 @@ class ChatComponent extends Component {
     }
   }
 
-  componentWillUnmount() {
-    console.log("chatComponent unmount!!");
-  }
+  // componentWillUnmount() {
+  //   console.log("chatComponent unmount!!");
+  // }
 
   render() {
     const styleChat = { display: this.props.chatDisplay };
@@ -654,7 +654,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  // actions : 'wait/room', 'user/', 'gamer/set'
   return {
     setMessageList: (data) => {
       dispatch(setMessageList(data));

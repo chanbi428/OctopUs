@@ -6,7 +6,6 @@ import "./CrazyCard.scss";
 export const CrazyCard = () => {
   const dispatch = useDispatch();
   const flip = (evt) => {
-    console.log("크레이지경찰정보다", evt.target);
     const jobCard = document.querySelector(".card_crazy");
     jobCard.classList.toggle("flipped_crazy");
     const audioDom = document.getElementById("audioHint");

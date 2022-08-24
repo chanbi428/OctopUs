@@ -83,8 +83,6 @@ class OpenViduComponent extends Component {
     // let bgmAudio = new Audio(MP_bgm1);
     this.remotes = [];
     this.localUserAccessAllowed = false;
-    // 상위 컴포넌트에서 하위 함수 호출 위한 부분
-    // 혹시 chatComponent 추가하게 된다면 prop처럼 추가하여 잘 달아주세요
     this.ovref = React.createRef();
     this.state = {
       mySessionId: sessionName,
@@ -314,7 +312,6 @@ class OpenViduComponent extends Component {
         });
       }
     );
-    // 유저 입장 시 채팅으로 [서버] 입장 알림.
     this.ovref.current.enterNotice();
   }
 

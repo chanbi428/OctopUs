@@ -3,7 +3,7 @@ import "./NeutralCard.scss";
 
 export const NeutralCard = () => {
   const flip = (evt) => {
-    console.log(evt.target);
+    // console.log(evt.target);
     const jobCard = document.querySelector(".card_neu");
     jobCard.classList.toggle("flipped_neu");
     const audioDom = document.getElementById("audioHint");
