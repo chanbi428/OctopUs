@@ -933,7 +933,9 @@ class OpenViduComponent extends Component {
               this.props.gamerData.job === "크레이지경찰"
             ) {
               message =
-                  `${this.state.pickUser} 님은 오징어가 맞습니다.`.replace(
+                this.props.gamerData.crazyjobs[user.subIdx] === "오징어"
+                  ? `${this.state.pickUser} 님은 오징어가 맞습니다.`
+                  : `${this.state.pickUser} 님은 오징어가 아닙니다.`.replace(
                       / +(?= )/g,
                       ""
                     );
