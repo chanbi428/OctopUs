@@ -3,7 +3,7 @@ import "./MafiaCard.scss";
 
 export const MafiaCard = () => {
   const flip = (evt) => {
-    console.log(evt.target);
+    // console.log(evt.target);
     const jobCard = document.querySelector(".card_mafia");
     jobCard.classList.toggle("flipped_mafia");
     const audioDom = document.getElementById("audioHint");

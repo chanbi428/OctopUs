@@ -3,7 +3,7 @@ import "./DoctorCard.scss";
 
 export const DoctorCard = () => {
   const flip = (evt) => {
-    console.log(evt.target);
+    // console.log(evt.target);
     const jobCard = document.querySelector(".card_doc");
     jobCard.classList.toggle("flipped_doc");
     const audioDom = document.getElementById("audioHint");

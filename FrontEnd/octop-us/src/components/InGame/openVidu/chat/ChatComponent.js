@@ -1,16 +1,8 @@
 import React, { Component } from "react";
-import IconButton from "@material-ui/core/IconButton";
-import Fab from "@material-ui/core/Fab";
-import HighlightOff from "@material-ui/icons/HighlightOff";
 import Send from "@material-ui/icons/Send";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import "./ChatComponent.css";
 import { Tooltip } from "@material-ui/core";
 import { connect } from "react-redux";
-// import axios from "axios";
-// import { room } from "../../../../features/waiting/waitSlice"
-// import { gamerInit, gamerUserList } from "../../../../features/gamer/gamerActions"
 import { setMessageList } from "../../../../features/gamer/gamerSlice";
 import axios from "axios";
 import {
@@ -437,7 +429,6 @@ class ChatComponent extends Component {
   }
 
   enterNotice() {
-    // console.log("입장 알림");
     const data = {
       message: `[알림] ${this.props.userData.userInfo.userName}님이 입장하셨습니다`,
       nickname: "서버",
@@ -450,13 +441,9 @@ class ChatComponent extends Component {
       data: JSON.stringify(data),
       type: "chat",
     });
-    // console.log("메시지 수신 확인", this.state.message)
-    // console.log("목록 확인", this.state.messageList)
-    // console.log("메시지 확인", this.state.messageList.at(-1))
   }
 
   exitNotice() {
-    // console.log("퇴장 알림");
     const data = {
       message: `[알림] ${this.props.userData.userInfo.userName}님이 퇴장하셨습니다`,
       nickname: "서버",
@@ -472,7 +459,6 @@ class ChatComponent extends Component {
   }
 
   gameNotice() {
-    // console.log("게임 시작 알림");
     const data = {
       message: `[게임] 게임을 시작합니다`,
       nickname: "서버",
@@ -488,7 +474,6 @@ class ChatComponent extends Component {
   }
 
   voteNotice() {
-    // console.log("투표 시작 알림");
     const data = {
       message: `[투표] 투표가 시작되었습니다. 오징어라고 생각되는 사람에게 투표하세요.`,
       nickname: "사회자",
@@ -499,19 +484,6 @@ class ChatComponent extends Component {
     };
     this.props.setMessageList({ message: data });
   }
-
-  // cancelNotice() {
-  //   console.log("notice 감지 후 동작, 그 후 messageList 초기화 위함");
-  //   const data = {
-  //     message: ``,
-  //     nickname: "서버",
-  //     streamId: this.props.user.getStreamManager().stream.streamId,
-  //   };
-  //   this.props.user.getStreamManager().stream.session.signal({
-  //     data: JSON.stringify(data),
-  //     type: "chat",
-  //   });
-  // }
 
   settingRoomId = (data) => {
     this.props.setRoomId(data);
@@ -542,17 +514,12 @@ class ChatComponent extends Component {
     if (this.props.gamerData.messageList.length !== 0) {
       // console.log(this.UserModel);
       let msg = this.props.gamerData.messageList.at(-1).message;
-      //console.log("ComponentDidUpdate의 메세지 가장 마지막꺼", msg);
       if (msg.includes("[알림]")) {
-        // console.log("개인이 감지해야함", this.props.waitData.roomId)  // roomChief를 알거나, roomId를 알거나...
         axios.get(`${BASE_URL}/rooms/detail/roomid/${this.props.waitData.roomId}`).then((res) => {
-          // state에 seats를 저장하거나 state에 유저리스트를 저장한다. 유저리스트 저장이 좀 더 쓸모 있을 것 같다.
-          // console.log("문어자리 업데이트용-chatcompo", res.data)
           const roomNum = res.data.roomId;
           const chief = res.data.roomChief;
           const people = res.data.personNum;
           const users = res.data.userList.split(",");
-          // console.log("유저 비교!!!", users, this.props.waitData.userList);
           if (this.props.waitData.userList !== users || this.props.waitData.roomId !== roomNum) {
             this.settingRoomId({ roomId: roomNum });
             // console.log("업데이트 아이디 확인", this.props.waitData);
@@ -570,17 +537,11 @@ class ChatComponent extends Component {
               isDead: false,
             };
             this.props.setMessageList({ message: lst });
-            // if (this.props.gamerDate.messageList.at(-1) !== lst) {
-            //   this.props.setMessageList({ message: lst });
-            // }
           }
         });
       } else if (msg.includes("[게임]")) {
         const userName = this.props.userData.userInfo.userName;
-        // console.log(userName);
-        // console.log("게임 시작 감지!" , this.props,)
         axios.get(`${BASE_URL}/gamers/${userName}`).then((res) => {
-          // console.log("DB에서 유저 개인 게임 정보 받아오기 성공!", res.data);
           const roomNum = res.data.roomId;
 
           //         // // 다영
@@ -612,17 +573,14 @@ class ChatComponent extends Component {
             isDead: false,
           };
           this.props.setMessageList({ message: lst });
-          // if (this.props.gamerDate.messageList.at(-1) !== lst) {
-          //   this.props.setMessageList({ message: lst });
-          // }
         });
       }
     }
   }
 
-  componentWillUnmount() {
-    // console.log("chatComponent unmount!!");
-  }
+  // componentWillUnmount() {
+  //   console.log("chatComponent unmount!!");
+  // }
 
   render() {
     const styleChat = { display: this.props.chatDisplay };
@@ -768,15 +726,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  // actions : 'wait/room', 'user/', 'gamer/set'
   return {
-    // updateRoom : (data) => {dispatch(room(data))},
-    // updateUserList : (data) => {dispatch(gamerUserList(data))},
-    // updateInit : (data) => {dispatch(gamerInit(data))},
     setMessageList: (data) => {
       dispatch(setMessageList(data));
     },
-
     setRoomId: (data) => {
       dispatch(updateRoomId(data));
     },
