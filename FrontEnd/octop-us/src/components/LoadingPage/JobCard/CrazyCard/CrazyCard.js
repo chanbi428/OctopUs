@@ -13,6 +13,7 @@ export const CrazyCard = () => {
     const currentTime = audioDom.currentTime;
     const duration = audioDom.duration;
     if (currentTime <= 0 || currentTime === duration) {
+      audioDom.volume = 0.03;
       audioDom.play();
       dispatch(setCrazyJobs());
     }
@@ -26,7 +27,7 @@ export const CrazyCard = () => {
           <div className="card_crazy back_crazy"></div>
         </div>
         <audio
-          volume="0.2"
+          volume="0.01"
           src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/945546/%E7%BF%BB%E7%89%8C%E9%9F%B3%E6%95%88.m4a"
           id="audioHint"
         ></audio>

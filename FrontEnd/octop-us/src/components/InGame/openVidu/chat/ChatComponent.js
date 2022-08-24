@@ -80,12 +80,56 @@ class ChatComponent extends Component {
         } else {
           if (data.isDead === true && this.props.getGamerData().isDead === true) {
             var audio = new Audio(MP_Pling);
-            audio.volume = 0.2; // 여기
+            audio.volume = 0.03; // 여기
             audio.play();
 
+<<<<<<< HEAD
             // 유령
             this.props.setMessageList({ message: message });
             console.log("유령 대화에 들어옴 ", message);
+=======
+            console.log("경찰 지목이 들어왔다고 알림", message);
+            setTimeout(() => {
+              this.props.setMessageList({ message: message });
+            }, 2000);
+          } else {
+            if (
+              data.isDead === true &&
+              this.props.getGamerData().isDead === true
+            ) {
+              var audio = new Audio(MP_Pling);
+              audio.volume = 0.03; // 여기
+              audio.play();
+
+              // 유령
+              this.props.setMessageList({ message: message });
+              console.log("유령 대화에 들어옴 ", message);
+            }
+            if (
+              data.isDead === false &&
+              this.props.getGamerData().gameStatus !== 1
+            ) {
+              var audio = new Audio(MP_Pling);
+              audio.volume = 0.03; // 여기
+              audio.play();
+
+              this.props.setMessageList({ message: message });
+              console.log("살아있는 대화에 들어옴 ", message);
+            } else if (
+              this.props.gamerData.job === "마피아" &&
+              this.props.getGamerData().gameStatus === 1 &&
+              this.props.getGamerData().isDead === false &&
+              data.job === "마피아" &&
+              data.isDead === false
+            ) {
+              var audio = new Audio(MP_Pling);
+              audio.volume = 0.03; // 여기
+              audio.play();
+
+              this.props.setMessageList({ message: message });
+              console.log("마피아 대화에 들어옴 ", message);
+            }
+>>>>>>> ed9128fe55205dedec4f54cf9f8e8de46399a79d
           }
           if (data.isDead === false && this.props.getGamerData().gameStatus !== 1) {
             var audio = new Audio(MP_Pling);

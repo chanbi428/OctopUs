@@ -181,6 +181,7 @@ function MainPage() {
   };
 
   const pauseBgmAudio = (e) => {
+    console.log("Audi pause");
     bgmAudio.pause();
   };
 
