@@ -4,9 +4,6 @@ import OvVideoComponent from './OvVideo';
 
 import MicOff from '@material-ui/icons/MicOff';
 import VideocamOff from '@material-ui/icons/VideocamOff';
-import VolumeUp from '@material-ui/icons/VolumeUp';
-import VolumeOff from '@material-ui/icons/VolumeOff';
-import IconButton from '@material-ui/core/IconButton';
 
 export default class StreamComponent extends Component {
     constructor(props) {
