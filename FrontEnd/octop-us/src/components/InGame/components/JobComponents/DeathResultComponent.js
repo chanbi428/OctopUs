@@ -1,10 +1,6 @@
 import { React, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import Card from "../../../Card/Card";
-import { BASE_URL } from "../../../../api/BASE_URL";
-import axios from "axios";
 import "./RoundComponent.css";
-import { updateUserListforDead } from "../../../../features/gamer/gamerSlice";
 
 import "./DeathResultComponent.css";
 import MP_Scary from "../../../../effect/MP_Scary.mp3";

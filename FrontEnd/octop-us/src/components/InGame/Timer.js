@@ -1,12 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import axios from "axios";
-import clickBtnGame from "./InGame.js";
 
 export const Timer = (time, user, page, flag, obj) => {
-  console.log("제발 timer 안 1");
-  // const { minigameResult, job, hasSkill, isDead, shark, fisher, reporter } = useSelector((state) => state.gamer)
-  console.log("제발 timer 안 2");
   var tmp = time;
   var isChange = 0;
   const timerInterval = setInterval(() => {
@@ -14,7 +7,6 @@ export const Timer = (time, user, page, flag, obj) => {
       second: tmp,
     };
     tmp = tmp - 1;
-    console.log("유저정보", user, obj);
     user.getStreamManager().stream.session.signal({
       data: JSON.stringify(data),
       type: "timer",
@@ -23,7 +15,6 @@ export const Timer = (time, user, page, flag, obj) => {
     if (tmp == -1) {
       // 대기실 -> 직업 카드 애니메이션
       if (page == 0) {
-        console.log("타이머 작동했나 확인, 직업 카드 애니메이션");
         data2 = {
           page: 1,
           initTime: 7,
@@ -37,12 +28,11 @@ export const Timer = (time, user, page, flag, obj) => {
           page: 2,
           initTime: 3,
         };
-        console.log("제발,,,", user);
         // 밤 애니메이션 -> 밤
       } else if (page == 2) {
         data2 = {
           page: 3,
-          initTime: 10,
+          initTime: 20,
         };
         // 밤 -> 낮 애니메이션
       } else if (page == 3) {
@@ -104,7 +94,7 @@ export const Timer = (time, user, page, flag, obj) => {
           } else {
             data2 = {
               page: 10,
-              initTime: 50,
+              initTime: obj.gameTime,
             };
           }
         }
@@ -138,7 +128,7 @@ export const Timer = (time, user, page, flag, obj) => {
         } else {
           data2 = {
             page: 10,
-            initTime: 50,
+            initTime: obj.gameTime,
           };
         }
         // 낮 -> 밤 애니메이션(미니게임 마피아 승) or 투표
@@ -153,7 +143,7 @@ export const Timer = (time, user, page, flag, obj) => {
         } else {
           data2 = {
             page: 11,
-            initTime: 15,
+            initTime: 20,
           };
           user.getStreamManager().stream.session.signal({
             data: JSON.stringify(data2),
@@ -162,7 +152,6 @@ export const Timer = (time, user, page, flag, obj) => {
         }
         // 투표 -> 투표 집계 애니메이션
       } else if (page == 11) {
-        console.log("Timer : VOTE");
         data2 = {
           page: 12,
           initTime: 3,
@@ -171,10 +160,8 @@ export const Timer = (time, user, page, flag, obj) => {
           data: JSON.stringify(data2),
           type: "voteEnd",
         });
-        console.log("VOTE SEND SIGNAL : voteEnd");
         // 투표 집계 애니메이션 => 투표 결과 애니메이션
       } else if (page == 12) {
-        console.log("Timer : VOTE RESULT ANIMATION");
         data2 = {
           page: 16,
           initTime: 3,
@@ -185,7 +172,7 @@ export const Timer = (time, user, page, flag, obj) => {
         if (flag.voteGo) {
           data2 = {
             page: 13,
-            initTime: 10,
+            initTime: 15,
           };
           // 투표결과 없어서 밤으로 이동
         } else {
@@ -205,7 +192,6 @@ export const Timer = (time, user, page, flag, obj) => {
           data: JSON.stringify(data2),
           type: "agreeVoteEnd",
         });
-        console.log("VOTE SEND SIGNAL : agreeVoteEnd");
         // 처형 집계 애니메이션 -> 처형 결과 애니메이션
       } else if (page == 17) {
         data2 = {
@@ -213,14 +199,6 @@ export const Timer = (time, user, page, flag, obj) => {
           initTime: 3,
         };
       } else if (page == 18) {
-        // 재간둥이는 게임 종료
-        // if (flag.gameEnd) {
-        //   data2 = {
-        //     page: 15,
-        //     initTime: 3,
-        //   };
-        // }
-        // 처형페이지로
         if (flag.agreeVoteGo) {
           data2 = {
             page: 14,
@@ -235,7 +213,6 @@ export const Timer = (time, user, page, flag, obj) => {
         }
         // 처형 -> 밤 애니메이션 or 최종결과창
       } else if (page == 14) {
-        console.log("VOTE : 처형 PAGE");
         // 처형 후 게임 종료
         if (flag.gameEnd) {
           data2 = {
@@ -259,7 +236,7 @@ export const Timer = (time, user, page, flag, obj) => {
         isChange = 0;
         data2 = {
           page: 10,
-          initTime: 50,
+          initTime: obj.gameTime,
         };
       }
       if (isChange === 0 && obj.roomChief === user.nickname) {
