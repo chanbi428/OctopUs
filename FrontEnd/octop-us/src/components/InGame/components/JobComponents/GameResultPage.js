@@ -12,7 +12,6 @@ import MP_EndGame from "../../../../effect/MP_EndGame.mp3";
 function GameResultComponent(props) {
   let pathName = document.location.pathname.replace("/", "");
   const [winTeam, setWinTeam] = useState("");
-  const room = useSelector((state) => state.wait);
   const gamer = useSelector((state) => state.gamer);
   useEffect(() => {
     var audio = new Audio(MP_EndGame);
@@ -36,17 +35,16 @@ function GameResultComponent(props) {
 
     axios
       .delete(`${BASE_URL}/games/end/${pathName}`)
-      .then((res) => console.log(res.data))
+      .then()
       .catch((err) => console.log(err));
 
     axios
       .put(`${BASE_URL}/rooms/update/status/end/${pathName}`)
-      .then((res) => console.log(res.data))
+      .then()
       .catch((err) => console.log(err));
 
     if (props.victoryUsers.includes(gamer.userName)) {
       props.setFilter();
-      console.log("필터링 됨");
     }
   }, []);
 
