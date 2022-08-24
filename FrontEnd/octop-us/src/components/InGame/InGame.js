@@ -3,10 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./InGame.css";
 import axios from "axios";
-import WaitingRoomPage from "./components/WaitingRoomPage/WaitingRoomPage";
 import OpenViduComponent from "./openVidu/OpenViduComponent";
-import ShowRoom from "./components/WaitingRoomPage/ShowRoom";
-import RoundComponent from "./components/JobComponents/RoundComponent";
 import exitRoom from "../../features/waiting/exitRoom";
 import ClickStart from "../../features/waiting/ClickStart";
 import { BASE_URL } from "../../api/BASE_URL";
@@ -26,7 +23,6 @@ const InGame = () => {
   const [roomName, setRoomName] = useState("RoomA");
   const [hostName, setHostName] = useState("HostA");
   const [gameNum, setGameNum] = useState(0);
-  // const userName = localStorage.getItem("userName")
   const navigate = useNavigate();
   const { roomId } = useSelector((state) => state.wait);
   const { userList } = useSelector((state) => state.wait);
@@ -73,13 +69,7 @@ const InGame = () => {
     }
     setPage(1);
   };
-  // const GameStartClickBtn = () => {
-  //   console.log("clickBtn : " + sessionName);
-  //   setSessionName(sessionName);
-  //   ClickStart(roomId, userList, userInfo.userName);
-  //   chatRef.current.ovref.current.gameNotice();
-  //   setPage(1);
-  // };
+
   const clickBtnGame = (e) => {
     console.log("before setInterval : " + e);
     setGameNum(0);
@@ -104,14 +94,10 @@ const InGame = () => {
     var audio = new Audio(MP_btn1);
     audio.volume = 0.2; // 여기
     audio.play();
-    await console.log(roomId);
-    await console.log("방 나가기 버튼 누르고 절차 시작"); //
     await exitRoom(roomId, userInfo.userName);
     await chatRef.current.ovref.current.exitNotice();
     await chatRef.current.leaveSession();
-    await console.log("leave session 성공");
     await navigate("/main");
-    await console.log("navigate로 방 나가기 완전 종료");
     await dispatch(updateRoomId(""));
     await dispatch(updateRoomChief(""));
     await dispatch(updateUserList([]));

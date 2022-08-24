@@ -3,7 +3,7 @@ import "./MayorCard.scss";
 
 export const MayorCard = () => {
   const flip = (evt) => {
-    console.log(evt.target);
+    // console.log(evt.target);
     const jobCard = document.querySelector(".card_may");
     jobCard.classList.toggle("flipped_may");
     const audioDom = document.getElementById("audioHint");

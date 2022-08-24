@@ -3,7 +3,7 @@ import "./PoliceCard.scss";
 
 export const PoliceCard = () => {
   const flip = (evt) => {
-    console.log(evt.target);
+    // console.log(evt.target);
     const jobCard = document.querySelector(".card_pol");
     jobCard.classList.toggle("flipped_pol");
     const audioDom = document.getElementById("audioHint");
