@@ -63,7 +63,6 @@ function SharkGameTimer({ isFinish }) {
     }, 1000);
     return () => {
       clearInterval(timer);
-      console.log("지금 몇초인지" + record.current / 1000);
     };
   }, [timeElapsed]);
 
@@ -81,7 +80,6 @@ function SharkGameTimer({ isFinish }) {
   useEffect(() => {
     if (isFinish) {
       const myTime = playTime / 1000;
-      console.log(`게임 끝! 내 기록: ${myTime}`);
       setFinishRecord(myTime);
       axios.post(
         BASE_URL + "/games/mini/shark",
@@ -93,7 +91,6 @@ function SharkGameTimer({ isFinish }) {
         },
         config
       );
-      console.log("상어 잘 보내졌나");
     }
   }, [isFinish]);
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import SharkGameTutorial from "./SharkGameTutorial";
 import MP_count from "../../../effect/MP_count.mp3";
+
 const SharkGameStartCount = () => {
   // 3, 2, 1, 0 초에 각각 다른 이미지 보여줄 것
   const [count, setCount] = useState(14);
@@ -10,7 +11,6 @@ const SharkGameStartCount = () => {
 
   useEffect(() => {
     const startcount = setInterval(() => {
-      console.log("startcount" + count);
       if (count > 0) setCount((count) => count - 1);
       if (count === 0) {
         clearInterval(startcount);

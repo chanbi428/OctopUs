@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 
 import SharkGameBoard from "./SharkGameBoard";
 import SharkGameTimer from "./SharkGameTimer";
@@ -18,8 +17,7 @@ for (let i = 1; i <= 16; i++) {
 
 function SharkGame(props) {
   const [numbers, setNumbers] = useState(array); // 1~16 숫자 배열
-  const [gameflag, setGameFlag] = useState(false);
-  const [isFinish, setIsFinish] = useState(false);
+  const [isFinish, setIsFinish] = useState(false); // 게임이 끝났는지
   const [current, setCurrent] = useState(1); // 게임 진행 시 클릭 할 숫자. 1 ~ 25
   const [startChange, setStartChange] = useState(false); // 앞에 애니메이션 -> 상어게임 연결 부분
 
@@ -31,9 +29,7 @@ function SharkGame(props) {
       return () => clearTimeout(startTimer);
     }
     if (startChange) {
-      setGameFlag(true);
       setNumbers(shuffleArray(array));
-      console.log("배열");
       setCurrent(1);
     }
   }, [startChange]);
@@ -102,7 +98,6 @@ function SharkGame(props) {
     // var resultAudio = new Audio(MP_MiniResult);
     // resultAudio.play();
     setIsFinish(true);
-    setGameFlag(false);
   };
 
   // 배열 섞기
