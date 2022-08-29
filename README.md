@@ -1,7 +1,7 @@
 # <img src="/uploads/3c6c9e2daadd3c7360744304fd927bc3/그림2.png" width="300" height="150"/>
 <br>
 ![landingimage](/uploads/3e9edbbf02303e17bce4d4fa150c0ea3/landingimage.jpg)
-
+![방검색](/uploads/d702fc807a19f959d33de9b6cbca1bd2/방검색.gif)
 #### 문어마을에서 오징어 살인마를 찾아라! 
 #### WebRTC 화상 채팅 기술과 게임 캐릭터, 미니게임을 접목한 생동감 있는 마피아 게임
 
